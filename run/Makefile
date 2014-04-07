@@ -1,8 +1,8 @@
 NAME=JADE_OPAL_2000_S4300807a
 all: dirs  plots
 
-src/Rivet$(NAME).cc: ../update/src/Analyses/JADE_OPAL_2000_S4300807a.cc
-		cp ../update/src/Analyses/JADE_OPAL_2000_S4300807a.cc ./src/Rivet$(NAME).cc
+src/Rivet$(NAME).cc: ../update/src/Analyses/$(NAME).cc
+		cp ../update/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
 
 
 lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc Run.dat 
@@ -17,12 +17,10 @@ Rivet.yoda: lib/Rivet$(NAME).so ref/$(NAME).yoda
 		mkfifo fifo.hepmc.hepmc2g
 #		Sherpa EVENT_OUTPUT=HepMC_GenEvent[fifo.hepmc]   & 		
 		./run-sherpa.sh    & 		
-
 		./run-rivet.sh $(NAME)
 		rm Sherpa_References.tex fifo.hepmc.hepmc2g
 		
-ref/$(NAME).yoda ref/$(NAME).plot ref/$(NAME).info: ../update/data/refdata/JADE_OPAL_2000_S4300807a.yoda ../update/data/plotinfo/JADE_OPAL_2000_S4300807a.plot ../update/data/anainfo/JADE_OPAL_2000_S4300807a.info
-		mkdir -p ref
+ref/$(NAME).yoda ref/$(NAME).plot ref/$(NAME).info: ../update/data/refdata/$(NAME).yoda ../update/data/plotinfo/$(NAME).plot ../update/data/anainfo/$(NAME).info
 		cp ../update/data/refdata/JADE_OPAL_2000_S4300807a.yoda  ref/$(NAME).yoda
 		cp ../update/data/plotinfo/JADE_OPAL_2000_S4300807a.plot  ref/$(NAME).plot
 		cp ../update/data/anainfo/JADE_OPAL_2000_S4300807a.info  ref/$(NAME).info

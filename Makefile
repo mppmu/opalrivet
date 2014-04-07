@@ -1,7 +1,11 @@
 NAME=JADE_OPAL_2000_S4300807a
 VERS=2.1.1
 TOPDIR=./Rivet-$(VERS)	
-all: 	
+all: 	all_94.5
+	
+all_%: 	
+		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Run.dat
+		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Run.dat
 		make -C run
 
 DEVRPMS/Rivet-$(VERS).tar.gz:

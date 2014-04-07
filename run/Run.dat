@@ -8,8 +8,10 @@
   ORDER_ALPHAS 1;
   MASSIVE_PS 4 5;
   % collider setup
-    BEAM_1 =  11; BEAM_ENERGY_1 = 94.5;
-      BEAM_2 = -11; BEAM_ENERGY_2 = 94.5;
+    BEAM_1 =  11; 
+    BEAM_2 = -11; 
+BEAM_ENERGY_1 = 94.5;
+BEAM_ENERGY_2 = 94.5;
 }(run)
 
 
