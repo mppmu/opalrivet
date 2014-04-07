@@ -100,7 +100,7 @@ public:
 
 
 
-    void    apply(const Event& e, std::string method, Scatter2DPtr local_f_h_R_jet_algorithm[] ,Histo1DPtr local_f_h_y_jet_algorithm[] )
+    void    apply(const Event& e, std::string method, Scatter2DPtr local_f_h_R_jet_algorithm[] ,Histo1DPtr local_f_h_y_jet_algorithm[], int filly )
     {
         size_t i,j;
         double weight = e.weight();
@@ -116,7 +116,7 @@ public:
                 ycuts.push_back(0.0);
 
                 for ( j=0; j<5; j++)  bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
-                for ( j=0; j<4; j++)  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight);
+              if (filly)  for ( j=0; j<4; j++)  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight);
                 for ( j=0; j<5; j++)
                     for ( i = 0; i < local_f_h_R_jet_algorithm[j]->numPoints(); ++i)
                         {
@@ -222,7 +222,7 @@ public:
 
 #ifdef USE_JADE
         for (size_t i = 0; i < 5; ++i) f_h_R_JADE[i] =      bookScatter2D(offset     , 1, i+1,true);
-        for (size_t i = 0; i < 4; ++i) f_h_y_JADE[i] =      bookHisto1D(  8+offset     , 1, i+1);
+//        for (size_t i = 0; i < 4; ++i) f_h_y_JADE[i] =      bookHisto1D(  8+offset     , 1, i+1);
 #endif
 
 
@@ -328,11 +328,11 @@ public:
         fTotalWeight+=weight;
         MSG_DEBUG("Num particles = " << applyProjection<FinalState>(e, "FS").particles().size());
 #ifdef USE_DURHAM
-        apply(e,"DurhamJets",f_h_R_Durham,f_h_y_Durham);
+        apply(e,"DurhamJets",f_h_R_Durham,f_h_y_Durham,1);
 #endif
 
 #ifdef USE_JADE
-        apply(e,"JadeJets",f_h_R_JADE,f_h_y_JADE);
+        apply(e,"JadeJets",f_h_R_JADE,f_h_y_JADE,0);
 #endif
 
 #ifdef USE_CONE
@@ -376,7 +376,7 @@ public:
 
 #ifdef USE_JADE
 
-        for ( j = 0; j < 4; ++j)     scale(f_h_y_JADE[j], 1.0/fTotalWeight);
+  //      for ( j = 0; j < 4; ++j)     scale(f_h_y_JADE[j], 1.0/fTotalWeight);
 
         for ( j = 0; j < 5; ++j)
             for ( i = 0; i < f_h_R_JADE[j]->numPoints(); ++i)

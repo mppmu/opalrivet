@@ -11,7 +11,6 @@ Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
 Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
-#Source1:	    http://www.hepforge.org/archive/rivet/RivetJADE_OPAL_2000_S4300807a.tar.gz
 Patch0:         patch-Rivet-0.txt
 Patch1:         patch-Rivet-1.txt
 Group:		    Sciences/Physics
