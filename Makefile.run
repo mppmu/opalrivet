@@ -16,14 +16,14 @@ Rivet.yoda: lib/Rivet$(NAME).so ref/$(NAME).yoda
 		rm -f fifo.hepmc.hepmc2g
 		mkfifo fifo.hepmc.hepmc2g
 #		Sherpa EVENT_OUTPUT=HepMC_GenEvent[fifo.hepmc]   & 		
-		./run-sherpa.sh    & 		
-		./run-rivet.sh $(NAME)
+		../run-sherpa.sh    & 		
+		../run-rivet.sh $(NAME)
 		rm Sherpa_References.tex fifo.hepmc.hepmc2g
 		
-ref/$(NAME).yoda ref/$(NAME).plot ref/$(NAME).info: ../update/data/refdata/$(NAME).yoda ../update/data/plotinfo/$(NAME).plot ../update/data/anainfo/$(NAME).info
-		cp ../update/data/refdata/JADE_OPAL_2000_S4300807a.yoda  ref/$(NAME).yoda
-		cp ../update/data/plotinfo/JADE_OPAL_2000_S4300807a.plot  ref/$(NAME).plot
-		cp ../update/data/anainfo/JADE_OPAL_2000_S4300807a.info  ref/$(NAME).info
+ref/$(NAME).yoda:  ../update/data/refdata/$(NAME).yoda ../update/data/plotinfo/$(NAME).plot ../update/data/anainfo/$(NAME).info
+		cp ../update/data/refdata/$(NAME).yoda  ref/$(NAME).yoda
+		cp ../update/data/plotinfo/$(NAME).plot  ref/$(NAME).plot
+		cp ../update/data/anainfo/$(NAME).info  ref/$(NAME).info
 		
 dirs:
 	mkdir -p out src lib ref 
@@ -31,4 +31,4 @@ dirs:
 
 plots: Rivet.yoda ref/$(NAME).yoda ref/$(NAME).plot ref/$(NAME).info
 		rm -rf out/Rivet$(NAME)/*-*.dat
-		./run-mkhtml.sh $(NAME)
+		../run-mkhtml.sh $(NAME)

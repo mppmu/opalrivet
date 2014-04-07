@@ -4,8 +4,11 @@ TOPDIR=./Rivet-$(VERS)
 all: 	all_94.5
 	
 all_%: 	
+		mkdir -p run
+		cp Run.dat run
 		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Run.dat
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Run.dat
+		cp Makefile.run run/Makefile
 		make -C run
 
 DEVRPMS/Rivet-$(VERS).tar.gz:
