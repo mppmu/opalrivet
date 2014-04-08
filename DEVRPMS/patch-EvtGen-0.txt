@@ -1,0 +1,104 @@
+diff -Naur ./configure ./configure
+--- ./configure	2014-01-08 14:49:38.000000000 +0100
++++ ./configure	2014-04-09 01:12:45.656767549 +0200
+@@ -32,6 +32,7 @@
+       "\nUsage: ./configure [options] , where options are:\n\n"\
+       "--help                                 : prints this help\n"\
+       "--prefix=[installation path]           : specifies installation path\n"\
++      "--libdir=[libraries installation path] : specifies libraries installation path\n"\
+       "--hepmcdir=[full directory path]       : specifies location of HepMC base directory (required)\n"\
+       "--pythiadir=[full directory path]      : specifies location of Pythia 8 base directory (optional)\n"\
+       "--photosdir=[full directory path]      : specifies location of PHOTOS base directory (optional)\n"\
+@@ -46,6 +47,9 @@
+         value=${arg/*=/}
+ 	if [ "x${option}" = "x--prefix" ] ; then
+ 	    PREFIX=${value}
++	    LIBDIR=${value}/lib   #defaults
++	elif [ "x${option}" = "x--libdir" ] ; then
++	    LIBDIR=${value}
+ 	elif [ "x${option}" = "x--pythiadir" ] ; then
+ 	    PYTHIADIR=${value}
+ 	elif [ "x${option}" = "x--hepmcdir" ] ; then
+@@ -72,7 +76,8 @@
+ check_dirs() {
+ 
+   echo "PREFIX = $PREFIX"
+-
++  echo "LIBDIR = $LIBDIR"
++  
+   hepmcFile=${HEPMCDIR}/include/HepMC/GenParticle.h
+   pythiaFile=${PYTHIADIR}/include/Pythia8/Pythia.h
+   photosFile=${PHOTOSDIR}/include/Photos/Photos.h
+@@ -130,7 +135,7 @@
+     HEPMCLIBLIST="-lHepMC"
+     PHOTOSLIBLIST="-lPhotosCxxInterface -lPhotosFortran"
+     TAUOLALIBLIST="-lTauolaCxxInterface -lTauolaFortran"
+-    PYTHIALIBLIST="-lpythia8 -llhapdfdummy"
++    PYTHIALIBLIST="-lpythia8 "
+ 
+ }
+ 
+@@ -242,6 +247,7 @@
+ VERSION = ${VERSION}
+ 
+ PREFIX = ${PREFIX}
++LIBDIR = ${LIBDIR}
+ 
+ SHELL = /bin/bash 
+ ARCH = ${ARCH} 
+@@ -258,10 +264,7 @@
+ TMPDIR = \$(EVTGENDIR)/tmp
+ INCLUDEDIR = \$(EVTGENDIR)
+ 
+-HEPMCDIR = ${HEPMCDIR}
+-HEPMCINCDIR = ${HEPMCDIR}/include
+-HEPMCLIBDIR = ${HEPMCDIR}/lib
+-HEPMCLIBLIST = ${HEPMCLIBLIST}
++
+ 
+ SRCDIR = \$(EVTGENDIR)/src
+ LIBDIR_SHARED = \$(EVTGENDIR)/lib
+@@ -290,12 +293,29 @@
+ 
+ EOF
+ 
++
++  echo "HEPMCDIR = ${HEPMCDIR}" >> config.mk
++  echo "HEPMCINCDIR = ${HEPMCDIR}/include" >> config.mk
++if [ -d ${HEPMCDIR}/lib64 ]; then 
++  echo "HEPMCLIBDIR = ${HEPMCDIR}/lib64" >> config.mk
++else
++  echo "HEPMCLIBDIR = ${HEPMCDIR}/lib"   >> config.mk
++fi
++  echo "HEPMCLIBLIST = ${HEPMCLIBLIST}" >> config.mk
++
++
++
+ if [ "${EVTGEN_PYTHIA}" == "1" ] ; then
+   echo "EVTGEN_PYTHIA = 1" >> config.mk
+   echo "EXTRAFLAGS += -D EVTGEN_PYTHIA" >> config.mk
+   echo "PYTHIADIR = ${PYTHIADIR}" >> config.mk
+   echo "PYTHIAINCDIR = ${PYTHIADIR}/include" >> config.mk
++if [ -d ${PYTHIADIR}/lib64 ]; then 
+   echo "PYTHIALIBDIR = ${PYTHIADIR}/lib" >> config.mk
++else
++  echo"PYTHIALIBDIR = ${PYTHIADIR}/lib"   >> config.mk
++fi
++#  echo "PYTHIALIBDIR = ${PYTHIADIR}/lib" >> config.mk
+   echo "PYTHIALIBLIST = ${PYTHIALIBLIST}" >> config.mk
+ fi
+ 
+diff -Naur ./Makefile ./Makefile
+--- ./Makefile	2012-09-18 16:37:21.000000000 +0200
++++ ./Makefile	2014-04-09 00:46:51.998188412 +0200
+@@ -25,8 +25,8 @@
+ 
+ install:
+ 	if test "${PREFIX}" != "." ; then \
+-	  mkdir -p ${PREFIX}/lib ${PREFIX}/include ${PREFIX}/share && \
+-	  cp -rf lib/* ${PREFIX}/lib/ && \
++	  mkdir -p ${LIBDIR} ${PREFIX}/include ${PREFIX}/share && \
++	  cp -rf lib/* ${LIBDIR}/ && \
+ 	  cp -rf EvtGen EvtGenBase EvtGenModels EvtGenExternal ${PREFIX}/include/ && \
+ 	  cp -rf *.DEC *.XML evt.pdl ${PREFIX}/share/ ; \
+         fi
