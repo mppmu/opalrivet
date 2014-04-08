@@ -11,6 +11,26 @@ all_%:
 		cp Makefile.run run/Makefile
 		make -C run
 
+ALL:
+	rm -rf run/out_*
+	make all_17.5
+	mv run/out run/out_17.5
+	make all_22
+	mv run/out run/out_22
+	make all_45.5
+	mv run/out run/out_45.5
+	make all_66.5
+	mv run/out run/out_66.5
+	make all_80.5
+	mv run/out run/out_80.5
+	make all_86
+	mv run/out run/out_86	
+	make all_91.5
+	mv run/out run/out_91.5	
+	make all_94.5
+	mv run/out run/out_94.5	
+
+
 
 
 DEVRPMS/Rivet-$(VERS).tar.gz:
