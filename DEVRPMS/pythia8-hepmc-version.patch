@@ -1,0 +1,22 @@
+--- a/configure
++++ b/configure
+@@ -104,18 +104,7 @@
+ if [ "x${HEPMCVERSION}" = "x" ] ; then
+   if [ "x${HEPMCLOCATION}" != "x" ] ; then
+ #                                            try to find out which HepMC version
+-    test1=`echo $HEPMCLOCATION | grep \/1.`
+-    test2=`echo $HEPMCLOCATION | grep \/2.`
+-    echo $test1
+-    echo $test2
+-    if [ "x${test1}" != "x" ] ; then
+-      echo "Warning: HepMC 1 cannot be used anymore; Please use HepMC 2"
+-      echo "         The interface will not be built"
+-      export HEPMCLOCATION=
+-    fi
+-    if [ "x${test2}" != "x" ] ; then
+-      export HEPMCVERSION=2.`echo $HEPMCLOCATION | awk -F \/2. '{print $2}' | awk -F \/ '{print $1}'`
+-    fi
++    export HEPMCVERSION=`grep 'define HEPMC_VERSION' ${HEPMCLOCATION}/include/HepMC/HepMCDefs.h | awk '{print $3}' | tr -d '"'`
+   fi
+ fi
+ if [ "x${HEPMCVERSION}" != "x" ] ; then

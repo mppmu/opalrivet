@@ -19,44 +19,17 @@
 using namespace Pythia8;
 
 int main(int argc, char ** argv) {
-
-  if (argc<3) return 1;
+  if (argc<1) return 1;
   // Interface for conversion from Pythia8::Event to HepMC event.
   HepMC::Pythia8ToHepMC ToHepMC;
-
   // Specify file where HepMC events will be stored.
   HepMC::IO_GenEvent ascii_io(argv[1], std::ios::out);
-
-  // Generator. Process selection. LHC initialization. Histogram.
- // Generator.
   Pythia pythia;
 
-
 pythia.readFile("Run.dat");
-
-/*
-  // Allow no substructure in e+- beams: normal for corrected LEP data.
-  pythia.readString("PDF:lepton = off");
-  // Process selection.
-  pythia.readString("WeakSingleBoson:ffbar2gmZ = on");
-  // Switch off all Z0 decays and then switch back on those to quarks.
-  pythia.readString("23:onMode = off");
-  pythia.readString("23:onIfAny = 1 2 3 4 5");
-
-  // LEP1 initialization at Z0 mass.
-  pythia.readString("Beams:idA =  11");
-  pythia.readString("Beams:idB = -11");
-  float  mZ;
-  sscanf(argv[2],"%f", &mZ);
-  pythia.settings.parm("Beams:eCM", 2*mZ);
-
-*/
-  pythia.init();
-
+pythia.init();
   // Begin event loop. Generate event. Skip if error.
   for (int iEvent = 0; iEvent < 1000; ++iEvent) {    if (!pythia.next()) continue;
-
-
     // Construct new empty HepMC event and fill it.
     // Units will be as chosen for HepMC build; but can be changed
     // by arguments, e.g. GenEvt( HepMC::Units::GEV, HepMC::Units::MM)
@@ -65,7 +38,6 @@ pythia.readFile("Run.dat");
     // Write the HepMC event to file. Done with it.
     ascii_io << hepmcevt;
     delete hepmcevt;
-
   }
   pythia.stat();
   return 0;

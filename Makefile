@@ -6,7 +6,8 @@ all: 	all_94.5
 all_%: 	
 		mkdir -p run
 		cp Runpythia8.dat run
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$*';@g' run/Runpythia8.dat
+		
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
 		cp Runsherpa.dat run
 		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat

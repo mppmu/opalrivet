@@ -6,18 +6,18 @@ all: dirs plots
 src/Rivet$(NAME).cc: ../update/src/Analyses/$(NAME).cc
 		cp ../update/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
 
-Run.dat:
+Run.dat: Run$(GEN).dat
 	cp Run$(GEN).dat  Run.dat 
 
 
-lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc Run.dat 
+lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc 
 ## -DUSE_DURHAM -DUSE_ANTIKT -DUSE_CONE -DUSE_JADE  -DUSE_ANTIKT_R_SCAN  -DUSE_CA
 ###		-DUSE_DURHAM -DUSE_JADE -DUSE_CONE -DUSE_PX -DUSE_CONE 
 		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall -DUSE_DURHAM -DUSE_JADE 
 
 
 
-Rivet$(NAME).yoda: lib/Rivet$(NAME).so ref/$(NAME).yoda
+Rivet$(NAME).yoda: lib/Rivet$(NAME).so ref/$(NAME).yoda  Run.dat 
 		rm -f fifo.hepmc.hepmc2g
 		mkfifo fifo.hepmc.hepmc2g
 #		Sherpa EVENT_OUTPUT=HepMC_GenEvent[fifo.hepmc]   & 		
