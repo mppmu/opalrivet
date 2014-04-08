@@ -11,6 +11,16 @@ all_%:
 		cp Makefile.run run/Makefile
 		make -C run
 
+allold_%: 	
+		mkdir -p runold
+		cp Run.dat runold
+		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' runold/Run.dat
+		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' runold/Run.dat
+		cp Makefile.runold runold/Makefile
+		make -C runold
+
+
+
 ALL:
 	rm -rf run/out_*
 	make all_17.5
