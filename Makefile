@@ -5,9 +5,13 @@ all: 	all_94.5
 	
 all_%: 	
 		mkdir -p run
-		cp Run.dat run
-		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Run.dat
-		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Run.dat
+		cp Runpythia8.dat run
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$*';@g' run/Runpythia8.dat
+		cp Runsherpa.dat run
+		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
+		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
+
+
 		cp Makefile.run run/Makefile
 		make -C run
 

@@ -1,9 +1,13 @@
 NAME=JADE_OPAL_2000_S4300807a
-
+#GEN=sherpa
+GEN=pythia8
 all: dirs plots
 
 src/Rivet$(NAME).cc: ../update/src/Analyses/$(NAME).cc
 		cp ../update/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
+
+Run.dat:
+	cp Run$(GEN).dat  Run.dat 
 
 
 lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc Run.dat 
@@ -17,9 +21,9 @@ Rivet$(NAME).yoda: lib/Rivet$(NAME).so ref/$(NAME).yoda
 		rm -f fifo.hepmc.hepmc2g
 		mkfifo fifo.hepmc.hepmc2g
 #		Sherpa EVENT_OUTPUT=HepMC_GenEvent[fifo.hepmc]   & 		
-		../run-sherpa.sh    & 		
+		../run-$(GEN).sh    & 		
 		../run-rivet.sh $(NAME)
-		rm Sherpa_References.tex fifo.hepmc.hepmc2g
+		rm -f Sherpa_References.tex fifo.hepmc.hepmc2g
 		
 ref/$(NAME).yoda:  ../update/data/refdata/$(NAME).yoda ../update/data/plotinfo/$(NAME).plot ../update/data/anainfo/$(NAME).info
 		cp ../update/data/refdata/$(NAME).yoda  ref/$(NAME).yoda
