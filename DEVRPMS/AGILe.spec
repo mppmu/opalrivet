@@ -10,7 +10,7 @@ Version:        1.4.1
 Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
-Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
+Source0:	    http://www.hepforge.org/archive/agile/%{name}-%{version}.tar.gz
 #Patch0:         patch-AGILe-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory

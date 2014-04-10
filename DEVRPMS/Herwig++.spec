@@ -12,7 +12,8 @@ Release:      1
 
 Summary:      Herwig++ is a C++ Monte Carlo event generator.
 License:      GPL
-Source0:	  http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.bz2
+Source0:	  http://www.hepforge.org/archive/herwig/%{name}-%{version}.tar.bz2
+Patch0:         patch-Herwig++-0.txt
 Group:		  Sciences/Physics
 Url:	      http://projects.hepforge.org/herwig/
 BuildRequires: gcc-c++  /usr/bin/g77 gsl-devel
@@ -49,17 +50,18 @@ The library documentation is available on header files.
 
 %prep
 %setup -q 
-
+%patch0 -p1
 
 %build
 autoreconf -fisv
 mkdir -p $(pwd)/tmp/usr
 mkdir -p $(pwd)/tmp/%_lib
-%configure --with-thepeg=%_prefix --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib
-make %{?_smp_mflags}
+%configure --with-thepeg=%_prefix --prefix=/usr --libdir=/usr/%_lib 
+make %{?_smp_mflags} 
 
 %install
-make install
+make install DESTDIR=$(pwd)/tmp 
+#--with-thepeg=%_prefix --prefix=/usr --libdir=/usr/%_lib
 
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
@@ -70,7 +72,7 @@ cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 %doc AUTHORS README COPYING
 
 %files -n %{libname}
-%_bindir/Herwig++
+%_bindir/*
 %_datadir/Herwig++
 %_libdir/Herwig++
 

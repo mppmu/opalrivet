@@ -10,7 +10,7 @@
 
 #define USE_DURHAM 
 #define USE_JADE 
-
+#define USE_CONE
 using namespace fastjet;
 namespace Rivet
 {

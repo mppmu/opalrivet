@@ -10,7 +10,7 @@ Version:        1.3.0
 Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
-Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
+Source0:	    http://evtgen.warwick.ac.uk/static/srcrep/R01-03-00/EvtGen.R01-03-00.tar.gz/%{name}-%{version}.tar.gz
 Patch0:         patch-EvtGen-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory

@@ -1,0 +1,24 @@
+diff -Naur ./src/Herwig++.cc ./src/Herwig++.cc
+--- ./src/Herwig++.cc	2012-11-27 16:26:00.000000000 +0100
++++ ./src/Herwig++.cc	2014-04-10 15:22:26.039143604 +0200
+@@ -187,6 +187,9 @@
+ #   ifdef THEPEG_PKGLIBDIR
+     DynamicLoader::appendPath(THEPEG_PKGLIBDIR);
+ #   endif
++#   ifdef THEPEG_PKGLIBDIR64
++    DynamicLoader::appendPath(THEPEG_PKGLIBDIR64); /* So far there is no ThePEG-config*/
++#   endif
+     HoldFlag<> setup(InterfaceBase::NoReadOnly);
+     string msg = Repository::read(infile, cout);
+     if ( ! msg.empty() ) cerr << msg << '\n';
+diff -Naur ./src/Makefile.in ./src/Makefile.in
+--- ./src/Makefile.in	2013-10-28 01:21:41.000000000 +0100
++++ ./src/Makefile.in	2014-04-10 15:21:29.056770770 +0200
+@@ -449,6 +449,7 @@
+ Herwig___CPPFLAGS = $(AM_CPPFLAGS) \
+ -DHERWIG_PKGDATADIR="\"$(pkgdatadir)\"" \
+ -DHERWIG_PKGLIBDIR="\"$(pkglibdir)\"" \
++-DTHEPEG_PKGLIBDIR64="\"$(THEPEGPATH)/lib64/ThePEG\""\
+ -DTHEPEG_PKGLIBDIR="\"$(THEPEGPATH)/lib/ThePEG\""
+ 
+ bin_SCRIPTS = herwig-config

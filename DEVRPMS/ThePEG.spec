@@ -10,7 +10,7 @@ Version:        1.9.0
 Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
-Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.bz2
+Source0:	    http://www.hepforge.org/archive/thepeg/%{name}-%{version}.tar.bz2
 Patch0:         patch-ThePEG-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory
@@ -67,7 +67,8 @@ make %{?_smp_mflags}
 
 %install
 make install
-sed -i s@$(pwd)/tmp/usr/%_lib@/usr/%_lib@g  $(pwd)/tmp/usr/bin/thepeg
+sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/bin/thepeg
+sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/*la
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 

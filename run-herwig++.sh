@@ -1,4 +1,5 @@
 #!/bin/bash
 set -x
-Herwig++ run Run.dat -N50 
+Herwig++ read Run.dat .
+Herwig++ run fifo.hepmc.hepmc2g  -N50 
 # fifo.hepmc.hepmc2g 

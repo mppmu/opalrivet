@@ -10,7 +10,7 @@ Version:        3.54
 Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
-Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
+Source0:	   http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.54/PHOTOS.3.54.tar.gz/%{name}-%{version}.tar.gz
 Patch0:         patch-PHOTOS-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory

@@ -10,7 +10,7 @@ Version:        1.1.4
 Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
-Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
+Source0:	   http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.1.1.4/TAUOLA.1.1.4.tar.gz/%{name}-%{version}.tar.gz
 Patch0:         patch-TAUOLA-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory
