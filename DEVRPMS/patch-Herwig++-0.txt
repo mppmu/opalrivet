@@ -1,6 +1,29 @@
+diff -Naur ./m4/herwig.m4 ./m4/herwig.m4
+--- ./m4/herwig.m4	2013-10-16 16:11:53.000000000 +0200
++++ ./m4/herwig.m4	2014-04-11 15:27:10.523155761 +0200
+@@ -116,12 +116,15 @@
+ AC_MSG_CHECKING([for HepMCAnalysis.so in ThePEG])
+ 
+ 
+-if test -e "$THEPEGPATH/lib/ThePEG/HepMCAnalysis.so" ; then
++if test "`uname -m`" = "x86_64" -a -e "$THEPEGPATH/lib64/ThePEG/HepMCAnalysis.so"; then
+      	CREATE_HEPMC="create"
+-	AC_MSG_RESULT([found])
++	    AC_MSG_RESULT([found])
++elif test -e -e "$THEPEGPATH/lib/ThePEG/HepMCAnalysis.so"; then
++     	CREATE_HEPMC="create"
++	    AC_MSG_RESULT([found])
+ else
+-	CREATE_HEPMC="# create"
+-	AC_MSG_RESULT([not found])
++    	CREATE_HEPMC="# create"
++	    AC_MSG_RESULT([not found])
+ fi
+ 
+ AC_SUBST([CREATE_HEPMC])
 diff -Naur ./src/Herwig++.cc ./src/Herwig++.cc
 --- ./src/Herwig++.cc	2012-11-27 16:26:00.000000000 +0100
-+++ ./src/Herwig++.cc	2014-04-10 15:22:26.039143604 +0200
++++ ./src/Herwig++.cc	2014-04-11 15:27:16.225106263 +0200
 @@ -187,6 +187,9 @@
  #   ifdef THEPEG_PKGLIBDIR
      DynamicLoader::appendPath(THEPEG_PKGLIBDIR);
@@ -13,7 +36,7 @@ diff -Naur ./src/Herwig++.cc ./src/Herwig++.cc
      if ( ! msg.empty() ) cerr << msg << '\n';
 diff -Naur ./src/Makefile.in ./src/Makefile.in
 --- ./src/Makefile.in	2013-10-28 01:21:41.000000000 +0100
-+++ ./src/Makefile.in	2014-04-10 15:21:29.056770770 +0200
++++ ./src/Makefile.in	2014-04-11 15:27:20.201071745 +0200
 @@ -449,6 +449,7 @@
  Herwig___CPPFLAGS = $(AM_CPPFLAGS) \
  -DHERWIG_PKGDATADIR="\"$(pkgdatadir)\"" \

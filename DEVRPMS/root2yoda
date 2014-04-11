@@ -17,10 +17,8 @@ print in_out
 if not in_out:
     sys.stderr.write("You must specify the YODA and ROOT file names\n")
     sys.exit(1)
-print "LL"
 import ROOT
 for i, o in in_out:
-  print "LLXX"
   of = ROOT.TFile("output_200_207.root", "r")
   if (of.IsOpen()==None):
 		print "<E> Cannot open input file"+o
@@ -42,7 +40,7 @@ for i, o in in_out:
 #      print "will not be converted\n"+obj->GetName()    
    print "Histo name:"+obj.GetName()+obj.GetTitle()
 
-#   analysisobjects = yoda.readYODA(i)
+#   analysisobjects = yod		a.readYODA(i)
 #   rootobjects = [yoda.to_root(ao) for ao in analysisobjects.values()]
    #print rootobjects
 #   of.Write()

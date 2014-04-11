@@ -148,9 +148,18 @@ srcrpm: DEVRPMS/Rivet-$(VERS).tar.gz
 	sed -i 's@DEVRPMS/Rivet-$(VERS)@.@g' DEVRPMS/patch-Rivet-*.txt
 
 #diff -Naur EvtGen-1.3.0_orig EvtGen-1.3.0  | sed 's@EvtGen-1.3.0/@./@g' | sed 's@EvtGen-1.3.0_orig/@./@g'
-
+#diff -Naur Herwig++-2.7.0_orig Herwig++-2.7.0  | sed 's@Herwig++-2.7.0/@./@g' | sed 's@Herwig++-2.7.0_orig/@./@g'
+#diff -Naur  -x  *Makefile.in* acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g'
+#diff -Naur  -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' >DEVRPMS/patch-YODA-0.txt
 binrpm:
 		cp DEVRPMS/patch-Rivet-*.txt   /home/andriish/rpmbuild/SOURCES/
 		cp DEVRPMS/Rivet-$(VERS).tar.gz  /home/andriish/rpmbuild/SOURCES/
 		rpmbuild -bs DEVRPMS/Rivet.spec
 		rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(VERS)-1.src.rpm
+
+
+test:
+		g++ ReaderROOTtest.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o ReaderROOTtest
+#	g++ -c ReaderROOTtest.cc -I./YODA-1.0.6/include $(shell root-config --cflags )   -o ReaderROOTtest.o
+#	g++ -c YODA-1.0.6/./src/ReaderROOT.cc -I./YODA-1.0.6/include $(shell root-config --cflags ) -o ReaderROOT.o
+#	g++ ReaderROOTtest.o ReaderROOT.o -L./YODA-1.0.6/./src/.libs/libYODA.so -lYODA $(shell root-config --ldflags --glibs ) -o ReaderROOTtest

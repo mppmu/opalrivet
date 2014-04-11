@@ -70,7 +70,8 @@ make  %{?_smp_mflags}
 %install
 make install
 sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/Sherpa-*
-#sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/%_lib/SHERPA-MC/*a
+sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/make2*
+sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/%_lib/SHERPA-MC/*la
 sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/include/SHERPA-MC/ATOOLS/*/*H
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT

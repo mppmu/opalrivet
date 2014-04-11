@@ -56,11 +56,13 @@ The library documentation is available on header files.
 autoreconf -fisv
 mkdir -p $(pwd)/tmp/usr
 mkdir -p $(pwd)/tmp/%_lib
-%configure --with-thepeg=%_prefix --prefix=/usr --libdir=/usr/%_lib 
+%configure --with-thepeg=%_prefix --prefix=/usr --libdir=/usr/%_lib --with-hepmc
 make %{?_smp_mflags} 
 
 %install
 make install DESTDIR=$(pwd)/tmp 
+sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/Herwig++/*rpo
+sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/defaults/PDF.in
 #--with-thepeg=%_prefix --prefix=/usr --libdir=/usr/%_lib
 
 mkdir -p $RPM_BUILD_ROOT/usr
