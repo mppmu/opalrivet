@@ -1,19 +1,19 @@
 // -*- C++ -*-
 //
 // This file is part of YODA -- Yet more Objects for Data Analysis
-//Andrii Verbytskyi, 2014
+// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
 //
-#ifndef YODA_READERROOT_H
-#define YODA_READERROOT_H
+#ifndef YODA_READERYODA_H
+#define YODA_READERYODA_H
 
 #include "YODA/AnalysisObject.h"
 #include "YODA/Reader.h"
-#include "YODA/ROOTCnv.h"
+#include <YODA/Histo1D.h>
+#include <YODA/Profile1D.h>
 #include <YODA/Scatter2D.h>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
-
 
 namespace YODA {
 
@@ -22,23 +22,19 @@ namespace YODA {
 
 
   /// Persistency reader from YODA flat text data format.
-  class ReaderROOT : public Reader {
+  class ReaderYODA : public Reader {
   public:
 
     /// Singleton creation function
     static Reader& create() {
-      static ReaderROOT _instance;
+      static ReaderYODA _instance;
       return _instance;
     }
 
     void read(std::istream& stream, std::vector<AnalysisObject*>& aos) {
       _readDoc(stream, aos);
     }
-    void _readDoc(std::string& filename, std::vector<AnalysisObject*>& aos);
 
-   void read(std::string& filename, std::vector<AnalysisObject*>& aos) {
-      _readDoc(filename, aos);
-    }
 
     // Hide from Doxygen until endcond
     /// @cond
@@ -70,10 +66,10 @@ namespace YODA {
 
     /// Private constructor, since it's a singleton.
     /// @todo This is definitely not private!
+    ReaderYODA() { }
 
-    ReaderROOT() { }
 
-   // Here comes everything we need for the parser
+    // Here comes everything we need for the parser
 
     /// Structs for the Histo1D parser
     /// The data for Dbn1D
@@ -224,10 +220,119 @@ namespace YODA {
     };
 
 
+    /// A helper grammar for determining in which context we are.
+    /// bgroup and egroup are dynamic parsers. We add and remove
+    /// the "# BEGIN SOMETHING" and "# END SOMETHING" strings
+    /// dynamically.
+    static qi::symbols<char, int> bgroup;
+    static qi::symbols<char, int> egroup;
+    template <typename Iterator>
+    struct group_grammar : qi::grammar<Iterator, int()>
+    {
+      group_grammar() : group_grammar::base_type(start) {
+        start = begin | end;
+        begin = qi::eps [_val = 0]  >>
+                qi::lit("# BEGIN ") >>
+                bgroup  [_val += _1];
+        end   = qi::eps [_val = 0]  >>
+                qi::lit("# END ")   >>
+                egroup  [_val += _1];
+      }
+      qi::rule<Iterator, int()> start, begin, end;
+    };
 
-/// @endcond
 
-};
+    /// The actual grammar for parsing the lines of a flat data file.
+    template <typename Iterator, typename Skipper>
+    struct yoda_grammar : qi::grammar<Iterator, Skipper>
+    {
+
+      yoda_grammar() : yoda_grammar::base_type(line) {
+
+        /// A line can be anything. Note that we need
+        /// to specify the long lines first, because the
+        /// first match wins.
+        /// In brackets we specify the functions that are
+        /// called in case the rule matches.
+        line = Profile1Dbin[fillbin()]         |
+               Profile1Dtotal[filltotaldbn()]  |
+               Profile1Duflow[filluflowdbn()]  |
+               Profile1Doflow[filloflowdbn()]  |
+               Histo1Dbin[fillbin()]           |
+               Histo1Dtotal[filltotaldbn()]    |
+               Histo1Duflow[filluflowdbn()]    |
+               Histo1Doflow[filloflowdbn()]    |
+               ScatterPoint2D[fillpoint()]     |
+               keyvaluepair[fillkeyval()]      |
+               comment;
+
+        /// Match the strings "Underflow", "Overflow" and "Total"
+        underflow = qi::lit("Underflow");
+        overflow  = qi::lit("Overflow");
+        total     = qi::lit("Total");
+
+        /// Histo1D
+        /// Regular bins, total statistics, underflow or overflow.
+        Histo1Dbin   %= double_   >> double_   >> Histo1Ddbn;
+        Histo1Dtotal %= total     >> total     >> Histo1Ddbn;
+        Histo1Duflow %= underflow >> underflow >> Histo1Ddbn;
+        Histo1Doflow %= overflow  >> overflow  >> Histo1Ddbn;
+        Histo1Ddbn = double_ >> double_ >> double_ >> double_ >> ulong_;
+
+        // Histo2D
+
+        // Profile1D
+        /// Regular bins, total statistics, underflow or overflow.
+        Profile1Dbin   %= double_   >> double_   >> Profile1Ddbn;
+        Profile1Dtotal %= total     >> total     >> Profile1Ddbn;
+        Profile1Duflow %= underflow >> underflow >> Profile1Ddbn;
+        Profile1Doflow %= overflow  >> overflow  >> Profile1Ddbn;
+        Profile1Ddbn = double_ >> double_ >> double_ >> double_ >> double_ >> double_ >> ulong_;
+
+        // Profile2D
+
+        // Scatter1D
+
+        // Scatter2D
+        ScatterPoint2D %= double_ >> double_ >> double_ >> double_ >> double_ >> double_;
+
+        // Scatter3D
+
+
+        /// Annotations.
+        /// The key is anyting up to the first equal sign, but
+        /// keys can't start with a number or a minus sign. The
+        /// value is anything after the equal sign.
+        key = !qi::char_("0-9-") >> *~qi::char_("=");
+        value = *~qi::char_("\n");
+        keyvaluepair %= key >> "=" >> value;
+
+        /// Lines starting with a "#" are comments.
+        comment = qi::lit("#") >> *~qi::char_("\n");
+      }
+
+      /// In the rules, the first template argument is the Iterator for the string,
+      /// the second one is the return type, and the last one is a "Skipper" for
+      /// ignoring whitespace. Note that the key/value pair doesn't ignore whitespace.
+      /// Most of the return values match our structs (like keyval, histo1dbin, etc.).
+      /// Those are used to directly fill the corresponding structs.
+      qi::rule<Iterator, Skipper> line, total, underflow, overflow, comment;
+      qi::rule<Iterator, std::string()> key, value;
+      qi::rule<Iterator, keyval(), Skipper> keyvaluepair;
+
+      qi::rule<Iterator, histo1dbin(), Skipper> Histo1Dbin;
+      qi::rule<Iterator, histo1ddbn(), Skipper> Histo1Ddbn, Histo1Dtotal, Histo1Duflow, Histo1Doflow;
+
+      qi::rule<Iterator, profile1dbin(), Skipper> Profile1Dbin;
+      qi::rule<Iterator, profile1ddbn(), Skipper> Profile1Ddbn, Profile1Dtotal, Profile1Duflow, Profile1Doflow;
+
+      qi::rule<Iterator, scatterpoint2d(), Skipper> ScatterPoint2D;
+    };
+
+
+    /// @endcond
+
+  };
 
 } // end of YODA namespace
 
@@ -240,7 +345,7 @@ namespace YODA {
 /// @cond PRIVATE
 
 BOOST_FUSION_ADAPT_STRUCT(
-  YODA::ReaderROOT::histo1ddbn,
+  YODA::ReaderYODA::histo1ddbn,
   (double, sumW)
   (double, sumW2)
   (double, sumWX)
@@ -249,14 +354,14 @@ BOOST_FUSION_ADAPT_STRUCT(
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
-  YODA::ReaderROOT::histo1dbin,
+  YODA::ReaderYODA::histo1dbin,
   (double, lowedge)
   (double, highedge)
-  (YODA::ReaderROOT::histo1ddbn, dbn)
+  (YODA::ReaderYODA::histo1ddbn, dbn)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
-  YODA::ReaderROOT::profile1ddbn,
+  YODA::ReaderYODA::profile1ddbn,
   (double, sumW)
   (double, sumW2)
   (double, sumWX)
@@ -267,14 +372,14 @@ BOOST_FUSION_ADAPT_STRUCT(
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
-  YODA::ReaderROOT::profile1dbin,
+  YODA::ReaderYODA::profile1dbin,
   (double, lowedge)
   (double, highedge)
-  (YODA::ReaderROOT::profile1ddbn, dbn)
+  (YODA::ReaderYODA::profile1ddbn, dbn)
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
-  YODA::ReaderROOT::scatterpoint2d,
+  YODA::ReaderYODA::scatterpoint2d,
   (double, x)
   (double, exminus)
   (double, explus)
@@ -284,7 +389,7 @@ BOOST_FUSION_ADAPT_STRUCT(
 )
 
 BOOST_FUSION_ADAPT_STRUCT(
-  YODA::ReaderROOT::keyval,
+  YODA::ReaderYODA::keyval,
   (std::string, key)
   (std::string, val)
 )

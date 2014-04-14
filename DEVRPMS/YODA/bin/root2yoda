@@ -1,0 +1,27 @@
+#! /usr/bin/env python
+
+"""\
+%prog  yodafile  [rootfile]
+
+Convert a ROOT data file to the YODA data format.
+"""
+
+import yoda, os, sys, optparse
+from yoda.script_helpers import parse_x2y_args
+
+parser = optparse.OptionParser(usage=__doc__)
+opts, args = parser.parse_args()
+in_out = parse_x2y_args(args, ".root", ".yoda")
+if not in_out:
+    sys.stderr.write("You must specify the  ROOT and YODA file names\n")
+    sys.exit(1)
+
+import ROOT
+for i, o in in_out:
+#    of = ROOT.TFile(o, "recreate")
+    of = ROOT.TFile(o, "recreate")
+    analysisobjects = yoda.readYODA(i)
+    rootobjects = [yoda.to_yoda(ao) for ao in analysisobjects.values()]
+    #print rootobjects
+    of.Write()
+    of.Close()

@@ -19,17 +19,11 @@ namespace YODA {
   ReaderROOT::profile1d ReaderROOT::_profile1d;
   ReaderROOT::scatter2d ReaderROOT::_scatter2d;
   std::map<std::string, std::string> ReaderROOT::_annotations;
-
-  void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos) {
-	  puts("Not implemented");
-  std::string a("1.root");
-  _readDoc(a,  aos);
-  }
   
 
-  void ReaderROOT::_readDoc(std::string& streama, vector<AnalysisObject*>& aos) {
+  void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos) {
 
-//std::string streama("1.root");
+std::string streama("1.root");
 TFile* fin = new TFile(streama.c_str()) ;
   if (!fin->IsOpen()) {
     printf("<E> Cannot open input file %s\n",streama.c_str()) ;
@@ -74,46 +68,22 @@ TFile* fin = new TFile(streama.c_str()) ;
     if (type/10==1)
     {
             char a[255];
+            if (type==11) TH1F* HH= (TH1F*)(obj); 
+            if (type==12) TH1D* HH= (TH1D*)(obj);             
            sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
            YODA::Histo1D* dps = new YODA::Histo1D(a);//_histo1d.bins, _histo1d.dbn_tot, _histo1d.dbn_uflow, _histo1d.dbn_oflow);
 	        int i;
-
-
-            if (type==11) { 
-		    TH1F* HHF= (TH1F*)(obj); 
-	        if (HHF->GetNbinsX()>0){
-	        for (i=1;i<HHF->GetNbinsX();i++)
-		     dps->addBin(HHF->GetBinLowEdge(i),HHF->GetBinLowEdge(i)+ HHF->GetBinWidth(i));
+	        if (HH->GetNbinsX()>0){
+	        for (i=1;i<HH->GetNbinsX();i++)
+		     dps->addBin(HH->GetBinLowEdge(i),HH->GetBinLowEdge(i)+ HH->GetBinWidth(i));
             dps->setAnnotation("Title", obj->GetTitle());
-            dps->setAnnotation("TitleX", HHF->GetXaxis()->GetTitle());
-            dps->setAnnotation("TitleY", HHF->GetYaxis()->GetTitle());
-	        for (i=1;i<HHF->GetNbinsX();i++)
+            dps->setAnnotation("TitleX", HH->GetXaxis()->GetTitle());
+            dps->setAnnotation("TitleY", HH->GetYaxis()->GetTitle());
+	        for (i=1;i<HH->GetNbinsX();i++)
 	        {
-//				printf("%f\t%f\t%i\n",i,HHF->GetBinLowEdge(i),HHF->GetBinLowEdge(i)+ HHF->GetBinWidth(i));
-		     dps->fill(HHF->GetBinCenter(i), HHF->GetBinContent(i));
+//				printf("%f\t%f\t%i\n",i,HH->GetBinLowEdge(i),HH->GetBinLowEdge(i)+ HH->GetBinWidth(i));
+		     dps->fill(HH->GetBinCenter(i), HH->GetBinContent(i));
 		     }
-		     }
-		                aos.push_back(dps);
-		    }
-		    
-            if (type==12) { 
-		    TH1D* HHD= (TH1D*)(obj); 
-	        if (HHD->GetNbinsX()>0){
-	        for (i=1;i<HHD->GetNbinsX();i++)
-		     dps->addBin(HHD->GetBinLowEdge(i),HHD->GetBinLowEdge(i)+ HHD->GetBinWidth(i));
-            dps->setAnnotation("Title", obj->GetTitle());
-            dps->setAnnotation("TitleX", HHD->GetXaxis()->GetTitle());
-            dps->setAnnotation("TitleY", HHD->GetYaxis()->GetTitle());
-	        for (i=1;i<HHD->GetNbinsX();i++)
-	        {
-//				printf("%f\t%f\t%i\n",i,HHD->GetBinLowEdge(i),HHD->GetBinLowEdge(i)+ HHD->GetBinWidth(i));
-		     dps->fill(HHD->GetBinCenter(i), HHD->GetBinContent(i));
-		     }
-		     }
-		    
-		    
-		     
-		     
             aos.push_back(dps);
 		 }
 		 cleanup();
