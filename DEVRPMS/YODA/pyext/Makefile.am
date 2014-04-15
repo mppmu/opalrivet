@@ -5,7 +5,6 @@ PYEXT_ENV = CC="$(CC)" CXX="$(CXX)" CXXFLAGS="$(PYEXT_CXXFLAGS)" ARCHFLAGS=""
 
 if ENABLE_ROOT
   PYEXT_ENV += BUILD_ROOTCOMPAT="yes"
-  CXXFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 endif
 
 ## Always force setup.py, it's not good at guessing what needs to rebuild

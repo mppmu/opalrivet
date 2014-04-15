@@ -31,14 +31,17 @@ namespace YODA {
       return _instance;
     }
 
+    static Reader& create(std::string filename) {
+      static ReaderROOT _instance(filename);      
+      return _instance;
+    }
+
+
     void read(std::istream& stream, std::vector<AnalysisObject*>& aos) {
       _readDoc(stream, aos);
     }
-    void _readDoc(std::string& filename, std::vector<AnalysisObject*>& aos);
 
-   void read(std::string& filename, std::vector<AnalysisObject*>& aos) {
-      _readDoc(filename, aos);
-    }
+
 
     // Hide from Doxygen until endcond
     /// @cond
@@ -48,8 +51,9 @@ namespace YODA {
 
     void _readDoc(std::istream& stream, std::vector<AnalysisObject*>& aos);
 
-  private:
 
+  private:
+std::string _filename;
     void cleanup() {
       _histo1d.bins.clear();
       _histo1d.dbn_tot.reset();
@@ -72,6 +76,7 @@ namespace YODA {
     /// @todo This is definitely not private!
 
     ReaderROOT() { }
+    ReaderROOT(std::string filename) {_filename=filename;}
 
    // Here comes everything we need for the parser
 

@@ -21,12 +21,6 @@ namespace YODA {
   class Reader {
   public:
 
-    /// Virtual destructor
-    virtual ~Reader() {}
-
-
-    /// @name Reading multiple analysis objects,
-    //@{
 
     /// @brief Read in a collection of objects @a objs from output stream @a stream.
     ///
@@ -52,7 +46,7 @@ namespace YODA {
     /// and is hence CPU efficient.
     ///
     /// @todo Use SFINAE magic to allow ~arbitrary collection<AnalysisObject*> (with push_back()?) to be passed
-   virtual void read(const std::string& filename, std::vector<AnalysisObject*>& aos) {
+     void read(const std::string& filename, std::vector<AnalysisObject*>& aos) {
       std::ifstream instream;
       instream.open(filename.c_str());
       read(instream, aos);

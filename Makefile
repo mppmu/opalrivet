@@ -163,6 +163,7 @@ YODA:
 	diff -Naur  -x  *Makefile.in* acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
 	
 	
+	
 test:
 		g++ ReaderROOTtest.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o ReaderROOTtest
 #	g++ -c ReaderROOTtest.cc -I./YODA-1.0.6/include $(shell root-config --cflags )   -o ReaderROOTtest.o

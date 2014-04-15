@@ -20,7 +20,7 @@ namespace YODA {
     if (fmt == "yoda") return ReaderYODA::create();
     if (fmt == "aida") return ReaderAIDA::create();
     if (fmt == "dat")  return ReaderFLAT::create();
-    if (fmt == "root") return ReaderROOT::create();
+    if (fmt == "root") return ReaderROOT::create(name);
     throw UserError("Format cannot be identified from string '" + name + "'");
   }
 
