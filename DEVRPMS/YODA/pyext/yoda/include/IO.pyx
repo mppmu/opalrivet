@@ -112,7 +112,6 @@ def readFLAT(file_or_filename, asdict=True):
     return _aobjects_to_dict(&aobjects) if asdict else _aobjects_to_list(&aobjects)
 
 
-
 def readAIDA(file_or_filename, asdict=True):
     """
     Read data objects from the provided AIDA-format file.
