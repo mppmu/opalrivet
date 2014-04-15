@@ -27,6 +27,6 @@ libYODA_la_CPPFLAGS = $(AM_CPPFLAGS) -DTIXML_USE_STL
 
 if  ENABLE_ROOT
 libYODA_la_SOURCES += ReaderROOT.cc 
-libYODA_la_LDFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
-libYODA_la_CPPFLAGS += $(ROOT_LDFLAGS)
+libYODA_la_LDFLAGS += $(ROOT_LDFLAGS)
+libYODA_la_CPPFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 endif

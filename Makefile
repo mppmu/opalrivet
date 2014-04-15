@@ -169,3 +169,9 @@ test:
 #	g++ -c ReaderROOTtest.cc -I./YODA-1.0.6/include $(shell root-config --cflags )   -o ReaderROOTtest.o
 #	g++ -c YODA-1.0.6/./src/ReaderROOT.cc -I./YODA-1.0.6/include $(shell root-config --cflags ) -o ReaderROOT.o
 #	g++ ReaderROOTtest.o ReaderROOT.o -L./YODA-1.0.6/./src/.libs/libYODA.so -lYODA $(shell root-config --ldflags --glibs ) -o ReaderROOTtest
+
+#autoreconf
+#./configure  --prefix=$(pwd)/z --enable-root --disable-pyext
+#make -j 4
+#make install
+
