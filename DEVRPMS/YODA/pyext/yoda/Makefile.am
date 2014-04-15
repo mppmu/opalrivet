@@ -40,6 +40,10 @@ EXTRA_DIST += \
     mktemplates \
     core.cpp core.h util.cpp
 
+if ENABLE_ROOT
+  CXXFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
+endif
+
 
 if WITH_CYTHON
 core.cpp: $(CYTHON_SRC)

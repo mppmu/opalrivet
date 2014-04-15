@@ -33,15 +33,15 @@ def to_root(yoda.util.Base yoda_obj):
     elif isinstance(yoda_obj, yoda.Scatter2D):
         return _toTGraph(<cyoda.Scatter2D*> ptr)
 
-def to_yoda(ROOT ROOT_obj):
-
-    cdef void *ptr = ROOT_obj.ptr()
-
-    if isinstance(ROOT_obj, ROOT.TH1):
-        return _toHisto1D(<cROOT.Histo1D*> ptr)
-
-    elif isinstance(ROOT_obj, ROOT.TGraph):
-        return _toScatter2D(<cROOT.TGraph*> ptr)
+##def to_yoda(.TObject* ROOT_obj):
+##
+##    cdef void *ptr = ROOT_obj
+##
+##    if isinstance(ROOT_obj, ROOT.TH1):
+##        return _toHisto1D(<cROOT.Histo1D*> ptr)
+##
+##    elif isinstance(ROOT_obj, ROOT.TGraph):
+##        return _toScatter2D(<cROOT.TGraph*> ptr)
 
 cdef object root_to_py(c.TObject* tobj):
     return <object> c.root_to_py_owned(tobj)

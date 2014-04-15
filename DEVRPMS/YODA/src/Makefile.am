@@ -24,4 +24,4 @@ libYODA_la_SOURCES = \
 
 libYODA_la_LDFLAGS = -avoid-version $(ROOT_LDFLAGS)
 libYODA_la_LIBADD = tinyxml/libtinyxml.la
-libYODA_la_CPPFLAGS = $(AM_CPPFLAGS) -DTIXML_USE_STL $(ROOT_CXXFLAGS)
+libYODA_la_CPPFLAGS = $(AM_CPPFLAGS) -DTIXML_USE_STL $(ROOT_CXXFLAGS) -Wno-long-long 

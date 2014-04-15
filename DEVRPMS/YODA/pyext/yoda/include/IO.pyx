@@ -111,21 +111,6 @@ def readFLAT(file_or_filename, asdict=True):
     c.ReaderFLAT_create().read(iss, aobjects)
     return _aobjects_to_dict(&aobjects) if asdict else _aobjects_to_list(&aobjects)
 
-def readROOT(file_or_filename, asdict=True):
-    """
-    Read data objects from the provided ROOT-format file.
-    s = _str_from_file(file_or_filename)
-    _make_iss(iss, s)
-
-    Returns a dict or list of analysis objects depending on the asdict argument.
-    cdef c.istringstream iss
-    """
-
-    cdef c.istring file_or_filename
-    cdef vector[c.AnalysisObject*] aobjects
-    c.ReaderROOT_create().read(file_or_filename, aobjects)
-    return _aobjects_to_dict(&aobjects) if asdict else _aobjects_to_list(&aobjects)
-
 
 
 def readAIDA(file_or_filename, asdict=True):

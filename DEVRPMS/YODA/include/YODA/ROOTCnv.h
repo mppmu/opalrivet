@@ -109,7 +109,6 @@ namespace YODA {
   /// Convert a ROOT TGraph  to a YODA Scatter2D
   ///
   inline Scatter2D toScatter2D(const TGraph& th1) {
-            char a[255];
             //sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
 	        Scatter2D dps;
 	        int i;
