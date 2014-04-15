@@ -160,8 +160,10 @@ binrpm:
 
 YODA:
 	cp -R DEVRPMS/YODA/*  ./YODA-1.0.6
-	diff -Naur  -x  *Makefile.in* acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
-	
+
+YODApatch:
+	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
+
 	
 	
 test:
