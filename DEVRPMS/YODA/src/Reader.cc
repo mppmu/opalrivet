@@ -11,10 +11,12 @@
 
 using namespace std;
 
-namespace YODA {
+namespace YODA
+{
 
 
-  Reader& mkReader(const string& name) {
+Reader& mkReader(const string& name)
+{
     const size_t lastdot = name.find_last_of(".");
     const string fmt = boost::to_lower_copy((lastdot == string::npos) ? name : name.substr(lastdot+1));
     if (fmt == "yoda") return ReaderYODA::create();
@@ -22,7 +24,7 @@ namespace YODA {
     if (fmt == "dat")  return ReaderFLAT::create();
     if (fmt == "root") return ReaderROOT::create(name);
     throw UserError("Format cannot be identified from string '" + name + "'");
-  }
+}
 
 
 }

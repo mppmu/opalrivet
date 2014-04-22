@@ -158,10 +158,13 @@ binrpm:
 		rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(VERS)-1.src.rpm
 
 
-YODA:
+YODA: DEVRPMS/YODA-1.0.6.tar.gz
+	rm -rf ./YODA-1.0.6 ./YODA-1.0.6_orig
+	tar xvfz DEVRPMS/YODA-1.0.6.tar.gz 
+	cp -R ./YODA-1.0.6 ./YODA-1.0.6_orig
 	cp -R DEVRPMS/YODA/*  ./YODA-1.0.6
 
-YODApatch:
+YODApatch: YODA
 	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
 
 	
@@ -172,11 +175,11 @@ test:
 #	g++ -c YODA-1.0.6/./src/ReaderROOT.cc -I./YODA-1.0.6/include $(shell root-config --cflags ) -o ReaderROOT.o
 #	g++ ReaderROOTtest.o ReaderROOT.o -L./YODA-1.0.6/./src/.libs/libYODA.so -lYODA $(shell root-config --ldflags --glibs ) -o ReaderROOTtest
 
-autoreconf
-./configure  --prefix=$(pwd)/z --enable-root --disable-pyext
-make -j 4
-make install
+#autoreconf
+#./configure  --prefix=$(pwd)/z --enable-root --disable-pyext
+#make -j 4
+#make install
 
 
-convert:
+#convert:
 
