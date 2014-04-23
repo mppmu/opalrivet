@@ -10,7 +10,7 @@
 
 #define USE_DURHAM 
 #define USE_JADE 
-#define USE_CONE
+#define USE_ANTIKT
 using namespace fastjet;
 namespace Rivet
 {
@@ -244,7 +244,8 @@ public:
 
 
 #ifdef USE_ANTIKT
-        for (size_t i = 0; i < 3; ++i) f_h_R_Antikt[i] =    bookScatter2D(465+offset     , 1, i+1,true); //FIXME!
+        for (size_t i = 0; i < 3; ++i) f_h_R_Antikt[i] =    bookScatter2D(1000+offset     , 1, i+1,true); //FIXME!
+        puts("OK");
 #ifdef USE_ANTIKT_R_SCAN
         for (size_t i = 0; i < 3; ++i) f_h_R_Antikt_scan0[i] = bookScatter2D(565+offset     , 1, i+1,true); //FIXME!
 
@@ -349,7 +350,7 @@ public:
 
 #ifdef USE_ANTIKT
         apply2(e,"AntiktJets",f_h_R_Antikt,f_h_y_Antikt);
-        apply2(e,"AntiktJets",f_h_R_Antikt_scan0,f_h_y_Antikt);
+        //apply2(e,"AntiktJets",f_h_R_Antikt_scan0,f_h_y_Antikt);
 
 #ifdef USE_ANTIKT_R_SCAN
         apply3(e,"AntiktJets",f_h_R_S);
@@ -418,13 +419,13 @@ public:
                     f_h_R_Antikt[j]->point(i).y()/fTotalWeight*100,
                     sqrt(f_h_R_Antikt[j]->point(i).y()/fTotalWeight*(1-f_h_R_Antikt[j]->point(i).y()/fTotalWeight)/fTotal)*100);
 
-
+/*
         for ( j = 0; j < 3; ++j)
             for ( i = 0; i < f_h_R_Antikt_scan0[j]->numPoints(); ++i)
                 f_h_R_Antikt_scan0[j]->point(i).setY(
                     f_h_R_Antikt_scan0[j]->point(i).y()/fTotalWeight*100,
                     sqrt(f_h_R_Antikt_scan0[j]->point(i).y()/fTotalWeight*(1-f_h_R_Antikt_scan0[j]->point(i).y()/fTotalWeight)/fTotal)*100);
-
+*/
 #ifdef USE_ANTIKT_R_SCAN
         for ( j = 0; j < 3; ++j)
             for ( i = 0; i < f_h_R_S[j]->numPoints(); ++i)

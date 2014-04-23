@@ -15,8 +15,9 @@ diff -Naur ./Makefile ./Makefile
 diff -Naur ./platform/make.inc.in ./platform/make.inc.in
 --- ./platform/make.inc.in	2013-04-18 14:40:36.000000000 +0200
 +++ ./platform/make.inc.in	2014-04-08 23:45:27.029215859 +0200
-@@ -1,4 +1,5 @@
+@@ -1,4 +1,6 @@
  PREFIX        = @prefix@
++exec_prefix   = @prefix@
 +LIBDIR        = @libdir@
  HEPMCLOCATION = @with_hepmc@
  LHAPDFLOCATION   = @with_lhapdf@

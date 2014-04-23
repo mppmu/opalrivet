@@ -1,6 +1,6 @@
 NAME=JADE_OPAL_2000_S4300807a
-#GEN=sherpa
-GEN=herwig++
+GEN=sherpa
+#GEN=herwig++
 #GEN=pythia8
 all: dirs plots
 
@@ -15,6 +15,7 @@ lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc
 ## -DUSE_DURHAM -DUSE_ANTIKT -DUSE_CONE -DUSE_JADE  -DUSE_ANTIKT_R_SCAN  -DUSE_CA
 ###		-DUSE_DURHAM -DUSE_JADE -DUSE_CONE -DUSE_PX -DUSE_CONE 
 		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall -DUSE_DURHAM -DUSE_JADE 
+		# -DUSE_ANTIKT
 
 
 

@@ -15,10 +15,10 @@ diff -Naur ./Makefile ./Makefile
 diff -Naur ./platform/make.inc.in ./platform/make.inc.in
 --- ./platform/make.inc.in	2011-11-30 12:18:38.000000000 +0100
 +++ ./platform/make.inc.in	2014-04-09 00:13:13.751417714 +0200
-@@ -1,5 +1,6 @@
+@@ -1,4 +1,6 @@
  PREFIX        = @prefix@
++exec_prefix   = @prefix@
++LIBDIR        = @libdir@
  HEPMCLOCATION = @with_hepmc@
-+LIBDIR = @libdir@
  
  F77      = @F77@
- F77FLAGS = @FFLAGS@ -fPIC -fno-automatic -fno-backslash -ffixed-line-length-132
