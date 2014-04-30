@@ -77,9 +77,9 @@ void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
                             const double exminus = x - HH->GetBinLowEdge(i);
                             const double explus = HH->GetBinLowEdge(i+1) - x;
                             const double width = exminus + explus;
-                            dps->addPoint(x, HH->GetBinContent(i)/width,
+                            dps->addPoint(x, HH->GetBinContent(i),
                                           exminus, explus,
-                                          HH->GetBinErrorLow(i)/width, HH->GetBinErrorUp(i)/width);
+                                          HH->GetBinErrorLow(i), HH->GetBinErrorUp(i));
                         }
                     dps->setAnnotation("Title", obj->GetTitle());
                     dps->setAnnotation("XLabel", HH->GetXaxis()->GetTitle());

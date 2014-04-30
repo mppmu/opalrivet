@@ -148,7 +148,7 @@ public:
             {
 
                 int q=0;
-                for (q=0; q<3; q++)
+                for (q=0; q<5; q++)
                     {
                         for ( unsigned int binL = 0; binL < local_f_h_R_jet_algorithm[q]->numPoints(); binL++ )
                             {
@@ -244,7 +244,7 @@ public:
 
 
 #ifdef USE_ANTIKT
-        for (size_t i = 0; i < 3; ++i) f_h_R_Antikt[i] =    bookScatter2D(1000+offset     , 1, i+1,true); //FIXME!
+        for (size_t i = 0; i < 5; ++i) f_h_R_Antikt[i] =    bookScatter2D(1000+offset     , 1, i+1,true); //FIXME!
         puts("OK");
 #ifdef USE_ANTIKT_R_SCAN
         for (size_t i = 0; i < 3; ++i) f_h_R_Antikt_scan0[i] = bookScatter2D(565+offset     , 1, i+1,true); //FIXME!
@@ -413,11 +413,11 @@ public:
 
 #ifdef USE_ANTIKT
 
-        for ( j = 0; j < 3; ++j)
+        for ( j = 0; j < 5; ++j)
             for ( i = 0; i < f_h_R_Antikt[j]->numPoints(); ++i)
                 f_h_R_Antikt[j]->point(i).setY(
-                    f_h_R_Antikt[j]->point(i).y()/fTotalWeight*100,
-                    sqrt(f_h_R_Antikt[j]->point(i).y()/fTotalWeight*(1-f_h_R_Antikt[j]->point(i).y()/fTotalWeight)/fTotal)*100);
+                    f_h_R_Antikt[j]->point(i).y()/fTotalWeight,
+                    sqrt(f_h_R_Antikt[j]->point(i).y()/fTotalWeight*(1-f_h_R_Antikt[j]->point(i).y()/fTotalWeight)/fTotal));
 
 /*
         for ( j = 0; j < 3; ++j)

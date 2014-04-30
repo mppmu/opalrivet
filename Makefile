@@ -184,4 +184,5 @@ zz:
 
 convert:
 	for a in $(ls 
+	for a in $(find 2012-4-27antiktQ | grep rzhist ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./ReaderROOTtest   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
 
