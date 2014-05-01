@@ -36,10 +36,11 @@ int main(int argc, char** argv)
             {
                 if (j==0) convert_formats.first+=mode[i];
                 if (j==1) convert_formats.second+=mode[i];
-                if (j>1)  {printf("Wrong mode string: %s\n",argv[1]); exit(1);}
+                if (j>1)  {printf("Wrong mode string: %s\nMode string should be <format>2<format>.\n",argv[1]); exit(1);}
             }
         else j++;
-
+    if (format_map.find(convert_formats.first )==format_map.end()) { printf("Input format %s is unknown.\n",convert_formats.first.c_str()); exit(2); }
+    if (format_map.find(convert_formats.second)==format_map.end()) { printf("Output format %s is unknown.\n",convert_formats.second.c_str()); exit(2); }
     if (argc==4)
         {
             convert_list.push_back(std::pair<std::string,std::string>(std::string(argv[2]),std::string(argv[3])));
