@@ -36,7 +36,7 @@ int main(int argc, char** argv)
             {
                 if (j==0) convert_formats.first+=mode[i];
                 if (j==1) convert_formats.second+=mode[i];
-                if (j>1)  {printf("Wrong mode: %s\n",argv[1]); exit(1);}
+                if (j>1)  {printf("Wrong mode string: %s\n",argv[1]); exit(1);}
             }
         else j++;
 
