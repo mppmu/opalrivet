@@ -61,10 +61,10 @@ make %{?_smp_mflags}
 
 %install
 make install DESTDIR=$(pwd)/tmp 
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/Herwig++/*rpo
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/defaults/PDF.in
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/share/Herwig++/*rpo
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/share/Herwig++/defaults/PDF.in
+#sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/Herwig++/*rpo
+#sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/defaults/PDF.in
+#sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/share/Herwig++/*rpo
+#sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/share/Herwig++/defaults/PDF.in
 
 #--with-thepeg=%_prefix --prefix=/usr --libdir=/usr/%_lib
 

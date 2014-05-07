@@ -59,19 +59,12 @@ The library documentation is available on header files.
 %patch0 -p0
 
 %build
-mkdir -p $(pwd)/tmp/usr
-mkdir -p $(pwd)/tmp/%_lib
 autoreconf
-./configure  --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib 
+./configure  --prefix=/usr --libdir=/usr/%_lib 
 make %{?_smp_mflags}
 
 %install
-make install
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/bin/thepeg
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/bin/*The*
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/*la
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/*rpo
-sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/Makef*
+make install DESTDIR=$(pwd)/tmp
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 
