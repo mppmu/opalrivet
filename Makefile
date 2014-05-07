@@ -15,6 +15,7 @@ all_%:
 		cp Runherwig++.dat run
 
 		cp Makefile.run run/Makefile
+		make convert
 		make -C run
 
 allold_%: 	
