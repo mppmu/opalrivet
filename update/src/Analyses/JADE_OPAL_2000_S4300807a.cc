@@ -244,8 +244,7 @@ public:
 
 
 #ifdef USE_ANTIKT
-        for (size_t i = 0; i < 5; ++i) f_h_R_Antikt[i] =    bookScatter2D(1000+offset     , 1, i+1,true); //FIXME!
-        puts("OK");
+        for (size_t i = 0; i < 5; ++i) f_h_R_Antikt[i] =       bookScatter2D(1000+offset     , 1, i+1,true); //FIXME!
 #ifdef USE_ANTIKT_R_SCAN
         for (size_t i = 0; i < 3; ++i) f_h_R_Antikt_scan0[i] = bookScatter2D(565+offset     , 1, i+1,true); //FIXME!
 
