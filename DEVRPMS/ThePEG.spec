@@ -68,6 +68,7 @@ make %{?_smp_mflags}
 %install
 make install
 sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/bin/thepeg
+sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/bin/*The*
 sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/*la
 sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/*rpo
 sed -i s@$(pwd)/tmp/usr/@/usr/@g  $(pwd)/tmp/usr/%_lib/ThePEG/Makef*
