@@ -9,6 +9,7 @@
 #include "fastjet/JetDefinition.hh"
 
 #define USE_DURHAM 
+#define USE_CONE
 #define USE_JADE 
 #define USE_ANTIKT
 using namespace fastjet;
@@ -233,7 +234,7 @@ public:
 
 
 #ifdef USE_CONE
-        for (size_t i = 0; i < 3; ++i) f_h_R_Cone[i] =      bookScatter2D(265+offset     , 1, i+1,true);
+        for (size_t i = 0; i < 5; ++i) f_h_R_Cone[i] =      bookScatter2D(4000+offset     , 1, i+1,true); //R=0.4 =4000
 #endif
 
 #ifdef USE_CA
@@ -386,11 +387,11 @@ public:
 #endif
 
 #ifdef USE_CONE
-        for ( j = 0; j < 3; ++j)
+        for ( j = 0; j < 5; ++j)
             for ( i = 0; i < f_h_R_Cone[j]->numPoints(); ++i)
                 f_h_R_Cone[j]->point(i).setY(
-                    f_h_R_Cone[j]->point(i).y()/fTotalWeight*100,
-                    sqrt(f_h_R_Cone[j]->point(i).y()/fTotalWeight*(1-f_h_R_Cone[j]->point(i).y()/fTotalWeight)/fTotal)*100);
+                    f_h_R_Cone[j]->point(i).y()/fTotalWeight,
+                    sqrt(f_h_R_Cone[j]->point(i).y()/fTotalWeight*(1-f_h_R_Cone[j]->point(i).y()/fTotalWeight)/fTotal));
 #endif
 
 #ifdef USE_PX

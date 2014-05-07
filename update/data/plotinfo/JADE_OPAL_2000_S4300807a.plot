@@ -38,6 +38,58 @@ LogX=1
 
 
 
+
+
+
+
+# BEGIN PLOT /JADE_OPAL_2000_S4300807a/d4014-x01-y01
+Title=Integrated 2-jet rate with SISCone algorithm (189 GeV)
+XLabel=$y_{\text{cut}}^\text{SISCone}$
+YLabel=$R_2$
+LogX=1
+# END PLOT
+
+# BEGIN PLOT /JADE_OPAL_2000_S4300807a/d4014-x01-y02
+Title=Integrated 3-jet rate with SISCone algorithm (189 GeV)
+XLabel=$y_{\text{cut}}^\text{SISCone}$
+YLabel=$R_3$
+LogX=1
+# END PLOT
+
+# BEGIN PLOT /JADE_OPAL_2000_S4300807a/d4014-x01-y03
+Title=Integrated 4-jet rate with SISCone algorithm (189 GeV)
+XLabel=$y_{\text{cut}}^\text{SISCone}$
+YLabel=$R_4$
+LogX=1
+# END PLOT
+
+# BEGIN PLOT /JADE_OPAL_2000_S4300807a/d4014-x01-y04
+Title=Integrated 5-jet rate with SISCone algorithm (189 GeV)
+XLabel=$y_{\text{cut}}^\text{SISCone}$
+YLabel=$R_5$
+LogX=1
+# END PLOT
+
+# BEGIN PLOT /JADE_OPAL_2000_S4300807a/d4014-x01-y05
+Title=Integrated $\geq$6-jet rate with SISCone algorithm (189 GeV)
+XLabel=$y_{\text{cut}}^\text{SISCone}$
+YLabel=$R_{\geq 6}$
+LogX=1
+# END PLOT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # BEGIN PLOT /JADE_OPAL_2000_S4300807a/d07-x01-y01
 Title=Integrated 2-jet rate with Jade algorithm (35 GeV)
 XLabel=$y_{\text{cut}}^\text{Jade}$

@@ -11,5 +11,6 @@ sed -i 's@LineStyle=solid@PolyMarker=*@g' $(ls -1 out/$1/d14*.dat  out/$1/d13*.d
 
 sed -i 's@LineStyle=solid@PolyMarker=*@g' $(ls -1 out/$1/d23*.dat  out/$1/d22*.dat out/$1/d21*.dat out/$1/d21*.dat  out/$1/d20*.dat out/$1/d19*.dat out/$1/d18*.dat  out/$1/d17*.dat  out/$1/d16*.dat )
 
+sed -i 's@LineStyle=solid@PolyMarker=*@g' $(ls -1 out/$1/d43*.dat  out/$1/d42*.dat out/$1/d41*.dat out/$1/d41*.dat  out/$1/d40*.dat out/$1/d409*.dat out/$1/d408*.dat  out/$1/d407*.dat  out/$1/d406*.dat )
 
 make-plots --pdfpng out/*.dat   out/$1/*.dat
