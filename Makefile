@@ -128,7 +128,7 @@ binrpm_%:
 
 
 beauty:
-		astyle -n --keep-one-line-blocks --style=gnu   src/* ./*cc
+		astyle -n --keep-one-line-blocks --style=gnu   src/*
 		
 srcrpm: DEVRPMS/Rivet-$(VERS).tar.gz 
 	rm -rf DEVRPMS/Rivet-$(VERS)
@@ -171,15 +171,9 @@ YODApatch: YODA
 	
 test:
 		g++ ReaderROOTtest.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o ReaderROOTtest
-		./ReaderROOTtest
 #	g++ -c ReaderROOTtest.cc -I./YODA-1.0.6/include $(shell root-config --cflags )   -o ReaderROOTtest.o
 #	g++ -c YODA-1.0.6/./src/ReaderROOT.cc -I./YODA-1.0.6/include $(shell root-config --cflags ) -o ReaderROOT.o
 #	g++ ReaderROOTtest.o ReaderROOT.o -L./YODA-1.0.6/./src/.libs/libYODA.so -lYODA $(shell root-config --ldflags --glibs ) -o ReaderROOTtest
-
-
-yodaconvert: yodaconvert.cc
-		g++ -std=gnu++0x yodaconvert.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o yodaconvert
-		./yodaconvert
 
 zz:
 	autoreconf
