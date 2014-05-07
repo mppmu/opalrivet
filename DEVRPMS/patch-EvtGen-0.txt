@@ -91,14 +91,19 @@ diff -Naur ./configure ./configure
 diff -Naur ./Makefile ./Makefile
 --- ./Makefile	2012-09-18 16:37:21.000000000 +0200
 +++ ./Makefile	2014-04-09 00:46:51.998188412 +0200
-@@ -25,8 +25,8 @@
+@@ -25,10 +25,10 @@
  
  install:
  	if test "${PREFIX}" != "." ; then \
 -	  mkdir -p ${PREFIX}/lib ${PREFIX}/include ${PREFIX}/share && \
 -	  cp -rf lib/* ${PREFIX}/lib/ && \
-+	  mkdir -p ${LIBDIR} ${PREFIX}/include ${PREFIX}/share && \
-+	  cp -rf lib/* ${LIBDIR}/ && \
- 	  cp -rf EvtGen EvtGenBase EvtGenModels EvtGenExternal ${PREFIX}/include/ && \
- 	  cp -rf *.DEC *.XML evt.pdl ${PREFIX}/share/ ; \
+-	  cp -rf EvtGen EvtGenBase EvtGenModels EvtGenExternal ${PREFIX}/include/ && \
+-	  cp -rf *.DEC *.XML evt.pdl ${PREFIX}/share/ ; \
++	  mkdir -p ${DESTDIR}/${PREFIX}/lib ${DESTDIR}/${PREFIX}/include ${DESTDIR}/${PREFIX}/share && \
++	  cp -rf lib/* ${DESTDIR}/$(LIBDIR) && \
++	  cp -rf EvtGen EvtGenBase EvtGenModels EvtGenExternal ${DESTDIR}/${PREFIX}/include/ && \
++	  cp -rf *.DEC *.XML evt.pdl ${DESTDIR}/${PREFIX}/share/ ; \
          fi
+ 
+ distclean: clean
+

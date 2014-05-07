@@ -63,11 +63,11 @@ The library documentation is available on header files.
 mkdir -p $(pwd)/tmp/usr
 mkdir -p $(pwd)/tmp/%_lib
 #autoreconf
-./configure  --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --hepmcdir=/usr --pythiadir=/usr --photosdir=/usr --tauoladir=/usr
-make %{?_smp_mflags}
+./configure  --prefix=/usr --libdir=/usr/%_lib --hepmcdir=/usr --pythiadir=/usr --photosdir=/usr --tauoladir=/usr
+make -k %{?_smp_mflags}
 
 %install
-make install
+make install DESTDIR=$(pwd)/tmp 
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 
