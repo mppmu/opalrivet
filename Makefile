@@ -182,7 +182,14 @@ zz:
 	make install
 
 
+
 convert:
-	for a in $(ls 
-	for a in $(find 2012-4-27antiktQ | grep rzhist ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./ReaderROOTtest   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
+#	for a in $(ls 
+	for a in $(find 2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./yodaconvert  root2yoda   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
+
+
+
+yodaconvert:
+		g++ -std=c++0x yodaconvert.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o yodaconvert
+
 
