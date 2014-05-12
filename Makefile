@@ -82,6 +82,11 @@ DEVRPMS/HepMC-2.06.09.tar.gz:
 DEVRPMS/YODA-1.0.6.tar.gz: 
 		wget http://www.hepforge.org/archive/yoda/YODA-1.0.6.tar.gz -O DEVRPMS/YODA-1.0.6.tar.gz
 
+DEVRPMS/fastjet-3.0.2.tar.gz: 
+		wget http://www.fastjet.fr/repo/fastjet-3.0.2.tar.gz -O DEVRPMS/fastjet-3.0.2.tar.gz
+
+
+
 DEVRPMS/pythia8180.tgz:
 		wget http://home.thep.lu.se/~torbjorn/pythia8/pythia8180.tgz -O DEVRPMS/pythia8180.tgz
  
@@ -102,7 +107,7 @@ DEVRPMS/AGILe-1.4.1.tar.gz:
 	wget http://www.hepforge.org/archive/agile/AGILe-1.4.1.tar.gz -O DEVRPMS/AGILe-1.4.1.tar.gz
 
 
-getallsrc: DEVRPMS/Cython-0.19.tar.gz DEVRPMS/pythia8180.tgz DEVRPMS/TAUOLA-1.1.4.tar.gz DEVRPMS/PHOTOS-3.54.tar.gz DEVRPMS/EvtGen-1.3.0.tar.gz DEVRPMS/HepMC-2.06.09.tar.gz DEVRPMS/YODA-1.0.6.tar.gz DEVRPMS/SHERPA-MC-2.1.0.tar.gz DEVRPMS/ThePEG-1.9.0.tar.bz2 DEVRPMS/Herwig++-2.7.0.tar.bz2  DEVRPMS/Cython-0.19.tar.gz DEVRPMS/AGILe-1.4.1.tar.gz
+getallsrc: DEVRPMS/fastjet-3.0.2.tar.gz DEVRPMS/Cython-0.19.tar.gz DEVRPMS/pythia8180.tgz DEVRPMS/TAUOLA-1.1.4.tar.gz DEVRPMS/PHOTOS-3.54.tar.gz DEVRPMS/EvtGen-1.3.0.tar.gz DEVRPMS/HepMC-2.06.09.tar.gz DEVRPMS/YODA-1.0.6.tar.gz DEVRPMS/SHERPA-MC-2.1.0.tar.gz DEVRPMS/ThePEG-1.9.0.tar.bz2 DEVRPMS/Herwig++-2.7.0.tar.bz2  DEVRPMS/Cython-0.19.tar.gz DEVRPMS/AGILe-1.4.1.tar.gz
 
 
 installallsrc: getallsrc   DEVRPMS/HepMC-examples-hwaend.patch DEVRPMS/HepMC-examples-makefile.patch DEVRPMS/HepMC-fix-typo-hierachy-hierarchy.patch DEVRPMS/HepMC-linking.patch DEVRPMS/patch-EvtGen-0.txt DEVRPMS/patch-PHOTOS-0.txt DEVRPMS/patch-TAUOLA-0.txt DEVRPMS/patch-ThePEG-0.txt DEVRPMS/pythia8-fix-soname.patch DEVRPMS/pythia8-hepmc-version.patch DEVRPMS/pythia8-xmldir.patch
@@ -166,6 +171,7 @@ YODA: DEVRPMS/YODA-1.0.6.tar.gz
 	cp -R ./YODA-1.0.6 ./YODA-1.0.6_orig
 	rm -f ./YODA-1.0.6/bin/*2*
 	rm -f ./YODA-1.0.6/pyext/yoda/script*
+##	rm -f ./YODA-1.0.6/pyext/yoda/*root*
 	cp -R DEVRPMS/YODA/bin/*  ./YODA-1.0.6/bin
 	cp -R DEVRPMS/YODA/include/*  ./YODA-1.0.6/include
 	cp -R DEVRPMS/YODA/pyext/*  ./YODA-1.0.6/pyext
@@ -285,7 +291,8 @@ yodaconvert:
 
 
 cut_and_transform: cut_and_transform.cc
-				g++ -std=c++0x cut_and_transform.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o cut_and_transform
+				g++ -std=c++0x cut_and_transform.cc  $(shell root-config --cflags --libs --ldflags) $(yoda-config  --libs --cppflags)  -o cut_and_transform
+#				g++ -std=c++0x cut_and_transform.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o cut_and_transform
 
 
 
