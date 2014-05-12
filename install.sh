@@ -55,6 +55,16 @@ wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-static-devel-3.0.2-1.x
 
 
 
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-core-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-cint-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-io-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-hist-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-graf-5.34.18-1.el6.x86_64.rpm
+#wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-graf-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-mathcore-5.34.18-1.el6.x86_64.rpm
+wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-net-5.34.18-1.el6.x86_64.rpm
+
 rm -rf top
 mkdir -p top
 cd top

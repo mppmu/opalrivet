@@ -4,3 +4,8 @@ cat $(which rivet-buildplugin).old  | sed  's@yoda="/usr@yoda="'$(pwd)/top/usr'@
 
 cp $(which yoda-config)  $(which yoda-config).old
 cat $(which yoda-config).old  |      sed  's@/usr/bin/env\ bash@/bin/bash@g' | sed  's@/usr@'$(pwd)/top/usr'@g' >  $(which yoda-config)
+
+
+
+cp $(which root-config)  $(which root-config).old
+cat $(which root-config).old  | sed  's@dir=/usr@dir='$(pwd)/top/usr'@g' >  $(which root-config)

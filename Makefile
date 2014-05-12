@@ -291,7 +291,9 @@ yodaconvert:
 
 
 cut_and_transform: cut_and_transform.cc
-				g++ -std=c++0x cut_and_transform.cc  $(shell root-config --cflags --libs --ldflags) $(yoda-config  --libs --cppflags)  -o cut_and_transform
+#				g++ -std=c++0x cut_and_transform.cc  $(shell root-config --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o cut_and_transform
+				g++ -std=c++0x cut_and_transform.cc  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o cut_and_transform
+
 #				g++ -std=c++0x cut_and_transform.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o cut_and_transform
 
 
