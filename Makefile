@@ -165,8 +165,11 @@ YODA: DEVRPMS/YODA-1.0.6.tar.gz
 	tar xvfz DEVRPMS/YODA-1.0.6.tar.gz 
 	cp -R ./YODA-1.0.6 ./YODA-1.0.6_orig
 	rm -f ./YODA-1.0.6/bin/*2*
-	rm -f ./YODA-1.0.6/pyext/script*
-	cp -R DEVRPMS/YODA/*  ./YODA-1.0.6
+	rm -f ./YODA-1.0.6/pyext/yoda/script*
+	cp -R DEVRPMS/YODA/bin/*  ./YODA-1.0.6/bin
+	cp -R DEVRPMS/YODA/include/*  ./YODA-1.0.6/include
+	cp -R DEVRPMS/YODA/pyext/*  ./YODA-1.0.6/pyext
+	cp -R DEVRPMS/YODA/src/*  ./YODA-1.0.6/src
 
 YODApatch: YODA
 	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
