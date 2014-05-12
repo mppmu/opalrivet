@@ -1,6 +1,278 @@
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2flat ./bin/aida2flat
+--- ./bin/aida2flat	2014-05-12 17:25:39.660318585 +0200
++++ ./bin/aida2flat	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-#! /usr/bin/env python
+-
+-"""\
+-%prog aidafile [flatfile]
+-
+-Convert an AIDA data file to a 'flat', human-readable data format.
+-"""
+-
+-import yoda, os, sys, optparse
+-from yoda.script_helpers import parse_x2y_args
+-
+-parser = optparse.OptionParser(usage=__doc__)
+-opts, args = parser.parse_args()
+-in_out = parse_x2y_args(args, ".aida", ".dat")
+-if not in_out:
+-    sys.stderr.write("You must specify the AIDA and FLAT file names\n")
+-    sys.exit(1)
+-
+-for i, o in in_out:
+-    analysisobjects = yoda.readAIDA(i)
+-    yoda.writeFLAT(analysisobjects, o)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2yoda ./bin/aida2yoda
+--- ./bin/aida2yoda	2014-05-12 17:25:39.661318577 +0200
++++ ./bin/aida2yoda	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-#! /usr/bin/env python
+-
+-"""\
+-%prog aidafile [yodafile]
+-
+-Convert an AIDA data file to the YODA data format.
+-"""
+-
+-import yoda, os, sys, optparse
+-from yoda.script_helpers import parse_x2y_args
+-
+-parser = optparse.OptionParser(usage=__doc__)
+-opts, args = parser.parse_args()
+-in_out = parse_x2y_args(args, ".aida", ".yoda")
+-if not in_out:
+-    sys.stderr.write("You must specify the AIDA and YODA file names\n")
+-    sys.exit(1)
+-
+-for i, o in in_out:
+-    analysisobjects = yoda.readAIDA(i)
+-    yoda.writeYODA(analysisobjects, o)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/flat2yoda ./bin/flat2yoda
+--- ./bin/flat2yoda	2014-05-12 17:25:39.661318577 +0200
++++ ./bin/flat2yoda	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-#! /usr/bin/env python
+-
+-"""\
+-%prog flatfile [yodafile]
+-
+-Convert a FLAT data file to the YODA data format.
+-"""
+-
+-import yoda, os, sys, optparse
+-from yoda.script_helpers import parse_x2y_args
+-
+-parser = optparse.OptionParser(usage=__doc__)
+-opts, args = parser.parse_args()
+-in_out = parse_x2y_args(args, ".dat", ".yoda")
+-if not in_out:
+-    sys.stderr.write("You must specify the FLAT and YODA file names\n")
+-    sys.exit(1)
+-
+-for i, o in in_out:
+-    analysisobjects = yoda.readFLAT(i)
+-    yoda.writeYODA(analysisobjects, o)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2aida ./bin/yoda2aida
+--- ./bin/yoda2aida	2014-05-12 17:25:39.661318577 +0200
++++ ./bin/yoda2aida	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-#! /usr/bin/env python
+-
+-"""\
+-%prog yodafile [aidafile]
+-
+-Convert a YODA data file to the old AIDA XML data format.
+-"""
+-
+-import yoda, os, sys, optparse
+-from yoda.script_helpers import parse_x2y_args
+-
+-parser = optparse.OptionParser(usage=__doc__)
+-opts, args = parser.parse_args()
+-in_out = parse_x2y_args(args, ".yoda", ".aida")
+-if not in_out:
+-    sys.stderr.write("You must specify the YODA and AIDA file names\n")
+-    sys.exit(1)
+-
+-for i, o in in_out:
+-    analysisobjects = yoda.readYODA(i)
+-    yoda.writeAIDA(analysisobjects, o)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2flat ./bin/yoda2flat
+--- ./bin/yoda2flat	2014-05-12 17:25:39.660318585 +0200
++++ ./bin/yoda2flat	1970-01-01 01:00:00.000000000 +0100
+@@ -1,21 +0,0 @@
+-#! /usr/bin/env python
+-
+-"""\
+-%prog yodafile [flatfile]
+-
+-Convert a YODA data file to a 'flat', more human-readable data format.
+-"""
+-
+-import yoda, os, sys, optparse
+-from yoda.script_helpers import parse_x2y_args
+-
+-parser = optparse.OptionParser(usage=__doc__)
+-opts, args = parser.parse_args()
+-in_out = parse_x2y_args(args, ".yoda", ".dat")
+-if not in_out:
+-    sys.stderr.write("You must specify the YODA and FLAT file names\n")
+-    sys.exit(1)
+-
+-for i, o in in_out:
+-    analysisobjects = yoda.readYODA(i)
+-    yoda.writeFLAT(analysisobjects, o)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2root ./bin/yoda2root
+--- ./bin/yoda2root	2014-05-12 17:25:39.659318592 +0200
++++ ./bin/yoda2root	1970-01-01 01:00:00.000000000 +0100
+@@ -1,26 +0,0 @@
+-#! /usr/bin/env python
+-
+-"""\
+-%prog yodafile [rootfile]
+-
+-Convert a YODA data file to the ROOT data format.
+-"""
+-
+-import yoda, os, sys, optparse
+-from yoda.script_helpers import parse_x2y_args
+-
+-parser = optparse.OptionParser(usage=__doc__)
+-opts, args = parser.parse_args()
+-in_out = parse_x2y_args(args, ".yoda", ".root")
+-if not in_out:
+-    sys.stderr.write("You must specify the YODA and ROOT file names\n")
+-    sys.exit(1)
+-
+-import ROOT
+-for i, o in in_out:
+-    of = ROOT.TFile(o, "recreate")
+-    analysisobjects = yoda.readYODA(i)
+-    rootobjects = [yoda.to_root(ao) for ao in analysisobjects.values()]
+-    #print rootobjects
+-    of.Write()
+-    of.Close()
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/yodaconvert.cc
+--- ./bin/yodaconvert.cc	1970-01-01 01:00:00.000000000 +0100
++++ ./bin/yodaconvert.cc	2014-05-12 17:25:39.703318257 +0200
+@@ -0,0 +1,113 @@
++/* AV 2014 */
++#include "YODA/WriterYODA.h"
++#include "YODA/ReaderYODA.h"
++#include "YODA/WriterFLAT.h"
++#include "YODA/ReaderFLAT.h"
++#include "YODA/WriterAIDA.h"
++#include "YODA/ReaderAIDA.h"
++//#include "YODA/WriterROOT.h"
++#include "YODA/ReaderROOT.h"
++#include <cmath>
++#include <vector>
++#include <string>
++#include <functional>
++#include <fstream>
++
++using namespace std;
++using namespace YODA;
++enum formats {yoda, flat, aida, root};
++int main(int argc, char** argv)
++{
++    if (argc<3)
++        {
++            printf("\
++	Usage: %s <mode> <input_file.input_extension>    <output_file.output_extension>, or\n\
++	       %s <mode> <input_file1[.input_extension]> <input_file2[.input_extension]> ...\n\
++	Supported modes are: yoda2flat yoda2aida flat2yoda flat2aida aida2flat aida2yoda root2flat root2aida root2yoda.\n",argv[0],argv[0]);
++            exit(1);
++        }
++    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }, { "root", formats::root }       };
++    std::vector<std::pair <std::string,std::string> > convert_list;
++    std::pair<std::string,std::string> convert_formats;
++    std::string mode(argv[1]);
++    int i,j=0;
++    for (i=0; i<mode.size(); i++)
++        if (mode[i]!='2')
++            {
++                if (j==0) convert_formats.first+=mode[i];
++                if (j==1) convert_formats.second+=mode[i];
++                if (j>1)  {printf("Wrong mode string: %s\nMode string should be <format>2<format>.\n",argv[1]); exit(1);}
++            }
++        else j++;
++    if (format_map.find(convert_formats.first )==format_map.end()) { printf("Input format %s is unknown.\n",convert_formats.first.c_str()); exit(2); }
++    if (format_map.find(convert_formats.second)==format_map.end()) { printf("Output format %s is unknown.\n",convert_formats.second.c_str()); exit(2); }
++    if (argc==4)
++        {
++            convert_list.push_back(std::pair<std::string,std::string>(std::string(argv[2]),std::string(argv[3])));
++            if ((convert_list.back().first.substr(convert_list.back().first.find_last_of(".") + 1) != convert_formats.first) ||
++                    (convert_list.back().second.substr(convert_list.back().second.find_last_of(".") + 1) != convert_formats.second))
++                { printf("The conversion mode=%s doesn't match extensions of %s %s files\n",argv[1],argv[2],argv[3]); exit(1);}
++        }
++    else
++        for (i=2; i<argc; i++)
++            {
++                convert_list.push_back(std::pair<std::string,std::string>(std::string(argv[i]),std::string(argv[i])));
++                if (convert_list.back().first.substr(convert_list.back().first.find_last_of(".") + 1) == convert_formats.first)
++                    convert_list.back().second.replace(convert_list.back().second.find_last_of(".") + 1,convert_formats.first.size(), convert_formats.second);
++                else
++                    {
++                        convert_list.back().second+= ".";
++                        convert_list.back().second+=convert_formats.second;
++                    }
++            }
++
++    std::vector<AnalysisObject*> in;
++    for (i=0; i<convert_list.size(); i++)
++        {
++            switch (format_map.at(convert_formats.first))
++                {
++                case formats::yoda:
++                    in=ReaderYODA::create().read(convert_list[i].first);
++                    break;
++                case formats::flat:
++                    in=ReaderFLAT::create().read(convert_list[i].first);
++                    break;
++                case formats::aida:
++                    in=ReaderAIDA::create().read(convert_list[i].first);
++                    break;
++                case formats::root:
++                    in=ReaderROOT::create(convert_list[i].first).read("just_a_place_holder");
++                    break;
++                default:
++                    printf("Input format %s is unknown.\n",convert_formats.first.c_str());
++                    exit(2);
++                    break;
++                }
++
++            ofstream ofile;
++            ofile.open (convert_list[i].second.c_str());
++            switch (format_map.at(convert_formats.second))
++                {
++                case formats::yoda:
++                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterYODA::write(ofile, (**j));
++                    break;
++                case formats::flat:
++                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterFLAT::write(ofile, (**j));
++                    break;
++                case formats::aida:
++                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterAIDA::write(ofile, (**j));
++                    break;
++                case formats::root:
++                    printf("WriterROOT is not implemented yet.\n");
++                    exit(2);
++                    break;
++                default:
++                    printf("Output format %s is unknown.\n",convert_formats.second.c_str());
++                    exit(2);
++                    break;
++                }
++            ofile.close();
++        }
++
++    exit(0);
++}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h ./include/YODA/ReaderROOT.h
 --- ./include/YODA/ReaderROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ReaderROOT.h	2014-04-22 19:30:55.118339250 +0200
++++ ./include/YODA/ReaderROOT.h	2014-05-12 17:25:39.718318142 +0200
 @@ -0,0 +1,299 @@
 +// -*- C++ -*-
 +//
@@ -302,8 +574,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./include/YODA/ROOTCnv.h
---- ./include/YODA/ROOTCnv.h	2014-04-22 19:30:55.085339541 +0200
-+++ ./include/YODA/ROOTCnv.h	2014-04-22 19:30:55.118339250 +0200
+--- ./include/YODA/ROOTCnv.h	2014-05-12 17:25:39.588319135 +0200
++++ ./include/YODA/ROOTCnv.h	2014-05-12 17:25:39.717318150 +0200
 @@ -15,6 +15,11 @@
  #include "TProfile.h"
  #include "TGraphAsymmErrors.h"
@@ -317,8 +589,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./
  namespace YODA {
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/core.pyx ./pyext/yoda/core.pyx
---- ./pyext/yoda/core.pyx	2014-04-22 19:30:55.096339444 +0200
-+++ ./pyext/yoda/core.pyx	2014-04-22 19:30:55.130339144 +0200
+--- ./pyext/yoda/core.pyx	2014-05-12 17:25:39.637318760 +0200
++++ ./pyext/yoda/core.pyx	2014-05-12 17:25:39.749317906 +0200
 @@ -32,5 +32,5 @@
  include "include/HistoBin2D.pyx"
  include "include/Histo2D.pyx"
@@ -327,8 +599,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/core.pyx ./pye
 +##include "include/Functions.pyx"
  include "include/IO.pyx"
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.pxd ./pyext/yoda/declarations.pxd
---- ./pyext/yoda/declarations.pxd	2014-04-22 19:30:55.096339444 +0200
-+++ ./pyext/yoda/declarations.pxd	2014-04-22 19:30:55.130339144 +0200
+--- ./pyext/yoda/declarations.pxd	2014-05-12 17:25:39.630318814 +0200
++++ ./pyext/yoda/declarations.pxd	2014-05-12 17:25:39.748317913 +0200
 @@ -969,6 +969,9 @@
  cdef extern from "YODA/ReaderFLAT.h" namespace "YODA":
      Reader& ReaderFLAT_create "YODA::ReaderFLAT::create" ()
@@ -340,8 +612,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
      Reader& ReaderAIDA_create "YODA::ReaderAIDA::create" ()
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./pyext/yoda/Makefile.am
---- ./pyext/yoda/Makefile.am	2014-04-22 19:30:55.089339505 +0200
-+++ ./pyext/yoda/Makefile.am	2014-04-22 19:30:55.121339223 +0200
+--- ./pyext/yoda/Makefile.am	2014-05-12 17:25:39.607318989 +0200
++++ ./pyext/yoda/Makefile.am	2014-05-12 17:25:39.732318035 +0200
 @@ -40,6 +40,10 @@
      mktemplates \
      core.cpp core.h util.cpp
@@ -354,8 +626,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
  if WITH_CYTHON
  core.cpp: $(CYTHON_SRC)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./pyext/yoda/mktemplates
---- ./pyext/yoda/mktemplates	2014-04-22 19:30:55.096339444 +0200
-+++ ./pyext/yoda/mktemplates	2014-04-22 19:30:55.130339144 +0200
+--- ./pyext/yoda/mktemplates	2014-05-12 17:25:39.631318806 +0200
++++ ./pyext/yoda/mktemplates	2014-05-12 17:25:39.749317906 +0200
 @@ -50,9 +50,9 @@
      #print plain_name
  
@@ -369,8 +641,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./
          else: raise
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Makefile.am
---- ./src/Makefile.am	2014-04-22 19:30:55.098339426 +0200
-+++ ./src/Makefile.am	2014-04-22 19:30:55.131339135 +0200
+--- ./src/Makefile.am	2014-05-12 17:25:39.652318645 +0200
++++ ./src/Makefile.am	2014-05-12 17:25:39.755317860 +0200
 @@ -21,6 +21,12 @@
      Scatter2D.cc \
      Scatter3D.cc
@@ -387,8 +659,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Mak
 +libYODA_la_CPPFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reader.cc
---- ./src/Reader.cc	2014-04-22 19:30:55.099339417 +0200
-+++ ./src/Reader.cc	2014-04-22 19:30:55.135339102 +0200
+--- ./src/Reader.cc	2014-05-12 17:25:39.653318638 +0200
++++ ./src/Reader.cc	2014-05-12 17:25:39.767317768 +0200
 @@ -5,22 +5,26 @@
  //
  #include "YODA/Reader.h"
@@ -421,7 +693,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
  }
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/ReaderROOT.cc
 --- ./src/ReaderROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ReaderROOT.cc	2014-04-22 19:30:55.131339135 +0200
++++ ./src/ReaderROOT.cc	2014-05-12 17:25:39.754317867 +0200
 @@ -0,0 +1,164 @@
 +// -*- C++ -*-
 +//
@@ -502,9 +774,9 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +                            const double exminus = x - HH->GetBinLowEdge(i);
 +                            const double explus = HH->GetBinLowEdge(i+1) - x;
 +                            const double width = exminus + explus;
-+                            dps->addPoint(x, HH->GetBinContent(i)/width,
++                            dps->addPoint(x, HH->GetBinContent(i),
 +                                          exminus, explus,
-+                                          HH->GetBinErrorLow(i)/width, HH->GetBinErrorUp(i)/width);
++                                          HH->GetBinErrorLow(i), HH->GetBinErrorUp(i));
 +                        }
 +                    dps->setAnnotation("Title", obj->GetTitle());
 +                    dps->setAnnotation("XLabel", HH->GetXaxis()->GetTitle());

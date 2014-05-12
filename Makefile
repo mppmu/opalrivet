@@ -164,6 +164,8 @@ YODA: DEVRPMS/YODA-1.0.6.tar.gz
 	rm -rf ./YODA-1.0.6 ./YODA-1.0.6_orig
 	tar xvfz DEVRPMS/YODA-1.0.6.tar.gz 
 	cp -R ./YODA-1.0.6 ./YODA-1.0.6_orig
+	rm -f ./YODA-1.0.6/bin/*2*
+	rm -f ./YODA-1.0.6/pyext/script*
 	cp -R DEVRPMS/YODA/*  ./YODA-1.0.6
 
 YODApatch: YODA

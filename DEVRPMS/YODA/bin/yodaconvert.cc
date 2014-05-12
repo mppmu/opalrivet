@@ -5,8 +5,10 @@
 #include "YODA/ReaderFLAT.h"
 #include "YODA/WriterAIDA.h"
 #include "YODA/ReaderAIDA.h"
+#ifdef ENABLE_ROOT
 //#include "YODA/WriterROOT.h"
 #include "YODA/ReaderROOT.h"
+#endif
 #include <cmath>
 #include <vector>
 #include <string>
@@ -15,7 +17,11 @@
 
 using namespace std;
 using namespace YODA;
-enum formats {yoda, flat, aida, root};
+enum formats {yoda, flat, aida
+#ifdef ENABLE_ROOT
+, root
+#endif
+};
 int main(int argc, char** argv)
 {
     if (argc<3)
@@ -26,7 +32,11 @@ int main(int argc, char** argv)
 	Supported modes are: yoda2flat yoda2aida flat2yoda flat2aida aida2flat aida2yoda root2flat root2aida root2yoda.\n",argv[0],argv[0]);
             exit(1);
         }
-    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }, { "root", formats::root }       };
+    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }
+#ifdef ENABLE_ROOT
+    , { "root", formats::root }       
+#endif
+    };
     std::vector<std::pair <std::string,std::string> > convert_list;
     std::pair<std::string,std::string> convert_formats;
     std::string mode(argv[1]);
@@ -75,9 +85,11 @@ int main(int argc, char** argv)
                 case formats::aida:
                     in=ReaderAIDA::create().read(convert_list[i].first);
                     break;
+#ifdef ENABLE_ROOT
                 case formats::root:
                     in=ReaderROOT::create(convert_list[i].first).read("just_a_place_holder");
                     break;
+#endif
                 default:
                     printf("Input format %s is unknown.\n",convert_formats.first.c_str());
                     exit(2);
@@ -97,10 +109,12 @@ int main(int argc, char** argv)
                 case formats::aida:
                     for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterAIDA::write(ofile, (**j));
                     break;
+#ifdef ENABLE_ROOT
                 case formats::root:
                     printf("WriterROOT is not implemented yet.\n");
                     exit(2);
                     break;
+#endif
                 default:
                     printf("Output format %s is unknown.\n",convert_formats.second.c_str());
                     exit(2);
