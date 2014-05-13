@@ -6,7 +6,7 @@
 #include "YODA/WriterAIDA.h"
 #include "YODA/ReaderAIDA.h"
 #ifdef ENABLE_ROOT
-//#include "YODA/WriterROOT.h"
+#include "YODA/WriterROOT.h"
 #include "YODA/ReaderROOT.h"
 #endif
 #include <cmath>
@@ -97,22 +97,27 @@ int main(int argc, char** argv)
                 }
 
             ofstream ofile;
-            ofile.open (convert_list[i].second.c_str());
+            
             switch (format_map.at(convert_formats.second))
                 {
                 case formats::yoda:
+                ofile.open (convert_list[i].second.c_str());
                     for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterYODA::write(ofile, (**j));
+                    ofile.close();
                     break;
                 case formats::flat:
+                ofile.open (convert_list[i].second.c_str());
                     for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterFLAT::write(ofile, (**j));
+                    ofile.close();
                     break;
                 case formats::aida:
+                ofile.open (convert_list[i].second.c_str());
                     for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterAIDA::write(ofile, (**j));
+                    ofile.close();
                     break;
 #ifdef ENABLE_ROOT
                 case formats::root:
-                    printf("WriterROOT is not implemented yet.\n");
-                    exit(2);
+                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterROOT::write(convert_list[i].second.c_str(), (**j));                    
                     break;
 #endif
                 default:
@@ -120,7 +125,7 @@ int main(int argc, char** argv)
                     exit(2);
                     break;
                 }
-            ofile.close();
+            
         }
 
     exit(0);

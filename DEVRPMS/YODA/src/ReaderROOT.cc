@@ -7,7 +7,6 @@
 #include "YODA/ReaderROOT.h"
 #include "YODA/Utils/StringUtils.h"
 #include "YODA/Exceptions.h"
-
 #include <iostream>
 
 
@@ -16,17 +15,15 @@ using namespace std;
 
 namespace YODA
 {
-ReaderROOT::histo1d ReaderROOT::_histo1d;
-ReaderROOT::profile1d ReaderROOT::_profile1d;
-ReaderROOT::scatter2d ReaderROOT::_scatter2d;
-std::map<std::string, std::string> ReaderROOT::_annotations;
+
+//std::map<std::string, std::string> ReaderROOT::_annotations;
 
 
 
 
 void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
 {
-
+    int i;
     std::string streama=_filename; //Ugly trick;
     TFile* fin = new TFile(streama.c_str()) ;
     if (!fin->IsOpen())
@@ -58,107 +55,48 @@ void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
             if (strcmp(obj->IsA()->GetName(),"TGraphErrors")==0) type=32;
             if (strcmp(obj->IsA()->GetName(),"TGraphAsymmErrors")==0)type=33;
             if (type==-1)  printf("Object %s  has unsupported type %s and will not be converted\n",obj->GetName(),obj->IsA()->GetName()) ;
-            if (type==0)   printf("Object %s has unsupported type TProfile\n",obj->GetName()) ;
+            if (type==0)  
+            {
+                 TProfile* P= (TProfile*)(obj);
+                YODA::Profile1D* dps = TProfiletoProfile1D(P);
+                
+                            aos.push_back(dps);
+            
+		}
             if (type==11||type==12)
                 {
-
-#define TH1_IS_SCATTER2D
-
-#ifdef TH1_IS_SCATTER2D
-                    char a[255];
-                    sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
-                    Scatter2D* dps = new Scatter2D(a);
-
-                    TH1* HH= (TH1*)(obj);
-
-                    for (int i = 1; i <= HH->GetNbinsX(); ++i)
-                        {
-                            const double x = HH->GetBinCenter(i);
-                            const double exminus = x - HH->GetBinLowEdge(i);
-                            const double explus = HH->GetBinLowEdge(i+1) - x;
-                            const double width = exminus + explus;
-                            dps->addPoint(x, HH->GetBinContent(i),
-                                          exminus, explus,
-                                          HH->GetBinErrorLow(i), HH->GetBinErrorUp(i));
-                        }
-                    dps->setAnnotation("Title", obj->GetTitle());
-                    dps->setAnnotation("XLabel", HH->GetXaxis()->GetTitle());
-                    dps->setAnnotation("YLabel", HH->GetYaxis()->GetTitle());
-                    aos.push_back(dps);
-#else
-                    char a[255];
-                    sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
-                    YODA::Histo1D* dps = new YODA::Histo1D(a);//_histo1d.bins, _histo1d.dbn_tot, _histo1d.dbn_uflow, _histo1d.dbn_oflow);
-                    int i;
+/*
+The mapping is TH? <-> Histo?D, TProfile <-> Profile1D, TGraph <-> Scatter2D.
+*/
 
                     if (type==11)
                         {
-                            TH1F* HHF= (TH1F*)(obj);
-                            if (HHF->GetNbinsX()>0)
-                                {
-                                    for (i=1; i<HHF->GetNbinsX(); i++)
-                                        dps->addBin(HHF->GetBinLowEdge(i),HHF->GetBinLowEdge(i)+ HHF->GetBinWidth(i));
-                                    dps->setAnnotation("Title", obj->GetTitle());
-                                    dps->setAnnotation("TitleX", HHF->GetXaxis()->GetTitle());
-                                    dps->setAnnotation("TitleY", HHF->GetYaxis()->GetTitle());
-                                    for (i=1; i<HHF->GetNbinsX(); i++) dps->fill(HHF->GetBinCenter(i), HHF->GetBinContent(i));
-                                }
+
+  TH1F* HHF= (TH1F*)(obj);
+  YODA::Histo1D* dps=YODA::TH1toHisto1D(HHF);
                             aos.push_back(dps);
                         }
 
                     if (type==12)
                         {
-                            TH1D* HHD= (TH1D*)(obj);
-                            if (HHD->GetNbinsX()>0)
-                                {
-                                    for (i=1; i<HHD->GetNbinsX(); i++)
-                                        dps->addBin(HHD->GetBinLowEdge(i),HHD->GetBinLowEdge(i)+ HHD->GetBinWidth(i));
-                                    dps->setAnnotation("Title", obj->GetTitle());
-                                    dps->setAnnotation("TitleX", HHD->GetXaxis()->GetTitle());
-                                    dps->setAnnotation("TitleY", HHD->GetYaxis()->GetTitle());
-                                    for (i=1; i<HHD->GetNbinsX(); i++) dps->fill(HHD->GetBinCenter(i), HHD->GetBinContent(i));
-                                }
+
+    TH1D* HHD= (TH1D*)(obj);
+  YODA::Histo1D* dps=YODA::TH1toHisto1D(HHD);
                             aos.push_back(dps);
                         }
-
-
-#endif
-                    cleanup();
                 }
             if (type==2)   printf("<W> Object %s has unsupported type TH2\n",obj->GetName()) ;
             if (type==31||type==32||type==33)
                 {
-                    char a[255];
-                    sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
-                    Scatter2D* dps = new Scatter2D(a);
-                    int i;
-                    TGraphAsymmErrors* HH=(TGraphAsymmErrors*)obj;
 
-                    for (i=0; i<HH->GetN()-1; i++)
-                        {
-                            double x,y;
-                            HH->GetPoint(i,x,y);
-                            dps->addPoint(x, y,
-                                          HH->GetErrorXlow(i),
-                                          HH->GetErrorXhigh(i),
-                                          HH->GetErrorYlow(i),
-                                          HH->GetErrorYhigh(i)
-                                         );
-                        }
-                    dps->setAnnotation("Title", obj->GetTitle());
-                    dps->setAnnotation("TitleX", HH->GetXaxis()->GetTitle());
-                    dps->setAnnotation("TitleY", HH->GetYaxis()->GetTitle());
+TGraphAsymmErrors* G=(TGraphAsymmErrors*)obj;
+Scatter2D* dps = YODA::TGraphtoScatter2D(G);
+
                     aos.push_back(dps);
-                    cleanup();
+
                 }
-
-
-
         }
     fin->Close();
 }
-
-
-
 
 }
