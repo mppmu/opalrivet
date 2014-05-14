@@ -48,6 +48,13 @@ wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/YODA-1.0.6-1.x86_64.rpm
 wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/YODA-devel-1.0.6-1.x86_64.rpm
 
 
+wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/SHERPA-MC-2.1.0-1.x86_64.rpm
+#wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/SHERPA-MC-debuginfo-2.1.0-1.x86_64.rpm
+wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/SHERPA-MC-devel-2.1.0-1.x86_64.rpm
+
+
+
+
 
 
 wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-3.0.2-1.x86_64.rpm
