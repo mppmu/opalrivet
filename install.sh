@@ -1,3 +1,6 @@
+mkdir -p RPMS
+cd RPMS
+
 rm -f *rpm.*
 rm -f *.rpm
 wget http://linuxsoft.cern.ch/epel/6/i386/cernlib-2006-35.el6.i686.rpm
@@ -48,7 +51,7 @@ wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/YODA-devel-1.0.6-1.x86_64.rpm
 
 
 wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-3.0.2-1.x86_64.rpm
-wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-debuginfo-3.0.2-1.x86_64.rpm
+#wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-debuginfo-3.0.2-1.x86_64.rpm
 wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-devel-3.0.2-1.x86_64.rpm
 wget https://www.mpp.mpg.de/~andriish/rpms/x86_64/fastjet-static-devel-3.0.2-1.x86_64.rpm
 
@@ -97,16 +100,16 @@ wget http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x8
 
 
 
-
+cd ..
 rm -rf top
 mkdir -p top
 cd top
-for a in $(ls -1 ../*rpm); do
+for a in $(ls -1 ../RPMS/*rpm); do
 rpm2cpio $a | cpio -i --make-directories 
 done
 
-
-. init-post-install.sh
+cd ..
+. ./init-post-install.sh
 
 cp $(which rivet-buildplugin) $(which rivet-buildplugin).old
 cat $(which rivet-buildplugin).old  | sed  's@yoda="/usr@yoda="'$(pwd)/top/usr'@g' | sed  's@hepmc="/usr@hepmc="'$(pwd)/top/usr'@g' | sed  's@rivet="/usr@rivet="'$(pwd)/top/usr'@g' | sed  's@ifastjet="/usr@ifastjet="'$(pwd)/top/usr'@g' | sed  's@lfastjet="@lfastjet="-L'$(pwd)/top/usr'@g'  > $(which rivet-buildplugin).new
