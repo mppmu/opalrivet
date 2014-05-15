@@ -5,7 +5,7 @@
 //
 #include "YODA/Reader.h"
 #include "YODA/ReaderYODA.h"
-#ifdef ENABLE_ROOT    
+#ifdef ENABLE_ROOT
 #include "YODA/ReaderROOT.h"
 #endif
 #include "YODA/ReaderAIDA.h"
@@ -25,7 +25,7 @@ Reader& mkReader(const string& name)
     if (fmt == "yoda") return ReaderYODA::create();
     if (fmt == "aida") return ReaderAIDA::create();
     if (fmt == "dat")  return ReaderFLAT::create();
-#ifdef ENABLE_ROOT    
+#ifdef ENABLE_ROOT
     if (fmt == "root") return ReaderROOT::create(name);
 #endif
     throw UserError("Format cannot be identified from string '" + name + "'");

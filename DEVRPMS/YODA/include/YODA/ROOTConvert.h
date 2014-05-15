@@ -22,6 +22,7 @@
 #include "TKey.h"
 #include "TClass.h"
 #include "TH1F.h"
+#include <string>
 
 namespace YODA {
 //Scatter2D*         TH1toScatter2D(const TH1* th1) ;
@@ -29,14 +30,14 @@ namespace YODA {
 
 
 
-Histo1D*           TH1toHisto1D  (const TH1* th1);
+Histo1D*           TH1toHisto1D  (const TH1* th1, std::string fname="");
 TH1D*              Histo1DtoTH1D(const Histo1D* h) ;
 
+Profile1D*         TProfiletoProfile1D(const TProfile*  p, std::string fname="") ;
 TProfile*          Profile1DtoTProfile(const Profile1D* p) ;
-Profile1D*         TProfiletoProfile1D(const TProfile*  p) ;
 
+Scatter2D*         TGraphtoScatter2D(const TGraph* g, std::string fname="") ;
 TGraphAsymmErrors* Scatter2DtoTGraphAsymmErrors(const Scatter2D* s) ;
-Scatter2D*         TGraphtoScatter2D(const TGraph* g) ;
 
 }
 

@@ -19,9 +19,9 @@ using namespace std;
 using namespace YODA;
 enum formats {yoda, flat, aida
 #ifdef ENABLE_ROOT
-, root
+              , root
 #endif
-};
+             };
 int main(int argc, char** argv)
 {
     if (argc<3)
@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         }
     const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }
 #ifdef ENABLE_ROOT
-    , { "root", formats::root }       
+        , { "root", formats::root }
 #endif
     };
     std::vector<std::pair <std::string,std::string> > convert_list;
@@ -96,28 +96,22 @@ int main(int argc, char** argv)
                     break;
                 }
 
-            ofstream ofile;
-            
+
+
             switch (format_map.at(convert_formats.second))
                 {
                 case formats::yoda:
-                ofile.open (convert_list[i].second.c_str());
-                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterYODA::write(ofile, (**j));
-                    ofile.close();
+                    YODA::WriterYODA::create().write(convert_list[i].second.c_str(), in);
                     break;
                 case formats::flat:
-                ofile.open (convert_list[i].second.c_str());
-                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterFLAT::write(ofile, (**j));
-                    ofile.close();
+                    YODA::WriterFLAT::create().write(convert_list[i].second.c_str(), in);
                     break;
                 case formats::aida:
-                ofile.open (convert_list[i].second.c_str());
-                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterAIDA::write(ofile, (**j));
-                    ofile.close();
+                    YODA::WriterAIDA::create().write(convert_list[i].second.c_str(), in);
                     break;
 #ifdef ENABLE_ROOT
                 case formats::root:
-                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterROOT::write(convert_list[i].second.c_str(), (**j));                    
+                    YODA::WriterROOT::create(convert_list[i].second.c_str()).write("just_a_place_holder",in);
                     break;
 #endif
                 default:
@@ -125,7 +119,7 @@ int main(int argc, char** argv)
                     exit(2);
                     break;
                 }
-            
+
         }
 
     exit(0);

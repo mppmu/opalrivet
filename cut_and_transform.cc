@@ -24,11 +24,11 @@ int main(int argc, char** argv)
         {
             if (((*j)->type()=="Scatter2D")&&((*j)->path()==argv[3]))
                 {
-Scatter2D* S=(Scatter2D*)(*j);
+                    Scatter2D* S=(Scatter2D*)(*j);
                     if (!strcmp("yes",argv[1]))
                         {
                             int i;
-                            
+
                             for (i=0;	i<S->numPoints(); i++)
                                 {
 
@@ -38,9 +38,9 @@ Scatter2D* S=(Scatter2D*)(*j);
                                 }
 
                         }
-                        
-                        
-                       if (argc==5) S->setPath(argv[4]);
+
+
+                    if (argc==5) S->setPath(argv[4]);
                     YODA::WriterYODA::write(std::cout, (**j));
 
                 }
