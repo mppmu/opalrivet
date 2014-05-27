@@ -9,9 +9,9 @@
 #include "fastjet/JetDefinition.hh"
 
 #define USE_DURHAM 
-#define USE_CONE
-#define USE_JADE 
-#define USE_ANTIKT
+//#define USE_CONE
+//#define USE_JADE 
+//#define USE_ANTIKT
 using namespace fastjet;
 namespace Rivet
 {

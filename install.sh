@@ -32,8 +32,14 @@ wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/PHOTOS
 wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/pythia8-8.1.80-1.el6.x86_64.rpm
 #wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/pythia8-debuginfo-8.1.80-1.el6.x86_64.rpm
 wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/pythia8-devel-8.1.80-1.el6.x86_64.rpm
+#wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/pythia8-data-8.1.80-1.el6.x86_64.rpm
+
 wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/pythia8-hepmcinterface-8.1.80-1.el6.x86_64.rpm
 wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/pythia8-hepmcinterface-devel-8.1.80-1.el6.x86_64.rpm
+
+
+
+
 wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/Rivet-2.1.1-1.x86_64.rpm
 #wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/Rivet-debuginfo-2.1.1-1.x86_64.rpm
 wget --no-check-certificate  https://www.mpp.mpg.de/~andriish/rpms/x86_64/Rivet-devel-2.1.1-1.x86_64.rpm
@@ -107,6 +113,13 @@ wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.
 wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-python-5.34.18-1.el6.x86_64.rpm
 
 wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/libAfterImage-1.20-1.el6.x86_64.rpm
+
+
+wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/lhapdf-5.9.1-4.el6.x86_64.rpm
+
+
+wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/pythia8-data-8.1.80-1.el6.noarch.rpm
+
 
 cd ..
 rm -rf top
