@@ -104,8 +104,9 @@ wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.
 wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-smatrix-5.34.18-1.el6.x86_64.rpm
 wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-tree-5.34.18-1.el6.x86_64.rpm
 
+wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/root-python-5.34.18-1.el6.x86_64.rpm
 
-
+wget --no-check-certificate  http://ftp.pbone.net/mirror/download.fedora.redhat.com/pub/fedora/epel/6/x86_64/libAfterImage-1.20-1.el6.x86_64.rpm
 
 cd ..
 rm -rf top
