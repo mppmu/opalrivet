@@ -13,6 +13,8 @@ all_%:
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
 
 		cp Runherwig++.dat run
+		
+		cp Runevtgen.dat run
 
 		cp Makefile.run run/Makefile
 		make convert
