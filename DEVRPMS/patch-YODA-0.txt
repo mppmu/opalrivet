@@ -1,5 +1,5 @@
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2flat ./bin/aida2flat
---- ./bin/aida2flat	2014-05-12 17:25:39.660318585 +0200
+--- ./bin/aida2flat	2014-05-27 17:14:52.490494534 +0200
 +++ ./bin/aida2flat	1970-01-01 01:00:00.000000000 +0100
 @@ -1,21 +0,0 @@
 -#! /usr/bin/env python
@@ -24,7 +24,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2flat ./bin/aida2
 -    analysisobjects = yoda.readAIDA(i)
 -    yoda.writeFLAT(analysisobjects, o)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2yoda ./bin/aida2yoda
---- ./bin/aida2yoda	2014-05-12 17:25:39.661318577 +0200
+--- ./bin/aida2yoda	2014-05-27 17:14:52.491494525 +0200
 +++ ./bin/aida2yoda	1970-01-01 01:00:00.000000000 +0100
 @@ -1,21 +0,0 @@
 -#! /usr/bin/env python
@@ -49,7 +49,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2yoda ./bin/aida2
 -    analysisobjects = yoda.readAIDA(i)
 -    yoda.writeYODA(analysisobjects, o)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/flat2yoda ./bin/flat2yoda
---- ./bin/flat2yoda	2014-05-12 17:25:39.661318577 +0200
+--- ./bin/flat2yoda	2014-05-27 17:14:52.490494534 +0200
 +++ ./bin/flat2yoda	1970-01-01 01:00:00.000000000 +0100
 @@ -1,21 +0,0 @@
 -#! /usr/bin/env python
@@ -73,8 +73,37 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/flat2yoda ./bin/flat2
 -for i, o in in_out:
 -    analysisobjects = yoda.readFLAT(i)
 -    yoda.writeYODA(analysisobjects, o)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/Makefile.am ./bin/Makefile.am
+--- ./bin/Makefile.am	2014-05-27 17:14:52.490494534 +0200
++++ ./bin/Makefile.am	2014-05-27 17:14:52.499494455 +0200
+@@ -1,4 +1,14 @@
+-dist_bin_SCRIPTS = yoda-config yoda2aida yoda2flat aida2yoda aida2flat flat2yoda yodamerge
++dist_bin_SCRIPTS = yoda-config  yodamerge
++
++bin_PROGRAMS = yodaconvert
++yodaconvert_SOURCES = yodaconvert.cc
++yodaconvert_CXXFLAGS=-std=c++0x -I$(top_builddir)/include
++yodaconvert_LDADD= $(SUBLIBS) $(AM_LDFLAGS) $(top_builddir)/src/libYODA.la 
++
++if  ENABLE_ROOT
++yodaconvert_LDADD+=$(ROOT_LIBS)
++yodaconvert_CPPFLAGS = $(ROOT_CXXFLAGS) -Wno-long-long  -DENABLE_ROOT
++endif
+ 
+ ## bash completion
+ if ENABLE_PYEXT
+@@ -13,6 +23,6 @@
+ EXTRA_DIST = yoda-completion
+ endif
+ 
+-if ENABLE_ROOT
+-dist_bin_SCRIPTS += yoda2root
+-endif
++
++
++
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2aida ./bin/yoda2aida
---- ./bin/yoda2aida	2014-05-12 17:25:39.661318577 +0200
+--- ./bin/yoda2aida	2014-05-27 17:14:52.491494525 +0200
 +++ ./bin/yoda2aida	1970-01-01 01:00:00.000000000 +0100
 @@ -1,21 +0,0 @@
 -#! /usr/bin/env python
@@ -99,7 +128,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2aida ./bin/yoda2
 -    analysisobjects = yoda.readYODA(i)
 -    yoda.writeAIDA(analysisobjects, o)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2flat ./bin/yoda2flat
---- ./bin/yoda2flat	2014-05-12 17:25:39.660318585 +0200
+--- ./bin/yoda2flat	2014-05-27 17:14:52.490494534 +0200
 +++ ./bin/yoda2flat	1970-01-01 01:00:00.000000000 +0100
 @@ -1,21 +0,0 @@
 -#! /usr/bin/env python
@@ -124,7 +153,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2flat ./bin/yoda2
 -    analysisobjects = yoda.readYODA(i)
 -    yoda.writeFLAT(analysisobjects, o)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2root ./bin/yoda2root
---- ./bin/yoda2root	2014-05-12 17:25:39.659318592 +0200
+--- ./bin/yoda2root	2014-05-27 17:14:52.490494534 +0200
 +++ ./bin/yoda2root	1970-01-01 01:00:00.000000000 +0100
 @@ -1,26 +0,0 @@
 -#! /usr/bin/env python
@@ -155,8 +184,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2root ./bin/yoda2
 -    of.Close()
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/yodaconvert.cc
 --- ./bin/yodaconvert.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./bin/yodaconvert.cc	2014-05-12 17:25:39.703318257 +0200
-@@ -0,0 +1,113 @@
++++ ./bin/yodaconvert.cc	2014-05-27 17:14:52.500494446 +0200
+@@ -0,0 +1,126 @@
 +/* AV 2014 */
 +#include "YODA/WriterYODA.h"
 +#include "YODA/ReaderYODA.h"
@@ -164,8 +193,10 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/
 +#include "YODA/ReaderFLAT.h"
 +#include "YODA/WriterAIDA.h"
 +#include "YODA/ReaderAIDA.h"
-+//#include "YODA/WriterROOT.h"
++#ifdef ENABLE_ROOT
++#include "YODA/WriterROOT.h"
 +#include "YODA/ReaderROOT.h"
++#endif
 +#include <cmath>
 +#include <vector>
 +#include <string>
@@ -174,7 +205,11 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/
 +
 +using namespace std;
 +using namespace YODA;
-+enum formats {yoda, flat, aida, root};
++enum formats {yoda, flat, aida
++#ifdef ENABLE_ROOT
++              , root
++#endif
++             };
 +int main(int argc, char** argv)
 +{
 +    if (argc<3)
@@ -185,7 +220,11 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/
 +	Supported modes are: yoda2flat yoda2aida flat2yoda flat2aida aida2flat aida2yoda root2flat root2aida root2yoda.\n",argv[0],argv[0]);
 +            exit(1);
 +        }
-+    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }, { "root", formats::root }       };
++    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }
++#ifdef ENABLE_ROOT
++        , { "root", formats::root }
++#endif
++    };
 +    std::vector<std::pair <std::string,std::string> > convert_list;
 +    std::pair<std::string,std::string> convert_formats;
 +    std::string mode(argv[1]);
@@ -234,46 +273,49 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/
 +                case formats::aida:
 +                    in=ReaderAIDA::create().read(convert_list[i].first);
 +                    break;
++#ifdef ENABLE_ROOT
 +                case formats::root:
 +                    in=ReaderROOT::create(convert_list[i].first).read("just_a_place_holder");
 +                    break;
++#endif
 +                default:
 +                    printf("Input format %s is unknown.\n",convert_formats.first.c_str());
 +                    exit(2);
 +                    break;
 +                }
 +
-+            ofstream ofile;
-+            ofile.open (convert_list[i].second.c_str());
++
++
 +            switch (format_map.at(convert_formats.second))
 +                {
 +                case formats::yoda:
-+                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterYODA::write(ofile, (**j));
++                    YODA::WriterYODA::create().write(convert_list[i].second.c_str(), in);
 +                    break;
 +                case formats::flat:
-+                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterFLAT::write(ofile, (**j));
++                    YODA::WriterFLAT::create().write(convert_list[i].second.c_str(), in);
 +                    break;
 +                case formats::aida:
-+                    for (vector<AnalysisObject*>::const_iterator j = in.begin(); j != in.end(); ++j) YODA::WriterAIDA::write(ofile, (**j));
++                    YODA::WriterAIDA::create().write(convert_list[i].second.c_str(), in);
 +                    break;
++#ifdef ENABLE_ROOT
 +                case formats::root:
-+                    printf("WriterROOT is not implemented yet.\n");
-+                    exit(2);
++                    YODA::WriterROOT::create(convert_list[i].second.c_str()).write("just_a_place_holder",in);
 +                    break;
++#endif
 +                default:
 +                    printf("Output format %s is unknown.\n",convert_formats.second.c_str());
 +                    exit(2);
 +                    break;
 +                }
-+            ofile.close();
++
 +        }
 +
 +    exit(0);
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h ./include/YODA/ReaderROOT.h
 --- ./include/YODA/ReaderROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ReaderROOT.h	2014-05-12 17:25:39.718318142 +0200
-@@ -0,0 +1,299 @@
++++ ./include/YODA/ReaderROOT.h	2014-05-27 17:14:52.506494394 +0200
+@@ -0,0 +1,75 @@
 +// -*- C++ -*-
 +//
 +// This file is part of YODA -- Yet more Objects for Data Analysis
@@ -284,7 +326,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +
 +#include "YODA/AnalysisObject.h"
 +#include "YODA/Reader.h"
-+#include "YODA/ROOTCnv.h"
++#include "YODA/ROOTConvert.h"
 +#include <YODA/Scatter2D.h>
 +#include <boost/spirit/include/qi.hpp>
 +#include <boost/spirit/include/phoenix_operator.hpp>
@@ -330,21 +372,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +
 +  private:
 +std::string _filename;
-+    void cleanup() {
-+      _histo1d.bins.clear();
-+      _histo1d.dbn_tot.reset();
-+      _histo1d.dbn_uflow.reset();
-+      _histo1d.dbn_oflow.reset();
 +
-+      _profile1d.bins.clear();
-+      _profile1d.dbn_tot.reset();
-+      _profile1d.dbn_uflow.reset();
-+      _profile1d.dbn_oflow.reset();
-+
-+      _scatter2d.points.clear();
-+
-+      _annotations.clear();
-+    }
 +
 +  public:
 +
@@ -354,228 +382,18 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +    ReaderROOT() { }
 +    ReaderROOT(std::string filename) {_filename=filename;}
 +
-+   // Here comes everything we need for the parser
-+
-+    /// Structs for the Histo1D parser
-+    /// The data for Dbn1D
-+    struct histo1ddbn {
-+      double sumW;
-+      double sumW2;
-+      double sumWX;
-+      double sumWX2;
-+      unsigned long numFills;
-+    };
-+
-+    /// A Histo1D bin
-+    struct histo1dbin {
-+      double lowedge;
-+      double highedge;
-+      histo1ddbn dbn;
-+    };
-+
-+    /// Structs for the Profile1D parser
-+    /// The data for Dbn2D (except sumWXY)
-+    struct profile1ddbn {
-+      double sumW;
-+      double sumW2;
-+      double sumWX;
-+      double sumWX2;
-+      double sumWY;
-+      double sumWY2;
-+      unsigned long numFills;
-+    };
-+
-+    /// A Profile1D bin
-+    struct profile1dbin {
-+      double lowedge;
-+      double highedge;
-+      profile1ddbn dbn;
-+    };
-+
-+    /// Structs for the Scatter2D parser
-+    /// The data for ScatterPoint2D
-+    struct scatterpoint2d {
-+      double x;
-+      double exminus;
-+      double explus;
-+      double y;
-+      double eyminus;
-+      double eyplus;
-+    };
-+
-+    /// Structs for the key-value pair parser (annotations)
-+    struct keyval {
-+      std::string key;
-+      std::string val;
-+    };
-+
-+
-+    /// Annotations (common for all data types)
-+    static std::map<std::string, std::string> _annotations;
-+
-+
-+    /// All information for creating a Histo1D
-+    struct histo1d {
-+      std::vector<YODA::HistoBin1D> bins;
-+      YODA::Dbn1D dbn_tot;
-+      YODA::Dbn1D dbn_uflow;
-+      YODA::Dbn1D dbn_oflow;
-+    };
-+    static histo1d _histo1d;
-+
-+
-+    /// All information for creating a Profile1D
-+    struct profile1d {
-+      std::vector<YODA::ProfileBin1D> bins;
-+      YODA::Dbn2D dbn_tot;
-+      YODA::Dbn2D dbn_uflow;
-+      YODA::Dbn2D dbn_oflow;
-+    };
-+    static profile1d _profile1d;
-+
-+
-+    /// All information for creating a Scatter2D
-+    struct scatter2d {
-+      std::vector<YODA::Point2D> points;
-+    };
-+    static scatter2d _scatter2d;
-+
-+
-+    /// Functions to call from the parser
-+    /// Filling the dbn_tot
-+    struct filltotaldbn {
-+      void operator()(const histo1ddbn dbn, qi::unused_type, qi::unused_type) const {
-+        _histo1d.dbn_tot = YODA::Dbn1D(dbn.numFills, dbn.sumW, dbn.sumW2, dbn.sumWX, dbn.sumWX2);
-+      }
-+      void operator()(const profile1ddbn dbn, qi::unused_type, qi::unused_type) const {
-+        _profile1d.dbn_tot = YODA::Dbn2D(dbn.numFills, dbn.sumW, dbn.sumW2, dbn.sumWX, dbn.sumWX2, dbn.sumWY, dbn.sumWY2, 0.0);
-+      }
-+    };
-+
-+
-+    /// Filling the underflow
-+    struct filluflowdbn {
-+      void operator()(const histo1ddbn dbn, qi::unused_type, qi::unused_type) const {
-+        _histo1d.dbn_uflow = YODA::Dbn1D(dbn.numFills, dbn.sumW, dbn.sumW2, dbn.sumWX, dbn.sumWX2);
-+      }
-+      void operator()(const profile1ddbn dbn, qi::unused_type, qi::unused_type) const {
-+        _profile1d.dbn_uflow = YODA::Dbn2D(dbn.numFills, dbn.sumW, dbn.sumW2, dbn.sumWX, dbn.sumWX2, dbn.sumWY, dbn.sumWY2, 0.0);
-+      }
-+    };
-+
-+
-+    /// Filling the overflow
-+    struct filloflowdbn {
-+      void operator()(const histo1ddbn dbn, qi::unused_type, qi::unused_type) const {
-+        _histo1d.dbn_oflow = YODA::Dbn1D(dbn.numFills, dbn.sumW, dbn.sumW2, dbn.sumWX, dbn.sumWX2);
-+      }
-+      void operator()(const profile1ddbn dbn, qi::unused_type, qi::unused_type) const {
-+        _profile1d.dbn_oflow = YODA::Dbn2D(dbn.numFills, dbn.sumW, dbn.sumW2, dbn.sumWX, dbn.sumWX2, dbn.sumWY, dbn.sumWY2, 0.0);
-+      }
-+    };
-+
-+
-+    /// Filling a bin
-+    struct fillbin {
-+      void operator()(const histo1dbin b, qi::unused_type, qi::unused_type) const {
-+        YODA::HistoBin1D bin(std::make_pair(b.lowedge, b.highedge), YODA::Dbn1D(b.dbn.numFills, b.dbn.sumW, b.dbn.sumW2, b.dbn.sumWX, b.dbn.sumWX2));
-+        _histo1d.bins.push_back(bin);
-+      }
-+      void operator()(const profile1dbin b, qi::unused_type, qi::unused_type) const {
-+        YODA::ProfileBin1D bin(std::make_pair(b.lowedge, b.highedge), YODA::Dbn2D(b.dbn.numFills, b.dbn.sumW, b.dbn.sumW2, b.dbn.sumWX, b.dbn.sumWX2, b.dbn.sumWY, b.dbn.sumWY2, 0.0));
-+        _profile1d.bins.push_back(bin);
-+      }
-+    };
-+
-+
-+    /// Filling a point
-+    struct fillpoint {
-+      void operator()(const scatterpoint2d p, qi::unused_type, qi::unused_type) const {
-+        YODA::Point2D point(p.x, p.y, p.exminus, p.explus, p.eyminus, p.eyplus);
-+        _scatter2d.points.push_back(point);
-+      }
-+    };
-+
-+
-+    /// Filling the annotations map
-+    struct fillkeyval {
-+      void operator()(const keyval m, qi::unused_type, qi::unused_type) const {
-+        _annotations[m.key] = m.val;
-+      }
-+    };
-+
-+
-+
-+/// @endcond
-+
++  
 +};
 +
 +} // end of YODA namespace
 +
 +
-+
-+// Now we need to make boost aware of the structs we want to
-+// fill directly from the parser. Boost wants this magic in
-+// the global scope, that's why we have it outside the namespace.
-+
-+/// @cond PRIVATE
-+
-+BOOST_FUSION_ADAPT_STRUCT(
-+  YODA::ReaderROOT::histo1ddbn,
-+  (double, sumW)
-+  (double, sumW2)
-+  (double, sumWX)
-+  (double, sumWX2)
-+  (unsigned long, numFills)
-+)
-+
-+BOOST_FUSION_ADAPT_STRUCT(
-+  YODA::ReaderROOT::histo1dbin,
-+  (double, lowedge)
-+  (double, highedge)
-+  (YODA::ReaderROOT::histo1ddbn, dbn)
-+)
-+
-+BOOST_FUSION_ADAPT_STRUCT(
-+  YODA::ReaderROOT::profile1ddbn,
-+  (double, sumW)
-+  (double, sumW2)
-+  (double, sumWX)
-+  (double, sumWX2)
-+  (double, sumWY)
-+  (double, sumWY2)
-+  (unsigned long, numFills)
-+)
-+
-+BOOST_FUSION_ADAPT_STRUCT(
-+  YODA::ReaderROOT::profile1dbin,
-+  (double, lowedge)
-+  (double, highedge)
-+  (YODA::ReaderROOT::profile1ddbn, dbn)
-+)
-+
-+BOOST_FUSION_ADAPT_STRUCT(
-+  YODA::ReaderROOT::scatterpoint2d,
-+  (double, x)
-+  (double, exminus)
-+  (double, explus)
-+  (double, y)
-+  (double, eyminus)
-+  (double, eyplus)
-+)
-+
-+BOOST_FUSION_ADAPT_STRUCT(
-+  YODA::ReaderROOT::keyval,
-+  (std::string, key)
-+  (std::string, val)
-+)
-+
 +/// @endcond
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./include/YODA/ROOTCnv.h
---- ./include/YODA/ROOTCnv.h	2014-05-12 17:25:39.588319135 +0200
-+++ ./include/YODA/ROOTCnv.h	2014-05-12 17:25:39.717318150 +0200
+--- ./include/YODA/ROOTCnv.h	2014-05-27 17:14:52.475494667 +0200
++++ ./include/YODA/ROOTCnv.h	2014-05-27 17:14:52.505494402 +0200
 @@ -15,6 +15,11 @@
  #include "TProfile.h"
  #include "TGraphAsymmErrors.h"
@@ -588,9 +406,191 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./
  
  namespace YODA {
  
+@@ -33,27 +38,27 @@
+   // ///
+   // /// Note that ROOT's histograms do not contain enough information to properly rebuild
+   // /// @a x distributions within bins, in underflow and overflow bins, or across the whole histogram.
+-  // inline Histo1D toHisto1D(const TH1& th1) {
+-  //   std::vector<HistoBin1D> bins;
+-  //   TArrayD sumw2s = *th1.GetSumw2();
+-  //   Dbn1D dbn_uflow, dbn_oflow;
+-  //   double sumWtot(0), sumW2tot(0)
+-  //   for (int i = 0; i =< th1.GetNbinsX()+1; ++i) {
+-  //     Dbn1D dbn(static_cast<unsigned long>(th1.GetBinContent(i)), th1.GetBinContent(i), sumw2s[i], 0, 0);
+-  //               // th1.GetBinContent(i)*th1.GetBinCenter(i), th1.GetBinContent(i)*sqr(th1.GetBinCenter(i)));
+-  //     if (i == 0) dbn_uflow = dbn;
+-  //     else if (i == th1.GetNbinsX()+1) dbn_oflow = dbn;
+-  //     else bins.push_back(HistoBin1D(std::make_pair(th1.GetBinLowEdge(i), th1.GetBinLowEdge(i+1)), dbn));
+-  //     sumWtot += th1.GetBinContent(i);
+-  //     sumW2tot += sumw2s[i];
+-  //   }
+-  //   Dbn1D dbn_tot(static_cast<unsigned long>(th1.GetEntries()), sumWtot, sumW2tot, 0, 0);
+-
+-  //   Histo1D rtn(bins, dbn_tot, dbn_uflow, const Dbn1D& dbn_oflow, th1.GetName(), th1.GetTitle());
+-  //   rtn.addAnnotation("XLabel", th1.GetXaxis->GetTitle());
+-  //   rtn.addAnnotation("YLabel", th1.GetYaxis->GetTitle());
+-  //   return rtn;
+-  // }
++inline Histo1D toHisto1D(const TH1& th1) {
++   std::vector<HistoBin1D> bins;
++   TArrayD sumw2s = *th1.GetSumw2();
++    Dbn1D dbn_uflow, dbn_oflow;
++     double sumWtot(0), sumW2tot(0)
++    for (int i = 0; i =< th1.GetNbinsX()+1; ++i) {
++      Dbn1D dbn(static_cast<unsigned long>(th1.GetBinContent(i)), th1.GetBinContent(i), sumw2s[i], 0, 0,
++                  th1.GetBinContent(i)*th1.GetBinCenter(i), th1.GetBinContent(i)*sqr(th1.GetBinCenter(i)));
++       if (i == 0) dbn_uflow = dbn;
++      else if (i == th1.GetNbinsX()+1) dbn_oflow = dbn;
++       else bins.push_back(HistoBin1D(std::make_pair(th1.GetBinLowEdge(i), th1.GetBinLowEdge(i+1)), dbn));
++     sumWtot += th1.GetBinContent(i);
++      sumW2tot += sumw2s[i];
++     }
++    Dbn1D dbn_tot(static_cast<unsigned long>(th1.GetEntries()), sumWtot, sumW2tot, 0, 0);
++
++    Histo1D rtn(bins, dbn_tot, dbn_uflow, const Dbn1D& dbn_oflow, th1.GetName(), th1.GetTitle());
++    rtn.addAnnotation("XLabel", th1.GetXaxis->GetTitle());
++    rtn.addAnnotation("YLabel", th1.GetYaxis->GetTitle());
++    return rtn;
++  }
+ 
+ 
+   // /// @brief Convert a ROOT 1D histogram to a YODA Histo1D
+@@ -72,7 +77,7 @@
+   ///
+   /// @todo Add a bool flag for whether or not to divide y vals/errs by bin width.
+   inline Scatter2D toScatter2D(const TH1& th1) {
+-    Scatter2D rtn;
++    Scatter2D rtn; 
+     for (int i = 1; i <= th1.GetNbinsX(); ++i) {
+       const double x = th1.GetBinCenter(i);
+       const double exminus = x - th1.GetBinLowEdge(i);
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.h ./include/YODA/ROOTConvert.h
+--- ./include/YODA/ROOTConvert.h	1970-01-01 01:00:00.000000000 +0100
++++ ./include/YODA/ROOTConvert.h	2014-05-27 17:14:52.504494410 +0200
+@@ -0,0 +1,44 @@
++// -*- C++ -*-
++//
++// This file is part of YODA -- Yet more Objects for Data Analysis
++// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
++//
++#ifndef YODA_ROOTCnv_h
++#define YODA_ROOTCnv_h
++
++#include "YODA/Histo1D.h"
++#include "YODA/Histo2D.h"
++#include "YODA/Profile1D.h"
++#include "YODA/Histo1D.h"
++#include "YODA/Profile1D.h"
++#include "YODA/Scatter2D.h"
++#include "TH1.h"
++#include "TH2.h"
++#include "TProfile.h"
++#include "TGraphAsymmErrors.h"
++#include "TVectorF.h"
++#include "TFile.h"
++#include "TList.h"
++#include "TKey.h"
++#include "TClass.h"
++#include "TH1F.h"
++#include <string>
++
++namespace YODA {
++//Scatter2D*         TH1toScatter2D(const TH1* th1) ;
++
++
++
++
++Histo1D*           TH1toHisto1D  (const TH1* th1, std::string fname="");
++TH1D*              Histo1DtoTH1D(const Histo1D* h) ;
++
++Profile1D*         TProfiletoProfile1D(const TProfile*  p, std::string fname="") ;
++TProfile*          Profile1DtoTProfile(const Profile1D* p) ;
++
++Scatter2D*         TGraphtoScatter2D(const TGraph* g, std::string fname="") ;
++TGraphAsymmErrors* Scatter2DtoTGraphAsymmErrors(const Scatter2D* s) ;
++
++}
++
++#endif
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h ./include/YODA/WriterROOT.h
+--- ./include/YODA/WriterROOT.h	1970-01-01 01:00:00.000000000 +0100
++++ ./include/YODA/WriterROOT.h	2014-05-27 17:14:52.504494410 +0200
+@@ -0,0 +1,72 @@
++// -*- C++ -*-
++//
++// This file is part of YODA -- Yet more Objects for Data Analysis
++// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
++//
++#ifndef YODA_WRITERROOT_H
++#define YODA_WRITERROOT_H
++
++#include "YODA/AnalysisObject.h"
++#include "YODA/Writer.h"
++#include "YODA/ROOTConvert.h"
++#include <vector>
++#include <string>
++#include <ostream>
++
++
++namespace YODA {
++
++
++  /// Persistency writer for flat text format.
++  class WriterROOT : public Writer {
++  public:
++
++    /// Singleton creation function
++    static Writer& create() {
++      static WriterROOT _instance;
++      _instance.setPrecision(6);
++      return _instance;
++    }
++
++    static Writer& create(std::string filename) {
++      static WriterROOT _instance(filename);
++      _instance.setPrecision(6);
++      return _instance;
++    }
++
++
++    // Include definitions of all write methods (all fulfilled by Writer::write(...))
++    #include "YODA/WriterMethods.icc"
++
++
++  protected:
++
++    void writeHeader(std::ostream& stream);
++    //void writeBody(std::ostream& stream, const AnalysisObject& ao);
++    void writeFooter(std::ostream& stream);
++  //void write(const std::string& filename, const AnalysisObject& ao);
++    void writeCounter(std::ostream& stream, const Counter& c);
++    void writeHisto1D(std::ostream& stream, const Histo1D& h);
++    void writeHisto2D(std::ostream& stream, const Histo2D& h);
++    void writeProfile1D(std::ostream& stream, const Profile1D& p);
++    // void writeProfile2D(std::ostream& stream, const Profile2D& p);
++    //void writeScatter1D(std::ostream& stream, const Scatter1D& s);
++    void writeScatter2D(std::ostream& stream, const Scatter2D& s);
++    // void writeScatter3D(std::ostream& stream, const Scatter3D& s);
++
++
++  private:
++std::string _filename;
++TFile* _ROOTfile;
++    void _writeAnnotations(std::ostream& os, const AnalysisObject& ao);
++
++    /// Private since it's a singleton.
++    WriterROOT() { }
++    WriterROOT(std::string filename) {  _filename=filename; _ROOTfile=new TFile(filename.c_str(),"recreate");  }
++     ~WriterROOT() {if (_ROOTfile) _ROOTfile->Close();}
++  };
++
++
++}
++
++#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/core.pyx ./pyext/yoda/core.pyx
---- ./pyext/yoda/core.pyx	2014-05-12 17:25:39.637318760 +0200
-+++ ./pyext/yoda/core.pyx	2014-05-12 17:25:39.749317906 +0200
+--- ./pyext/yoda/core.pyx	2014-05-27 17:14:52.486494570 +0200
++++ ./pyext/yoda/core.pyx	2014-05-27 17:14:52.517494297 +0200
 @@ -32,5 +32,5 @@
  include "include/HistoBin2D.pyx"
  include "include/Histo2D.pyx"
@@ -599,8 +599,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/core.pyx ./pye
 +##include "include/Functions.pyx"
  include "include/IO.pyx"
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.pxd ./pyext/yoda/declarations.pxd
---- ./pyext/yoda/declarations.pxd	2014-05-12 17:25:39.630318814 +0200
-+++ ./pyext/yoda/declarations.pxd	2014-05-12 17:25:39.748317913 +0200
+--- ./pyext/yoda/declarations.pxd	2014-05-27 17:14:52.485494579 +0200
++++ ./pyext/yoda/declarations.pxd	2014-05-27 17:14:52.517494297 +0200
 @@ -969,6 +969,9 @@
  cdef extern from "YODA/ReaderFLAT.h" namespace "YODA":
      Reader& ReaderFLAT_create "YODA::ReaderFLAT::create" ()
@@ -612,8 +612,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
      Reader& ReaderAIDA_create "YODA::ReaderAIDA::create" ()
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./pyext/yoda/Makefile.am
---- ./pyext/yoda/Makefile.am	2014-05-12 17:25:39.607318989 +0200
-+++ ./pyext/yoda/Makefile.am	2014-05-12 17:25:39.732318035 +0200
+--- ./pyext/yoda/Makefile.am	2014-05-27 17:14:52.479494631 +0200
++++ ./pyext/yoda/Makefile.am	2014-05-27 17:14:52.511494349 +0200
 @@ -40,6 +40,10 @@
      mktemplates \
      core.cpp core.h util.cpp
@@ -626,8 +626,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
  if WITH_CYTHON
  core.cpp: $(CYTHON_SRC)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./pyext/yoda/mktemplates
---- ./pyext/yoda/mktemplates	2014-05-12 17:25:39.631318806 +0200
-+++ ./pyext/yoda/mktemplates	2014-05-12 17:25:39.749317906 +0200
+--- ./pyext/yoda/mktemplates	2014-05-27 17:14:52.485494579 +0200
++++ ./pyext/yoda/mktemplates	2014-05-27 17:14:52.517494297 +0200
 @@ -50,9 +50,9 @@
      #print plain_name
  
@@ -640,10 +640,41 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./
              pass
          else: raise
  
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/script_helpers.py ./pyext/yoda/script_helpers.py
+--- ./pyext/yoda/script_helpers.py	2014-05-27 17:14:52.486494570 +0200
++++ ./pyext/yoda/script_helpers.py	1970-01-01 01:00:00.000000000 +0100
+@@ -1,27 +0,0 @@
+-import os
+-
+-def parse_x2y_args(args, xextn, yextn):
+-    """
+-    Helper function for working out input and output filenames for YODA
+-    converter scripts, where the output name is generated by replacing the input
+-    file extension (xextn) with the output one (yextn), if there are exactly two
+-    arguments and the second arg is consistent with an output name. The x/yextn
+-    arguments should include the leading dot.
+-    """
+-    infiles = []
+-    outfiles = []
+-    ## If there are two args and the second has the right output extension, treat as in-, out-names
+-    if len(args) == 2 and args[1].endswith(yextn):
+-        infiles = [args[0]]
+-        outfiles = [args[1]]
+-    ## Otherwise treat as a list of in-names and generate default out-names
+-    else:
+-        for infile in args:
+-            if infile.endswith(xextn):
+-                outfile = infile.replace(xextn, yextn)
+-            else:
+-                outfile = infile + yextn
+-            outfile = os.path.basename(outfile)
+-            infiles.append(infile)
+-            outfiles.append(outfile)
+-    return zip(infiles, outfiles)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Makefile.am
---- ./src/Makefile.am	2014-05-12 17:25:39.652318645 +0200
-+++ ./src/Makefile.am	2014-05-12 17:25:39.755317860 +0200
-@@ -21,6 +21,12 @@
+--- ./src/Makefile.am	2014-05-27 17:14:52.487494561 +0200
++++ ./src/Makefile.am	2014-05-27 17:14:52.522494253 +0200
+@@ -21,6 +21,14 @@
      Scatter2D.cc \
      Scatter3D.cc
  
@@ -654,18 +685,22 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Mak
 +libYODA_la_CPPFLAGS = $(AM_CPPFLAGS) -DTIXML_USE_STL 
 +
 +if  ENABLE_ROOT
++libYODA_la_SOURCES += ROOTConvert.cc 
 +libYODA_la_SOURCES += ReaderROOT.cc 
++libYODA_la_SOURCES += WriterROOT.cc 
 +libYODA_la_LDFLAGS += $(ROOT_LDFLAGS)
 +libYODA_la_CPPFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reader.cc
---- ./src/Reader.cc	2014-05-12 17:25:39.653318638 +0200
-+++ ./src/Reader.cc	2014-05-12 17:25:39.767317768 +0200
-@@ -5,22 +5,26 @@
+--- ./src/Reader.cc	2014-05-27 17:14:52.488494552 +0200
++++ ./src/Reader.cc	2014-05-27 17:14:52.522494253 +0200
+@@ -5,22 +5,31 @@
  //
  #include "YODA/Reader.h"
  #include "YODA/ReaderYODA.h"
++#ifdef ENABLE_ROOT
 +#include "YODA/ReaderROOT.h"
++#endif
  #include "YODA/ReaderAIDA.h"
  #include "YODA/ReaderFLAT.h"
  
@@ -680,11 +715,15 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
 +Reader& mkReader(const string& name)
 +{
      const size_t lastdot = name.find_last_of(".");
-     const string fmt = boost::to_lower_copy((lastdot == string::npos) ? name : name.substr(lastdot+1));
+-    const string fmt = boost::to_lower_copy((lastdot == string::npos) ? name : name.substr(lastdot+1));
++    std::string fmt=((lastdot == std::string::npos) ? name : name.substr(lastdot+1));
++    std::transform(fmt.begin(), fmt.end(), fmt.begin(), ::tolower);
      if (fmt == "yoda") return ReaderYODA::create();
      if (fmt == "aida") return ReaderAIDA::create();
      if (fmt == "dat")  return ReaderFLAT::create();
++#ifdef ENABLE_ROOT
 +    if (fmt == "root") return ReaderROOT::create(name);
++#endif
      throw UserError("Format cannot be identified from string '" + name + "'");
 -  }
 +}
@@ -693,8 +732,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
  }
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/ReaderROOT.cc
 --- ./src/ReaderROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ReaderROOT.cc	2014-05-12 17:25:39.754317867 +0200
-@@ -0,0 +1,164 @@
++++ ./src/ReaderROOT.cc	2014-05-27 17:14:52.522494253 +0200
+@@ -0,0 +1,85 @@
 +// -*- C++ -*-
 +//
 +// This file is part of YODA -- Yet more Objects for Data Analysis
@@ -704,7 +743,6 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +#include "YODA/ReaderROOT.h"
 +#include "YODA/Utils/StringUtils.h"
 +#include "YODA/Exceptions.h"
-+
 +#include <iostream>
 +
 +
@@ -713,17 +751,9 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +
 +namespace YODA
 +{
-+ReaderROOT::histo1d ReaderROOT::_histo1d;
-+ReaderROOT::profile1d ReaderROOT::_profile1d;
-+ReaderROOT::scatter2d ReaderROOT::_scatter2d;
-+std::map<std::string, std::string> ReaderROOT::_annotations;
-+
-+
-+
 +
 +void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
 +{
-+
 +    std::string streama=_filename; //Ugly trick;
 +    TFile* fin = new TFile(streama.c_str()) ;
 +    if (!fin->IsOpen())
@@ -744,9 +774,6 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +            obj = key->ReadObj() ;
 +            int type=-1;
 +
-+
-+
-+
 +            if (strcmp(obj->IsA()->GetName(),"TProfile")==0) type=0;
 +            if (strcmp(obj->IsA()->GetName(),"TH1F")==0)type=11;
 +            if (strcmp(obj->IsA()->GetName(),"TH1D")==0) type=12;
@@ -755,107 +782,463 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +            if (strcmp(obj->IsA()->GetName(),"TGraphErrors")==0) type=32;
 +            if (strcmp(obj->IsA()->GetName(),"TGraphAsymmErrors")==0)type=33;
 +            if (type==-1)  printf("Object %s  has unsupported type %s and will not be converted\n",obj->GetName(),obj->IsA()->GetName()) ;
-+            if (type==0)   printf("Object %s has unsupported type TProfile\n",obj->GetName()) ;
++            if (type==0)
++                {
++                    TProfile* P= (TProfile*)(obj);
++                    YODA::Profile1D* dps = TProfiletoProfile1D(P,_filename);
++                    aos.push_back(dps);
++                }
 +            if (type==11||type==12)
 +                {
-+
-+#define TH1_IS_SCATTER2D
-+
-+#ifdef TH1_IS_SCATTER2D
-+                    char a[255];
-+                    sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
-+                    Scatter2D* dps = new Scatter2D(a);
-+
-+                    TH1* HH= (TH1*)(obj);
-+
-+                    for (int i = 1; i <= HH->GetNbinsX(); ++i)
-+                        {
-+                            const double x = HH->GetBinCenter(i);
-+                            const double exminus = x - HH->GetBinLowEdge(i);
-+                            const double explus = HH->GetBinLowEdge(i+1) - x;
-+                            const double width = exminus + explus;
-+                            dps->addPoint(x, HH->GetBinContent(i),
-+                                          exminus, explus,
-+                                          HH->GetBinErrorLow(i), HH->GetBinErrorUp(i));
-+                        }
-+                    dps->setAnnotation("Title", obj->GetTitle());
-+                    dps->setAnnotation("XLabel", HH->GetXaxis()->GetTitle());
-+                    dps->setAnnotation("YLabel", HH->GetYaxis()->GetTitle());
-+                    aos.push_back(dps);
-+#else
-+                    char a[255];
-+                    sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
-+                    YODA::Histo1D* dps = new YODA::Histo1D(a);//_histo1d.bins, _histo1d.dbn_tot, _histo1d.dbn_uflow, _histo1d.dbn_oflow);
-+                    int i;
++                    /*
++                    The mapping is TH? <-> Histo?D, TProfile <-> Profile1D, TGraph <-> Scatter2D.
++                    */
 +
 +                    if (type==11)
 +                        {
 +                            TH1F* HHF= (TH1F*)(obj);
-+                            if (HHF->GetNbinsX()>0)
-+                                {
-+                                    for (i=1; i<HHF->GetNbinsX(); i++)
-+                                        dps->addBin(HHF->GetBinLowEdge(i),HHF->GetBinLowEdge(i)+ HHF->GetBinWidth(i));
-+                                    dps->setAnnotation("Title", obj->GetTitle());
-+                                    dps->setAnnotation("TitleX", HHF->GetXaxis()->GetTitle());
-+                                    dps->setAnnotation("TitleY", HHF->GetYaxis()->GetTitle());
-+                                    for (i=1; i<HHF->GetNbinsX(); i++) dps->fill(HHF->GetBinCenter(i), HHF->GetBinContent(i));
-+                                }
++                            YODA::Histo1D* dps=YODA::TH1toHisto1D(HHF,_filename);
 +                            aos.push_back(dps);
 +                        }
-+
 +                    if (type==12)
 +                        {
 +                            TH1D* HHD= (TH1D*)(obj);
-+                            if (HHD->GetNbinsX()>0)
-+                                {
-+                                    for (i=1; i<HHD->GetNbinsX(); i++)
-+                                        dps->addBin(HHD->GetBinLowEdge(i),HHD->GetBinLowEdge(i)+ HHD->GetBinWidth(i));
-+                                    dps->setAnnotation("Title", obj->GetTitle());
-+                                    dps->setAnnotation("TitleX", HHD->GetXaxis()->GetTitle());
-+                                    dps->setAnnotation("TitleY", HHD->GetYaxis()->GetTitle());
-+                                    for (i=1; i<HHD->GetNbinsX(); i++) dps->fill(HHD->GetBinCenter(i), HHD->GetBinContent(i));
-+                                }
++                            YODA::Histo1D* dps=YODA::TH1toHisto1D(HHD);
 +                            aos.push_back(dps);
 +                        }
-+
-+
-+#endif
-+                    cleanup();
 +                }
 +            if (type==2)   printf("<W> Object %s has unsupported type TH2\n",obj->GetName()) ;
 +            if (type==31||type==32||type==33)
 +                {
-+                    char a[255];
-+                    sprintf(a,"/%s/%s",streama.c_str(),obj->GetName());
-+                    Scatter2D* dps = new Scatter2D(a);
-+                    int i;
-+                    TGraphAsymmErrors* HH=(TGraphAsymmErrors*)obj;
-+
-+                    for (i=0; i<HH->GetN()-1; i++)
-+                        {
-+                            double x,y;
-+                            HH->GetPoint(i,x,y);
-+                            dps->addPoint(x, y,
-+                                          HH->GetErrorXlow(i),
-+                                          HH->GetErrorXhigh(i),
-+                                          HH->GetErrorYlow(i),
-+                                          HH->GetErrorYhigh(i)
-+                                         );
-+                        }
-+                    dps->setAnnotation("Title", obj->GetTitle());
-+                    dps->setAnnotation("TitleX", HH->GetXaxis()->GetTitle());
-+                    dps->setAnnotation("TitleY", HH->GetYaxis()->GetTitle());
++                    TGraphAsymmErrors* G=(TGraphAsymmErrors*)obj;
++                    Scatter2D* dps = YODA::TGraphtoScatter2D(G,_filename);
 +                    aos.push_back(dps);
-+                    cleanup();
 +                }
-+
-+
-+
 +        }
 +    fin->Close();
++}
++
++}
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/ROOTConvert.cc
+--- ./src/ROOTConvert.cc	1970-01-01 01:00:00.000000000 +0100
++++ ./src/ROOTConvert.cc	2014-05-27 17:14:52.522494253 +0200
+@@ -0,0 +1,233 @@
++// -*- C++ -*-
++//
++// This file is part of YODA -- Yet more Objects for Data Analysis
++// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
++//
++#ifndef YODA_ROOTCnv_h
++#define YODA_ROOTCnv_h
++
++#include "YODA/ROOTConvert.h"
++#include "YODA/Histo1D.h"
++#include "YODA/Histo2D.h"
++#include "YODA/Histo1D.h"
++#include "YODA/Profile1D.h"
++#include "YODA/Scatter2D.h"
++
++#include "TH1.h"
++#include "TH2.h"
++#include "TProfile.h"
++#include "TGraphAsymmErrors.h"
++#include "TVectorF.h"
++#include "TFile.h"
++#include "TList.h"
++#include "TKey.h"
++#include "TClass.h"
++#include "TH1F.h"
++#include <string>
++
++namespace YODA
++{
++
++Histo1D* TH1toHisto1D(const TH1* th1, std::string fname)
++{
++    std::vector<HistoBin1D> bins;
++    const TArrayD* sumw2s = th1->GetSumw2();
++    Dbn1D dbn_uflow, dbn_oflow;
++    double sumWtot=0, sumW2tot=0;
++    for (int i = 0; i <= th1->GetNbinsX()+1; ++i)
++        {
++            Dbn1D dbn(static_cast<unsigned long>(th1->GetBinContent(i)), th1->GetBinContent(i), sumw2s->GetAt(i) 
++                      , 0, 0);
++            //th1->GetBinContent(i)*th1->GetBinCenter(i), th1->GetBinContent(i)*sqr(th1->GetBinCenter(i)));
++            if (i == 0) dbn_uflow = dbn;
++            else if (i == th1->GetNbinsX()+1) dbn_oflow = dbn;
++            else bins.push_back(HistoBin1D(std::make_pair(th1->GetBinLowEdge(i), th1->GetBinLowEdge(i+1)), dbn));
++            sumWtot += th1->GetBinContent(i);
++            sumW2tot +=   sumw2s->GetAt(i);
++        }
++    Dbn1D dbn_tot(static_cast<unsigned long>(th1->GetEntries()), sumWtot, sumW2tot, 0, 0);
++
++    Histo1D* rtn =new Histo1D(bins, dbn_tot, dbn_uflow, dbn_oflow,std::string("/")+fname+std::string("/")+th1->GetName(), th1->GetTitle());
++    rtn->setAnnotation("XLabel", th1->GetXaxis()->GetTitle());
++    rtn->setAnnotation("YLabel", th1->GetYaxis()->GetTitle());
++    rtn->setAnnotation("Title", std::string("/")+th1->GetTitle());
++    return rtn;
++}
++
++Scatter2D* TH1toScatter2D(const TH1* th1, std::string fname)
++{
++    Scatter2D* rtn = new Scatter2D(std::string("/")+fname+std::string("/")+th1->GetName());
++    for (int i = 1; i <= th1->GetNbinsX(); ++i)
++        {
++            const double x = th1->GetBinCenter(i);
++            const double exminus = x - th1->GetBinLowEdge(i);
++            const double explus = th1->GetBinLowEdge(i+1) - x;
++            const double width = exminus + explus;
++            rtn->addPoint(x, th1->GetBinContent(i)/width,
++                          exminus, explus,
++                          th1->GetBinErrorLow(i)/width, th1->GetBinErrorUp(i)/width);
++        }
++    rtn->setAnnotation("XLabel", th1->GetXaxis()->GetTitle());
++    rtn->setAnnotation("YLabel", th1->GetYaxis()->GetTitle());
++    rtn->setAnnotation("Title", std::string("/")+th1->GetTitle());
++    return rtn;
 +}
 +
 +
 +
 +
++Profile1D*         TProfiletoProfile1D(const TProfile* p, std::string fname)
++{
++
++
++    Profile1D* rtn = new Profile1D(std::string("/")+fname+std::string("/")+p->GetName());
++    for (int i = 1; i <= p->GetNbinsX(); ++i)
++        {
++            const double x = p->GetBinCenter(i);
++            const double exminus = x - p->GetBinLowEdge(i);
++            const double explus = p->GetBinLowEdge(i+1) - x;
++            const double width = exminus + explus;
++//FIXME      rtn->addPoint(x, p->GetBinContent(i)/width, exminus, explus,  p->GetBinErrorLow(i)/width, p->GetBinErrorUp(i)/width);
++        }
++    rtn->setAnnotation("XLabel", p->GetXaxis()->GetTitle());
++    rtn->setAnnotation("YLabel", p->GetYaxis()->GetTitle());
++    rtn->setAnnotation("Title", std::string("/")+p->GetTitle());
++    return rtn;
++
++}
++
++
++Scatter2D* TGraphtoScatter2D(const TGraph* g, std::string fname)
++{
++    Scatter2D* rtn = new Scatter2D(std::string("/")+fname+std::string("/")+g->GetName());
++    int i;
++    for (i=0; i<g->GetN()-1; i++)
++        {
++            double x,y;
++            g->GetPoint(i,x,y);
++            rtn->addPoint(x, y,
++                          g->GetErrorXlow(i),
++                          g->GetErrorXhigh(i),
++                          g->GetErrorYlow(i),
++                          g->GetErrorYhigh(i)
++                         );
++        }
++    rtn->addAnnotation("XLabel", g->GetXaxis()->GetTitle());
++    rtn->addAnnotation("YLabel", g->GetYaxis()->GetTitle());
++    rtn->setAnnotation("Title", std::string("/")+g->GetTitle());
++    return rtn;
++}
++
++
++
++TH1D* Histo1DtoTH1D(const Histo1D* h)
++{
++    // Work out bin edges first
++    std::vector<double> edges;
++    edges.reserve(h->numBins()+1);
++    edges.push_back(h->bin(0).lowEdge());
++    for (size_t i = 0; i < h->numBins(); ++i)
++        {
++            const HistoBin1D& b = h->bin(i);
++            if (!fuzzyEquals(edges.back(), b.lowEdge())) edges.push_back(b.lowEdge());
++            if (!fuzzyEquals(edges.back(), b.highEdge())) edges.push_back(b.highEdge());
++        }
++    // Book ROOT histogram
++    TH1D* rtn= new TH1D(h->path().c_str(), h->title().c_str(), edges.size()-1, &edges[0]);
++    rtn->Sumw2();
++    TArrayD* sumw2s = new TArrayD(*(rtn->GetSumw2()));
++    for (int i = 1; i <= rtn->GetNbinsX(); ++i)
++        {
++            try
++                {
++                    const HistoBin1D& b = h->binAt(rtn->GetBinCenter(i)); // throws if in a gap
++                    rtn->SetBinContent(i, b.sumW());
++                    //FIXME sumw2s[i] = b.sumW2();
++                }
++            catch (const Exception& e) {  }
++        }
++    // Overflows
++    rtn->SetBinContent(0, h->underflow().sumW());
++    rtn->SetBinContent(rtn->GetNbinsX()+1, h->overflow().sumW());
++    //FIXME  sumw2s[0] = h->underflow().sumW2();
++    //FIXME  sumw2s[rtn->GetNbinsX()+1] = h->overflow().sumW2();
++    // Labels
++    if (h->hasAnnotation("XLabel")) rtn->SetXTitle(h->annotation("XLabel").c_str());
++    if (h->hasAnnotation("YLabel")) rtn->SetYTitle(h->annotation("YLabel").c_str());
++
++    return rtn;
++}
++
++
++TProfile* Profile1DtoTProfile(const Profile1D* p)
++{
++    // Work out bin edges first
++    std::vector<double> edges;
++    edges.reserve(p->numBins()+1);
++    edges.push_back(p->bin(0).lowEdge());
++    for (size_t i = 0; i < p->numBins(); ++i)
++        {
++            const ProfileBin1D& b = p->bin(i);
++            if (!fuzzyEquals(edges.back(), b.lowEdge())) edges.push_back(b.lowEdge());
++            if (!fuzzyEquals(edges.back(), b.highEdge())) edges.push_back(b.highEdge());
++        }
++    // Book ROOT histogram
++    TProfile *rtn =new TProfile(p->path().c_str(), p->title().c_str(), edges.size()-1, &edges[0]);
++    rtn->Sumw2();
++    TArrayD* sumw2s = new TArrayD(*(rtn->GetSumw2()));
++    for (int i = 1; i <= rtn->GetNbinsX(); ++i)
++        {
++            try
++                {
++                    const ProfileBin1D& b = p->binAt(rtn->GetBinCenter(i)); // throws if in a gap
++                    /// @todo This part is probably wrong -- also need to do something with GetW,
++                    ///   GetW2, GetB, GetB2, and/or GetBinSumw2? ROOT docs are 100% useless...
++                    rtn->SetBinContent(i, b.sumW());
++                    //FIXME  sumw2s[i] = b.sumW2();
++                }
++            catch (const Exception& e) {  }
++        }
++    // Overflows
++    rtn->SetBinContent(0, p->underflow().sumW());
++    rtn->SetBinContent(rtn->GetNbinsX()+1, p->overflow().sumW());
++    //FIXME  sumw2s[0] = p->underflow().sumW2();
++    //FIXME  sumw2s[rtn->GetNbinsX()+1] = p->overflow().sumW2();
++    // Labels
++    if (p->hasAnnotation("XLabel")) rtn->SetXTitle(p->annotation("XLabel").c_str());
++    if (p->hasAnnotation("YLabel")) rtn->SetYTitle(p->annotation("YLabel").c_str());
++    return rtn;
++}
++
++
++
++TGraphAsymmErrors* Scatter2DtoTGraphAsymmErrors(const Scatter2D* s)
++{
++    TVectorF xs(s->numPoints()), ys(s->numPoints());
++    TVectorF exls(s->numPoints()), exhs(s->numPoints());
++    TVectorF eyls(s->numPoints()), eyhs(s->numPoints());
++    for (size_t i = 0; i < s->numPoints(); ++i)
++        {
++            const Point2D& p = s->point(i);
++            xs[i] = p.x();
++            ys[i] = p.y();
++            exls[i] = p.xErrMinus();
++            exhs[i] = p.xErrPlus();
++            eyls[i] = p.yErrMinus();
++            eyhs[i] = p.yErrPlus();
++        }
++    // Make the ROOT object... mm, the constructors don't take name+title, unlike all this histos!
++    TGraphAsymmErrors* rtn= new TGraphAsymmErrors(xs, ys, exls, exhs, eyls, eyhs);
++    rtn->SetName(s->path().c_str());
++    rtn->SetTitle(s->title().c_str());
++    // Labels
++    if (s->hasAnnotation("XLabel")) rtn->GetXaxis()->SetTitle(s->annotation("XLabel").c_str());
++    if (s->hasAnnotation("YLabel")) rtn->GetYaxis()->SetTitle(s->annotation("YLabel").c_str());
++    return rtn;
++}
++
++//@}
++
++
++}
++
++#endif
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Writer.cc
+--- ./src/Writer.cc	2014-05-27 17:14:52.488494552 +0200
++++ ./src/Writer.cc	2014-05-27 17:14:52.522494253 +0200
+@@ -7,65 +7,88 @@
+ #include "YODA/WriterYODA.h"
+ #include "YODA/WriterAIDA.h"
+ #include "YODA/WriterFLAT.h"
+-#include "boost/algorithm/string.hpp"
++#ifdef ENABLE_ROOT
++#include "YODA/WriterROOT.h"
++#endif
++#include <algorithm>
+ #include <iostream>
+ #include <typeinfo>
+ #include <sstream>
+ 
+ using namespace std;
+ 
+-namespace YODA {
++namespace YODA
++{
+ 
+ 
+-  Writer& mkWriter(const std::string& name) {
++Writer& mkWriter(const std::string& name)
++{
+     const size_t lastdot = name.find_last_of(".");
+-    const string fmt = boost::to_lower_copy((lastdot == std::string::npos) ? name : name.substr(lastdot+1));
++    std::string fmt=((lastdot == std::string::npos) ? name : name.substr(lastdot+1));
++    std::transform(fmt.begin(), fmt.end(), fmt.begin(), ::tolower);
+     if (fmt == "yoda") return WriterYODA::create();
+     if (fmt == "aida") return WriterAIDA::create();
+     if (fmt == "flat") return WriterFLAT::create();
++#ifdef ENABLE_ROOT
++    if (fmt == "root") return WriterROOT::create(name);
++#endif
+     throw UserError("Format cannot be identified from string '" + name + "'");
+-  }
++}
+ 
+ 
+-  void Writer::write(std::ostream& stream, const AnalysisObject& ao) {
++void Writer::write(std::ostream& stream, const AnalysisObject& ao)
++{
+     writeHeader(stream);
+     writeBody(stream, ao);
+     writeFooter(stream);
+-  }
++}
+ 
+ 
+-  void Writer::write(const std::string& filename, const AnalysisObject& ao) {
++void Writer::write(const std::string& filename, const AnalysisObject& ao)
++{
+     ofstream outstream;
+     outstream.open(filename.c_str());
+     write(outstream, ao);
+     outstream.close();
+-  }
++}
+ 
+ 
+-  void Writer::writeBody(std::ostream& stream, const AnalysisObject& ao) {
++void Writer::writeBody(std::ostream& stream, const AnalysisObject& ao)
++{
+     const string aotype = ao.type();
+-    if (aotype == "Counter") {
+-      writeCounter(stream, dynamic_cast<const Counter&>(ao));
+-    } else if (aotype == "Histo1D") {
+-      writeHisto1D(stream, dynamic_cast<const Histo1D&>(ao));
+-    } else if (aotype == "Histo2D") {
+-      writeHisto2D(stream, dynamic_cast<const Histo2D&>(ao));
+-    } else if (aotype == "Profile1D") {
+-      writeProfile1D(stream, dynamic_cast<const Profile1D&>(ao));
+-    // } else if (aotype == "Profile2D") {
+-    //   writeProfile2D(stream, dynamic_cast<const Profile2D&>(ao));
+-    // } else if (aotype == "Scatter1D") {
+-    //   writeScatter1D(stream, dynamic_cast<const Scatter1D&>(ao));
+-    } else if (aotype == "Scatter2D") {
+-      writeScatter2D(stream, dynamic_cast<const Scatter2D&>(ao));
+-    // } else if (aotype == "Scatter3D") {
+-    //   writeScatter3D(stream, dynamic_cast<const Scatter3D&>(ao));
+-    } else {
+-      ostringstream oss;
+-      oss << "Unrecognised analysis object type " << aotype << " in Writer::write";
+-      throw Exception(oss.str());
+-    }
+-  }
++    if (aotype == "Counter")
++        {
++            writeCounter(stream, dynamic_cast<const Counter&>(ao));
++        }
++    else if (aotype == "Histo1D")
++        {
++            writeHisto1D(stream, dynamic_cast<const Histo1D&>(ao));
++        }
++    else if (aotype == "Histo2D")
++        {
++            writeHisto2D(stream, dynamic_cast<const Histo2D&>(ao));
++        }
++    else if (aotype == "Profile1D")
++        {
++            writeProfile1D(stream, dynamic_cast<const Profile1D&>(ao));
++            // } else if (aotype == "Profile2D") {
++            //   writeProfile2D(stream, dynamic_cast<const Profile2D&>(ao));
++            // } else if (aotype == "Scatter1D") {
++            //   writeScatter1D(stream, dynamic_cast<const Scatter1D&>(ao));
++        }
++    else if (aotype == "Scatter2D")
++        {
++            writeScatter2D(stream, dynamic_cast<const Scatter2D&>(ao));
++            // } else if (aotype == "Scatter3D") {
++            //   writeScatter3D(stream, dynamic_cast<const Scatter3D&>(ao));
++        }
++    else
++        {
++            ostringstream oss;
++            oss << "Unrecognised analysis object type " << aotype << " in Writer::write";
++            throw Exception(oss.str());
++        }
++}
+ 
+ 
+ }
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/WriterROOT.cc ./src/WriterROOT.cc
+--- ./src/WriterROOT.cc	1970-01-01 01:00:00.000000000 +0100
++++ ./src/WriterROOT.cc	2014-05-27 17:14:52.523494244 +0200
+@@ -0,0 +1,58 @@
++// -*- C++ -*-
++//
++// This file is part of YODA -- Yet more Objects for Data Analysis
++// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
++//
++#include "YODA/WriterROOT.h"
++
++#include "YODA/Histo1D.h"
++#include "YODA/Histo2D.h"
++#include "YODA/Profile1D.h"
++#include "YODA/Scatter2D.h"
++#include "YODA/ROOTConvert.h"
++#include <iostream>
++#include <iomanip>
++
++using namespace std;
++
++namespace YODA
++{
++
++
++void WriterROOT::writeHeader(std::ostream& os) {}
++void WriterROOT::writeFooter(std::ostream& os) {}
++void WriterROOT::_writeAnnotations(std::ostream& os, const AnalysisObject& ao) { }
++void WriterROOT::writeCounter(std::ostream& os, const Counter& c) { }
++
++void WriterROOT::writeHisto1D(std::ostream& os, const Histo1D& h)
++{
++    if (_ROOTfile) _ROOTfile->cd();
++    else printf("No output ROOT file %s\n",_filename.c_str());
++    TH1D* dps=YODA::Histo1DtoTH1D(&h);
++    if (dps) {  dps->SetDirectory(_ROOTfile); dps->Write( ); dps->SetDirectory(0);}
++}
++
++
++void WriterROOT::writeHisto2D(std::ostream& os, const Histo2D& h) { }
++
++void WriterROOT::writeProfile1D(std::ostream& os, const Profile1D& p)
++{
++    if (_ROOTfile) _ROOTfile->cd();
++    else printf("No output ROOT file %s\n",_filename.c_str());
++    TProfile* dps=YODA::Profile1DtoTProfile(&p);
++    if (dps) { dps->SetDirectory(_ROOTfile); dps->Write(); dps->SetDirectory(0);}
++}
++
++void WriterROOT::writeScatter2D(std::ostream& os, const Scatter2D& s)
++{
++    if (_ROOTfile) _ROOTfile->cd();
++    else printf("No output ROOT file %s\n",_filename.c_str());
++    TGraphAsymmErrors* dps=YODA::Scatter2DtoTGraphAsymmErrors(&s);
++    if (dps)
++        {
++            _ROOTfile->Append(dps),  dps->Write();
++            //dps->SetDirectory(0);
++        }
++    //dps->SetDirectory(0);
++}
 +}

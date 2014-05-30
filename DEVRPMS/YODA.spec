@@ -59,15 +59,16 @@ autoreconf
 #./configure  
 #--prefix=%{_prefix} 
 #--libdir=%{_libdir}
-mkdir -p $(pwd)/tmp/usr
-mkdir -p $(pwd)/tmp/%_lib
-./configure --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --enable-root
-make
+#mkdir -p $(pwd)/tmp/usr
+#mkdir -p $(pwd)/tmp/%_lib
+#./configure --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --enable-root
+%configure --enable-root
+make  %{?_smp_mflags}
 
 %install
-make install
-sed -i s@$(pwd)/tmp/usr/%_lib@/usr/%_lib@g  $(pwd)/tmp/usr/%_lib/*.la
-sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/yoda-config
+make install  DESTDIR=$(pwd)/tmp
+#sed -i s@$(pwd)/tmp/usr/%_lib@/usr/%_lib@g  $(pwd)/tmp/usr/%_lib/*.la
+#sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/yoda-config
 
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT

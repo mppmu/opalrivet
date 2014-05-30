@@ -71,6 +71,7 @@ DEVRPMS/PHOTOS-3.54.tar.gz:
 DEVRPMS/EvtGen-1.3.0.tar.gz:
 		wget http://evtgen.warwick.ac.uk/static/srcrep/R01-03-00/EvtGen.R01-03-00.tar.gz
 		tar xvfz EvtGen.R01-03-00.tar.gz
+		rm -rf EvtGen-1.3.0
 		mkdir -p EvtGen-1.3.0
 		mv EvtGen/R01-03-00/* EvtGen-1.3.0
 		tar cvf DEVRPMS/EvtGen-1.3.0.tar.gz EvtGen-1.3.0

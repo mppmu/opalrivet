@@ -1,6 +1,6 @@
 diff -Naur ./configure ./configure
---- ./configure	2014-01-08 14:49:38.000000000 +0100
-+++ ./configure	2014-04-09 01:12:45.656767549 +0200
+--- ./configure	2014-05-30 14:08:05.207241088 +0200
++++ ./configure	2014-05-30 14:29:36.319149047 +0200
 @@ -32,6 +32,7 @@
        "\nUsage: ./configure [options] , where options are:\n\n"\
        "--help                                 : prints this help\n"\
@@ -46,19 +46,7 @@ diff -Naur ./configure ./configure
  
  SHELL = /bin/bash 
  ARCH = ${ARCH} 
-@@ -258,10 +264,7 @@
- TMPDIR = \$(EVTGENDIR)/tmp
- INCLUDEDIR = \$(EVTGENDIR)
- 
--HEPMCDIR = ${HEPMCDIR}
--HEPMCINCDIR = ${HEPMCDIR}/include
--HEPMCLIBDIR = ${HEPMCDIR}/lib
--HEPMCLIBLIST = ${HEPMCLIBLIST}
-+
- 
- SRCDIR = \$(EVTGENDIR)/src
- LIBDIR_SHARED = \$(EVTGENDIR)/lib
-@@ -290,12 +293,29 @@
+@@ -287,12 +293,26 @@
  
  EOF
  
@@ -72,25 +60,47 @@ diff -Naur ./configure ./configure
 +fi
 +  echo "HEPMCLIBLIST = ${HEPMCLIBLIST}" >> config.mk
 +
-+
-+
  if [ "${EVTGEN_PYTHIA}" == "1" ] ; then
    echo "EVTGEN_PYTHIA = 1" >> config.mk
    echo "EXTRAFLAGS += -D EVTGEN_PYTHIA" >> config.mk
    echo "PYTHIADIR = ${PYTHIADIR}" >> config.mk
    echo "PYTHIAINCDIR = ${PYTHIADIR}/include" >> config.mk
+-  echo "PYTHIALIBDIR = ${PYTHIADIR}/lib" >> config.mk
 +if [ -d ${PYTHIADIR}/lib64 ]; then 
-   echo "PYTHIALIBDIR = ${PYTHIADIR}/lib" >> config.mk
++  echo "PYTHIALIBDIR = ${PYTHIADIR}/lib64" >> config.mk
 +else
 +  echo"PYTHIALIBDIR = ${PYTHIADIR}/lib"   >> config.mk
 +fi
-+#  echo "PYTHIALIBDIR = ${PYTHIADIR}/lib" >> config.mk
    echo "PYTHIALIBLIST = ${PYTHIALIBLIST}" >> config.mk
+ fi
+ 
+@@ -301,7 +321,11 @@
+   echo "EXTRAFLAGS += -D EVTGEN_PHOTOS" >> config.mk
+   echo "PHOTOSDIR = ${PHOTOSDIR}" >> config.mk
+   echo "PHOTOSINCDIR = ${PHOTOSDIR}/include" >> config.mk
++if [ -d ${PHOTOSDIR}/lib64 ]; then 
++  echo "PHOTOSLIBDIR = ${PHOTOSDIR}/lib64" >> config.mk
++else
+   echo "PHOTOSLIBDIR = ${PHOTOSDIR}/lib" >> config.mk
++fi
+   echo "PHOTOSLIBLIST = ${PHOTOSLIBLIST}" >> config.mk
+ fi
+ 
+@@ -310,7 +334,11 @@
+   echo "EXTRAFLAGS += -D EVTGEN_TAUOLA" >> config.mk
+   echo "TAUOLADIR = ${TAUOLADIR}" >> config.mk
+   echo "TAUOLAINCDIR = ${TAUOLADIR}/include" >> config.mk
++if [ -d ${TAUOLADIR}/lib64 ]; then 
++  echo "TAUOLALIBDIR = ${TAUOLADIR}/lib64" >> config.mk
++else
+   echo "TAUOLALIBDIR = ${TAUOLADIR}/lib" >> config.mk
++fi
+   echo "TAUOLALIBLIST = ${TAUOLALIBLIST}" >> config.mk
  fi
  
 diff -Naur ./Makefile ./Makefile
 --- ./Makefile	2012-09-18 16:37:21.000000000 +0200
-+++ ./Makefile	2014-04-09 00:46:51.998188412 +0200
++++ ./Makefile	2014-05-30 14:28:16.997805744 +0200
 @@ -25,10 +25,10 @@
  
  install:
@@ -99,11 +109,10 @@ diff -Naur ./Makefile ./Makefile
 -	  cp -rf lib/* ${PREFIX}/lib/ && \
 -	  cp -rf EvtGen EvtGenBase EvtGenModels EvtGenExternal ${PREFIX}/include/ && \
 -	  cp -rf *.DEC *.XML evt.pdl ${PREFIX}/share/ ; \
-+	  mkdir -p ${DESTDIR}/${PREFIX}/lib ${DESTDIR}/${PREFIX}/include ${DESTDIR}/${PREFIX}/share && \
++	  mkdir -p ${DESTDIR}/$(LIBDIR) ${DESTDIR}/${PREFIX}/include ${DESTDIR}/${PREFIX}/share && \
 +	  cp -rf lib/* ${DESTDIR}/$(LIBDIR) && \
 +	  cp -rf EvtGen EvtGenBase EvtGenModels EvtGenExternal ${DESTDIR}/${PREFIX}/include/ && \
 +	  cp -rf *.DEC *.XML evt.pdl ${DESTDIR}/${PREFIX}/share/ ; \
          fi
  
  distclean: clean
-

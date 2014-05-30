@@ -63,8 +63,8 @@ The library documentation is available on header files.
 mkdir -p $(pwd)/tmp/usr
 mkdir -p $(pwd)/tmp/%_lib
 #autoreconf
-./configure  --prefix=/usr --libdir=/usr/%_lib --hepmcdir=/usr --pythiadir=/usr --photosdir=/usr --tauoladir=/usr
-make -k %{?_smp_mflags}
+./configure  --prefix=/usr --libdir=/usr/%_lib --hepmcdir=/usr --pythiadir=/usr --photosdir=/usr --tauoladir=/usr 
+make 
 
 %install
 make install DESTDIR=$(pwd)/tmp 

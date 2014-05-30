@@ -31,19 +31,19 @@ namespace YODA
 Histo1D* TH1toHisto1D(const TH1* th1, std::string fname)
 {
     std::vector<HistoBin1D> bins;
-    //TArrayD* sumw2s = new TArrayD(*(th1->GetSumw2()));
+    const TArrayD* sumw2s = th1->GetSumw2();
     Dbn1D dbn_uflow, dbn_oflow;
     double sumWtot=0, sumW2tot=0;
     for (int i = 0; i <= th1->GetNbinsX()+1; ++i)
         {
-            Dbn1D dbn(static_cast<unsigned long>(th1->GetBinContent(i)), th1->GetBinContent(i), 0//FIXME sumw2s->GetAt(i)
+            Dbn1D dbn(static_cast<unsigned long>(th1->GetBinContent(i)), th1->GetBinContent(i), sumw2s->GetAt(i) 
                       , 0, 0);
             //th1->GetBinContent(i)*th1->GetBinCenter(i), th1->GetBinContent(i)*sqr(th1->GetBinCenter(i)));
             if (i == 0) dbn_uflow = dbn;
             else if (i == th1->GetNbinsX()+1) dbn_oflow = dbn;
             else bins.push_back(HistoBin1D(std::make_pair(th1->GetBinLowEdge(i), th1->GetBinLowEdge(i+1)), dbn));
             sumWtot += th1->GetBinContent(i);
-            sumW2tot +=  0;//FIXME sumw2s->GetAt(i);
+            sumW2tot +=   sumw2s->GetAt(i);
         }
     Dbn1D dbn_tot(static_cast<unsigned long>(th1->GetEntries()), sumWtot, sumW2tot, 0, 0);
 
@@ -149,7 +149,7 @@ TH1D* Histo1DtoTH1D(const Histo1D* h)
     // Overflows
     rtn->SetBinContent(0, h->underflow().sumW());
     rtn->SetBinContent(rtn->GetNbinsX()+1, h->overflow().sumW());
-    //FIXME sumw2s[0] = h->underflow().sumW2();
+    //FIXME  sumw2s[0] = h->underflow().sumW2();
     //FIXME  sumw2s[rtn->GetNbinsX()+1] = h->overflow().sumW2();
     // Labels
     if (h->hasAnnotation("XLabel")) rtn->SetXTitle(h->annotation("XLabel").c_str());

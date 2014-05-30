@@ -63,7 +63,7 @@ The library documentation is available on header files.
 mkdir -p $(pwd)/tmp/usr
 mkdir -p $(pwd)/tmp/%_lib
 #autoreconf
-./configure  --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib 
+./configure  --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib   --with-hepmc=/usr
 make 
 #%{?_smp_mflags}
 
