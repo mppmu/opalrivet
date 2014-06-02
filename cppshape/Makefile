@@ -46,6 +46,7 @@ EVENTO        =  obj/$(TARGET)Dict.$(ObjSuf)\
 		obj/OPALLEP1QCDNtupProj.$(ObjSuf)\
 		obj/JADEObservable.$(ObjSuf)\
 		obj/OPALQCDNtupProj.$(ObjSuf)\
+		obj/NewNtupleReader.$(ObjSuf)\
 		obj/NtupleReader.$(ObjSuf)\
 		obj/NtupProj.$(ObjSuf)\
 		obj/hbook.$(ObjSuf)\
@@ -139,6 +140,7 @@ obj/$(TARGET).$(ObjSuf):  \
 		include/NtupProj.h\
 		include/GlobalsUtil.h\
 		include/NtupleReader.h\
+		include/NewNtupleReader.h\
 		include/OPALLEP1QCDNtupProj.h\
 		include/nhmem.h\
 		include/Observable.h\

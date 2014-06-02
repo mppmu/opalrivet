@@ -526,6 +526,7 @@ int main( int narg, char* argv[] ) {
       cin >> filename;
       cout << filename << endl;
       NtJADEanalyse( filename );
+      
       exit( 0 );
       break;
     case 'Q':
