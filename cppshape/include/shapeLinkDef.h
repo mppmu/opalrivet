@@ -11,10 +11,6 @@
 #pragma link C++ class OPALLEP1QCDNtupProj;
 #pragma link C++ class OPALObservable;
 #pragma link C++ class OPALQCDNtupProj;
-#pragma link C++ class S4sub;
-#pragma link C++ class MomHist;
-#pragma link C++ class Hismanip;
-#pragma link C++ class Histogram;
 #pragma link C++ class vector<TLorentzVector>;
 #endif
 

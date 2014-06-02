@@ -7,7 +7,7 @@
 # Author: Fons Rademakers, 29/2/2000
 
 #-----------------------------------------------------------------------------
-TARGET = shape2
+TARGET = plotdy23
 
 
 
@@ -30,21 +30,20 @@ LD                  =  $(shell  $(ROOT-CONFIG) --ld)
 LDFLAGS             =  -g -O0   
 SOFLAGS             =  -g 
 
-LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook 
-#-lminicern
+LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook -lminicern
 LDFLAGS+=-L../../lib -lshape -lshapePAW $(shell $(CERNLIB) packlib )
 CXXFLAGS+=-I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags ) $(shell $(ROOT-CONFIG) --cflags)
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 
 
-all: dirs  bin/$(TARGET)
+all: dirs bin/$(TARGET)
 
 dirs:
 	mkdir -p lib obj gen bin
-
+	
 clean:   
 		@rm -f $(PROGRAMS) $(EVENTSO) $(EVENTLIB) *Dict.* *.def *.exp \
-		   *.so *.lib *.dll *.d *.log .def so_locations  gen/*  lib/* obj/*
+		   *.so *.lib *.dll *.d *.log .def so_locations  gen/*  lib/* obj/* bin/*
 
 nice: 
 	astyle -n --keep-one-line-blocks --style=gnu  ./src/*cxx ./include/*h 
@@ -52,45 +51,9 @@ nice:
 doc:
 	doxygen 
 	
-EVENTO  =  obj/$(TARGET)Dict.$(ObjSuf) obj/$(TARGET).$(ObjSuf)\
-	obj/ntuple_200.$(ObjSuf)\
-	obj/ntuple_200_lep1.$(ObjSuf)\
-	obj/ntuple_107j.$(ObjSuf)\
-	obj/ntuple_200j.$(ObjSuf)\
-	obj/ntuple_108.$(ObjSuf)
 
 
 
-
-
-
-gen/$(TARGET)Dict.$(SrcSuf): \
-	include/ntuple_200.hh\
-	include/ntuple_200_lep1.hh\
-	include/ntuple_107j.hh\
-	include/ntuple_200j.hh\
-	include/ntuple_108.hh\
-	include/$(TARGET)LinkDef.h
-	@echo "Generating dictionary $@..."
-	@rootcint  -f $@  -c  -I../../include  $^    
-
-
-
-
-bin/$(TARGET): $(EVENTO)
-		$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(OutPutOpt) $@ $(EXPLLINKLIBS)
-
-
-
-obj/$(TARGET)Dict.$(ObjSuf): gen/$(TARGET)Dict.$(SrcSuf)
-	$(CXX) $(CXXFLAGS) -c $<  -o $@
-
-obj/%.$(ObjSuf): src/%.$(SrcSuf)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-obj/%.$(ObjSuf): src/%.$(SrcSuf2)
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-obj/%.$(ObjSuf): src/%.$(SrcSuf3)
-	$(FC)   $(FFLAGS) -c $<  -o $@
+bin/$(TARGET): 
+		$(CXX) $(CXXFLAGS) $(LDFLAGS) src/$(TARGET).cc -o bin/$(TARGET)
 

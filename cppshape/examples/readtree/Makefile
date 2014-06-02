@@ -30,8 +30,8 @@ LD                  =  $(shell  $(ROOT-CONFIG) --ld)
 LDFLAGS             =  -g -O0   
 SOFLAGS             =  -g 
 
-LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook
-LDFLAGS+=-L../../lib -lshape  $(shell $(CERNLIB) packlib )
+LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook -lminicern
+LDFLAGS+=-L../../lib -lshape -lshapePAW $(shell $(CERNLIB) packlib )
 CXXFLAGS+=-I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags ) $(shell $(ROOT-CONFIG) --cflags)
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 
@@ -43,7 +43,7 @@ dirs:
 	
 clean:   
 		@rm -f $(PROGRAMS) $(EVENTSO) $(EVENTLIB) *Dict.* *.def *.exp \
-		   *.so *.lib *.dll *.d *.log .def so_locations  gen/*  lib/* obj/*
+		   *.so *.lib *.dll *.d *.log .def so_locations  gen/*  lib/* obj/* bin/*
 
 nice: 
 	astyle -n --keep-one-line-blocks --style=gnu  ./src/*cxx ./include/*h 
