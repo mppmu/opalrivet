@@ -69,7 +69,14 @@ OBJS          = $(EVENTO)
 
 .SUFFIXES: .$(SrcSuf) .$(SrcSuf2) .$(SrcSuf3) .$(ObjSuf) .$(DllSuf)
 
-all:            $(EVENTLIB)  $(ROOTMAP)
+
+all:   dirs         $(EVENTLIB)  $(ROOTMAP)
+
+
+dirs:
+	mkdir -p lib obj gen bin
+	
+
 
 $(ROOTMAP): 
 	@printf "Building $(ROOTMAP) ... "

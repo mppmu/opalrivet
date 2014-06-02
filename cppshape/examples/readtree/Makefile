@@ -36,9 +36,11 @@ CXXFLAGS+=-I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shel
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 
 
-all: bin/$(TARGET)
+all: dirs bin/$(TARGET)
 
-
+dirs:
+	mkdir -p lib obj gen bin
+	
 clean:   
 		@rm -f $(PROGRAMS) $(EVENTSO) $(EVENTLIB) *Dict.* *.def *.exp \
 		   *.so *.lib *.dll *.d *.log .def so_locations  gen/*  lib/* obj/*
