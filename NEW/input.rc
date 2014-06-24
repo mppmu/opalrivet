@@ -1,0 +1,12 @@
+EXCITED8DCAP1:
+EXCITED8DCAP1.NAME:    EXCITED8
+EXCITED8DCAP1.CHAIN:   h10
+#EXCITED8DCAP1.FILEGEN: dcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc11925_1_200.root
+#EXCITED8DCAP1.DATA: dcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc11925_1_200.root dcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc11925_2_200.root
+#EXCITED8DCAP1.FILEGEN: http://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11925_1_200.root
+#EXCITED8DCAP1.DATA: http://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11925_1_200.root  http://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11925_2_200.root
+EXCITED8DCAP1.FILEGEN:   /home/andriish/opalrivet/trunk/NEW/mc11925_1_200.root
+EXCITED8DCAP1.DATA:      /home/andriish/opalrivet/trunk/NEW/mc1*.root
+EXCITED8DCAP1.FILES:     EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+EXCITED8DCAP1.DEFINES: -DDATA  \'-DFILENAME=\"./Output/DATA.root\"\' \'-DANALYSISTYPE=kLEP\'  -DfillList 
+EXCITED8DCAP1.NUMBER:  1000000000

@@ -1,8 +1,8 @@
 NAME=JADE_OPAL_2000_S4300807a
 #GEN=sherpa
-GEN=herwig++
-#GEN=pythia8
-GEN=evtgen
+#GEN=herwig++
+GEN=pythia8
+#GEN=evtgen
 
 all: dirs plots ref/$(NAME).yoda
 
@@ -16,7 +16,30 @@ Run.dat: Run$(GEN).dat
 lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc 
 ## -DUSE_DURHAM -DUSE_ANTIKT -DUSE_CONE -DUSE_JADE  -DUSE_ANTIKT_R_SCAN  -DUSE_CA
 ###		-DUSE_DURHAM -DUSE_JADE -DUSE_CONE -DUSE_PX -DUSE_CONE 
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall -DUSE_DURHAM -DUSE_JADE 
+		rm -f TFastJet.cxx 
+		rm -f Cuts.h 
+		rm -f Helpers.h 
+		rm -f TFastJet.h 
+#		cp /home/andriish/opalrivet/trunk/NEW/Code/FastJets2.cxx ./
+#		cp /home/andriish/opalrivet/trunk/NEW/Code/FastJets2.h ./		
+		cp /home/andriish/opalrivet/trunk/NEW/Code/TFastJet.cxx ./
+		cp /home/andriish/opalrivet/trunk/NEW/Code/Cuts.h ./
+		cp /home/andriish/opalrivet/trunk/NEW/Code/Helpers.h ./
+		cp /home/andriish/opalrivet/trunk/NEW/Code/TFastJet.h ./		
+		rm -f LinkDef.h
+		echo "#ifdef __MAKECINT__" >> LinkDef.h
+		echo "#pragma link C++ class TFastJet+;" >> LinkDef.h
+#		echo "#pragma link C++ class FastJets2+;" >> LinkDef.h
+		echo "#endif" >> LinkDef.h
+		rootcint -f TFastJetDict.cxx -c -p TFastJet.h   ./LinkDef.h
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. TFastJet.cxx -o TFastJet.o
+		g++ -fPIC -shared $(shell root-config --cflags ) -I.  TFastJetDict.cxx -o TFastJetDict.o
+
+#		g++ -fPIC -shared $(shell root-config --cflags ) -I. FastJets2.cxx -o FastJets2.o		
+#		g++ -fPIC -shared $(shell root-config --cflags ) -I. FastJets2Dict.cxx -o FastJets2Dict.o		
+
+		g++ -fPIC -shared $(shell root-config --ldflags --libs )  TFastJetDict.o TFastJet.o  -o libTFastJet.so
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -L. -lTFastJet
 		# -DUSE_ANTIKT
 
 

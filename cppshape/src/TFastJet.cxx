@@ -134,10 +134,8 @@ std::vector< std::vector<int> >& TFastJet::constituents()
             pj= (*pjets)[i];
             std::vector<int> vindx;
             std::vector<fastjet::PseudoJet> cnst= clusseq->constituents( pj );
-            for( UInt_t j= 0; j < cnst.size(); j++ )
-                {
-                    vindx.push_back( cnst[j].user_index() );
-                }
+            for( UInt_t j= 0; j < cnst.size(); j++ )    vindx.push_back( cnst[j].user_index() );
+
             cnstmap->push_back( vindx );
         }
     return *cnstmap;
