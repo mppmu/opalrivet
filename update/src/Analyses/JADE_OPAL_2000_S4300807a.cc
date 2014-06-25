@@ -7,20 +7,19 @@
 #include "fastjet/SISConeSphericalPlugin.hh"
 #include "fastjet/SISConePlugin.hh"
 #include "fastjet/JetDefinition.hh"
-
 #include "Rivet/Config/RivetCommon.hh"
 #include "Rivet/Tools/Logging.hh"
 #include "Rivet/Projections/FastJets.hh"
+#include "Rivet/Tools/RivetYODA.hh"
 
 #define USE_DURHAM
 #define USE_JADE  
 //#define USE_CONE
-//#define USE_ANTIKT
-
+#define USE_CA
+#define USE_ANTIKT
 #include "TLorentzVector.h"
 #include "TH1F.h"
 #include "TFile.h"
-
 #include "Helpers.h"
 #include "Cuts.h"
 //This should be replaced
@@ -42,16 +41,31 @@ public:
     TFile* fFile;
 
 
+/*USELESS INIT, YODA-->*/
+std::map<std::string,Scatter2DPtr> fS2DPtrMap;
+std::map<std::string,Histo1DPtr> fH1DptrMap;
+/*<--USELESS INIT, YODA*/
+
     void init()
-    {
-    
+    {    
     fFile= new TFile("MC.root","recreate");    
 #ifdef USE_DURHAM
-    OPALObs(this,"durham_");
+    OPALObs(this,Form("durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 #ifdef USE_JADE
-    OPALObs(this,"jade_");
+    OPALObs(this,Form("jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
+#ifdef USE_ANTIKT
+    OPALObs(this,Form("antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
+#endif
+
+#ifdef USE_CA
+    OPALObs(this,Form("cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
+#endif
+
+
+
+    
     fTotalWeight=0;
     const FinalState fs;
     addProjection(fs, "FS");
@@ -64,26 +78,52 @@ public:
         double weight = e.weight();
         fTotal+=1.0;
         fTotalWeight+=weight;
-        MSG_DEBUG("Num particles = " << applyProjection<FinalState>(e, "FS").particles().size());
 #ifdef USE_DURHAM
 	Rivet::Particles particles1 = (applyProjection<FinalState>(e, "VFS")).particles();
     std::vector<TLorentzVector>  vtlv1 = GetMC2(&particles1);
-    TFastJet* tfj1 =new TFastJet( vtlv1, "durham",Cuts::DURHAMR, NULL);
-    Analysis_type1(this, tfj1,e.weight(),1,"durham_");
+    double P1[]={Cuts::DURHAMR};
+    TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
+    Analysis_type1(this, tfj1,e.weight(),1,Form("durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_JADE
 	Rivet::Particles particles2 = (applyProjection<FinalState>(e, "VFS")).particles();
     std::vector<TLorentzVector>  vtlv2 = GetMC2(&particles2);
-    TFastJet* tfj2 =new TFastJet( vtlv2, "jade",Cuts::JADER, NULL);
-    Analysis_type1(this, tfj2,e.weight(),0,"jade_");
+    double P2[]={Cuts::JADER};
+    TFastJet* tfj2 =new TFastJet( vtlv2, "jade",P2, NULL);
+    Analysis_type1(this, tfj2,e.weight(),0,Form("jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
+#ifdef USE_ANTIKT
+	Rivet::Particles particles3 = (applyProjection<FinalState>(e, "VFS")).particles();
+    std::vector<TLorentzVector>  vtlv3 = GetMC2(&particles3);
+    double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
+    TFastJet* tfj3 =new TFastJet( vtlv3, "antikt",P3, NULL);
+    Analysis_type2(this, tfj3,e.weight(),0,Form("antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
+#endif
+
+#ifdef USE_CA
+	Rivet::Particles particles4 = (applyProjection<FinalState>(e, "VFS")).particles();
+    std::vector<TLorentzVector>  vtlv4 = GetMC2(&particles4);
+    double P4[]={Cuts::CAR,Cuts::CAP};
+    TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge",P4, NULL);
+    Analysis_type2(this, tfj4,e.weight(),0,Form("cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
+#endif
+
+
+
     }
-
-
+    
+    
+    
+    
+    
+    
+    
+    
     void finalize()
     {
+	/*I/O, ROOT-->*/	
     TDirectory *savedir = gDirectory;
     fFile->cd();
     std::map<std::string,TH1F*>::iterator it;
@@ -92,8 +132,25 @@ public:
     for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) it->second->SetDirectory(0);
     gDirectory = savedir;
     fFile->Close();  
+    /*<--I/O, ROOT*/
+    
+    /*USELESS I/O, YODA-->*/
+    std::map<std::string,TH1F*>::iterator it2;
+    for (std::map<std::string,TH1F*>::iterator it2=fHMap.begin(); it2!=fHMap.end(); ++it2)
+    {
+    //std::string n0=it2->first;
+	std::string n0=ROOT_to_YODA_name(it2->first);
+	it2->second->SetName(n0.c_str());
+    std::string n1=this->name();//+"_Histo1D";
+    puts(n1.c_str());
+    fH1DptrMap.insert(std::pair<std::string,Histo1DPtr>(n0, Histo1DPtr(YODA::TH1toHisto1D(it2->second, n1.c_str()))));
+    addAnalysisObject(fH1DptrMap[n0]); 
+    std::string n2=this->name();//+"_Scatter2D";
+    fS2DPtrMap.insert(std::pair<std::string,Scatter2DPtr>(n0, Scatter2DPtr(YODA::TH1toScatter2D(it2->second, n2.c_str()))));
+    addAnalysisObject(fS2DPtrMap[n0]); 
     }
-
+    /*<--USELESS I/O, YODA*/    
+    }
 };
 
 DECLARE_RIVET_PLUGIN(JADE_OPAL_2000_S4300807a);

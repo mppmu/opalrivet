@@ -11,11 +11,24 @@ const Int_t Inonr=1;
 const Float_t costt = 0.9;
 
 
-const Float_t ANTIKTR=0.4;
+const Float_t ANTIKTR=0.7;
+const Float_t ANTIKTP=-1.0;
 
 
 const Float_t DURHAMR=0.7;
 const Float_t JADER=0.7;
+
+
+const Float_t SISCONE_OVERLAP_THRESHOLD=0.75;
+const Float_t SISCONER=0.75;//?
+
+
+
+
+
+const Float_t CAR=0.7;
+const Float_t CAP=-1.0;
+
 
 }
 

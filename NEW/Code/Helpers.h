@@ -1,6 +1,7 @@
 #include "Cuts.h"
 #include "TFastJet.h"
 #include  <map>
+#include  <sstream>
 #define ARRAY_PROTECT(...) __VA_ARGS__
 #define INSERTER_FLT(a,b,c)     { const float temp[]=c;     inserter(a,b,sizeof(temp)/sizeof(float)-1,temp); }
 
@@ -19,13 +20,142 @@ static const Int_t nt_maxp= 50;
 static const Int_t nt_maxh= 2004;
 
 
+//http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
+void tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens)
+{
+    // Skip delimiters at beginning.
+    std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+    // Find first "non-delimiter".
+    std::string::size_type pos     = str.find_first_of(delimiters, lastPos);
 
+    while (std::string::npos != pos || std::string::npos != lastPos)
+        {
+            // Found a token, add it to the vector.
+            tokens.push_back(str.substr(lastPos, pos - lastPos));
+            // Skip delimiters.  Note the "not_of"
+            lastPos = str.find_first_not_of(delimiters, pos);
+            // Find next "non-delimiter"
+            pos = str.find_first_of(delimiters, lastPos);
+        }
+}
+//http://stackoverflow.com/questions/3418231/c-replace-part-of-a-string-with-another-string
+void replace_all(std::string& str, const std::string& from, const std::string& to)
+{
+    if(from.empty())
+        return;
+    size_t start_pos = 0;
+    while((start_pos = str.find(from, start_pos)) != std::string::npos)
+        {
+            str.replace(start_pos, from.length(), to);
+            start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
+        }
+}
 
 static void inserter(std::map<std::string,TH1F*> &A,std::string t, Int_t s, const Float_t a[])
 {
     A.insert(std::pair<std::string,TH1F*>( t,new TH1F(t.c_str(),t.c_str(),s,a)));
     for (int b = 0; b < A[t]->GetNbinsX(); b++) A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b));
 }
+
+std::string ROOT_to_YODA_name(std::string a)//FIXME. Random so far
+{
+
+std::vector<std::string> tokens;
+tokenize(a,"_",tokens);
+if (tokens.size()<3) return a;
+
+     int i_d=100000;
+	 int i_x=100000;
+     int i_y=100000;
+
+int iconv=0;
+
+	int energy;
+	char alg[256];
+	char name[256];
+	 
+	 
+	 
+	 sscanf(tokens.at(0).c_str(),"%s",alg);
+	 sscanf(tokens.at(1).c_str(),"%iGeV",&energy);
+	         std::string sname;
+	         int i;
+	         for (i=2;i<tokens.size();i++) {sname+=tokens.at(i);if (i!=tokens.size()-1)sname+="_";}
+	 
+	 int i_energy=100000;
+
+	 switch (energy)
+            {
+            case 35:
+                i_energy = 7;
+                iconv++;
+                break;
+            case 44:
+                i_energy = 8;
+                iconv++;
+                break;
+            case 91:
+                i_energy = 9;
+                iconv++;
+                break;
+            case 133:
+                i_energy = 10;
+                iconv++;
+                break;
+            case 161:
+                i_energy = 11;
+                iconv++;
+                break;
+            case 172:
+                i_energy = 12;
+                iconv++;
+                break;
+            case 183:
+                i_energy = 13;
+                iconv++;
+                break;
+            case 189:
+                i_energy = 14;
+                iconv++;
+                break;
+            default:
+                break;
+            }
+
+         std::string salg(alg);
+         if (salg=="jade")   {iconv++; i_d=i_energy; }
+         if (salg=="durham") {iconv++; i_d=9+i_energy;}
+        
+
+        if (sname=="JETR2") {iconv++; i_x=1; i_y=1;}
+        if (sname=="JETR3") {iconv++; i_x=1; i_y=2;}
+        if (sname=="JETR4") {iconv++; i_x=1; i_y=3;}
+        if (sname=="JETR5") {iconv++; i_x=1; i_y=4;}
+        if (sname=="JETR6") {iconv++; i_x=1; i_y=5;}
+    
+    
+    
+    std::stringstream axisCode;
+    axisCode << "d";
+    if (i_d < 10) axisCode << 0;
+    axisCode << i_d;//datasetId;
+    axisCode << "-x";
+    if (i_x < 10) axisCode << 0;
+    axisCode << i_x;//xAxisId;
+    axisCode << "-y";
+    if (i_y < 10) axisCode << 0;
+    axisCode << i_y;//yAxisId;
+    if (iconv==3) return axisCode.str();
+    else return a;
+
+    
+    }	
+
+std::string YODA_to_ROOT_name(std::string a, std::string prefix="")
+{
+	
+return a;
+}	
 
 
 
@@ -385,6 +515,74 @@ return PASSED;
 }
 
 
+
+
+
+
+
+
+
+template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string prefix="")
+{
+bool PASSED=false;
+    int j;
+    int i;
+    if (tfj->GetClusterSequence())
+        {
+            PASSED=true;
+            int filly=1;
+
+            std::vector<double> ycuts;
+            std::vector<std::pair<double,double> > bounds;
+            ycuts.push_back(1.0);
+            for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));
+            ycuts.push_back(0.0);
+
+            for ( j=0; j<5; j++)  bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
+            if (filly)  for ( j=0; j<4; j++)
+                    {
+
+                        //  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME
+
+
+                    }
+            for ( j=0; j<5; j++)
+                for ( i = 0; i <
+                        //local_f_h_R_jet_algorithm[j]->numPoints();
+                        A->fHMap[prefix+Form("JETR%i",j+2)]->GetNbinsX();
+                        ++i)
+                    {
+
+
+
+                        if (bounds.at(j).first> A->fHMap[prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i+1)
+                                //local_f_h_R_jet_algorithm[j]->point(i).x()
+                                &&
+                                A->fHMap[prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i+1)+A->fHMap[prefix+Form("JETR%i",j+2)]->GetBinWidth(i+1)
+                                //local_f_h_R_jet_algorithm[j]->point(i).x()
+                                >bounds.at(j).second)
+                            {
+                                //local_f_h_R_jet_algorithm[j]->point(i).setY(  local_f_h_R_jet_algorithm[j]->point(i).y()+weight);
+
+                                A->fHMap[prefix+Form("JETR%i",j+2)]->AddBinContent(i+1,weight);
+
+                            }
+
+                    }
+
+
+        }
+        
+        
+        
+        
+        
+return PASSED;
+}
+
+
+
+
 template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string prefix="")
 {
 bool PASSED=false;
@@ -447,6 +645,99 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     for( Int_t itrk= 0; itrk < ntrack; itrk++ ) vtlv.push_back( TLorentzVector( ptrack[itrk][0], ptrack[itrk][1], ptrack[itrk][2], ptrack[itrk][3] ));
     return vtlv;
 }
+
+
+
+
+#ifdef USE_RIVET
+
+
+
+//#include "YODA/ROOTConvert.h"
+#include "YODA/Histo1D.h"
+#include "YODA/Histo2D.h"
+#include "YODA/Histo1D.h"
+#include "YODA/Profile1D.h"
+#include "YODA/Scatter2D.h"
+
+#include "TH1.h"
+#include "TH2.h"
+#include "TProfile.h"
+#include "TGraphAsymmErrors.h"
+#include "TVectorF.h"
+#include "TFile.h"
+#include "TList.h"
+#include "TKey.h"
+#include "TClass.h"
+#include "TH1F.h"
+#include <string>
+
+namespace YODA
+{
+
+Histo1D* TH1toHisto1D(const TH1* th1, std::string fname)
+{
+    std::vector<HistoBin1D> bins;
+    const TArrayD* sumw2s = th1->GetSumw2();
+    Dbn1D dbn_uflow, dbn_oflow;
+    double sumWtot=0, sumW2tot=0;
+    for (int i = 0; i <= th1->GetNbinsX()+1; ++i)
+        {
+            Dbn1D dbn(static_cast<unsigned long>(th1->GetBinContent(i)), th1->GetBinContent(i), sumw2s->GetAt(i) 
+                      , 0, 0);
+            //th1->GetBinContent(i)*th1->GetBinCenter(i), th1->GetBinContent(i)*sqr(th1->GetBinCenter(i)));
+            if (i == 0) dbn_uflow = dbn;
+            else if (i == th1->GetNbinsX()+1) dbn_oflow = dbn;
+            else bins.push_back(HistoBin1D(std::make_pair(th1->GetBinLowEdge(i), th1->GetBinLowEdge(i+1)), dbn));
+            sumWtot += th1->GetBinContent(i);
+            sumW2tot +=   sumw2s->GetAt(i);
+        }
+    Dbn1D dbn_tot(static_cast<unsigned long>(th1->GetEntries()), sumWtot, sumW2tot, 0, 0);
+
+    Histo1D* rtn =new Histo1D(bins, dbn_tot, dbn_uflow, dbn_oflow,std::string("/")+fname+std::string("/")+th1->GetName(), th1->GetTitle());
+    rtn->setAnnotation("XLabel", th1->GetXaxis()->GetTitle());
+    rtn->setAnnotation("YLabel", th1->GetYaxis()->GetTitle());
+    rtn->setAnnotation("Title", std::string("/")+th1->GetTitle());
+    return rtn;
+}
+
+Scatter2D* TH1toScatter2D(const TH1* th1, std::string fname)
+{
+    Scatter2D* rtn = new Scatter2D(std::string("/")+fname+std::string("/")+th1->GetName());
+    for (int i = 1; i <= th1->GetNbinsX(); ++i)
+        {
+            const double x = th1->GetBinCenter(i);
+            const double exminus = x - th1->GetBinLowEdge(i);
+            const double explus = th1->GetBinLowEdge(i+1) - x;
+            const double width = exminus + explus;
+            rtn->addPoint(x, th1->GetBinContent(i)/width,
+                          exminus, explus,
+                          th1->GetBinErrorLow(i)/width, th1->GetBinErrorUp(i)/width);
+        }
+    rtn->setAnnotation("XLabel", th1->GetXaxis()->GetTitle());
+    rtn->setAnnotation("YLabel", th1->GetYaxis()->GetTitle());
+    rtn->setAnnotation("Title", std::string("/")+th1->GetTitle());
+    return rtn;
+}
+
+
+
+}
+
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -8,5 +8,5 @@ EXCITED8DCAP1.DATA: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc1192
 #EXCITED8DCAP1.FILEGEN:   /home/andriish/opalrivet/trunk/NEW/mc11925_1_200.root
 #EXCITED8DCAP1.DATA:      /home/andriish/opalrivet/trunk/NEW/mc1*.root
 EXCITED8DCAP1.FILES:     EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-EXCITED8DCAP1.DEFINES: -DDATA  \'-DFILENAME=\"./Output/DATA.root\"\' \'-DANALYSISTYPE=kLEP\'  -DfillList 
+EXCITED8DCAP1.DEFINES: -DDATA  \'-DFILENAME=\"./Output/DATA.root\"\'  \'-DENERGY=\"189\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 EXCITED8DCAP1.NUMBER:  1000000000

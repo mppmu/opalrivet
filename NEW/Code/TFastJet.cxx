@@ -43,7 +43,7 @@ bool TFastJet::FindAlgorithm(const char * jetalg)
 
 TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                     const char* jetalg,
-                    const double R,
+                    double* R,
                     const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
 {
       if (!FindAlgorithm(jetalg)) puts("Warning: Unknown algorithm!");
@@ -63,7 +63,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
 
            if ( fJetAlgString == "siscone" )
                 {
-                    fSISPlugin= new fastjet::SISConePlugin( R, 0.75 );
+                    fSISPlugin= new fastjet::SISConePlugin( R[0], R[1] );
                     //fPlugin= new fastjet::SISConePlugin( R, 0.75 );
                     jetdef= fastjet::JetDefinition( fSISPlugin );
                 
@@ -86,7 +86,15 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
     break;
     case fastjet::ee_kt_algorithm: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg );
     break;                
-    default: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R );
+    
+    case fastjet::antikt_algorithm: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg,R[0]);
+    break;                
+    
+    case fastjet::cambridge_algorithm: jetdef= fastjet::JetDefinition(fastjet::cambridge_algorithm, R[0]);
+    break;
+    
+    //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
+    default: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R[0] );
     break;
     }
     
