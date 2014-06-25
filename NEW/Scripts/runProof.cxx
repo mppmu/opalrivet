@@ -27,16 +27,19 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 //    gSystem->GetFromPipe("mkdir -p ./Output_H1/ROOTFILES");
     gSystem->GetFromPipe("mkdir -p ./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME);
     gEnv->SetValue("Proof.Sandbox", gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname")));
+    gEnv->SetValue("Davix.UseOldClient","yes");
     TProof* p;
     p=TProof::Open(connection_string.Data());
     p->SetParameter("PROOF_CacheSize", 200000000);
+    p->SetParameter("Davix.UseOldClient","yes");
     p->AddEnvVar("HOME",gSystem->GetFromPipe("readlink -f ./")) ;
+    p->AddEnvVar("Davix.UseOldClient","yes");
     p->AddEnvVar("Proof.Sandbox",gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname"))) ;
     p->AddInput(new TNamed("PROOF_OUTPUTFILE_LOCATION", "LOCAL"));
     gSystem->ChangeDirectory("./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME);
     parsed = (nows(new TString(DATA)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)
-        if  ( (TString(((TObjString *)parsed->At(i))->GetString()).Contains("dcap://")) || (TString(((TObjString *)parsed->At(i))->GetString()).Contains("http://")))
+        if  ( (TString(((TObjString *)parsed->At(i))->GetString()).Contains("dcap://")) || (TString(((TObjString *)parsed->At(i))->GetString()).Contains("http://"))|| (TString(((TObjString *)parsed->At(i))->GetString()).Contains("https://")))
             chainTD->Add(((TObjString *)parsed->At(i))->GetString());
         else
             chainTD->Add(gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString()));
@@ -86,7 +89,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("echo 'gSystem->Load(\""+TString(((TObjString *)parsed->At(i))->GetString())+".so\");\n'  >> PROOF-INF/SETUP.C");
 
     gSystem->GetFromPipe("echo '\n\
-    gSystem->ListLibraries();\ngSystem->Exec(\"ldd lib'"+NAME+"'.so\");\ngSystem->Exec(\"pwd\");\ngSystem->Exec(\"ls -lah\");\ngSystem->Exec(\"echo $LD_LIBRARY_PATH\"); \nint q=gSystem->Load(\"lib'"+NAME+"'\"); gSystem->ListLibraries();\n if (q == -1) return -1;\nreturn 0;\n}\n'  >> PROOF-INF/SETUP.C");
+    gSystem->ListLibraries();\ngEnv->SetValue(\"Davix.UseOldClient\",\"yes\");\ngSystem->Exec(\"ldd lib'"+NAME+"'.so\");\ngSystem->Exec(\"pwd\");\ngSystem->Exec(\"ls -lah\");\ngSystem->Exec(\"echo $LD_LIBRARY_PATH\"); \nint q=gSystem->Load(\"lib'"+NAME+"'\"); gSystem->ListLibraries();\n if (q == -1) return -1;\nreturn 0;\n}\n'  >> PROOF-INF/SETUP.C");
 //    gSystem->GetFromPipe("mv Makefile_"+NAME+"  Makefile");
     parsed = (nows(new TString(DEFINES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("sed -i '/TARGET =/aCXXFLAGS+='"+TString(((TObjString *)parsed->At(i))->GetString())+" Makefile");
@@ -127,7 +130,7 @@ int main(int argc ,char** argv)
 {
 
     TString* config=new TString(gSystem->Getenv("EXCITED_CONFIG"));
-    if (config->Length()==0) config=new TString("./Code/input.rc");
+    if (config->Length()==0) config=new TString("./input.rc");
     TEnv* e_config= new TEnv(config->Data());
     TString      CONF;
     TString EVENTLIST=TString("");
