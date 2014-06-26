@@ -628,8 +628,11 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
      int ioff=0;
     switch (OPT_TO_INT2(OPT[0],OPT[1])) 
     {		
+#ifdef MC
 	case 	(OPT_TO_INT2('p','x')): GetP(A, ptrack, nt_maxtrk, ntrack ); break; 		
+
 	case 	(OPT_TO_INT2('h','x')): GetH(A, ptrack, nt_maxtrk, ntrack ); break; 		
+#endif
     case 	(OPT_TO_INT2('t','x')): GetTrk(A, ptrack, nt_maxtrk, ntrack ); break; 			
     case 	(OPT_TO_INT2('c','x')): GetCls(A, ptrack, nt_maxtrk, ntrack ,ioff); break; 	
     case 	(OPT_TO_INT2('t','c')): GetTC(A, ptrack, nt_maxtrk, ntrack ); break; 	    

@@ -8,6 +8,8 @@
 #define USE_JADE  
 #define USE_CA
 #define USE_ANTIKT
+#define OPTION "tc"
+
 void EXCITED8::Begin(TTree *tree) {}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
@@ -46,13 +48,13 @@ Bool_t EXCITED8::Process(Long64_t gentry)
             if (!LEP1Selection(this))    return kFALSE;
         }
 #ifdef USE_DURHAM
-    std::vector<TLorentzVector> vtlv1= GetLorentzVectors( this,"mt" );
+    std::vector<TLorentzVector> vtlv1= GetLorentzVectors( this,OPTION );
     double P1[]={Cuts::DURHAMR};
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
     PASSED=Analysis_type1(this, tfj1,1.0,1,Form("durham_%sGeV_",ENERGY));
 #endif
 #ifdef USE_JADE    
-    std::vector<TLorentzVector> vtlv2= GetLorentzVectors( this,"mt" );
+    std::vector<TLorentzVector> vtlv2= GetLorentzVectors( this,OPTION );
     double P2[]={Cuts::JADER};
     TFastJet* tfj2 =new TFastJet( vtlv2, "jade", P2, NULL);
     PASSED=Analysis_type1(this, tfj2,1.0,0,Form("jade_%sGeV_",ENERGY));
@@ -60,14 +62,14 @@ Bool_t EXCITED8::Process(Long64_t gentry)
 
 
 #ifdef USE_ANTIKT    
-    std::vector<TLorentzVector> vtlv3= GetLorentzVectors( this,"mt" );
+    std::vector<TLorentzVector> vtlv3= GetLorentzVectors( this,OPTION );
     double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
     TFastJet* tfj3 =new TFastJet( vtlv3, "antikt", P3, NULL);
     PASSED=Analysis_type2(this, tfj3,1.0,0,Form("antikt_%sGeV_",ENERGY));
 #endif    
 
 #ifdef USE_CA 
-    std::vector<TLorentzVector> vtlv4= GetLorentzVectors( this,"mt" );
+    std::vector<TLorentzVector> vtlv4= GetLorentzVectors( this,OPTION );
     double P4[]={Cuts::CAR,Cuts::CAP};
     TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge", P4, NULL);
     PASSED=Analysis_type2(this, tfj4,1.0,0,Form("cambridge_%sGeV_",ENERGY));
