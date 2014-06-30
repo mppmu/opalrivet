@@ -1,7 +1,7 @@
 NAME=JADE_OPAL_2000_S4300807a
 VERS=2.1.1
 TOPDIR=./Rivet-$(VERS)	
-all: 	all_94.5
+all: 	all_94.5 
 	
 all_%: 	
 		mkdir -p run
