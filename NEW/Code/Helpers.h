@@ -62,7 +62,7 @@ std::string ROOT_to_YODA_name(std::string a)//FIXME. Random so far
 
 std::vector<std::string> tokens;
 tokenize(a,"_",tokens);
-if (tokens.size()<3) return a;
+if (tokens.size()<4) return a;
 
      int i_d=100000;
 	 int i_x=100000;
@@ -76,11 +76,11 @@ int iconv=0;
 	 
 	 
 	 
-	 sscanf(tokens.at(0).c_str(),"%s",alg);
-	 sscanf(tokens.at(1).c_str(),"%iGeV",&energy);
+	 sscanf(tokens.at(1).c_str(),"%s",alg);
+	 sscanf(tokens.at(2).c_str(),"%iGeV",&energy);
 	         std::string sname;
 	         int i;
-	         for (i=2;i<tokens.size();i++) {sname+=tokens.at(i);if (i!=tokens.size()-1)sname+="_";}
+	         for (i=3;i<tokens.size();i++) {sname+=tokens.at(i);if (i!=tokens.size()-1)sname+="_";}
 	 
 	 int i_energy=100000;
 
