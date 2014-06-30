@@ -285,6 +285,7 @@ void GetP(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
 {
     for( Int_t itrk= 0; itrk < A->Ntrkp; itrk++ ) for( Int_t j= 0; j < 4; j++ )  ptrack[itrk][j]= A->Ptrkp[itrk][j];
     ntrack= A->Ntrkp;
+    printf("ntrack=%i\n",ntrack);
     return;
 }
 template <class EXA>
@@ -294,6 +295,26 @@ void GetH(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
     ntrack= A->Ntrkh;
     return;
 }
+
+template <class EXA>
+std::vector<TLorentzVector> GetH2(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
+{
+    std::vector<TLorentzVector> vtlv2; 
+    for( Int_t itrk= 0; itrk < A->Ntrkh; itrk++ ) 
+    {
+
+	
+
+            vtlv2.push_back(TLorentzVector(A->Ptrkh[itrk][0],
+                   A->Ptrkh[itrk][1],
+                    A->Ptrkh[itrk][2],
+                    A->Ptrkh[itrk][3]));
+    }
+    ntrack= A->Ntrkh;
+
+    return vtlv2;
+}
+
 template <class EXA>
 void GetTC(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
 {

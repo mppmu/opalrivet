@@ -8,7 +8,9 @@
 #define USE_JADE  
 #define USE_CA
 #define USE_ANTIKT
-#define OPTION "tc"
+#define OPTION      "tc"
+#define OPTION_TRUE "h"
+
 
 void EXCITED8::Begin(TTree *tree) {}
 void EXCITED8::SlaveBegin(TTree * tree)
@@ -34,6 +36,26 @@ void EXCITED8::SlaveBegin(TTree * tree)
 #endif
 
 
+#ifdef MCTRUE
+#ifdef USE_DURHAM    
+    OPALObs(this,Form("truedurham_%sGeV_",ENERGY));
+#endif
+#ifdef USE_JADE
+    OPALObs(this,Form("truejade_%sGeV_",ENERGY));
+#endif
+
+#ifdef USE_ANTIKT
+    OPALObs(this,Form("trueantikt_%sGeV_",ENERGY));
+#endif
+
+#ifdef USE_ANTIKT
+    OPALObs(this,Form("truecambridge_%sGeV_",ENERGY));
+#endif
+
+
+#endif
+
+
 }
 Bool_t EXCITED8::Process(Long64_t gentry)
 {
@@ -47,6 +69,49 @@ Bool_t EXCITED8::Process(Long64_t gentry)
             if (!LEP1Preselection(this)) return kFALSE;
             if (!LEP1Selection(this))    return kFALSE;
         }
+
+#ifdef MC
+
+#ifdef MCTRUE
+if (MCNonRad(this)) {
+
+#ifdef USE_DURHAM
+    std::vector<TLorentzVector> vtlv1t= GetLorentzVectors( this,OPTION_TRUE );
+    double P1t[]={Cuts::DURHAMR};
+    TFastJet* tfj1t =new TFastJet( vtlv1t, "durham",P1t, NULL);
+    PASSED=Analysis_type1(this, tfj1t,1.0,1,Form("truedurham_%sGeV_",ENERGY));
+#endif
+#ifdef USE_JADE    
+    std::vector<TLorentzVector> vtlv2= GetLorentzVectors( this,OPTION_TRUE );
+    double P2[]={Cuts::JADER};
+    TFastJet* tfj2 =new TFastJet( vtlv2, "jade", P2, NULL);
+    PASSED=Analysis_type1(this, tfj2,1.0,0,Form("truejade_%sGeV_",ENERGY));
+#endif    
+
+
+#ifdef USE_ANTIKT    
+    std::vector<TLorentzVector> vtlv3= GetLorentzVectors( this,OPTION_TRUE );
+    double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
+    TFastJet* tfj3 =new TFastJet( vtlv3, "antikt", P3, NULL);
+    PASSED=Analysis_type2(this, tfj3,1.0,0,Form("trueantikt_%sGeV_",ENERGY));
+#endif    
+
+#ifdef USE_CA 
+    std::vector<TLorentzVector> vtlv4= GetLorentzVectors( this,OPTION_TRUE );
+    double P4[]={Cuts::CAR,Cuts::CAP};
+    TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge", P4, NULL);
+    PASSED=Analysis_type2(this, tfj4,1.0,0,Form("truecambridge_%sGeV_",ENERGY));
+#endif   
+
+
+
+
+
+}
+#endif
+
+#endif
+        
 #ifdef USE_DURHAM
     std::vector<TLorentzVector> vtlv1= GetLorentzVectors( this,OPTION );
     double P1[]={Cuts::DURHAMR};
@@ -75,6 +140,11 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     PASSED=Analysis_type2(this, tfj4,1.0,0,Form("cambridge_%sGeV_",ENERGY));
 #endif   
 
+
+
+
+
+
     
     std::cout << "Fastjet eekt y23 " << tfj1->YMerge( 2 ) << " " << dmt_ymerge( this,2 ) << std::endl;
     return kTRUE;
@@ -98,4 +168,18 @@ void EXCITED8::SlaveTerminate()
     fFile->Close();
 }
 Bool_t EXCITED8::Notify() {return kTRUE;}
-void EXCITED8::Terminate() { }
+void EXCITED8::Terminate() {
+	
+	
+#ifdef MC
+
+
+
+//
+
+
+#endif	
+	
+	
+
+	 }
