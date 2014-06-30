@@ -39,7 +39,7 @@ lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc
 #		g++ -fPIC -shared $(shell root-config --cflags ) -I. FastJets2Dict.cxx -o FastJets2Dict.o		
 
 		g++ -fPIC -shared $(shell root-config --ldflags --libs )  TFastJetDict.o TFastJet.o  -o libTFastJet.so
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -L. -lTFastJet
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -L. -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
 		# -DUSE_ANTIKT
 
 

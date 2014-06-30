@@ -11,7 +11,7 @@
 #include "Rivet/Tools/Logging.hh"
 #include "Rivet/Projections/FastJets.hh"
 #include "Rivet/Tools/RivetYODA.hh"
-
+#define MC
 #define USE_DURHAM
 #define USE_JADE  
 //#define USE_CONE
@@ -48,19 +48,22 @@ std::map<std::string,Histo1DPtr> fH1DptrMap;
 
     void init()
     {    
-    fFile= new TFile("MC.root","recreate");    
+		std::string gen = GENERATOR;
+std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
+
+    fFile= new TFile(Form("PREDICTION_%s_%i.root",gen.c_str(),int(sqrtS()/GeV + 0.5)),"recreate");    
 #ifdef USE_DURHAM
-    OPALObs(this,Form("durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,Form("prediction_durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 #ifdef USE_JADE
-    OPALObs(this,Form("jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,Form("prediction_jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 #ifdef USE_ANTIKT
-    OPALObs(this,Form("antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,Form("prediction_antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_CA
-    OPALObs(this,Form("cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,Form("prediction_cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 
@@ -83,7 +86,7 @@ std::map<std::string,Histo1DPtr> fH1DptrMap;
     std::vector<TLorentzVector>  vtlv1 = GetMC2(&particles1);
     double P1[]={Cuts::DURHAMR};
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
-    Analysis_type1(this, tfj1,e.weight(),1,Form("durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type1(this, tfj1,e.weight(),1,Form("prediction_durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_JADE
@@ -91,7 +94,7 @@ std::map<std::string,Histo1DPtr> fH1DptrMap;
     std::vector<TLorentzVector>  vtlv2 = GetMC2(&particles2);
     double P2[]={Cuts::JADER};
     TFastJet* tfj2 =new TFastJet( vtlv2, "jade",P2, NULL);
-    Analysis_type1(this, tfj2,e.weight(),0,Form("jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type1(this, tfj2,e.weight(),0,Form("prediction_jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_ANTIKT
@@ -99,7 +102,7 @@ std::map<std::string,Histo1DPtr> fH1DptrMap;
     std::vector<TLorentzVector>  vtlv3 = GetMC2(&particles3);
     double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
     TFastJet* tfj3 =new TFastJet( vtlv3, "antikt",P3, NULL);
-    Analysis_type2(this, tfj3,e.weight(),0,Form("antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type2(this, tfj3,e.weight(),0,Form("prediction_antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_CA
@@ -107,7 +110,7 @@ std::map<std::string,Histo1DPtr> fH1DptrMap;
     std::vector<TLorentzVector>  vtlv4 = GetMC2(&particles4);
     double P4[]={Cuts::CAR,Cuts::CAP};
     TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge",P4, NULL);
-    Analysis_type2(this, tfj4,e.weight(),0,Form("cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type2(this, tfj4,e.weight(),0,Form("prediction_cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
 #endif
 
 
