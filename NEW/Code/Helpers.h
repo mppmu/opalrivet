@@ -161,8 +161,9 @@ return a;
 
 
 template <class EXA>
-void OPALObs(EXA * A,std::string prefix="")
+void OPALObs(EXA * A,bool doit,std::string prefix="")
 {
+	if (!doit) return;
     INSERTER_FLT(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     INSERTER_FLT(A->fHMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     INSERTER_FLT(A->fHMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
