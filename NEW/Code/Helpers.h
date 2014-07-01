@@ -500,7 +500,8 @@ bool PASSED=false;
             ycuts.push_back(0.0);
 
             for ( j=0; j<5; j++)  bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
-            if (filly)  for ( j=0; j<4; j++)
+            if (filly)  
+            for ( j=0; j<4; j++)
                     {
 
                         //  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME

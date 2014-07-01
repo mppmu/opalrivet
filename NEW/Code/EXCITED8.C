@@ -54,6 +54,7 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     TAnalysisType kAT=ANALYSISTYPE;
           if (kAT==kLEP)  if (!LEP1Preselection(this)) return kFALSE;
           if (kAT==kLEP)  if (!LEP1Selection(this))    return kFALSE;
+float weight=1.0;
 std::string TYPE;
 if (Irun>10000) TYPE="mc";
 if (Irun<10000) TYPE="data";
@@ -63,25 +64,25 @@ if (MCNonRad(this)) {
     std::vector<TLorentzVector> vtlv1t= GetLorentzVectors( this,OPTION_TRUE );
     double P1t[]={Cuts::DURHAMR};
     TFastJet* tfj1t =new TFastJet( vtlv1t, "durham",P1t, NULL);
-    PASSED=Analysis_type1(this, tfj1t,1.0,1,Form("true_durham_%sGeV_",ENERGY));
+    PASSED=Analysis_type1(this, tfj1t,weight,1,Form("true_durham_%sGeV_",ENERGY));
 #endif
 #ifdef USE_JADE    
     std::vector<TLorentzVector> vtlv2= GetLorentzVectors( this,OPTION_TRUE );
     double P2[]={Cuts::JADER};
     TFastJet* tfj2 =new TFastJet( vtlv2, "jade", P2, NULL);
-    PASSED=Analysis_type1(this, tfj2,1.0,0,Form("true_jade_%sGeV_",ENERGY));
+    PASSED=Analysis_type1(this, tfj2,weight,0,Form("true_jade_%sGeV_",ENERGY));
 #endif    
 #ifdef USE_ANTIKT    
     std::vector<TLorentzVector> vtlv3= GetLorentzVectors( this,OPTION_TRUE );
     double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
     TFastJet* tfj3 =new TFastJet( vtlv3, "antikt", P3, NULL);
-    PASSED=Analysis_type2(this, tfj3,1.0,0,Form("true_antikt_%sGeV_",ENERGY));
+    PASSED=Analysis_type2(this, tfj3,weight,0,Form("true_antikt_%sGeV_",ENERGY));
 #endif    
 #ifdef USE_CA 
     std::vector<TLorentzVector> vtlv4= GetLorentzVectors( this,OPTION_TRUE );
     double P4[]={Cuts::CAR,Cuts::CAP};
     TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge", P4, NULL);
-    PASSED=Analysis_type2(this, tfj4,1.0,0,Form("true_cambridge_%sGeV_",ENERGY));
+    PASSED=Analysis_type2(this, tfj4,weight,0,Form("true_cambridge_%sGeV_",ENERGY));
 #endif   
 
 }  
@@ -90,25 +91,25 @@ if (MCNonRad(this)) {
     std::vector<TLorentzVector> vtlv1= GetLorentzVectors( this,OPTION );
     double P1[]={Cuts::DURHAMR};
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
-    PASSED=Analysis_type1(this, tfj1,1.0,1,Form("%s_durham_%sGeV_",TYPE.c_str(),ENERGY));
+    PASSED=Analysis_type1(this, tfj1,weight,1,Form("%s_durham_%sGeV_",TYPE.c_str(),ENERGY));
 #endif
 #ifdef USE_JADE    
     std::vector<TLorentzVector> vtlv2= GetLorentzVectors( this,OPTION );
     double P2[]={Cuts::JADER};
     TFastJet* tfj2 =new TFastJet( vtlv2, "jade", P2, NULL);
-    PASSED=Analysis_type1(this, tfj2,1.0,0,Form("%s_jade_%sGeV_",TYPE.c_str(),ENERGY));
+    PASSED=Analysis_type1(this, tfj2,weight,0,Form("%s_jade_%sGeV_",TYPE.c_str(),ENERGY));
 #endif    
 #ifdef USE_ANTIKT    
     std::vector<TLorentzVector> vtlv3= GetLorentzVectors( this,OPTION );
     double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
     TFastJet* tfj3 =new TFastJet( vtlv3, "antikt", P3, NULL);
-    PASSED=Analysis_type2(this, tfj3,1.0,0,Form("%s_antikt_%sGeV_",TYPE.c_str(),ENERGY));
+    PASSED=Analysis_type2(this, tfj3,weight,0,Form("%s_antikt_%sGeV_",TYPE.c_str(),ENERGY));
 #endif    
 #ifdef USE_CA 
     std::vector<TLorentzVector> vtlv4= GetLorentzVectors( this,OPTION );
     double P4[]={Cuts::CAR,Cuts::CAP};
     TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge", P4, NULL);
-    PASSED=Analysis_type2(this, tfj4,1.0,0,Form("%s_cambridge_%sGeV_",TYPE.c_str(),ENERGY));
+    PASSED=Analysis_type2(this, tfj4,weight,0,Form("%s_cambridge_%sGeV_",TYPE.c_str(),ENERGY));
 #endif   
    // std::cout << "Fastjet eekt y23 " << tfj1->YMerge( 2 ) << " " << dmt_ymerge( this,2 ) << std::endl;
     return kTRUE;
