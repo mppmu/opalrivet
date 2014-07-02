@@ -62,6 +62,7 @@
 #include "TApplication.h"
 #include "math.h"
 #include "TH1F.h"
+#include "TH1D.h"
 #include "TH2F.h"
 #include "TF2.h"
 #include "TF1.h"
@@ -72,6 +73,7 @@
 #include "TLorentzVector.h"
 #include "TStyle.h"
 #include "TDSet.h"
+#include "TMap.h"
 #include "TLegend.h"
 #include "TPaveLabel.h"
 #include "TEntryList.h"
@@ -93,7 +95,7 @@
 #include <TFile.h>
 #include <TVirtualFitter.h>
 #include <TError.h>
-#include <TGraphErrors.h>
+#include <TGraphAsymmErrors.h>
 #include <TCanvas.h>
 #include <TMath.h>
 #include <vector>

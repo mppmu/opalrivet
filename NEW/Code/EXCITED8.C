@@ -43,10 +43,29 @@ void EXCITED8::SlaveBegin(TTree * tree)
     OPALObs(this,USE_JADE,  Form("corrected_jade_%sGeV_",ENERGY));
     OPALObs(this,USE_ANTIKT,Form("corrected_antikt_%sGeV_",ENERGY));
     OPALObs(this,USE_CA,    Form("corrected_cambridge_%sGeV_",ENERGY));
-
+    
+    
+    //OPALObs(this,true,    Form("test_cambridge_%sGeV_",ENERGY));
+    
+    
+//    fMap=new TMap();
+//    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) //if (H_it->first.find("G_test_")!=std::string::npos)   
+  //  fMap->Add(new TObjString(G_it->first.c_str()), G_it->second);
+//     fMap->Add(new TObjString("TEST"), new TGraphAsymmErrors(100));
+    //fOutput->Add(fMap);
+//    ((TGraphAsymmErrors*)(fMap->GetValue("TEST")))->SetPoint(0,0,50);
+//    printf("SB_SIZE=%i\n",fMap->GetSize());
+    
+//    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	fOutput->Add(G_it->second);//->Write(0,TObject::kWriteDelete);
+//	 for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)  fOutput->Add(H_it->second);
 }
 Bool_t EXCITED8::Process(Long64_t gentry)
 {
+	//fMap("TEST")->Fill(50);
+	
+	
+	
+//printf("P_SIZE=%i\n",fMap->GetSize());	
     Bool_t PASSED=kFALSE;
     Int_t entry;
     entry=fChain->LoadTree(gentry);
@@ -112,49 +131,136 @@ if (MCNonRad(this)) {
     PASSED=Analysis_type2(this, tfj4,weight,0,Form("%s_cambridge_%sGeV_",TYPE.c_str(),ENERGY));
 #endif   
    // std::cout << "Fastjet eekt y23 " << tfj1->YMerge( 2 ) << " " << dmt_ymerge( this,2 ) << std::endl;
+    
+    //((TGraphAsymmErrors*)(fMap->GetValue("TEST")))->SetPoint(0,0,vtlv1.size());
+    
     return kTRUE;
 }
 void EXCITED8::SlaveTerminate()
 {
     TDirectory *savedir = gDirectory;
     fFile->cd();
-    std::map<std::string,TH1F*>::iterator it;
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) if (it->first.find("JETR")!=std::string::npos) { it->second->Sumw2();  /*it->second->Scale(1.0/fTotalWeight*100);*/  }
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) { it->second->Sumw2();  it->second->Write(); /*		it->second->SetName()ROOT_to_YODA_name*/ }
+    
+    std::map<std::string,TH1D*>::iterator H_it;
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if (H_it->first.find("JETR")!=std::string::npos) { H_it->second->Sumw2();  /*it->second->Scale(1.0/fTotalWeight*100);*/  }
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2(); 
+     H_it->second->Write(); H_it->second->SetDirectory(0); /*		it->second->SetName()ROOT_to_YODA_name*/ 
+     }
+
+    std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if (G_it->first.find("JETR")!=std::string::npos) { /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  }
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) { /*G_it->second->Sumw2(); */ 
+    
+    //fOutput->Add(G_it->second);
+    G_it->second->Write();/* G_it->second->SetDirectory(0);*/ /*		it->second->SetName()ROOT_to_YODA_name*/ 
+    }
+  
+  
+  //   for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	fOutput->Add(G_it->second);//->Write(0,TObject::kWriteDelete);
+	// for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)  fOutput->Add(H_it->second);
+
+//  printf("TS_SIZE=%i\n",fMap->GetSize());
+  
+//  fOutput->Add(fMap);
     fProofFile->Print();
     fOutput->Add(fProofFile);
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) it->second->SetDirectory(0);
     gDirectory = savedir;
     fFile->Close();
 }
 Bool_t EXCITED8::Notify() {return kTRUE;}
 void EXCITED8::Terminate() {
 
+
+//printf("T_SIZE=%i\n",fMap->GetSize());
+
 TFile* type_fFile= new TFile(FILENAME, "UPDATE");
 type_fFile->cd();
+
+
 TIter next(type_fFile->GetListOfKeys());
 TKey *key;
 while ((key = (TKey*)next())) {
 TObject *obj = key->ReadObj();
-if ( obj->IsA()->InheritsFrom( "TH1" ) ) fHMap.insert(std::pair<std::string,TH1F*> (std::string(key->GetName()) ,(TH1F*)obj)   );
+if ( obj->IsA()->InheritsFrom( "TH1"    ) ) fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj)   );
+if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TGraphAsymmErrors*> (std::string(key->GetName()) ,(TGraphAsymmErrors*)obj)   );
 }
 
-    std::map<std::string,TH1F*>::iterator it;
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) 
-    if (it->first.find("acceptance_")!=std::string::npos) 
+    std::map<std::string,TH1D*>::iterator H_it;
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) 
+    if (H_it->first.find("H_acceptance_")!=std::string::npos) 
     {			
-	std::string name=it->first.substr(11);
-	it->second->Add(fHMap[std::string("mc_")+name]);
-	it->second->Divide(fHMap[std::string("true_")+name]);	
-	fHMap[std::string("corrected_")+name]->Add(fHMap[std::string("data_")+name]);
-	fHMap[std::string("corrected_")+name]->Divide(fHMap[std::string("acceptance_")+name]);
+	std::string name=H_it->first.substr(11+2);
+	H_it->second->Add(fHMap[std::string("H_mc_")+name]);
+	H_it->second->Divide(fHMap[std::string("H_true_")+name]);	
+	fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name]);
+	fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptance_")+name]);
     }
 
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) 
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) 
     {
-	it->second->Sumw2();
-	it->second->Write(0,TObject::kWriteDelete);
-	it->second->SetDirectory(0);	
+	H_it->second->Sumw2();
+	H_it->second->Write(0,TObject::kWriteDelete);
+	H_it->second->SetDirectory(0);	
 	}
+
+
+
+    std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
+    {
+	//Here we should merge the TGraphs properly	
+	int i,j;
+	const int N=4;
+	int oldN=G_it->second->GetN();
+	int newN=G_it->second->GetN()/N;
+	for (i=0;i<newN;i++)
+	{
+	Double_t x,y,ye_h,ye_l;
+	Double_t t_x,t_y=0,t_ye_h=0,t_ye_l=0;
+	for (j=N-1;j>0;j--)
+	{
+		G_it->second->GetPoint(j*N+i,x,y);
+		ye_h=G_it->second->GetErrorYhigh(j*N+i);
+		ye_l=G_it->second->GetErrorYlow(j*N+i);
+		t_y+=y;
+		ye_h=sqrt(ye_h*ye_h+t_ye_h*t_ye_h);
+	    ye_l=sqrt(ye_l*ye_l+t_ye_l*t_ye_l);
+	}	
+	G_it->second->SetPoint(i,x,t_y);
+	G_it->second->SetPointError(i,0,0,ye_l,ye_h);
+    }
+	for (i=oldN;i>newN;i--) G_it->second->RemovePoint(i);
+	
+	printf("NUMB= %i %i\n", oldN,newN);
+	}	
+
+
+
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
+    if (G_it->first.find("G_acceptance_")!=std::string::npos) 
+    {			
+	std::string name=G_it->first.substr(11+2);
+	TH1D* M=(TH1D*)fGMap[std::string("G_mc_")+name]->GetHistogram();
+	TH1D* T=(TH1D*)fGMap[std::string("G_true_")+name]->GetHistogram();
+	printf("AXIS %i %i\n", M->GetNbinsX(),T->GetNbinsX());
+	for (int k=0;k<M->GetNbinsX()+1;k++)
+	printf("%f %f\n", M->GetXaxis()->GetBinLowEdge(k),T->GetXaxis()->GetBinLowEdge(k));
+	
+	
+	G_it->second->                           Divide(M,T);
+	
+	printf("DIVIDE= %i %i\n", fGMap[std::string("G_acceptance_")+name]->GetN(),fGMap[std::string("G_corrected_")+name]->GetN());
+	fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_data_")+name]->GetHistogram(),fGMap[std::string("G_acceptance_")+name]->GetHistogram());
+    }
+
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
+    {
+//	G_it->second->Sumw2();
+	G_it->second->Write(0,TObject::kWriteDelete);
+	//G_it->second->SetDirectory(0);	
+	}
+
+	
+	
 type_fFile->Close();
 	 }

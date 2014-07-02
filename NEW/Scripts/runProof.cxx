@@ -52,7 +52,10 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
         }
     else     chainTD->MakeSelector(NAME.Data());
 
+    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TMap;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1D;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1F;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TEntryList;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TProofOutputFile;' %s.h",NAME.Data()));
@@ -61,9 +64,13 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fProofFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fListFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fListProofFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTH1F   **fH;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/public :/aTH1D   **fH;' %s.h",NAME.Data()));
     
-    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1F\*> fHMap;' %s.h",NAME.Data()));
+    
+    gSystem->GetFromPipe(Form("sed -i '/public :/a TMap* fMap;' %s.h",NAME.Data()));
+    
+    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TGraphAsymmErrors*> fGMap;' %s.h",NAME.Data()));
     
     gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp;' %s.h",NAME.Data()));
 
