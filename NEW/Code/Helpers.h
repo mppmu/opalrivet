@@ -79,7 +79,124 @@ static void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t
 }
 
 
+void FoldGraph(TGraphAsymmErrors* A, int N)
+{
 
+    
+	//Here we should merge the TGraphs properly	
+	int i,j;
+	//const int N=4;
+	int oldN=A->GetN();
+	int newN=A->GetN()/N;
+	for (i=0;i<newN;i++)
+	{
+	Double_t x,y,ye_h,ye_l;
+	Double_t t_x,t_y=0,t_ye_h=0,t_ye_l=0;
+	for (j=N-1;j>-1;j--)
+	{
+		A->GetPoint(j*newN+i,x,y);
+		ye_h=A->GetErrorYhigh(j*newN+i);
+		ye_l=A->GetErrorYlow(j*newN+i);
+		t_y+=y;
+		ye_h=sqrt(ye_h*ye_h+t_ye_h*t_ye_h);
+	    ye_l=sqrt(ye_l*ye_l+t_ye_l*t_ye_l);
+	}	
+	A->SetPoint(i,x,t_y);
+	A->SetPointError(i,0,0,ye_l,ye_h);
+    }
+	for (i=oldN-1;i>newN-1;i--) A->RemovePoint(i);
+	
+	//}	
+
+}
+TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL)
+{
+	
+ if(A->GetN() != B->GetN()) {
+         gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different number of bins");
+	 return NULL;
+      }
+TGraphAsymmErrors* C;
+if (!D)  C= new TGraphAsymmErrors(); else C=D;
+if (D)  if(A->GetN() != D->GetN()) {
+         gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different number of bins");
+	 return NULL;
+      }
+
+      for(Int_t i = 0; i < B->GetN() ; ++i)
+      
+      {
+        Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Byeh,Byel,Ayeh,Ayel;
+        A->GetPoint(i,Ax,Ay);
+        B->GetPoint(i,Bx,By);
+        if (D) D->GetPoint(i,Dx,Dy);
+        
+        Ayel=A->GetErrorYlow(i);
+        Ayeh=A->GetErrorYhigh(i);
+        
+        Byel=B->GetErrorYlow(i);
+        Byeh=B->GetErrorYhigh(i);
+        
+        Cx=Ax;
+        if (TMath::Abs(By)>1.E-15) 
+        {
+        Cy=Ay/By;
+        Cyeh=sqrt(Ayeh*Ayeh/(By*By)+Byel*Byel/(By*By*By*By)*Ay*Ay);
+        Cyel=sqrt(Ayel*Ayel/(By*By)+Byeh*Byeh/(By*By*By*By)*Ay*Ay);
+	    }
+	    else { Cy=0; Cyel=0; Cyeh=0;}
+        C->SetPoint(i,Cx,Cy);
+        C->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),Cyel,Cyeh);
+        
+         if(!TMath::AreEqualRel(Ax, Bx, 1.E-15)) {
+            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E1");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXlow(i), B->GetErrorXlow(i), 1.E-15)) {
+            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E2");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), B->GetErrorXhigh(i), 1.E-15)) 
+         {
+            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E3");
+	    return NULL;
+          }
+         if (D)
+         {
+         
+              if(!TMath::AreEqualRel(Ax, Dx, 1.E-15)) {
+            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E4");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXlow(i), D->GetErrorXlow(i), 1.E-15)) {
+            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E5");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), D->GetErrorXhigh(i), 1.E-15)) 
+         {
+            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E6");
+	    return NULL;
+          }    
+         
+         
+         
+         
+	         }
+         
+         }
+return C;
+
+	
+	
+}	
 
 std::string ROOT_to_YODA_name(std::string a)//FIXME. Random so far
 {

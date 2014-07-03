@@ -206,51 +206,45 @@ if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,T
 
 
     std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
-    {
-	//Here we should merge the TGraphs properly	
-	int i,j;
-	const int N=4;
-	int oldN=G_it->second->GetN();
-	int newN=G_it->second->GetN()/N;
-	for (i=0;i<newN;i++)
-	{
-	Double_t x,y,ye_h,ye_l;
-	Double_t t_x,t_y=0,t_ye_h=0,t_ye_l=0;
-	for (j=N-1;j>0;j--)
-	{
-		G_it->second->GetPoint(j*N+i,x,y);
-		ye_h=G_it->second->GetErrorYhigh(j*N+i);
-		ye_l=G_it->second->GetErrorYlow(j*N+i);
-		t_y+=y;
-		ye_h=sqrt(ye_h*ye_h+t_ye_h*t_ye_h);
-	    ye_l=sqrt(ye_l*ye_l+t_ye_l*t_ye_l);
-	}	
-	G_it->second->SetPoint(i,x,t_y);
-	G_it->second->SetPointError(i,0,0,ye_l,ye_h);
-    }
-	for (i=oldN;i>newN;i--) G_it->second->RemovePoint(i);
-	
-	printf("NUMB= %i %i\n", oldN,newN);
-	}	
-
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) FoldGraph(G_it->second,4);//We run on 4 cores.//FIXME
 
 
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
     if (G_it->first.find("G_acceptance_")!=std::string::npos) 
     {			
 	std::string name=G_it->first.substr(11+2);
+	
+	/*
 	TH1D* M=(TH1D*)fGMap[std::string("G_mc_")+name]->GetHistogram();
 	TH1D* T=(TH1D*)fGMap[std::string("G_true_")+name]->GetHistogram();
 	printf("AXIS %i %i\n", M->GetNbinsX(),T->GetNbinsX());
 	for (int k=0;k<M->GetNbinsX()+1;k++)
 	printf("%f %f\n", M->GetXaxis()->GetBinLowEdge(k),T->GetXaxis()->GetBinLowEdge(k));
 	
+	*/
+	/*
+	TGraphAsymmErrors* G1=DivideGraphs(fGMap[std::string("G_mc_")+name],fGMap[std::string("G_true_")+name]);//                           Divide(M,T);
+	G1->SetDrawOption("APL");
+    G1->SetTitle(G_it->second->GetTitle());
+	G_it->second=G1;
+	G_it->second->SetName((std::string("G_acceptance_")+name).c_str());
+	*/
 	
-	G_it->second->                           Divide(M,T);
+	/*
+	TGraphAsymmErrors* G2=DivideGraphs(fGMap[std::string("G_data_")+name],fGMap[std::string("G_acceptance_")+name]);//                           Divide(M,T);
+	G2->SetDrawOption("APL");
+    G2->SetTitle(fGMap[std::string("G_corrected_")+name]->GetTitle());
+	fGMap[std::string("G_corrected_")+name]=G2;
+	fGMap[std::string("G_corrected_")+name]->SetName((std::string("G_corrected_")+name).c_str());
+	*/
 	
-	printf("DIVIDE= %i %i\n", fGMap[std::string("G_acceptance_")+name]->GetN(),fGMap[std::string("G_corrected_")+name]->GetN());
-	fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_data_")+name]->GetHistogram(),fGMap[std::string("G_acceptance_")+name]->GetHistogram());
+	
+	DivideGraphs(fGMap[std::string("G_mc_")+name],fGMap[std::string("G_true_")+name],G_it->second);
+	DivideGraphs(fGMap[std::string("G_data_")+name],fGMap[std::string("G_acceptance_")+name],fGMap[std::string("G_corrected_")+name]);
+	
+	//fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_data_")+name]->GetHistogram(),fGMap[std::string("G_acceptance_")+name]->GetHistogram());
+    
+    
     }
 
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
