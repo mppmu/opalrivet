@@ -481,7 +481,22 @@ MC_OPAL_189_TEST2.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpe
 MC_OPAL_189_TEST2.DEFINES:  \'-DFILENAME=\"./Output/MC_OPAL_189_TEST2.root\"\'  \'-DENERGY=\"189\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 MC_OPAL_189_TEST2.NUMBER:  1000000000
 
-
+#189 GeV						
+#Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#                       		(pb)	(1/pb)		
+#Data    	ALL     189	0	185.2	0	da189
+#PYTHIA		(Z/g)*	11342	99.36	0.000	10	mc11342
+#PYTHIA		(Z/g)*	11343	8.574	0.000	10	mc11343
+#HERWIG		(Z/g)*	5169	99.36	0.000	10	mc5169
+#*HERWIG		(Z/g)*	11981	99.36	0.000	4	mc11981
+#*ist ARIADNE 4!						
+#*GRC4F	        llqq	8055	8.679	0.000	2	mc8055
+#*GRC4F		qqqq	7846	8.418	0.000	3	mc7846
+#GRC4F		eeqq	7849	25.52	0.000	1	mc7849
+#GRC4F		llqq	8637	8.679	0.000	2	mc8637
+#*ist KoralW !						
+#GRC4F		qqqq	8636	8.418	0.000	2	mc8636
+#*ist KoralW !
 
 
 

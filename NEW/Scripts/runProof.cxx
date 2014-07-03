@@ -70,6 +70,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe(Form("sed -i '/public :/a TMap* fMap;' %s.h",NAME.Data()));
     
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/public :/a TH1D* fWeight;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TGraphAsymmErrors*> fGMap;' %s.h",NAME.Data()));
     
     gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp;' %s.h",NAME.Data()));

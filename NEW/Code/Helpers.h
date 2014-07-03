@@ -69,10 +69,8 @@ static void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, co
 static void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t s, const Double_t a[])
 {
     A.insert(std::pair<std::string,TGraphAsymmErrors*>( t,new TGraphAsymmErrors(s)));
-//    A[t]->t.c_str(),t.c_str(),
     for (int b = 0; b < s; b++) { A[t]->GetXaxis()->SetBinLabel(b,Form("%i",b)); A[t]->SetPoint(b,a[b],0.0); }
     A[t]->SetDrawOption("APL");
-//printf("%s    N=%i  %i\n",t.c_str(),s,A[t]->GetN());
     A[t]->SetTitle(t.c_str());
     A[t]->SetName(t.c_str());
 
@@ -81,8 +79,6 @@ static void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t
 
 void FoldGraph(TGraphAsymmErrors* A, int N)
 {
-
-    
 	//Here we should merge the TGraphs properly	
 	int i,j;
 	//const int N=4;
@@ -109,6 +105,24 @@ void FoldGraph(TGraphAsymmErrors* A, int N)
 	//}	
 
 }
+
+
+void ScaleGraph(TGraphAsymmErrors* A, double k)
+{
+	//Here we should merge the TGraphs properly	
+	int i;
+	for (i=0;i<A->GetN();i++)
+	{
+	Double_t x,y;
+    A->GetPoint(i,x,y);
+	A->SetPoint(i,x,y*k);
+	A->SetPointError(i,0,0,A->GetErrorYlow(i)*sqrt(k),A->GetErrorYhigh(i)*sqrt(k));
+    }
+}
+
+
+
+
 TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL)
 {
 	
