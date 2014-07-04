@@ -69,7 +69,7 @@ static void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, co
 static void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t s, const Double_t a[])
 {
     A.insert(std::pair<std::string,TGraphAsymmErrors*>( t,new TGraphAsymmErrors(s)));
-    for (int b = 0; b < s; b++) { A[t]->GetXaxis()->SetBinLabel(b,Form("%i",b)); A[t]->SetPoint(b,a[b],0.0); }
+    for (int b = 0; b < s; b++) { A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b)); A[t]->SetPoint(b,a[b],0.0); }
     A[t]->SetDrawOption("APL");
     A[t]->SetTitle(t.c_str());
     A[t]->SetName(t.c_str());
@@ -885,11 +885,9 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
      int ioff=0;
     switch (OPT_TO_INT2(OPT[0],OPT[1])) 
     {		
-#ifdef MC
-	case 	(OPT_TO_INT2('p','x')): GetP(A, ptrack, nt_maxtrk, ntrack ); break; 		
 
+	case 	(OPT_TO_INT2('p','x')): GetP(A, ptrack, nt_maxtrk, ntrack ); break; 		
 	case 	(OPT_TO_INT2('h','x')): GetH(A, ptrack, nt_maxtrk, ntrack ); break; 		
-#endif
     case 	(OPT_TO_INT2('t','x')): GetTrk(A, ptrack, nt_maxtrk, ntrack ); break; 			
     case 	(OPT_TO_INT2('c','x')): GetCls(A, ptrack, nt_maxtrk, ntrack ,ioff); break; 	
     case 	(OPT_TO_INT2('t','c')): GetTC(A, ptrack, nt_maxtrk, ntrack ); break; 	    
@@ -897,8 +895,8 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
 #ifdef USE_RIVET
 	case 	(OPT_TO_INT2('m','c')): GetMC1(A, ptrack, nt_maxtrk, ntrack ); break; 			
 #endif
-	case 	(OPT_TO_INT2('x','x')): printf("Empty option"); break; 
-	default:                        printf("Wrong option"); break; 
+	case 	(OPT_TO_INT2('x','x')): printf("Empty option %s\n",OPT.c_str()); break; 
+	default:                        printf("Wrong option %s\n",OPT.c_str()); break; 
 	}
     std::vector<TLorentzVector> vtlv;
     vtlv.reserve( ntrack );
