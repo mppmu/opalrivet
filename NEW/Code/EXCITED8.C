@@ -18,33 +18,32 @@ void EXCITED8::SlaveBegin(TTree * tree)
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
+    TAnalysisType kAT=ANALYSISTYPE;
+    BookHistograms(this,kAT,USE_DURHAM,Form("mc_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("mc_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("mc_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("mc_cambridge_%sGeV_",ENERGY));
 
-    OPALObs(this,USE_DURHAM,Form("mc_durham_%sGeV_",ENERGY));
-    OPALObs(this,USE_JADE,  Form("mc_jade_%sGeV_",ENERGY));
-    OPALObs(this,USE_ANTIKT,Form("mc_antikt_%sGeV_",ENERGY));
-    OPALObs(this,USE_CA,    Form("mc_cambridge_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_DURHAM,Form("data_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("data_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("data_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("data_cambridge_%sGeV_",ENERGY));
 
-    OPALObs(this,USE_DURHAM,Form("data_durham_%sGeV_",ENERGY));
-    OPALObs(this,USE_JADE,  Form("data_jade_%sGeV_",ENERGY));
-    OPALObs(this,USE_ANTIKT,Form("data_antikt_%sGeV_",ENERGY));
-    OPALObs(this,USE_CA,    Form("data_cambridge_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_DURHAM,Form("true_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("true_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("true_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("true_cambridge_%sGeV_",ENERGY));
 
-    OPALObs(this,USE_DURHAM,Form("true_durham_%sGeV_",ENERGY));
-    OPALObs(this,USE_JADE,  Form("true_jade_%sGeV_",ENERGY));
-    OPALObs(this,USE_ANTIKT,Form("true_antikt_%sGeV_",ENERGY));
-    OPALObs(this,USE_CA,    Form("true_cambridge_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_DURHAM,Form("acceptance_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("acceptance_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("acceptance_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("acceptance_cambridge_%sGeV_",ENERGY));
 
-    OPALObs(this,USE_DURHAM,Form("acceptance_durham_%sGeV_",ENERGY));
-    OPALObs(this,USE_JADE,  Form("acceptance_jade_%sGeV_",ENERGY));
-    OPALObs(this,USE_ANTIKT,Form("acceptance_antikt_%sGeV_",ENERGY));
-    OPALObs(this,USE_CA,    Form("acceptance_cambridge_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_DURHAM,Form("corrected_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("corrected_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("corrected_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("corrected_cambridge_%sGeV_",ENERGY));
 
-    OPALObs(this,USE_DURHAM,Form("corrected_durham_%sGeV_",ENERGY));
-    OPALObs(this,USE_JADE,  Form("corrected_jade_%sGeV_",ENERGY));
-    OPALObs(this,USE_ANTIKT,Form("corrected_antikt_%sGeV_",ENERGY));
-    OPALObs(this,USE_CA,    Form("corrected_cambridge_%sGeV_",ENERGY));
-//    fWeight.insert(std::pair<std::string,double>("mc",0.0));
-//    fWeight.insert(std::pair<std::string,double>("data",0.0));
 fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",3,0.0,3.0)));
 fHMap["weight"]->GetXaxis()->SetBinLabel(1,"data");
 fHMap["weight"]->GetXaxis()->SetBinLabel(2,"mc");
@@ -57,8 +56,8 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
     TAnalysisType kAT=ANALYSISTYPE;
-          if (kAT==kLEP)  if (!LEP1Preselection(this)) return kFALSE;
-          if (kAT==kLEP)  if (!LEP1Selection(this))    return kFALSE;
+          if (kAT==kLEP1)  if (!LEP1Preselection(this)) return kFALSE;
+          if (kAT==kLEP1)  if (!LEP1Selection(this))    return kFALSE;
 float weight=1.0;
 std::string TYPE;
 if (Irun>10000) TYPE="mc";
