@@ -1,229 +1,4 @@
-# NT_VERSION 200
-#
-#Generator       Process   Runno    Sigma    Lumi  Part    File
-#
-#130 GeV
-#
-#Data            ALL         130        0   2.70     0    da130_95
-#Data            ALL         130        0   2.61     0    da130_97
-#PYTHIA          (Z/g)*    12162    335.9   0.0      2    mc12162
-#HERWIG          (Z/g)*    11925    334.9   0.0      2    mc11925
-#
-#NT_VERSION 200
-#
-#    Generator       Process   Runno    Sigma    Lumi  Part    File
-#
-#    136 GeV
-#
-#    Data            ALL         136        0    2.59    0    da136_95
-#    Data            ALL         136        0    3.36    0    da136_97
-#    PYTHIA          (Z/g)*    12163    278.8      0.0   2    mc12163
-#    HERWIG          (Z/g)*    11926    278.5      0.0   2    mc11926
-#
-#NT_VERSION 200
-#
-#    Generator       Process   Runno    Sigma    Lumi  Part    File
-#
-#    161 GeV
-#
-#    Data            ALL         161        0    10.06   0    da161
-#    PYTHIA          (Z/g)*    12164    156.2     0.0    4    mc12164
-#    HERWIG          (Z/g)*    11927    155.6     0.0    5    mc11927
-#    GRC4F           llqq       4513    2.648     0.0    1    mc4513
-#    GRC4F           qqqq       4544    2.064     0.0    1    mc4544
-#    GRC4F           eeqq       4741    5.161     0.0    1    mc4741
-#
-#NT_VERSION 200
-#
-#    Generator       Process   Runno    Sigma    Lumi  Part    File
-#
-#    172 GeV
-#
-#    Data            ALL         172        0     10.38   0    da172
-#    PYTHIA          (Z/g)*    12165    128.6      0.0    4    mc12165
-#    HERWIG          (Z/g)*    11928    128.3      0.0    5    mc11928
-#    GRC4F           llqq       4743    6.284      0.0    1    mc4743
-#    GRC4F           qqqq       4744    6.061      0.0    1    mc4744
-#    GRC4F           eeqq       4745    4.730      0.0    1    mc4745
-#
-#NT_VERSION 200
-#
-#    Generator       Process   Runno    Sigma    Lumi  Part    File
-#
-#    183 GeV
-#
-#    Data            ALL         183        0     57.72   0    da183
-#    PYTHIA          (Z/g)*    11341    109.0      0.0    4    mc11341
-#    HERWIG          (Z/g)*     5168    109.0      0.0    5    mc5168
-#    GRC4F           llqq       8056    8.113      0.0    2    mc8056
-#    GRC4F           qqqq       7051    7.862      0.0    3    mc7051
-#    GRC4F           eeqq       7055    26.74      0.0    1    mc7055
-#NT_VERSION 200						
-#189 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       		(pb)	(1/pb)		
-#Data    	ALL     189	0	185.2	0	da189
-#PYTHIA		(Z/g)*	11342	99.36	0.000	10	mc11342
-#PYTHIA		(Z/g)*	11343	8.574	0.000	10	mc11343
-#HERWIG		(Z/g)*	5169	99.36	0.000	10	mc5169
-#*HERWIG		(Z/g)*	11981	99.36	0.000	4	mc11981
-#*ist ARIADNE 4!						
-#*GRC4F	        llqq	8055	8.679	0.000	2	mc8055
-#*GRC4F		qqqq	7846	8.418	0.000	3	mc7846
-#GRC4F		eeqq	7849	25.52	0.000	1	mc7849
-#GRC4F		llqq	8637	8.679	0.000	2	mc8637
-#*ist KoralW !						
-#GRC4F		qqqq	8636	8.418	0.000	2	mc8636
-#*ist KoralW !						
-#NT_VERSION 200						
-#192 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       		(pb)	(1/pb)		
-#Data     	ALL       192	0	29.53	0	da1999
-#PYTHIA		(Z/g)*	11344	94.84	0.000	4	mc11344
-#HERWIG		(Z/g)*	5171	94.84	0.000	4	mc5171  
-#*HERWIG   	(Z/g)*	11986	94.84	0.000	4	mc11986 
-#*ist ARIADNE 4!						
-#*GRC4F		 llqq	8750	8.997	0.000	2	mc8750  
-#*GRC4F		 qqqq	8751	8.657	0.000	3	mc8751  
-#GRC4F		 eeqq	9277	41.43	0.000	1	mc9277  
-#GRC4F		 llqq	9205	8.997	0.000	2	mc9205  
-#*ist KoralW ver.\\						
-#GRC4F	         qqqq	9204	8.741	0.000	2	mc9204  
-#*ist KoralW ver.\\	
-#NT_VERSION 200						
-#196 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       			(pb)	(1/pb)		
-#Data     	ALL       196	0	76.67	0	da1999
-#PYTHIA		(Z/g)* 	11345	90.09	0.000	8	mc11345 
-#HERWIG		(Z/g)*	5172	90.09	0.000	5	mc5172  
-#*HERWIG		(Z/g)*	11987	90.09	0.000	4	mc11987 
-#*ist ARIADNE     4!						
-#*GRC4F		 llqq	9096	9.14	0.000	2	mc9096  
-#*GRC4F		 qqqq	9097	8.816	0.000	3	mc9097  
-#GRC4F		 eeqq	9280	40.5	0.000	1	mc9280  
-#GRC4F		 llqq	9202	9.18	0.000	2	mc9202  
-#*ist KoralW! 						
-#GRC4F		 qqqq	9201	8.921	0.000	2	mc9201  
-#*ist KoralW! 						
-#NT_VERSION 200						
-#200 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       			(pb)	(1/pb)		
-#Data    	ALL       200	0	79.270	0	da1999
-#PYTHIA  	(Z/g)*	11346	85.56	0.000	8	mc11346 
-#HERWIG		(Z/g)*	 5173	85.56	0.000	5	mc5173  
-#*HERWIG		(Z/g)*	11988	85.56	0.000	4	mc11988 
-#*ist ARIADNE 4						
-#*GRC4F		llqq	 9313	9.277	0.000	2	mc9313  
-#*GRC4F		qqqq	 9314	8.909	0.000	4	mc9314  
-#GRC4F		eeqq	 9318	39.48	0.000	1	mc9318  
-#GRC4F		llqq	 9208	9.324	0.000	2	mc9208  
-#*ist KoralW !						
-#GRC4F		qqqq	 9207	9.02	0.000	2	mc9207  
-#*ist KoralW !						
-#NT_VERSION 200						
-#202 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       			(pb)	(1/pb)		
-#Data		ALL	0	0	37.970	0	da1999
-#PYTHIA       	(Z/g)*	11347	83.36	0.000	4	mc11347
-#HERWIG   	(Z/g)*	5174	83.36	0.000	4	mc5174
-#*HERWIG   	(Z/g)*	11989	83.36	0.000	4	mc11989
-#*ist ARIADNE 4						
-#*GRC4F		qqqq	9712	8.944	0.000	3	mc9712
-#*GRC4F		llqq	9711	9.319	0.000	2	mc9711
-#GRC4F		eeqq	9713	39.05	0.000	1	mc9713
-#GRC4F		llqq	9702	9.397	0.000	2	mc9702
-#* ist Koralw ver\\						
-#GRC4F	        qqqq	9701	9.034	0.000	2	mc9701
-#* ist Koralw ver\\						
-#NT_VERSION 200						
-#205 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       			(pb)	(1/pb)		
-#Data		ALL	0	0	81.96	0	da2000
-#PYTHIA       	(Z/g)*	11349	81.31	0.000	8	mc11349
-#HERWIG   	(Z/g)*	5176	81.31	0.000	4	mc5176
-#*HERWIG   	(Z/g)*	11991	81.31	0.000	4	mc11991
-#*ist ARIADNE 4						
-#*GRC4F		llqq	11213	9.39	0.000	3	mc11213
-#*GRC4F		qqqq	11214	8.967	0.000	3	mc11214
-#GRC4F		eeqq	11218	38.34	0.000	1	mc11218
-#GRC4F		llqq+llqq+qqqq	11202	21.88	0.000	4	mc11202
-#*ist Koralw ver\\						
-#NT_VERSION 200
-#207 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       			(pb)	(1/pb)		
-#Data		ALL	0	0	137.14	0	da2000
-#PYTHIA       	(Z/g)*	11352	79.38	0.000	15	mc11352
-#HERWIG   	(Z/g)*	5179	79.38	0.000	4	mc5179
-#*HERWIG   	(Z/g)*	11984	79.38	0.000	4	mc11984
-#*ist ARIADNE 4						
-#*GRC4F	        llqq	10781	9.417	0.000	2	mc10781
-#*GRC4F		qqqq	10782	8.97	0.000	3	mc10782
-#GRC4F		eeqq	11212	38.11	0.000	1	mc11212
-#GRC4F		llll+llqq+qqqq	10788	21.87	0.000	4	mc10788
-#*ist Koralw 						
-#	NT_VERSION 200						
-#	9100 GeV						
-#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#	                       		(pb)	(1/pb)		
-#	Data 	        ALL	0	0	1	2	da91_2k
-#	PYTHIA       	(Z/g)*	12139	1.00	0	4	mc12139
-#       * JETSET 7.4
-#	HERWIG   	(Z/g)*	12410	1.00	0	4	mc12410
-#        * Herwig 6.2
-#	NT_VERSION 200						
-#	9196 GeV						
-#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#	                       		(pb)	(1/pb)		
-#	Data		ALL	0	0	1	0	da91_96
-#	PYTHIA       	(Z/g)*	5025	1.00	0	2	mc5025
-#        * JETSET 7.408
-#	HERWIG   	(Z/g)*	12406	1.00	0	2	mc12406
-#        * Herwig 6.2	NT_VERSION 200						
-#	9197 GeV						
-#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#	                       		(pb)	(1/pb)		
-#	Data		ALL	0	0	1	0	da91_97
-#	PYTHIA       	(Z/g)*	5073	1.00	0	2	mc5073
-#        * Jetset 7.408
-#	HERWIG   	(Z/g)*	12407	1.00	0	4	mc12407
-#        * Herwig 6.2	NT_VERSION 200						
-#	9198 GeV						
-#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#	                       		(pb)	(1/pb)		
-#	Data 	        ALL	0	0	1	2	da91_98
-#	PYTHIA       	(Z/g)*	12040	1.00	0	4	mc12040
-#        * JETSET 7.4 
-#	HERWIG   	(Z/g)*	12408	1.00	0	4	mc12408
-#        * Herwig 6.2
-#	NT_VERSION 200						
-#	9199 GeV						
-#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#	                       		(pb)	(1/pb)		
-#	Data 	        ALL	0	0	1	2	da91_99
-#	PYTHIA       	(Z/g)*	12138	1.00	0	4	mc12138
-#        * JETSET 7.408 
-#	HERWIG   	(Z/g)*	12409	1.00	0	4	mc12409
-#       * Herwig 6.2 
-
-
-
-OPAL_91:
-OPAL_91.NAME:    EXCITED8
-OPAL_91.CHAIN:   h10
-OPAL_91.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_96_200.root
-OPAL_91.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_2k_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_2k_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_96_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_97_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_98_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_98_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_99_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_99_2_200.root
-OPAL_91.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_91.DEFINES:   \'-DFILENAME=\"./Output/OPAL_91.root\"\'  \'-DENERGY=\"91\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
-OPAL_91.NUMBER:  10000
-
-
-
+#for a in $(cat input.rc | grep LOCAL_ | cut -f 1 -d. |cut -f 1 -d: |  uniq); do echo $a; ./bin/x86_64/runProof $a;   done
 
 OPAL_130:
 OPAL_130.NAME:    EXCITED8
@@ -353,7 +128,6 @@ LOCAL_OPAL_172.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.
 LOCAL_OPAL_172.DEFINES:   \'-DFILENAME=\"./Output/OPAL_172.root\"\'  \'-DENERGY=\"172\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 LOCAL_OPAL_172.NUMBER:  1000000000
 
-#/scratch/andriish/opal/ntuple_root/qcd/mc11928_4_200.root
 
 #NT_VERSION 200
 #
@@ -373,7 +147,7 @@ OPAL_183:
 OPAL_183.NAME:    EXCITED8
 OPAL_183.CHAIN:   h10
 OPAL_183.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_1_200.root
-OPAL_183.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da183_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8056_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8056_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7055_1_200.root
+OPAL_183.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da183_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_4_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8056_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8056_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7055_1_200.root
 OPAL_183.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 OPAL_183.DEFINES:   \'-DFILENAME=\"./Output/OPAL_183.root\"\'  \'-DENERGY=\"183\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_183.NUMBER:  1000000000
@@ -384,13 +158,13 @@ LOCAL_OPAL_183:
 LOCAL_OPAL_183.NAME:    EXCITED8
 LOCAL_OPAL_183.CHAIN:   h10
 LOCAL_OPAL_183.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11341_1_200.root
-LOCAL_OPAL_183.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da183_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8056_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8056_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7055_1_200.root
+LOCAL_OPAL_183.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da183_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_4_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc8056_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8056_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7055_1_200.root
 LOCAL_OPAL_183.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 LOCAL_OPAL_183.DEFINES:   \'-DFILENAME=\"./Output/OPAL_183.root\"\'  \'-DENERGY=\"183\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 LOCAL_OPAL_183.NUMBER:  1000000000
 
 
-#/scratch/andriish/opal/ntuple_root/qcd/mc11341_1_200.root does not exist
+
 #NT_VERSION 200
 #
 #    Generator       Process   Runno    Sigma    Lumi  Part    File
@@ -399,7 +173,7 @@ LOCAL_OPAL_183.NUMBER:  1000000000
 #
 #    Data            ALL         183        0     57.72   0    da183
 #    PYTHIA          (Z/g)*    11341    109.0      0.0    4    mc11341
-#    HERWIG          (Z/g)*     5168    109.0      0.0    5    mc5168
+#    HERWIG          (Z/g)*     5168    109.0      0.0    5    mc5168  ->AV _5_ does not exist!
 #    GRC4F           llqq       8056    8.113      0.0    2    mc8056
 #    GRC4F           qqqq       7051    7.862      0.0    3    mc7051
 #    GRC4F           eeqq       7055    26.74      0.0    1    mc7055
@@ -452,7 +226,7 @@ OPAL_192:
 OPAL_192.NAME:    EXCITED8
 OPAL_192.CHAIN:   h10
 OPAL_192.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_1_200.root
-OPAL_192.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da192_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9277_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9205_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9205_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9204_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9204_2_200.root
+OPAL_192.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da1999_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9277_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9205_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9205_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9204_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9204_2_200.root
 OPAL_192.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 OPAL_192.DEFINES:   \'-DFILENAME=\"./Output/OPAL_192.root\"\'  \'-DENERGY=\"192\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_192.NUMBER:  1000000000
@@ -461,7 +235,7 @@ LOCAL_OPAL_192:
 LOCAL_OPAL_192.NAME:    EXCITED8
 LOCAL_OPAL_192.CHAIN:   h10
 LOCAL_OPAL_192.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11344_1_200.root
-LOCAL_OPAL_192.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da192_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9277_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9205_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9205_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9204_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9204_2_200.root
+LOCAL_OPAL_192.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da1999_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9277_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9205_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9205_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9204_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9204_2_200.root
 LOCAL_OPAL_192.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 LOCAL_OPAL_192.DEFINES:   \'-DFILENAME=\"./Output/OPAL_192.root\"\'  \'-DENERGY=\"192\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 LOCAL_OPAL_192.NUMBER:  1000000000
@@ -490,12 +264,21 @@ OPAL_196:
 OPAL_196.NAME:    EXCITED8
 OPAL_196.CHAIN:   h10
 OPAL_196.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_1_200.root
-OPAL_196.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da196_200.root
+OPAL_196.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da1999_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_8_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9280_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9202_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9202_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9201_1_200.root
 OPAL_196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 OPAL_196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_196.root\"\'  \'-DENERGY=\"196\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_196.NUMBER:  1000000000
 
 
+
+LOCAL_OPAL_196:
+LOCAL_OPAL_196.NAME:    EXCITED8
+LOCAL_OPAL_196.CHAIN:   h10
+LOCAL_OPAL_196.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11345_1_200.root
+LOCAL_OPAL_196.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da1999_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_8_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9280_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9202_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9202_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9201_1_200.root
+LOCAL_OPAL_196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_196.root\"\'  \'-DENERGY=\"196\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_196.NUMBER:  1000000000
 
 
 #NT_VERSION 200						
@@ -531,90 +314,251 @@ OPAL_202.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cut
 OPAL_202.DEFINES:   \'-DFILENAME=\"./Output/OPAL_202.root\"\'  \'-DENERGY=\"202\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_202.NUMBER:  1000000000
 
+
+
+
+#NT_VERSION 200						
+#202 GeV						
+#Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#                       			(pb)	(1/pb)		
+#Data		ALL	0	0	37.970	0	da1999
+#PYTHIA       	(Z/g)*	11347	83.36	0.000	4	mc11347
+#HERWIG   	(Z/g)*	5174	83.36	0.000	4	mc5174
+#*HERWIG   	(Z/g)*	11989	83.36	0.000	4	mc11989
+#*ist ARIADNE 4						
+#*GRC4F		qqqq	9712	8.944	0.000	3	mc9712
+#*GRC4F		llqq	9711	9.319	0.000	2	mc9711
+#GRC4F		eeqq	9713	39.05	0.000	1	mc9713
+#GRC4F		llqq	9702	9.397	0.000	2	mc9702
+#* ist Koralw ver\\						
+#GRC4F	        qqqq	9701	9.034	0.000	2	mc9701
+#* ist Koralw ver\\						
+#NT_VERSION 200		
+
+
+
 OPAL_205:
 OPAL_205.NAME:    EXCITED8
 OPAL_205.CHAIN:   h10
-OPAL_205.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da205_200.root
-OPAL_205.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da205_200.root
+OPAL_205.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_1_200.root
+OPAL_205.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da2000_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_8_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11218_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_4_200.root
 OPAL_205.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 OPAL_205.DEFINES:   \'-DFILENAME=\"./Output/OPAL_205.root\"\'  \'-DENERGY=\"205\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_205.NUMBER:  1000000000
 
+
+LOCAL_OPAL_205:
+LOCAL_OPAL_205.NAME:    EXCITED8
+LOCAL_OPAL_205.CHAIN:   h10
+LOCAL_OPAL_205.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11349_1_200.root
+LOCAL_OPAL_205.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da2000_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_8_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11218_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_4_200.root
+LOCAL_OPAL_205.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_205.DEFINES:   \'-DFILENAME=\"./Output/OPAL_205.root\"\'  \'-DENERGY=\"205\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_205.NUMBER:  1000000000
+
+#NT_VERSION 200						
+#205 GeV						
+#Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#                       			(pb)	(1/pb)		
+#Data		ALL	0	0	81.96	0	da2000
+#PYTHIA       	(Z/g)*	11349	81.31	0.000	8	mc11349
+#HERWIG   	(Z/g)*	5176	81.31	0.000	4	mc5176
+#*HERWIG   	(Z/g)*	11991	81.31	0.000	4	mc11991
+#*ist ARIADNE 4						
+#*GRC4F		llqq	11213	9.39	0.000	3	mc11213
+#*GRC4F		qqqq	11214	8.967	0.000	3	mc11214
+#GRC4F		eeqq	11218	38.34	0.000	1	mc11218
+#GRC4F		llqq+llqq+qqqq	11202	21.88	0.000	4	mc11202
+#*ist Koralw ver\\	
+
+
 OPAL_207:
 OPAL_207.NAME:    EXCITED8
 OPAL_207.CHAIN:   h10
-OPAL_207.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da207_200.root
-OPAL_207.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da207_200.root
+OPAL_207.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_1_200.root
+OPAL_207.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da2000_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_4_200.root    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_8_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_9_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_10_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_11_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_12_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_13_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_14_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_15_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11212_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc10788_1_200.root
 OPAL_207.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
 OPAL_207.DEFINES:   \'-DFILENAME=\"./Output/OPAL_207.root\"\'  \'-DENERGY=\"207\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_207.NUMBER:  1000000000
+
+LOCAL_OPAL_207:
+LOCAL_OPAL_207.NAME:    EXCITED8
+LOCAL_OPAL_207.CHAIN:   h10
+LOCAL_OPAL_207.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11352_1_200.root
+LOCAL_OPAL_207.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da2000_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_4_200.root    /scratch/andriish/opal/ntuple_root/qcd/mc11352_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_8_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_9_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_10_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_11_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_12_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_13_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_14_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_15_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11212_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc10788_1_200.root
+LOCAL_OPAL_207.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_207.DEFINES:   \'-DFILENAME=\"./Output/OPAL_207.root\"\'  \'-DENERGY=\"207\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_207.NUMBER:  1000000000
+
+
+#NT_VERSION 200
+#207 GeV						
+#Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#                       			(pb)	(1/pb)		
+#Data		ALL	0	0	137.14	0	da2000
+#PYTHIA       	(Z/g)*	11352	79.38	0.000	15	mc11352
+#HERWIG   	(Z/g)*	5179	79.38	0.000	4	mc5179
+#*HERWIG   	(Z/g)*	11984	79.38	0.000	4	mc11984
+#*ist ARIADNE 4						
+#*GRC4F	        llqq	10781	9.417	0.000	2	mc10781
+#*GRC4F		qqqq	10782	8.97	0.000	3	mc10782
+#GRC4F		eeqq	11212	38.11	0.000	1	mc11212
+#GRC4F		llll+llqq+qqqq	10788	21.87	0.000	4	mc10788
+#*ist Koralw 			
 
 
 OPAL_9100:
 OPAL_9100.NAME:    EXCITED8
 OPAL_9100.CHAIN:   h10
-OPAL_9100.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9100_200.root
-OPAL_9100.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9100_200.root
+OPAL_9100.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_1_200.root
+OPAL_9100.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_2k_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_2k_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12410_1_200.root
 OPAL_9100.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"9100\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"95.5\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_9100.NUMBER:  1000000000
+
+
+LOCAL_OPAL_9100:
+LOCAL_OPAL_9100.NAME:    EXCITED8
+LOCAL_OPAL_9100.CHAIN:   h10
+LOCAL_OPAL_9100.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12139_1_200.root
+LOCAL_OPAL_9100.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_2k_1_200.root /scratch/andriish/opal/ntuple_root/qcd/da91_2k_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12410_1_200.root
+LOCAL_OPAL_9100.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"95.5\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_9100.NUMBER:  1000000000
+
+
+#	NT_VERSION 200						
+#	9100 GeV						
+#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#	                       		(pb)	(1/pb)		
+#	Data 	        ALL	0	0	1	2	da91_2k
+#	PYTHIA       	(Z/g)*	12139	1.00	0	4	mc12139
+#       * JETSET 7.4
+#	HERWIG   	(Z/g)*	12410	1.00	0	4	mc12410
+#        * Herwig 6.2
+
 
 OPAL_9196:
 OPAL_9196.NAME:    EXCITED8
 OPAL_9196.CHAIN:   h10
-OPAL_9196.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9196_200.root
-OPAL_9196.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9196_200.root
+OPAL_9196.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5025_1_200.root
+OPAL_9196.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_96_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5025_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5025_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12406_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12406_2_200.root
 OPAL_9196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"9196\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"93.5\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_9196.NUMBER:  1000000000
+
+LOCAL_OPAL_9196:
+LOCAL_OPAL_9196.NAME:    EXCITED8
+LOCAL_OPAL_9196.CHAIN:   h10
+LOCAL_OPAL_9196.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc5025_1_200.root
+LOCAL_OPAL_9196.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_96_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5025_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5025_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12406_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12406_2_200.root
+LOCAL_OPAL_9196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"93.5\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_9196.NUMBER:  1000000000
+
+
+#	NT_VERSION 200						
+#	9196 GeV						
+#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#	                       		(pb)	(1/pb)		
+#	Data		ALL	0	0	1	0	da91_96
+#	PYTHIA       	(Z/g)*	5025	1.00	0	2	mc5025
+#        * JETSET 7.408
+#	HERWIG   	(Z/g)*	12406	1.00	0	2	mc12406
+#        * Herwig 6.2	
+
+
 
 OPAL_9197:
 OPAL_9197.NAME:    EXCITED8
 OPAL_9197.CHAIN:   h10
-OPAL_9197.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9197_200.root
-OPAL_9197.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9197_200.root
+OPAL_9197.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5073_1_200.root
+OPAL_9197.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_97_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5073_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5073_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_4_200.root
 OPAL_9197.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"9197\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"94\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_9197.NUMBER:  1000000000
+
+LOCAL_OPAL_9197:
+LOCAL_OPAL_9197.NAME:    EXCITED8
+LOCAL_OPAL_9197.CHAIN:   h10
+LOCAL_OPAL_9197.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc5073_1_200.root
+LOCAL_OPAL_9197.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_97_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5073_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5073_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_4_200.root
+LOCAL_OPAL_9197.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"94\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_9197.NUMBER:  1000000000
+
+
+#NT_VERSION 200						
+#	9197 GeV						
+#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#	                       		(pb)	(1/pb)		
+#	Data		ALL	0	0	1	0	da91_97
+#	PYTHIA       	(Z/g)*	5073	1.00	0	2	mc5073
+#        * Jetset 7.408
+#	HERWIG   	(Z/g)*	12407	1.00	0	4	mc12407
+#        * Herwig 6.2	
+
 
 OPAL_9198:
 OPAL_9198.NAME:    EXCITED8
 OPAL_9198.CHAIN:   h10
-OPAL_9198.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9198_200.root
-OPAL_9198.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9198_200.root
+OPAL_9198.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_1_200.root
+OPAL_9198.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_98_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_98_2_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_1_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_2_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_4_200.root 
 OPAL_9198.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"9198\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"94.5\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_9198.NUMBER:  1000000000
+
+
+LOCAL_OPAL_9198:
+LOCAL_OPAL_9198.NAME:    EXCITED8
+LOCAL_OPAL_9198.CHAIN:   h10
+LOCAL_OPAL_9198.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12138_1_200.root
+LOCAL_OPAL_9198.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_98_1_200.root /scratch/andriish/opal/ntuple_root/qcd/da91_98_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12408_1_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12408_2_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12408_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12408_4_200.root 
+LOCAL_OPAL_9198.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"94.5\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+
+
+
+#NT_VERSION 200						
+#	9198 GeV						
+#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#	                       		(pb)	(1/pb)		
+#	Data 	        ALL	0	0	1	2	da91_98
+#	PYTHIA       	(Z/g)*	12040	1.00	0	4	mc12040
+#        * JETSET 7.4 
+#	HERWIG   	(Z/g)*	12408	1.00	0	4	mc12408
+#        * Herwig 6.2
+
+
 
 OPAL_9199:
 OPAL_9199.NAME:    EXCITED8
 OPAL_9199.CHAIN:   h10
-OPAL_9199.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9199_200.root
-OPAL_9199.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da9199_200.root
+OPAL_9199.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_1_200.root
+OPAL_9199.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_99_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_99_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_2_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_3_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_4_200.root 
 OPAL_9199.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"9199\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"95\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
 OPAL_9199.NUMBER:  1000000000
 
+LOCAL_OPAL_9199:
+LOCAL_OPAL_9199.NAME:    EXCITED8
+LOCAL_OPAL_9199.CHAIN:   h10
+LOCAL_OPAL_9199.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12138_1_200.root
+LOCAL_OPAL_9199.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_99_1_200.root /scratch/andriish/opal/ntuple_root/qcd/da91_99_2_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12138_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12138_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12138_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12138_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12409_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12409_2_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12409_3_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12409_4_200.root 
+LOCAL_OPAL_9199.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h ZROOT.h Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
+LOCAL_OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"95\"\'   \'-DANALYSISTYPE=kLEP\'  -DfillList 
+LOCAL_OPAL_9199.NUMBER:  1000000000
 
 
 
 
-#	da130_95_200.root 	2036858 	Mon Jun 23 15:08:21 CEST 2014
-#	da130_97_200.root 	2128845 	Mon Jun 23 15:08:19 CEST 2014
-#	da136_95_200.root 	1662776 	Mon Jun 23 15:08:18 CEST 2014
-#	da136_97_200.root 	2226323 	Mon Jun 23 16:29:52 CEST 2014
-#	da161_200.root 	4841632 	Mon Jun 23 16:29:50 CEST 2014
-#	da172_200.root 	3692795 	Mon Jun 23 16:29:48 CEST 2014
-#	da183_200.root 	17332284 	Mon Jun 23 16:29:45 CEST 2014
-#	da189_200.root 	52904842 	Mon Jun 23 16:29:38 CEST 2014
-#	da1999_200.root 	58277554 	Mon Jun 23 16:29:25 CEST 2014
-#	da2000_200.root 	54065461 	Mon Jun 23 16:29:11 CEST 2014
-#	da91_2k_1_200.root 	174455284 	Mon Jun 23 16:28:50 CEST 2014
-#	da91_2k_2_200.root 	98131031 	Mon Jun 23 16:27:55 CEST 2014
-#	da91_96_200.root 	66571836 	Mon Jun 23 16:27:29 CEST 2014
-#	da91_97_200.root 	132222050 	Mon Jun 23 16:27:10 CEST 2014
-#	da91_98_1_200.root 	165467805 	Mon Jun 23 16:26:37 CEST 2014
-#	da91_98_2_200.root 	39380785 	Mon Jun 23 16:25:56 CEST 2014
-#	da91_99_1_200.root 	176975624 	Mon Jun 23 15:21:27 CEST 2014
-#	da91_99_2_200.root 	80117278 	Mon Jun 23 16:25:45 CEST 2014 
 
+#	NT_VERSION 200						
+#	9199 GeV						
+#	Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#	                       		(pb)	(1/pb)		
+#	Data 	        ALL	0	0	1	2	da91_99
+#	PYTHIA       	(Z/g)*	12138	1.00	0	4	mc12138
+#        * JETSET 7.408 
+#	HERWIG   	(Z/g)*	12409	1.00	0	4	mc12409
+#       * Herwig 6.2 

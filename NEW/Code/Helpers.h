@@ -87,7 +87,7 @@ void FoldGraph(TGraphAsymmErrors* A, int N)
 	for (i=0;i<newN;i++)
 	{
 	Double_t x,y,ye_h,ye_l;
-	Double_t t_x,t_y=0,t_ye_h=0,t_ye_l=0;
+	Double_t t_y=0,t_ye_h=0,t_ye_l=0;
 	for (j=N-1;j>-1;j--)
 	{
 		A->GetPoint(j*newN+i,x,y);
@@ -227,14 +227,14 @@ int iconv=0;
 
 	int energy;
 	char alg[256];
-	char name[256];
+
 	 
 	 
 	 
 	 sscanf(tokens.at(1).c_str(),"%s",alg);
 	 sscanf(tokens.at(2).c_str(),"%iGeV",&energy);
 	         std::string sname;
-	         int i;
+	         unsigned int i;
 	         for (i=3;i<tokens.size();i++) {sname+=tokens.at(i);if (i!=tokens.size()-1)sname+="_";}
 	 
 	 int i_energy=100000;
@@ -719,7 +719,7 @@ bool PASSED=false;
 std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
     int j;
-    int i;
+
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
@@ -753,15 +753,13 @@ bool PASSED=false;
 std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
 
-    int j;
-    int i;
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
             int filly=1;
 			int q=0;
             for (q=0; q<5; q++) {
-              for ( unsigned int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
+              for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
               {
               std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
               Double_t x,y;
