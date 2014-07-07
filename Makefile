@@ -28,18 +28,15 @@ allold_%:
 		cp Makefile.runold runold/Makefile
 		make -C runold
 
-
+prof: pprroffessorr.cxx
+		g++ $(shell root-config --cflags --glibs )  -lMinuit pprroffessorr.cxx -o ./prof
 
 ALL:
 	rm -rf run/out_*
-	make all_17.5
-	mv run/out run/out_17.5
-	make all_22
-	mv run/out run/out_22
-	make all_45.5
-	mv run/out run/out_45.5
-	make all_66.5
-	mv run/out run/out_66.5
+	make all_65.0
+	mv run/out run/out_65.0
+	make all_68.0
+	mv run/out run/out_68.0
 	make all_80.5
 	mv run/out run/out_80.5
 	make all_86
@@ -48,6 +45,14 @@ ALL:
 	mv run/out run/out_91.5	
 	make all_94.5
 	mv run/out run/out_94.5	
+	make all_96.0
+	mv run/out run/out_96.0
+	make all_98.0
+	mv run/out run/out_98.0
+	make all_102.5
+	mv run/out run/out_102.5
+	make all_103.5
+	mv run/out run/out_103.5
 
 
 

@@ -170,6 +170,7 @@ static void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, co
 {
     A.insert(std::pair<std::string,TH1D*>( t,new TH1D(t.c_str(),t.c_str(),s,a)));
     for (int b = 0; b < A[t]->GetNbinsX(); b++) A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b));
+    //A[t]->SetBinErrorOption( TH1::EBinErrorOpt::kPoisson);
 }
 
 static void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t s, const Double_t a[])
@@ -192,7 +193,7 @@ void FoldGraph(TGraphAsymmErrors* A, int N)
 	int newN=A->GetN()/N;
 	for (i=0;i<newN;i++)
 	{
-	Double_t x,y,ye_h,ye_l;
+	Double_t x,y,ye_h=0,ye_l=0;
 	Double_t t_y=0,t_ye_h=0,t_ye_l=0;
 	for (j=N-1;j>-1;j--)
 	{
@@ -424,6 +425,9 @@ return a;
 template <class EXA>
 void OPALObs(EXA * A,bool doit,std::string Iprefix="")
 {
+	
+	 TH1::SetDefaultSumw2(kTRUE);
+	
      std::string prefix;
      prefix=std::string("H_")+Iprefix;
 	if (!doit) return;
@@ -1236,7 +1240,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
             if (filly)  for ( j=0; j<4; j++) {/*  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME */}
             for ( j=0; j<5; j++) 
             for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1));i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j));i++)
-            A->fHMap[H_prefix+Form("JETR%i",j+2)]->AddBinContent(i,weight);
+            A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
         }
 return PASSED;
 }
@@ -1283,45 +1287,7 @@ A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[
 	
 }
         
-        /*
-         * 
-         * 
-         *         double weight = e.weight();
 
-        const FastJets& scsJet = applyProjection<FastJets>(e, method.c_str());
-        if (scsJet.clusterSeq())
-            {
-
-                int q=0;
-                for (q=0; q<5; q++)
-                    {
-                        for ( unsigned int binL = 0; binL < local_f_h_R_jet_algorithm[q]->numPoints(); binL++ )
-                            {
-
-                                vector<fastjet::PseudoJet> fdjets = scsJet.clusterSeq()->inclusive_jets();
-
-                                double E_min;
-                                int fdjet;
-
-                                fdjet=0;
-                                E_min = local_f_h_R_jet_algorithm[q]->point(binL).x()*sqrt(scsJet.clusterSeq()->Q2());
-                                for (  unsigned  int i = 0; i < fdjets.size(); i++) 	       if ( fdjets[i].E() > E_min )    fdjet++;
-
-                                if (fdjet==q+2) local_f_h_R_jet_algorithm[q]->point(binL).setY( local_f_h_R_jet_algorithm[q]->point(binL).y()+weight);
-
-                            }
-
-
-                    }
-            }
-         * 
-         * 
-         * 
-         * 
-         * 
-         * 
-         */
-        
         
 return PASSED;
 }

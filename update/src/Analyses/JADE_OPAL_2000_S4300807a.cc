@@ -12,13 +12,12 @@
 #include "Rivet/Projections/FastJets.hh"
 #include "Rivet/Tools/RivetYODA.hh"
 #define MC
-#define USE_DURHAM
-#define USE_JADE  
-//#define USE_CONE
-#define USE_CA
-#define USE_ANTIKT
+#define USE_DURHAM true
+#define USE_JADE   true
+#define USE_CA     true
+#define USE_ANTIKT true
 #include "TLorentzVector.h"
-#include "TH1F.h"
+#include "TH1D.h"
 #include "TFile.h"
 #include "Helpers.h"
 #include "Cuts.h"
@@ -37,9 +36,12 @@ public:
 
     double fTotalWeight;
     double fTotal;
-    std::map<std::string,TH1F*> fHMap;
+    std::map<std::string,TH1D*> fHMap;
+    std::map<std::string,TGraphAsymmErrors*> fGMap;
     TFile* fFile;
 
+std::string fGEN;
+std::string fgen;
 
 /*USELESS INIT, YODA-->*/
 std::map<std::string,Scatter2DPtr> fS2DPtrMap;
@@ -48,27 +50,17 @@ std::map<std::string,Histo1DPtr> fH1DptrMap;
 
     void init()
     {    
-		std::string gen = GENERATOR;
-std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
+fGEN = GENERATOR;
+std::transform(fGEN.begin(), fGEN.end(),fGEN.begin(), ::toupper);
+fgen = GENERATOR;
+std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 
-    fFile= new TFile(Form("PREDICTION_%s_%i.root",gen.c_str(),int(sqrtS()/GeV + 0.5)),"recreate");    
-#ifdef USE_DURHAM
-    OPALObs(this,Form("prediction_durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
-#endif
-#ifdef USE_JADE
-    OPALObs(this,Form("prediction_jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
-#endif
-#ifdef USE_ANTIKT
-    OPALObs(this,Form("prediction_antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
-#endif
-
-#ifdef USE_CA
-    OPALObs(this,Form("prediction_cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
-#endif
-
-
-
-    
+    fFile= new TFile(Form("PREDICTION%s_%i.root",fGEN.c_str(),int(sqrtS()/GeV + 0.5)),"recreate");    
+    OPALObs(this,USE_DURHAM,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,USE_JADE,  Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,USE_ANTIKT,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,USE_CA,    Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+   
     fTotalWeight=0;
     const FinalState fs;
     addProjection(fs, "FS");
@@ -86,7 +78,7 @@ std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
     std::vector<TLorentzVector>  vtlv1 = GetMC2(&particles1);
     double P1[]={Cuts::DURHAMR};
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
-    Analysis_type1(this, tfj1,e.weight(),1,Form("prediction_durham_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type1(this, tfj1,e.weight(),1,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_JADE
@@ -94,7 +86,7 @@ std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
     std::vector<TLorentzVector>  vtlv2 = GetMC2(&particles2);
     double P2[]={Cuts::JADER};
     TFastJet* tfj2 =new TFastJet( vtlv2, "jade",P2, NULL);
-    Analysis_type1(this, tfj2,e.weight(),0,Form("prediction_jade_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type1(this, tfj2,e.weight(),0,Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_ANTIKT
@@ -102,7 +94,7 @@ std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
     std::vector<TLorentzVector>  vtlv3 = GetMC2(&particles3);
     double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
     TFastJet* tfj3 =new TFastJet( vtlv3, "antikt",P3, NULL);
-    Analysis_type2(this, tfj3,e.weight(),0,Form("prediction_antikt_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type2(this, tfj3,e.weight(),0,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
 
 #ifdef USE_CA
@@ -110,36 +102,40 @@ std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
     std::vector<TLorentzVector>  vtlv4 = GetMC2(&particles4);
     double P4[]={Cuts::CAR,Cuts::CAP};
     TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge",P4, NULL);
-    Analysis_type2(this, tfj4,e.weight(),0,Form("prediction_cambridge_%iGeV_",int(sqrtS()/GeV + 0.5)));
+    Analysis_type2(this, tfj4,e.weight(),0,Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
 
-
-
     }
-    
-    
-    
-    
-    
-    
-    
-    
+  
     void finalize()
     {
 	/*I/O, ROOT-->*/	
     TDirectory *savedir = gDirectory;
     fFile->cd();
-    std::map<std::string,TH1F*>::iterator it;
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) if (it->first.find("JETR")!=std::string::npos) { it->second->Sumw2(); it->second->Scale(1.0/fTotalWeight*100); }
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) it->second->Write();
-    for (std::map<std::string,TH1F*>::iterator it=fHMap.begin(); it!=fHMap.end(); ++it) it->second->SetDirectory(0);
+    std::map<std::string,TH1D*>::iterator H_it;
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if (H_it->first.find("JETR")!=std::string::npos) { H_it->second->Sumw2();  
+		H_it->second->Scale(1.0/fTotalWeight);  }
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2();  H_it->second->Write();H_it->second->SetDirectory(0); /*		it->second->SetName()ROOT_to_YODA_name*/ }
+
+    std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if (G_it->first.find("JETR")!=std::string::npos) {
+	ScaleGraph(G_it->second,1.0/fTotalWeight);	 /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  }
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) { 
+		
+     
+		/*G_it->second->Sumw2(); */ G_it->second->Write();/* G_it->second->SetDirectory(0);*/ /*		it->second->SetName()ROOT_to_YODA_name*/ }
+  
+  
+  
+  
+  
     gDirectory = savedir;
     fFile->Close();  
     /*<--I/O, ROOT*/
-    
+#ifdef USE_YODA_IO    
     /*USELESS I/O, YODA-->*/
-    std::map<std::string,TH1F*>::iterator it2;
-    for (std::map<std::string,TH1F*>::iterator it2=fHMap.begin(); it2!=fHMap.end(); ++it2)
+    std::map<std::string,TH1D*>::iterator it2;
+    for (std::map<std::string,TH1D*>::iterator it2=fHMap.begin(); it2!=fHMap.end(); ++it2)
     {
     //std::string n0=it2->first;
 	std::string n0=ROOT_to_YODA_name(it2->first);
@@ -152,6 +148,7 @@ std::transform(gen.begin(), gen.end(),gen.begin(), ::toupper);
     fS2DPtrMap.insert(std::pair<std::string,Scatter2DPtr>(n0, Scatter2DPtr(YODA::TH1toScatter2D(it2->second, n2.c_str()))));
     addAnalysisObject(fS2DPtrMap[n0]); 
     }
+#endif    
     /*<--USELESS I/O, YODA*/    
     }
 };
