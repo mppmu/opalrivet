@@ -104,10 +104,19 @@ Double_t u;
 double GetChi2(TH1D* A,TH1D* B)
 {
 	
+	double U=0;
+	for (int i=1;i<A->GetNbinsX();i++)
+	{
+		double a=A->GetBinContent(i)-B->GetBinContent(i);
+		double b=pow(A->GetBinError(i),2)+pow(B->GetBinError(i),2);
+		if (b>0) U+=(a*a)/b;
+		
+	}	
 	
-	double U=A->Chi2Test(B,"WW");
+	printf("U1= %lf\n",U);
+	//U=A->Chi2Test(B,"WW");
 	
-	printf("U= %lf\n",U);
+	printf("U2= %lf\n",U);
 	return U;
 	
 }	

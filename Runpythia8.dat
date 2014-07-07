@@ -24,8 +24,8 @@ Beams:eCM = 44.0
 #StringZ:usePetersonC = off
 #StringZ:usePetersonH = off
 
-StringFlav:popcornSmeson=0.507998;
-StringFlav:popcornSpair=0.668294;
-StringZ:aExtraDiquark=0.480033;
+StringFlav:popcornSmeson=0.549481;
+StringFlav:popcornSpair=0.391196;
+StringZ:aExtraDiquark=0.500000;
 StringZ:aLund=0.300000;
 StringZ:bLund=0.580000;
