@@ -1,7 +1,6 @@
 #define EXCITED8_cxx
 #include  "EXCITED8.h"
 #include  "TFastJet.h"
-#include  "ZROOT.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
 #define USE_DURHAM true
