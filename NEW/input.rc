@@ -6,7 +6,7 @@ OPAL_130.CHAIN:   h10
 OPAL_130.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12162_1_200.root
 OPAL_130.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da130_95_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da130_97_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12162_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12162_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11925_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11925_2_200.root
 OPAL_130.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_130.DEFINES:   \'-DFILENAME=\"./Output/OPAL_130.root\"\'  \'-DENERGY=\"130\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_130.DEFINES:   \'-DFILENAME=\"./Output/OPAL_130.root\"\'  \'-DENERGY=\"130\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_130.NUMBER:  1000000000
 
 
@@ -17,7 +17,7 @@ LOCAL_OPAL_130.CHAIN:   h10
 LOCAL_OPAL_130.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12162_1_200.root
 LOCAL_OPAL_130.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da130_95_200.root /scratch/andriish/opal/ntuple_root/qcd/da130_97_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12162_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12162_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11925_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11925_2_200.root
 LOCAL_OPAL_130.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_130.DEFINES:   \'-DFILENAME=\"./Output/OPAL_130.root\"\'  \'-DENERGY=\"130\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_130.DEFINES:   \'-DFILENAME=\"./Output/OPAL_130.root\"\'  \'-DENERGY=\"130\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_130.NUMBER:  1000000000
 
 
@@ -39,7 +39,7 @@ OPAL_136.CHAIN:   h10
 OPAL_136.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12163_1_200.root  
 OPAL_136.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da136_95_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da136_97_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12163_1_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12163_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11926_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11926_2_200.root
 OPAL_136.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_136.DEFINES:   \'-DFILENAME=\"./Output/OPAL_136.root\"\'  \'-DENERGY=\"136\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_136.DEFINES:   \'-DFILENAME=\"./Output/OPAL_136.root\"\'  \'-DENERGY=\"136\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_136.NUMBER:  1000000000
 
 
@@ -50,7 +50,7 @@ LOCAL_OPAL_136.CHAIN:   h10
 LOCAL_OPAL_136.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
 LOCAL_OPAL_136.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da136_95_200.root /scratch/andriish/opal/ntuple_root/qcd/da136_97_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12163_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11926_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11926_2_200.root
 LOCAL_OPAL_136.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_136.DEFINES:   \'-DFILENAME=\"./Output/OPAL_136.root\"\'  \'-DENERGY=\"136\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_136.DEFINES:   \'-DFILENAME=\"./Output/OPAL_136.root\"\'  \'-DENERGY=\"136\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_136.NUMBER:  1000000000
 
 
@@ -77,7 +77,7 @@ OPAL_161.CHAIN:   h10
 OPAL_161.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12164_1_200.root
 OPAL_161.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da161_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12164_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12164_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12164_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12164_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11927_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11927_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11927_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11927_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11927_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc4513_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc4544_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc4741_1_200.root
 OPAL_161.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_161.DEFINES:   \'-DFILENAME=\"./Output/OPAL_161.root\"\'  \'-DENERGY=\"161\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_161.DEFINES:   \'-DFILENAME=\"./Output/OPAL_161.root\"\'  \'-DENERGY=\"161\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_161.NUMBER:  1000000000
 
 
@@ -87,7 +87,7 @@ LOCAL_OPAL_161.CHAIN:   h10
 LOCAL_OPAL_161.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12164_1_200.root
 LOCAL_OPAL_161.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da161_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4513_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4544_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4741_1_200.root
 LOCAL_OPAL_161.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_161.DEFINES:   \'-DFILENAME=\"./Output/OPAL_161.root\"\'  \'-DENERGY=\"161\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_161.DEFINES:   \'-DFILENAME=\"./Output/OPAL_161.root\"\'  \'-DENERGY=\"161\"\'   \'-DANALYSISTYPE=kLEP1\'  \'-DANALYSISINFO={{\"DATA\"\,1\,161\,0.0\,10.06}\,{\"MCSIGNALPYTHIA\"\,2\,12164\,156.2\,0.0}\,{\"GRC4F\"\,3\,4513\,2.648\,0.0}}\'
 LOCAL_OPAL_161.NUMBER:  1000000000
 
 
@@ -115,7 +115,7 @@ OPAL_172.CHAIN:   h10
 OPAL_172.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12165_1_200.root
 OPAL_172.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da172_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12165_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12165_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12165_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12165_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11928_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11928_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11928_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11928_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11928_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc4743_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc4744_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc4745_1_200.root
 OPAL_172.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_172.DEFINES:   \'-DFILENAME=\"./Output/OPAL_172.root\"\'  \'-DENERGY=\"172\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_172.DEFINES:   \'-DFILENAME=\"./Output/OPAL_172.root\"\'  \'-DENERGY=\"172\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_172.NUMBER:  1000000000
 
 
@@ -125,7 +125,7 @@ LOCAL_OPAL_172.CHAIN:   h10
 LOCAL_OPAL_172.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12165_1_200.root
 LOCAL_OPAL_172.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da172_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12165_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12165_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12165_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12165_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11928_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11928_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11928_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11928_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11928_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4743_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4744_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4745_1_200.root
 LOCAL_OPAL_172.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_172.DEFINES:   \'-DFILENAME=\"./Output/OPAL_172.root\"\'  \'-DENERGY=\"172\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_172.DEFINES:   \'-DFILENAME=\"./Output/OPAL_172.root\"\'  \'-DENERGY=\"172\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_172.NUMBER:  1000000000
 
 
@@ -143,13 +143,21 @@ LOCAL_OPAL_172.NUMBER:  1000000000
 #    GRC4F           eeqq       4745    4.730      0.0    1    mc4745
 #
 
+########################
+#    PYTHIA          (Z/g)*    12165    128.6      0.0    4    mc12165
+#    HERWIG          (Z/g)*    11928    128.3      0.0    5    mc11928
+#    GRC4F           llqq       4743    6.284      0.0    1    mc4743
+#    GRC4F           qqqq       4744    6.061      0.0    1    mc4744
+#    GRC4F           eeqq       4745    4.730      0.0    1    mc4745
+
+
 OPAL_183:
 OPAL_183.NAME:    EXCITED8
 OPAL_183.CHAIN:   h10
 OPAL_183.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_1_200.root
 OPAL_183.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da183_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11341_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5168_4_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8056_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8056_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7051_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7055_1_200.root
 OPAL_183.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_183.DEFINES:   \'-DFILENAME=\"./Output/OPAL_183.root\"\'  \'-DENERGY=\"183\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_183.DEFINES:   \'-DFILENAME=\"./Output/OPAL_183.root\"\'  \'-DENERGY=\"183\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_183.NUMBER:  1000000000
 
 
@@ -160,7 +168,7 @@ LOCAL_OPAL_183.CHAIN:   h10
 LOCAL_OPAL_183.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11341_1_200.root
 LOCAL_OPAL_183.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da183_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11341_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5168_4_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc8056_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8056_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7051_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7055_1_200.root
 LOCAL_OPAL_183.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_183.DEFINES:   \'-DFILENAME=\"./Output/OPAL_183.root\"\'  \'-DENERGY=\"183\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_183.DEFINES:   \'-DFILENAME=\"./Output/OPAL_183.root\"\'  \'-DENERGY=\"183\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_183.NUMBER:  1000000000
 
 
@@ -186,7 +194,7 @@ OPAL_189.CHAIN:   h10
 OPAL_189.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_1_200.root
 OPAL_189.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da189_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_9_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11342_10_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_9_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11343_10_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_9_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5169_10_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc7849_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8637_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8637_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc8636_1_200.root
 OPAL_189.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_189.DEFINES:   \'-DFILENAME=\"./Output/OPAL_189.root\"\'  \'-DENERGY=\"189\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_189.DEFINES:   \'-DFILENAME=\"./Output/OPAL_189.root\"\'  \'-DENERGY=\"189\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_189.NUMBER:  1000000000
 
 
@@ -196,7 +204,7 @@ LOCAL_OPAL_189.CHAIN:   h10
 LOCAL_OPAL_189.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc7846_1_200.root
 LOCAL_OPAL_189.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da189_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_9_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11342_10_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_9_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11343_10_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_9_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5169_10_200.root /scratch/andriish/opal/ntuple_root/qcd/mc7849_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8637_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8637_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc8636_1_200.root
 LOCAL_OPAL_189.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_189.DEFINES:   \'-DFILENAME=\"./Output/OPAL_189.root\"\'  \'-DENERGY=\"189\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_189.DEFINES:   \'-DFILENAME=\"./Output/OPAL_189.root\"\'  \'-DENERGY=\"189\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_189.NUMBER:  1000000000
 
 #/scratch/andriish/opal/ntuple_root/qcd/mc11342_2_200.root and many other
@@ -228,7 +236,7 @@ OPAL_192.CHAIN:   h10
 OPAL_192.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_1_200.root
 OPAL_192.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da1999_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11344_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5171_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9277_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9205_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9205_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9204_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9204_2_200.root
 OPAL_192.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_192.DEFINES:   \'-DFILENAME=\"./Output/OPAL_192.root\"\'  \'-DENERGY=\"192\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_192.DEFINES:   \'-DFILENAME=\"./Output/OPAL_192.root\"\'  \'-DENERGY=\"192\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_192.NUMBER:  1000000000
 
 LOCAL_OPAL_192:
@@ -237,7 +245,7 @@ LOCAL_OPAL_192.CHAIN:   h10
 LOCAL_OPAL_192.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11344_1_200.root
 LOCAL_OPAL_192.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da1999_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11344_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5171_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9277_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9205_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9205_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9204_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9204_2_200.root
 LOCAL_OPAL_192.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_192.DEFINES:   \'-DFILENAME=\"./Output/OPAL_192.root\"\'  \'-DENERGY=\"192\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_192.DEFINES:   \'-DFILENAME=\"./Output/OPAL_192.root\"\'  \'-DENERGY=\"192\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_192.NUMBER:  1000000000
 
 
@@ -266,7 +274,7 @@ OPAL_196.CHAIN:   h10
 OPAL_196.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_1_200.root
 OPAL_196.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da1999_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11345_8_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5172_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9280_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9202_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9202_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc9201_1_200.root
 OPAL_196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_196.root\"\'  \'-DENERGY=\"196\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_196.root\"\'  \'-DENERGY=\"196\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_196.NUMBER:  1000000000
 
 
@@ -277,7 +285,7 @@ LOCAL_OPAL_196.CHAIN:   h10
 LOCAL_OPAL_196.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11345_1_200.root
 LOCAL_OPAL_196.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da1999_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11345_8_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5172_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9280_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9202_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9202_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc9201_1_200.root
 LOCAL_OPAL_196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_196.root\"\'  \'-DENERGY=\"196\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_196.root\"\'  \'-DENERGY=\"196\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_196.NUMBER:  1000000000
 
 
@@ -311,7 +319,7 @@ OPAL_202.CHAIN:   h10
 OPAL_202.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da202_200.root
 OPAL_202.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da202_200.root
 OPAL_202.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_202.DEFINES:   \'-DFILENAME=\"./Output/OPAL_202.root\"\'  \'-DENERGY=\"202\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_202.DEFINES:   \'-DFILENAME=\"./Output/OPAL_202.root\"\'  \'-DENERGY=\"202\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_202.NUMBER:  1000000000
 
 
@@ -343,7 +351,7 @@ OPAL_205.CHAIN:   h10
 OPAL_205.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_1_200.root
 OPAL_205.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da2000_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11349_8_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5176_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11218_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11202_4_200.root
 OPAL_205.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_205.DEFINES:   \'-DFILENAME=\"./Output/OPAL_205.root\"\'  \'-DENERGY=\"205\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_205.DEFINES:   \'-DFILENAME=\"./Output/OPAL_205.root\"\'  \'-DENERGY=\"205\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_205.NUMBER:  1000000000
 
 
@@ -353,7 +361,7 @@ LOCAL_OPAL_205.CHAIN:   h10
 LOCAL_OPAL_205.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11349_1_200.root
 LOCAL_OPAL_205.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da2000_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11349_8_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5176_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11218_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11202_4_200.root
 LOCAL_OPAL_205.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_205.DEFINES:   \'-DFILENAME=\"./Output/OPAL_205.root\"\'  \'-DENERGY=\"205\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_205.DEFINES:   \'-DFILENAME=\"./Output/OPAL_205.root\"\'  \'-DENERGY=\"205\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_205.NUMBER:  1000000000
 
 #NT_VERSION 200						
@@ -378,7 +386,7 @@ OPAL_207.CHAIN:   h10
 OPAL_207.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_1_200.root
 OPAL_207.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da2000_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_4_200.root    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_5_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_6_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_7_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_8_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_9_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_10_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_11_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_12_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_13_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_14_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11352_15_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5179_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc11212_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc10788_1_200.root
 OPAL_207.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_207.DEFINES:   \'-DFILENAME=\"./Output/OPAL_207.root\"\'  \'-DENERGY=\"207\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+OPAL_207.DEFINES:   \'-DFILENAME=\"./Output/OPAL_207.root\"\'  \'-DENERGY=\"207\"\'   \'-DANALYSISTYPE=kLEP1\'  
 OPAL_207.NUMBER:  1000000000
 
 LOCAL_OPAL_207:
@@ -387,7 +395,7 @@ LOCAL_OPAL_207.CHAIN:   h10
 LOCAL_OPAL_207.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc11352_1_200.root
 LOCAL_OPAL_207.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da2000_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_4_200.root    /scratch/andriish/opal/ntuple_root/qcd/mc11352_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_6_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_7_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_8_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_9_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_10_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_11_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_12_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_13_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_14_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11352_15_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5179_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11212_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc10788_1_200.root
 LOCAL_OPAL_207.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_207.DEFINES:   \'-DFILENAME=\"./Output/OPAL_207.root\"\'  \'-DENERGY=\"207\"\'   \'-DANALYSISTYPE=kLEP1\'  -DfillList 
+LOCAL_OPAL_207.DEFINES:   \'-DFILENAME=\"./Output/OPAL_207.root\"\'  \'-DENERGY=\"207\"\'   \'-DANALYSISTYPE=kLEP1\'  
 LOCAL_OPAL_207.NUMBER:  1000000000
 
 
@@ -413,7 +421,7 @@ OPAL_9100.CHAIN:   h10
 OPAL_9100.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_1_200.root
 OPAL_9100.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_2k_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_2k_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12139_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12410_1_200.root
 OPAL_9100.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"95.5\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"95.5\"\'   \'-DANALYSISTYPE=kLEP2\'  
 OPAL_9100.NUMBER:  1000000000
 
 
@@ -423,7 +431,7 @@ LOCAL_OPAL_9100.CHAIN:   h10
 LOCAL_OPAL_9100.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12139_1_200.root
 LOCAL_OPAL_9100.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_2k_1_200.root /scratch/andriish/opal/ntuple_root/qcd/da91_2k_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12139_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12410_1_200.root
 LOCAL_OPAL_9100.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"95.5\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+LOCAL_OPAL_9100.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9100.root\"\'  \'-DENERGY=\"95.5\"\'   \'-DANALYSISTYPE=kLEP2\'  
 LOCAL_OPAL_9100.NUMBER:  1000000000
 
 
@@ -444,7 +452,7 @@ OPAL_9196.CHAIN:   h10
 OPAL_9196.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5025_1_200.root
 OPAL_9196.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_96_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5025_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5025_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12406_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12406_2_200.root
 OPAL_9196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"93.5\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"93.5\"\'   \'-DANALYSISTYPE=kLEP2\'  
 OPAL_9196.NUMBER:  1000000000
 
 LOCAL_OPAL_9196:
@@ -453,7 +461,7 @@ LOCAL_OPAL_9196.CHAIN:   h10
 LOCAL_OPAL_9196.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc5025_1_200.root
 LOCAL_OPAL_9196.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_96_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5025_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5025_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12406_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12406_2_200.root
 LOCAL_OPAL_9196.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"93.5\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+LOCAL_OPAL_9196.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9196.root\"\'  \'-DENERGY=\"93.5\"\'   \'-DANALYSISTYPE=kLEP2\'  
 LOCAL_OPAL_9196.NUMBER:  1000000000
 
 
@@ -475,7 +483,7 @@ OPAL_9197.CHAIN:   h10
 OPAL_9197.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5073_1_200.root
 OPAL_9197.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_97_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5073_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc5073_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12407_4_200.root
 OPAL_9197.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"94\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"94\"\'   \'-DANALYSISTYPE=kLEP2\'  
 OPAL_9197.NUMBER:  1000000000
 
 LOCAL_OPAL_9197:
@@ -484,7 +492,7 @@ LOCAL_OPAL_9197.CHAIN:   h10
 LOCAL_OPAL_9197.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc5073_1_200.root
 LOCAL_OPAL_9197.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_97_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5073_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc5073_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12407_4_200.root
 LOCAL_OPAL_9197.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"94\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+LOCAL_OPAL_9197.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9197.root\"\'  \'-DENERGY=\"94\"\'   \'-DANALYSISTYPE=kLEP2\'  
 LOCAL_OPAL_9197.NUMBER:  1000000000
 
 
@@ -505,7 +513,7 @@ OPAL_9198.CHAIN:   h10
 OPAL_9198.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_1_200.root
 OPAL_9198.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_98_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_98_2_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12040_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_1_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_2_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12408_4_200.root 
 OPAL_9198.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"94.5\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"94.5\"\'   \'-DANALYSISTYPE=kLEP2\'  
 OPAL_9198.NUMBER:  1000000000
 
 
@@ -515,7 +523,7 @@ LOCAL_OPAL_9198.CHAIN:   h10
 LOCAL_OPAL_9198.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12138_1_200.root
 LOCAL_OPAL_9198.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_98_1_200.root /scratch/andriish/opal/ntuple_root/qcd/da91_98_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12040_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12408_1_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12408_2_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12408_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12408_4_200.root 
 LOCAL_OPAL_9198.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"94.5\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+LOCAL_OPAL_9198.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9198.root\"\'  \'-DENERGY=\"94.5\"\'   \'-DANALYSISTYPE=kLEP2\'  
 
 
 
@@ -537,7 +545,7 @@ OPAL_9199.CHAIN:   h10
 OPAL_9199.FILEGEN: https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_1_200.root
 OPAL_9199.DATA:    https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_99_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/da91_99_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_2_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_3_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12138_4_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_1_200.root https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_2_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_3_200.root  https://grid-dav.rzg.mpg.de:2880/opal/ntuple_root/qcd/mc12409_4_200.root 
 OPAL_9199.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"95\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"95\"\'   \'-DANALYSISTYPE=kLEP2\'  
 OPAL_9199.NUMBER:  1000000000
 
 LOCAL_OPAL_9199:
@@ -546,7 +554,7 @@ LOCAL_OPAL_9199.CHAIN:   h10
 LOCAL_OPAL_9199.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12138_1_200.root
 LOCAL_OPAL_9199.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da91_99_1_200.root /scratch/andriish/opal/ntuple_root/qcd/da91_99_2_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12138_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12138_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12138_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12138_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12409_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12409_2_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12409_3_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12409_4_200.root 
 LOCAL_OPAL_9199.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"95\"\'   \'-DANALYSISTYPE=kLEP2\'  -DfillList 
+LOCAL_OPAL_9199.DEFINES:   \'-DFILENAME=\"./Output/OPAL_9199.root\"\'  \'-DENERGY=\"95\"\'   \'-DANALYSISTYPE=kLEP2\'  
 LOCAL_OPAL_9199.NUMBER:  1000000000
 
 

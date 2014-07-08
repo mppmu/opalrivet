@@ -9,6 +9,9 @@
 #define USE_ANTIKT true
 #define OPTION      "tc"
 #define OPTION_TRUE "h"
+
+	
+
 void EXCITED8::Begin(TTree *tree) {}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
@@ -18,21 +21,32 @@ void EXCITED8::SlaveBegin(TTree * tree)
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
     TAnalysisType kAT=ANALYSISTYPE;
-    BookHistograms(this,kAT,USE_DURHAM,Form("mc_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("mc_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("mc_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("mc_cambridge_%sGeV_",ENERGY));
+
+    BookHistograms(this,kAT,USE_DURHAM,Form("mcbackgr_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("mcbackgr_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("mcbackgr_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("mcbackgr_cambridge_%sGeV_",ENERGY));
+
+    BookHistograms(this,kAT,USE_DURHAM,Form("mcsignal_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("mcsignal_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("mcsignal_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("mcsignal_cambridge_%sGeV_",ENERGY));
 
     BookHistograms(this,kAT,USE_DURHAM,Form("data_durham_%sGeV_",ENERGY));
     BookHistograms(this,kAT,USE_JADE,  Form("data_jade_%sGeV_",ENERGY));
     BookHistograms(this,kAT,USE_ANTIKT,Form("data_antikt_%sGeV_",ENERGY));
     BookHistograms(this,kAT,USE_CA,    Form("data_cambridge_%sGeV_",ENERGY));
 
-    BookHistograms(this,kAT,USE_DURHAM,Form("true_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("true_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("true_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("true_cambridge_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_DURHAM,Form("truesignal_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("truesignal_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("truesignal_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("truesignal_cambridge_%sGeV_",ENERGY));
 
+    BookHistograms(this,kAT,USE_DURHAM,Form("truebackgr_durham_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_JADE,  Form("truebackgr_jade_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_ANTIKT,Form("truebackgr_antikt_%sGeV_",ENERGY));
+    BookHistograms(this,kAT,USE_CA,    Form("truebackgr_cambridge_%sGeV_",ENERGY));
+/********************************************************************************/
     BookHistograms(this,kAT,USE_DURHAM,Form("acceptance_durham_%sGeV_",ENERGY));
     BookHistograms(this,kAT,USE_JADE,  Form("acceptance_jade_%sGeV_",ENERGY));
     BookHistograms(this,kAT,USE_ANTIKT,Form("acceptance_antikt_%sGeV_",ENERGY));
@@ -43,9 +57,16 @@ void EXCITED8::SlaveBegin(TTree * tree)
     BookHistograms(this,kAT,USE_ANTIKT,Form("corrected_antikt_%sGeV_",ENERGY));
     BookHistograms(this,kAT,USE_CA,    Form("corrected_cambridge_%sGeV_",ENERGY));
 
-fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",3,0.0,3.0)));
+fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",10,0.0,10.0)));
 fHMap["weight"]->GetXaxis()->SetBinLabel(1,"data");
-fHMap["weight"]->GetXaxis()->SetBinLabel(2,"mc");
+fHMap["weight"]->GetXaxis()->SetBinLabel(2,"mcsignal");
+fHMap["weight"]->GetXaxis()->SetBinLabel(3,"mcbackgr");
+
+
+TAnalysisInfo Z[]=ANALYSISINFO   ;
+
+
+
 }
 Bool_t EXCITED8::Process(Long64_t gentry)
 {
@@ -58,6 +79,10 @@ Bool_t EXCITED8::Process(Long64_t gentry)
           if (kAT==kLEP1)  if (!LEP1Preselection(this)) return kFALSE;
           if (kAT==kLEP1)  if (!LEP1Selection(this))    return kFALSE;
 float weight=1.0;
+TAnalysisInfo Z[]=ANALYSISINFO   ;
+TAnalysisInfo q=Match(Irun,Z,3);
+
+
 std::string TYPE;
 if (Irun>10000) TYPE="mc";
 if (Irun<10000) TYPE="data";

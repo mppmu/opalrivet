@@ -214,7 +214,7 @@ void FoldGraph(TGraphAsymmErrors* A, int N)
 }
 
 
-void ScaleGraph(TGraphAsymmErrors* A, double k)
+void ScaleGraph(TGraphAsymmErrors* A, double k,int scaleopt=0)
 {
 	//Here we should merge the TGraphs properly	
 	int i;
@@ -223,7 +223,8 @@ void ScaleGraph(TGraphAsymmErrors* A, double k)
 	Double_t x,y;
     A->GetPoint(i,x,y);
 	A->SetPoint(i,x,y*k);
-	A->SetPointError(i,0,0,A->GetErrorYlow(i)*sqrt(k),A->GetErrorYhigh(i)*sqrt(k));
+	if (scaleopt==1) A->SetPointError(i,0,0,A->GetErrorYlow(i)*sqrt(k),A->GetErrorYhigh(i)*sqrt(k));
+    if (scaleopt==0) A->SetPointError(i,0,0,A->GetErrorYlow(i),A->GetErrorYhigh(i));
     }
 }
 
@@ -623,7 +624,95 @@ void JADEObs(EXA * A,bool doit,std::string Iprefix="")
     H_INSERTER_DBL(A->fHMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020, 
 			       0.030, 0.045, 0.070, 0.100, 0.150,
 			       0.250, 0.500,1.000}));
-  
+			       /*
+
+H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({
+5.01187233627272462e-03,
+8.70963589956080461e-03,
+1.25892541179416749e-02,
+1.99526231496887987e-02,
+3.01995172040201605e-02,
+3.98107170553497342e-02,
+5.01187233627272202e-02,
+6.02559586074357806e-02,
+7.07945784384138022e-02,
+7.94328234724281379e-02,
+9.54992586021435885e-02,
+1.14815362149688294e-01,
+1.34896288259165359e-01,
+1.58489319246111343e-01
+}));
+
+H_INSERTER_DBL(A->fHMap,prefix+"JETR3", ARRAY_PROTECT({
+5.01187233627272462e-03,
+8.70963589956080461e-03,
+1.25892541179416749e-02,
+1.99526231496887987e-02,
+3.01995172040201605e-02,
+3.98107170553497342e-02,
+5.01187233627272202e-02,
+6.02559586074357806e-02,
+7.07945784384138022e-02,
+7.94328234724281379e-02,
+9.54992586021435885e-02,
+1.14815362149688294e-01,
+1.34896288259165359e-01,
+1.58489319246111343e-01
+}));
+
+H_INSERTER_DBL(A->fHMap,prefix+"JETR4", ARRAY_PROTECT({
+5.01187233627272462e-03,
+8.70963589956080461e-03,
+1.25892541179416749e-02,
+1.99526231496887987e-02,
+3.01995172040201605e-02,
+3.98107170553497342e-02,
+5.01187233627272202e-02,
+6.02559586074357806e-02,
+7.07945784384138022e-02,
+7.94328234724281379e-02,
+9.54992586021435885e-02,
+1.14815362149688294e-01,
+1.34896288259165359e-01,
+1.58489319246111343e-01
+}));
+
+H_INSERTER_DBL(A->fHMap,prefix+"JETR5", ARRAY_PROTECT({
+5.01187233627272462e-03,
+8.70963589956080461e-03,
+1.25892541179416749e-02,
+1.99526231496887987e-02,
+3.01995172040201605e-02,
+3.98107170553497342e-02,
+5.01187233627272202e-02,
+6.02559586074357806e-02,
+7.07945784384138022e-02,
+7.94328234724281379e-02,
+9.54992586021435885e-02,
+1.14815362149688294e-01,
+1.34896288259165359e-01,
+1.58489319246111343e-01
+}));
+			       
+H_INSERTER_DBL(A->fHMap,prefix+"JETR6", ARRAY_PROTECT({
+5.01187233627272462e-03,
+8.70963589956080461e-03,
+1.25892541179416749e-02,
+1.99526231496887987e-02,
+3.01995172040201605e-02,
+3.98107170553497342e-02,
+5.01187233627272202e-02,
+6.02559586074357806e-02,
+7.07945784384138022e-02,
+7.94328234724281379e-02,
+9.54992586021435885e-02,
+1.14815362149688294e-01,
+1.34896288259165359e-01,
+1.58489319246111343e-01
+}));
+			       
+*/
+      //Same as Donkers for Durham   -->  -2.50 .. -0.5     ; For Jade:  -2.30.. -0.80
     H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
     0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
     0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
@@ -686,7 +775,7 @@ void JADEObs(EXA * A,bool doit,std::string Iprefix="")
     0.3162278
                                                     }));
 
-
+    //<-- Same as Donkers for Durham  
     H_INSERTER_DBL(A->fHMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                  0.14, 0.16, 0.20, 0.24, 0.30, 0.40
                                                  }));
@@ -739,7 +828,7 @@ prefix=std::string("G_")+Iprefix;
     G_INSERTER_DBL(A->fGMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020, 
 			       0.030, 0.045, 0.070, 0.100, 0.150,
 			       0.250, 0.500,1.000}));
-  
+    //Same as Donkers for Durham  +2 bins -->
     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
     0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
     0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
@@ -801,7 +890,7 @@ prefix=std::string("G_")+Iprefix;
     0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    , 
     0.3162278
                                                     }));
-
+//<-- Same as Donkers for Durham  +2 bins
 
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                  0.14, 0.16, 0.20, 0.24, 0.30, 0.40
@@ -823,6 +912,27 @@ void BookHistograms(EXA * A,TAnalysisType B, bool doit,std::string Iprefix="")
 {
 	if (B==kLEP1||B==kLEP2) OPALObs(A,doit,Iprefix);
 	if (B==kJADE)           JADEObs(A,doit,Iprefix);
+	
+}	
+
+
+
+typedef struct TAnalysisInfo_ {
+	
+	std::string  fName;
+	int fType;
+	int fRun;
+	double fSigma;
+	double fLumi;
+}  TAnalysisInfo;
+
+
+
+TAnalysisInfo Match(int run, TAnalysisInfo Z[], int N )
+{
+int i;
+for (i=0;i<N;i++) if (Z[i].fRun==run) return Z[i];
+	
 	
 }	
 
