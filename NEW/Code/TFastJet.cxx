@@ -29,7 +29,7 @@ TFastJet::TFastJet( const std::vector<TParticle>& vtp ) : fClusterSequence(0), f
     return;
 }
 
-bool TFastJet::FindAlgorithm(const char * jetalg)
+bool TFastJet::FindAlgorithm(std::string jetalg)
 {
             fJetAlgString= std::string(jetalg); 
             if (fJetAlgString==std::string("kt"))        { fJetAlg=fastjet::kt_algorithm; return true;}
@@ -38,15 +38,16 @@ bool TFastJet::FindAlgorithm(const char * jetalg)
             if (fJetAlgString==std::string("genkt"))     { fJetAlg=fastjet::genkt_algorithm; return true;}
             if (fJetAlgString==std::string("siscone")||fJetAlgString==std::string("jade"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
             if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))      { fJetAlg=fastjet::ee_kt_algorithm; return true;}
- return false;
+ 
+            return false;
 }
 
 TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
-                    const char* jetalg,
+                    std::string jetalg,
                     double* R,
                     const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
 {
-      if (!FindAlgorithm(jetalg)) puts("Warning: Unknown algorithm!");
+      if (!FindAlgorithm(jetalg)) printf("Warning: Unknown algorithm  %s!",jetalg.c_str());
       fPJets= new std::vector<fastjet::PseudoJet>();
       std::vector<fastjet::PseudoJet> particles;
      

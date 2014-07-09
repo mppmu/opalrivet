@@ -56,10 +56,10 @@ fgen = GENERATOR;
 std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 
     fFile= new TFile(Form("PREDICTION%s_%i.root",fGEN.c_str(),int(sqrtS()/GeV + 0.5)),"recreate");    
-    OPALObs(this,USE_DURHAM,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
-    OPALObs(this,USE_JADE,  Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
-    OPALObs(this,USE_ANTIKT,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
-    OPALObs(this,USE_CA,    Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this, Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,   Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
    
     fTotalWeight=0;
     const FinalState fs;
@@ -124,6 +124,8 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 		
      
 		/*G_it->second->Sumw2(); */ G_it->second->Write();/* G_it->second->SetDirectory(0);*/ /*		it->second->SetName()ROOT_to_YODA_name*/ }
+  
+  
   
   
   

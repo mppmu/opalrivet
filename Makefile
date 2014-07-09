@@ -31,6 +31,12 @@ allold_%:
 prof: pprroffessorr.cxx
 		g++ $(shell root-config --cflags --glibs )  -lMinuit pprroffessorr.cxx -o ./prof
 
+
+draw: draw.cxx
+		g++ $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o ./draw
+
+
+
 ALL:
 	rm -rf run/out_*
 	make all_65.0

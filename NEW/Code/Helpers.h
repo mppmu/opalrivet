@@ -923,18 +923,25 @@ typedef struct TAnalysisInfo_ {
 	TAnalysisType fAT;
 	std::string  fNames[MAX_RUNS];
 	int          fTypes[MAX_RUNS];
-	int          fRuns[MAX_RUNS];
+	int          fRunsBegin[MAX_RUNS];
+	int          fRunsEnd[MAX_RUNS];
 	double       fSigmas[MAX_RUNS];
 	double       fLumis[MAX_RUNS];
+	int          fEvents[MAX_RUNS];
 }  TAnalysisInfo;
 
-
-int  Match(int run, TAnalysisInfo Z)
+void Count(TChain* C, TAnalysisInfo& A)
 {
-int i;
-for (i=0;i<MAX_RUNS;i++) if (Z.fRuns[i]==run) return i;
+	for (int i=0;i<MAX_RUNS;i++) if (A.fNames[i]!="") A.fEvents[i]= C->Draw("Irun",Form("(%i<Irun)&&(Irun<%i)",A.fRunsBegin[i],A.fRunsEnd[i]));
+
+}	
+
+
+int  Match(int run, TAnalysisInfo& Z, TH1F* H)
+{
+for (int i=0;i<MAX_RUNS;i++) Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]); 
+for (int i=0;i<MAX_RUNS;i++) if ((Z.fRunsBegin[i]<=run)&& (run<=Z.fRunsEnd[i])) return i;
 	return -1;
-	
 }	
 
 
@@ -1412,8 +1419,8 @@ template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight
 std::string G_prefix=std::string("G_")+Iprefix;
 	
 bool PASSED=false;
-    int j;
-    int i;
+  //  int j;
+//    int i;
 int k;
         
                         for (k=0; k<7; k++)// FIXME
@@ -1433,7 +1440,7 @@ PASSED=true;
                                         if (fdjet==q+2) 
                                         {
                                         Double_t y,ye;
-                                        Double_t x,xe;
+                                        Double_t x;//,xe;
                                         A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(k,x,y);
                                         ye=A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(k);
                                         A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(k,x,0,y+weight,sqrt(ye*ye+weight*weight));
@@ -1451,7 +1458,19 @@ return PASSED;
 }
 
 
-
+template <class EXA> bool Analysis(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string Iprefix="")
+{
+	bool ret=false;
+	switch (filly) 
+	{
+		case 0: ret=Analysis_type1(A,scsJet, weight,filly,Iprefix); break;
+		case 1: ret=Analysis_type2(A,scsJet, weight,filly,Iprefix); break;
+		case 2: ret=Analysis_type3(A,scsJet, weight,filly,Iprefix); break;
+		default: ret=Analysis_type1(A,scsJet, weight,filly,Iprefix); break;
+	}	
+	return ret;
+	
+}	
 
 
 
@@ -1483,6 +1502,12 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     for( Int_t itrk= 0; itrk < ntrack; itrk++ ) vtlv.push_back( TLorentzVector( ptrack[itrk][0], ptrack[itrk][1], ptrack[itrk][2], ptrack[itrk][3] ));
     return vtlv;
 }
+
+
+
+
+
+
 
 
 

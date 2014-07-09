@@ -1,4 +1,108 @@
-#include "ZROOT.h"
+#ifndef ZROOT_H
+#define ZROOT_H
+#include <TH2.h>
+#include <TStyle.h>
+#include "TF1.h"
+#include "TF2.h"
+#include "TFile.h"
+#include "TNtuple.h"
+#include "TCanvas.h"
+#include "TLine.h"
+#include "TEventList.h"
+#include "TMath.h"
+#include  "TKey.h"
+
+#include  <iostream>
+#include  <TString.h>
+#include  <TSystem.h>
+#include  <TDatime.h>
+#include  <TVector3.h>
+#include  <TLorentzVector.h>
+#include  <TPaveLabel.h>
+#include  <TArrow.h>
+#include  <math.h>
+#include  "TEntryList.h"
+#include "TProofOutputFile.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include "TF1.h"
+#include "TFile.h"
+#include "TCanvas.h"
+#include "TLine.h"
+#include "TEventList.h"
+#include "TMath.h"
+#include  <iostream>
+#include  <TString.h>
+#include  <TDatime.h>
+#include  <TVector3.h>
+#include  <TLorentzVector.h>
+#include  <TPaveLabel.h>
+#include  <TArrow.h>
+#include  <math.h>
+#include <TH2.h>
+#include <TStyle.h>
+#include "TF1.h"
+#include "TFile.h"
+#include "TNtuple.h"
+#include "TCanvas.h"
+#include "TLine.h"
+#include "TEventList.h"
+#include "TMath.h"
+#include  <iostream>
+#include  <TString.h>
+#include  <TSystem.h>
+#include  <TDatime.h>
+#include  <TVector3.h>
+#include  <TLorentzVector.h>
+#include  <TPaveLabel.h>
+#include  <TArrow.h>
+#include  <math.h>
+#include "TProofOutputFile.h"
+
+#include "TApplication.h"
+#include "math.h"
+#include "TH1F.h"
+#include "TH1D.h"
+#include "TH2F.h"
+#include "TF2.h"
+#include "TF1.h"
+#include "TFile.h"
+#include "TEllipse.h"
+#include "TCanvas.h"
+#include "TArrow.h"
+#include "TLorentzVector.h"
+#include "TStyle.h"
+#include "TDSet.h"
+#include "TMap.h"
+#include "TLegend.h"
+#include "TPaveLabel.h"
+#include "TEntryList.h"
+#include "TPaveText.h"
+#include "TROOT.h"
+#include "TTree.h"
+#include "TLatex.h"
+#include "TObjArray.h"
+#include "TObjString.h"
+#include "TChain.h"
+#include "TSystem.h"
+#include "TString.h"
+#include "TProof.h"
+#include "TEnv.h"
+#include <TF1.h>
+#include <TROOT.h>
+#include <TSystem.h>
+#include <TH1F.h>
+#include <TFile.h>
+#include <TVirtualFitter.h>
+#include <TError.h>
+#include <TGraphAsymmErrors.h>
+#include <TCanvas.h>
+#include <TMath.h>
+#include <vector>
+#include <cmath>
+#include <cassert>
+
+#endif
 
 
 TString* nows(TString* a)
@@ -51,8 +155,9 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             chainG->MakeSelector(NAME.Data());
         }
     else     chainTD->MakeSelector(NAME.Data());
-
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TMap;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#define MAX_RUNS   20' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a  typedef struct TAnalysisInfo_ {double fE; TAnalysisType fAT; std::string  fNames[MAX_RUNS]; int fTypes[MAX_RUNS]; int fRuns[MAX_RUNS]; double fSigmas[MAX_RUNS]; double fLumis[MAX_RUNS];}  TAnalysisInfo;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TMap;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1D;' %s.h",NAME.Data()));
@@ -62,23 +167,38 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TNtuple;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fProofFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fListFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fListProofFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTH1D   **fH;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fListFile;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fListProofFile;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/aTH1D   **fH;' %s.h",NAME.Data()));
     
     
-    gSystem->GetFromPipe(Form("sed -i '/public :/a TMap* fMap;' %s.h",NAME.Data()));
+    //gSystem->GetFromPipe(Form("sed -i '/public :/a TMap* fMap;' %s.h",NAME.Data()));
     
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/a TH1D* fWeight;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/a TH1D* fWeight;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TGraphAsymmErrors*> fGMap;' %s.h",NAME.Data()));
     
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp;' %s.h",NAME.Data()));
 
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp2;' %s.h",NAME.Data()));
+    //gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp2;' %s.h",NAME.Data()));
 
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  *fOut;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTEntryList  *fElist;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  *fOut;' %s.h",NAME.Data()));
+//    gSystem->GetFromPipe(Form("sed -i '/public :/aTEntryList  *fElist;' %s.h",NAME.Data()));
+
+gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
+gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
+
+
+
+/*
+gSystem->GetFromPipe(Form("sed -i '/fChain = tree;/a CustomInit();' %s.h",NAME.Data()));
+
+gSystem->GetFromPipe(Form("sed -i '/virtual void    Terminate();/a virtual void CustomInit();' %s.h",NAME.Data()));
+*/
+
+//gSystem->GetFromPipe(Form("sed -i '/public :/a struct TAnalysisInfo fAI;' %s.h",NAME.Data()));
+
+
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("cp ../../Code/"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
@@ -108,6 +228,13 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe("tar zcvf "+NAME+".tar.gz  "+NAME) ;
     gSystem->GetFromPipe("cp "+NAME+".tar.gz ../PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME+".par");
     gSystem->ChangeDirectory("../");
+    
+    /******************/
+        chainTD->Draw("Irun>>RUNHIST(20000,0.0,20000.0)");
+    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST"); 
+      p->AddInput(RUNHIST);
+    /******************/
+    
     chainTD->SetProof();
     gSystem->SetAclicMode(TSystem::kDebug);
     gSystem->SetFlagsOpt("-ffast-math -O3");
@@ -130,6 +257,10 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 //#else
 //    gSystem->ChangeDirectory("./Output_H1");
 //#indif
+//chainTD->SetName("CHAIN");
+//    p->AddInput(chainTD);
+
+         
     chainTD->Process(NAME,"SYN",NUMBER);
     gSystem->ChangeDirectory("../");
 

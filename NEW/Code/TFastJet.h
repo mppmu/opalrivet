@@ -25,7 +25,7 @@ public:
 
     TFastJet();
     TFastJet( const std::vector<TParticle>& );
-    TFastJet( const std::vector<TLorentzVector>&, const char* jetalg, double* R, const std::vector<int>* vindx= 0 );
+    TFastJet( const std::vector<TLorentzVector>&, std::string jetalg, double* R, const std::vector<int>* vindx= 0 );
     virtual ~TFastJet();
 
     std::vector<TLorentzVector>& InclusiveJets( const double ptmin);
@@ -38,7 +38,7 @@ public:
     fastjet::ClusterSequence* GetClusterSequence();
 
 private:
-   bool FindAlgorithm(const char * jetalg);
+   bool FindAlgorithm(std::string jetalg);
     std::vector<TLorentzVector>& CopyPseudoJetsToLorentzVectors();
     fastjet::ClusterSequence* fClusterSequence;
     fastjet::SISConePlugin* fSISPlugin;
