@@ -10,8 +10,6 @@
 #define OPTION      "tc"
 #define OPTION_TRUE "h"
 
-	
-
 void EXCITED8::Begin(TTree *tree) {}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
@@ -20,52 +18,22 @@ void EXCITED8::SlaveBegin(TTree * tree)
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
-    TAnalysisType kAT=ANALYSISTYPE;
+    fAI=ANALYSISINFO;
+    int II=Match(Irun,fAI);
 
-    BookHistograms(this,kAT,USE_DURHAM,Form("mcbackgr_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("mcbackgr_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("mcbackgr_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("mcbackgr_cambridge_%sGeV_",ENERGY));
-
-    BookHistograms(this,kAT,USE_DURHAM,Form("mcsignal_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("mcsignal_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("mcsignal_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("mcsignal_cambridge_%sGeV_",ENERGY));
-
-    BookHistograms(this,kAT,USE_DURHAM,Form("data_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("data_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("data_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("data_cambridge_%sGeV_",ENERGY));
-
-    BookHistograms(this,kAT,USE_DURHAM,Form("truesignal_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("truesignal_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("truesignal_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("truesignal_cambridge_%sGeV_",ENERGY));
-
-    BookHistograms(this,kAT,USE_DURHAM,Form("truebackgr_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("truebackgr_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("truebackgr_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("truebackgr_cambridge_%sGeV_",ENERGY));
-/********************************************************************************/
-    BookHistograms(this,kAT,USE_DURHAM,Form("acceptance_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("acceptance_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("acceptance_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("acceptance_cambridge_%sGeV_",ENERGY));
-
-    BookHistograms(this,kAT,USE_DURHAM,Form("corrected_durham_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_JADE,  Form("corrected_jade_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_ANTIKT,Form("corrected_antikt_%sGeV_",ENERGY));
-    BookHistograms(this,kAT,USE_CA,    Form("corrected_cambridge_%sGeV_",ENERGY));
-
+    std::vector<std::string> algorithms;
+    algorithms.push_back("durham");        algorithms.push_back("jade");          algorithms.push_back("antikt");        algorithms.push_back("combridge");
+    std::vector<std::string> histotypes;   histotypes.push_back("mcbackgr");      histotypes.push_back("mcsignal");      histotypes.push_back("data");
+    histotypes.push_back("truesignal");    histotypes.push_back("truebackgr");    histotypes.push_back("acceptance");    histotypes.push_back("corrected");
+    
+    int i,j;
+    for (i=0;i<algorithms.size();i++)for (j=0;j<histotypes.size();j++) 
+    BookHistograms(this,fAI.fAT,Form("%s_%s_%3.1fGeV_",fAI.fE,histotypes.at(j).c_str(),algorithms.at(i).c_str()));
+    
 fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",10,0.0,10.0)));
 fHMap["weight"]->GetXaxis()->SetBinLabel(1,"data");
 fHMap["weight"]->GetXaxis()->SetBinLabel(2,"mcsignal");
 fHMap["weight"]->GetXaxis()->SetBinLabel(3,"mcbackgr");
-
-
-TAnalysisInfo Z[]=ANALYSISINFO   ;
-
-
 
 }
 Bool_t EXCITED8::Process(Long64_t gentry)
@@ -75,19 +43,19 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-    TAnalysisType kAT=ANALYSISTYPE;
-          if (kAT==kLEP1)  if (!LEP1Preselection(this)) return kFALSE;
-          if (kAT==kLEP1)  if (!LEP1Selection(this))    return kFALSE;
+    int II=Match(Irun,fAI);
+          if (fAI.fAT==kLEP1)  if (!LEP1Preselection(this)) return kFALSE;
+          if (fAI.fAT==kLEP1)  if (!LEP1Selection(this))    return kFALSE;
 float weight=1.0;
-TAnalysisInfo Z[]=ANALYSISINFO   ;
-TAnalysisInfo q=Match(Irun,Z,3);
-
-
 std::string TYPE;
-if (Irun>10000) TYPE="mc";
-if (Irun<10000) TYPE="data";
-if (Irun>10000) {
+if (fAI.fType[II]==1) TYPE="data"; 
+if (fAI.fType[II]==2) TYPE="mcsignal";
+if (fAI.fType[II]==3) TYPE="mcbackgr";
+if (fAI.fType[II]>1) {
 if (!MCNonRad(this))  return kFALSE;
+
+ std::vector<TLorentzVector> vtlv1t= GetLorentzVectors( this,OPTION_TRUE );
+for (i=0;i<algorithms.size();i++)
 
 #ifdef USE_DURHAM
     std::vector<TLorentzVector> vtlv1t= GetLorentzVectors( this,OPTION_TRUE );

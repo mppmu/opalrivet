@@ -87,7 +87,7 @@ LOCAL_OPAL_161.CHAIN:   h10
 LOCAL_OPAL_161.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12164_1_200.root
 LOCAL_OPAL_161.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da161_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12164_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_2_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_3_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_4_200.root /scratch/andriish/opal/ntuple_root/qcd/mc11927_5_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4513_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4544_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc4741_1_200.root
 LOCAL_OPAL_161.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_161.DEFINES:   \'-DFILENAME=\"./Output/OPAL_161.root\"\'  \'-DENERGY=\"161\"\'   \'-DANALYSISTYPE=kLEP1\'  \'-DANALYSISINFO={{\"DATA\"\,1\,161\,0.0\,10.06}\,{\"MCSIGNALPYTHIA\"\,2\,12164\,156.2\,0.0}\,{\"GRC4F\"\,3\,4513\,2.648\,0.0}}\'
+LOCAL_OPAL_161.DEFINES:   \'-DFILENAME=\"./Output/OPAL_161.root\"\' \'-DANALYSISINFO={161.0\,kLEP1\,{\"DATA\"\,\"MCSIGNALPYTHIA\"\,\"GRC4F\"}\,{1\,2\,3}\,{161\,12164\,4513}\,{0.0\,156.2\,155.6}\,{10.06\,0.0\,0.0}}\'
 LOCAL_OPAL_161.NUMBER:  1000000000
 
 

@@ -424,14 +424,14 @@ return a;
 
 
 template <class EXA>
-void OPALObs(EXA * A,bool doit,std::string Iprefix="")
+void OPALObs(EXA * A,std::string Iprefix="")
 {
 	
 	 TH1::SetDefaultSumw2(kTRUE);
 	
      std::string prefix;
      prefix=std::string("H_")+Iprefix;
-	if (!doit) return;
+	
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     H_INSERTER_DBL(A->fHMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     H_INSERTER_DBL(A->fHMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
@@ -578,11 +578,11 @@ prefix=std::string("G_")+Iprefix;
 
 
 template <class EXA>
-void JADEObs(EXA * A,bool doit,std::string Iprefix="")
+void JADEObs(EXA * A,std::string Iprefix="")
 {
      std::string prefix;
      prefix=std::string("H_")+Iprefix;
-	if (!doit) return;
+	
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12 ,
 				 0.14, 0.16, 0.18, 0.20, 0.23, 0.27, 0.32,
 				 0.40, 0.50 }));
@@ -908,31 +908,32 @@ prefix=std::string("G_")+Iprefix;
 
 
 template <class EXA>
-void BookHistograms(EXA * A,TAnalysisType B, bool doit,std::string Iprefix="")
+void BookHistograms(EXA * A,TAnalysisType B, std::string Iprefix="")
 {
-	if (B==kLEP1||B==kLEP2) OPALObs(A,doit,Iprefix);
-	if (B==kJADE)           JADEObs(A,doit,Iprefix);
+	if (B==kLEP1||B==kLEP2) OPALObs(A,Iprefix);
+	if (B==kJADE)           JADEObs(A,Iprefix);
 	
 }	
 
 
+#define MAX_RUNS   20
 
 typedef struct TAnalysisInfo_ {
-	
-	std::string  fName;
-	int fType;
-	int fRun;
-	double fSigma;
-	double fLumi;
+	double fE;
+	TAnalysisType fAT;
+	std::string  fNames[MAX_RUNS];
+	int          fTypes[MAX_RUNS];
+	int          fRuns[MAX_RUNS];
+	double       fSigmas[MAX_RUNS];
+	double       fLumis[MAX_RUNS];
 }  TAnalysisInfo;
 
 
-
-TAnalysisInfo Match(int run, TAnalysisInfo Z[], int N )
+int  Match(int run, TAnalysisInfo Z)
 {
 int i;
-for (i=0;i<N;i++) if (Z[i].fRun==run) return Z[i];
-	
+for (i=0;i<MAX_RUNS;i++) if (Z.fRuns[i]==run) return i;
+	return -1;
 	
 }	
 
