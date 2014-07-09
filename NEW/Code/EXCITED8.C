@@ -62,7 +62,7 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     float weight=1.0;    
     //printf("AAAA %i %i %i %i %i\n",fAI.fEvents[0],fAI.fEvents[1],fAI.fEvents[2],fAI.fEvents[3],fAI.fEvents[4]);
-    if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	//else weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]); //FIXME
+    if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  if (fAI.fTypes[II]==2) weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]*1000.0); //FIXME
     if (fAI.fAT==kLEP1)    if (!LEP1Preselection(this)) return kFALSE;
     if (fAI.fAT==kLEP1)    if (!LEP1Selection(this))    return kFALSE;
 	
