@@ -3,47 +3,15 @@
 #include  "TFastJet.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
-void EXCITED8::Begin(TTree *tree) {
-	    
-	//    Reset();
-	/*
-	TH1F* O=(TH1F*)fInput->FindObject("RUNHIST");
-	TAnalysisInfo A=ANALYSISINFO;    
-	for (int i=0;i<5;i++) if (A.fNames[i]!="") 	if (O)  A.fEvents[i]= O->Integral(A.fRunsBegin[i],A.fRunsEnd[i]); //O->Draw("Irun",F);    
-	printf("%i %i %i\n",A.fEvents[0],A.fEvents[1],A.fEvents[2]);
-*/
-	}
-/*
-void EXCITED8::CustomInit()
-{
-	
-puts("CUSTOM INIT");	
-}	
-*/
-
+void EXCITED8::Begin(TTree *tree) {	}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
-
-	//TH1F* O=(TH1F*)fInput->FindObject("RUNHIST");
-	//TAnalysisInfo A=ANALYSISINFO;    
-//	for (int i=0;i<5;i++) if (A.fNames[i]!="") 	
-	//if (O) 
-	//{ 
-	//A.fEvents[i]= O->Integral(A.fRunsBegin[i],A.fRunsEnd[i]); 
-	//printf("%i %i %f\n",A.fRunsBegin[i],A.fRunsEnd[i],	O->Integral(A.fRunsBegin[i],A.fRunsEnd[i])); 
-	//}
-		//O->Draw("Irun",F);    
-	//printf("AAAA %i %i %i %i %i\n",A.fEvents[0],A.fEvents[1],A.fEvents[2],A.fEvents[3],A.fEvents[4]);
-
-
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
     fProofFile = new TProofOutputFile(FILENAME, "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
-    TAnalysisInfo fAI=ANALYSISINFO;
-    
-    
+    TAnalysisInfo fAI=ANALYSISINFO;    
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
     for (int i=0;i<fAlgorithms.size();i++)for (int j=0;j<fDataType.size();j++)  BookHistograms(this,fAI.fAT,Form("%s_%s_%3.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
@@ -61,11 +29,9 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     fChain->GetEntry(entry);
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     float weight=1.0;    
-    //printf("AAAA %i %i %i %i %i\n",fAI.fEvents[0],fAI.fEvents[1],fAI.fEvents[2],fAI.fEvents[3],fAI.fEvents[4]);
     if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  if (fAI.fTypes[II]==2) weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]*1000.0); //FIXME
     if (fAI.fAT==kLEP1)    if (!LEP1Preselection(this)) return kFALSE;
-    if (fAI.fAT==kLEP1)    if (!LEP1Selection(this))    return kFALSE;
-	
+    if (fAI.fAT==kLEP1)    if (!LEP1Selection(this))    return kFALSE;	
 	std::vector<std::string> datatypes;
 	std::vector<std::string> options;
 	if (fAI.fTypes[II]==0) { tokenize("data",":",datatypes);                tokenize("tc",":",options);   }
@@ -129,13 +95,7 @@ if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,T
 	H_it->second->Divide(fHMap[std::string("H_truebackgr_")+name]);	
     }
     }
-  //  for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if ((H_it->first.find("JETR")!=std::string::npos) &&(H_it->first.find("mcsignal_")!=std::string::npos))  H_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(2));  //data
-  //  for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if ((H_it->first.find("JETR")!=std::string::npos) &&(H_it->first.find("mcbackgr_")!=std::string::npos))  H_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(3));  //data
-
-
-
-    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Write(0,TObject::kWriteDelete); H_it->second->SetDirectory(0);}
-    
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Write(0,TObject::kWriteDelete); H_it->second->SetDirectory(0);}  
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) FoldGraph(G_it->second,4);//We run on 4 cores.//FIXME
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if ((G_it->first.find("JETR")!=std::string::npos)  &&(G_it->first.find("data_")!=std::string::npos))  ScaleGraph(G_it->second,1.0/fHMap["weight"]->GetBinContent(1));
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
