@@ -3,7 +3,7 @@
 The basic idea here is to provide Python IO semantics by using Python to do
 the IO. Otherwise we get C++ IO semantics in Python. It also means we can use
 dummy files, e.g. anything with read/write attributes. Generally a much better
-idea than just "give this a filename", and well worth the inefficiencies and
+idea than just 'give this a filename', and well worth the inefficiencies and
 potential memory limits.
 """
 
@@ -16,9 +16,8 @@ cdef list _aobjects_to_list(vector[c.AnalysisObject*]* aobjects):
     cdef size_t i
     for i in xrange(aobjects.size()):
         ao = deref(aobjects)[i]
-        out.append(
-            util.new_owned_cls(
-                globals()[ao.type().c_str()], ao))
+        ## NOTE: automatic type conversion by passing the type() as a key to globals()
+        out.append(cutil.new_owned_cls(globals()[ao.type()], ao))
     return out
 
 ## Make a Python dict of analysis objects from a C++ vector of them
@@ -28,7 +27,8 @@ cdef dict _aobjects_to_dict(vector[c.AnalysisObject*]* aobjects):
     cdef size_t i
     for i in xrange(aobjects.size()):
         ao = deref(aobjects)[i]
-        newao = util.new_owned_cls( globals()[ao.type().c_str()], ao )
+        ## NOTE: automatic type conversion by passing the type() as a key to globals()
+        newao = cutil.new_owned_cls( globals()[ao.type()], ao)
         out[newao.path] = newao
     return out
 

@@ -12,11 +12,13 @@ CYTHON_SRC = \
     util.pyx \
     util.pxd \
     include/AnalysisObject.pyx \
+    include/Counter.pyx \
     include/Axis1D_BIN1D_DBN.pyx \
     include/Axis2D_BIN2D_DBN.pyx \
     include/Bin.pyx \
     include/Bin1D_DBN.pyx \
     include/Bin2D_DBN.pyx \
+    include/Dbn0D.pyx \
     include/Dbn1D.pyx \
     include/Dbn2D.pyx \
     include/Dbn3D.pyx \
@@ -26,13 +28,16 @@ CYTHON_SRC = \
     include/HistoBin1D.pyx \
     include/HistoBin2D.pyx \
     include/IO.pyx \
+    include/Point1D.pyx \
     include/Point2D.pyx \
     include/Point3D.pyx \
     include/Profile1D.pyx \
     include/Profile2D.pyx \
     include/ProfileBin1D.pyx \
     include/ProfileBin2D.pyx \
-    include/Scatter2D.pyx
+    include/Scatter1D.pyx \
+    include/Scatter2D.pyx \
+    include/Scatter3D.pyx
 
 
 EXTRA_DIST += \
@@ -46,11 +51,11 @@ endif
 
 
 if WITH_CYTHON
-core.cpp: $(CYTHON_SRC)
+core.cpp core.h: $(CYTHON_SRC)
 	./mktemplates
 	cython core.pyx --cplus
 else
-core.cpp: $(CYTHON_SRC)
+core.cpp core.h: $(CYTHON_SRC)
 	@echo "Not (re)generating core.cpp since Cython is not installed"
 endif
 
@@ -86,6 +91,30 @@ rootcompat.cpp: util.pxd rootcompat.pxd rootcompat.pyx
 endif
 endif
 
+
+
+
+## fixes for out-of-source builds, especially "make distcheck"
+
+all-local: fix-out-of-source
+
+FIXSOURCES = $(EXTRA_DIST)
+
+fix-out-of-source: $(FIXSOURCES)
+	rm -f $@
+	mkdir -p include
+	for i in $^; do \
+	  orig="$$i"; \
+	  build="$$(basename $$i)"; \
+	  if [[ "$${orig}" == *include* ]]; then build="include/$${build}"; fi; \
+	  if [ ! -e $${build} ]; then cp $${orig} $${build}; \
+	  echo $${build} >> $@; fi; \
+	done
+	touch $@
+
+clean-local: fix-out-of-source
+	if [ -e $< ]; then if [ -n "$$(cat $<)" ]; then rm -f $$(cat $<); fi; fi
+	rm -f $<
 
 distclean-local:
 	rm -f core.cpp core.h util.cpp rootcompat.cpp include/generated/*
