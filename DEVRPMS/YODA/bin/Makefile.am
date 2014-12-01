@@ -24,7 +24,9 @@ yodaconvert_CXXFLAGS=-std=c++0x -I$(top_builddir)/include
 yodaconvert_LDADD= $(SUBLIBS) $(AM_LDFLAGS) $(top_builddir)/src/libYODA.la 
 
 if  ENABLE_ROOT
+if ENABLE_PYEXT
 dist_bin_SCRIPTS += yoda2root
+endif
 yodaconvert_LDADD+=$(ROOT_LIBS)
 yodaconvert_CPPFLAGS = $(ROOT_CXXFLAGS) -Wno-long-long  -DENABLE_ROOT
 endif

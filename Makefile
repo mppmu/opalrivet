@@ -182,16 +182,17 @@ binrpm: srcrpm
 
 
 YODA: DEVRPMS/YODA-$(YODA_VERS).tar.gz
-	rm -rf ./YODA-$(YODA_VERS) ./YODA-$(YODA_VERS)_orig
-	tar xvfz DEVRPMS/YODA-$(YODA_VERS).tar.gz 
-	cp -R ./YODA-$(YODA_VERS) ./YODA-$(YODA_VERS)_orig
-	rm -f ./YODA-$(YODA_VERS)/bin/*2*
-	rm -f ./YODA-$(YODA_VERS)/pyext/yoda/script*
+	mkdir -p tmp
+	rm -rf ./tmp/YODA-$(YODA_VERS) ./tmp/YODA-$(YODA_VERS)_orig
+	tar xvfz DEVRPMS/YODA-$(YODA_VERS).tar.gz  -C ./tmp
+	cp -R ./tmp/YODA-$(YODA_VERS) ./tmp/YODA-$(YODA_VERS)_orig
+	rm -f ./tmp/YODA-$(YODA_VERS)/bin/*2*
+	rm -f ./tmp/YODA-$(YODA_VERS)/pyext/yoda/script*
 ##	rm -f ./YODA-$(YODA_VERS)/pyext/yoda/*root*
-	cp -R DEVRPMS/YODA/bin/*  ./YODA-$(YODA_VERS)/bin
-	cp -R DEVRPMS/YODA/include/*  ./YODA-$(YODA_VERS)/include
-	cp -R DEVRPMS/YODA/pyext/*  ./YODA-$(YODA_VERS)/pyext
-	cp -R DEVRPMS/YODA/src/*  ./YODA-$(YODA_VERS)/src
+	cp -R DEVRPMS/YODA/*  ./tmp/YODA-$(YODA_VERS)/
+#	cp -R DEVRPMS/YODA/include/*  ./tmp/YODA-$(YODA_VERS)/include
+#	cp -R DEVRPMS/YODA/pyext/*  ./tmp/YODA-$(YODA_VERS)/pyext
+#	cp -R DEVRPMS/YODA/src/*  ./tmp/YODA-$(YODA_VERS)/src
 
 YODApatch: YODA
 	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* YODA-$(YODA_VERS)_orig YODA-$(YODA_VERS)  | sed 's@YODA-'$(YODA_VERS)'/@./@g' | sed 's@YODA-'$(YODA_VERS)'_orig/@./@g' > DEVRPMS/patch-YODA-0.txt

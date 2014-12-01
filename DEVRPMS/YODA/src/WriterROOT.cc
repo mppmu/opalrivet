@@ -55,4 +55,15 @@ void WriterROOT::writeScatter2D(std::ostream& os, const Scatter2D& s)
         }
     //dps->SetDirectory(0);
 }
+
+
+     void WriterROOT::writeProfile2D(std::ostream& stream, const Profile2D& p){};
+    void WriterROOT::writeScatter1D(std::ostream& stream, const Scatter1D& s){};
+
+     void WriterROOT::writeScatter3D(std::ostream& stream, const Scatter3D& s){};
+
+
+
+
+
 }
