@@ -146,8 +146,14 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
         if  ( (TString(((TObjString *)parsed->At(i))->GetString()).Contains("dcap://")) || (TString(((TObjString *)parsed->At(i))->GetString()).Contains("http://"))|| (TString(((TObjString *)parsed->At(i))->GetString()).Contains("https://")))
             chainTD->Add(((TObjString *)parsed->At(i))->GetString());
         else
-            chainTD->Add(gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString()));
+        {
+            
+             TObjArray * parsed2;
+             parsed2 = (gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString()))->Tokenize(" ");
+            for (int i2 = 0; i2 <parsed2->GetLast()+1; i2++)
+            chainTD->Add((TObjString *)parsed2->At(i2));
 
+		}
     if (FILEGEN.Length()!=0)
         {
             TChain *chainG = new TChain(CHAIN);

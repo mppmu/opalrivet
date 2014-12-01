@@ -1,9 +1,9 @@
 NAME=JADE_OPAL_2000_S4300807a
-#GEN=sherpa
+GEN=sherpa
 #GEN=herwig++
 #GEN=pythia8
 #GEN=evtgen
-GEN?=pythia8
+#GEN?=pythia8
 
 all: dirs plots ref/$(NAME).yoda
 
@@ -11,57 +11,58 @@ src/Rivet$(NAME).cc: ../update/src/Analyses/$(NAME).cc
 		cp ../update/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
 
 Run.dat: Run$(GEN).dat
-	cp Run$(GEN).dat  Run.dat 
+	cp Run$(GEN).dat  Run.dat_tmp 
+	rm -rf ./*.dat
+	mv Run.dat_tmp  Run.dat 
 
 
-lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc 
-## -DUSE_DURHAM -DUSE_ANTIKT -DUSE_CONE -DUSE_JADE  -DUSE_ANTIKT_R_SCAN  -DUSE_CA
-###		-DUSE_DURHAM -DUSE_JADE -DUSE_CONE -DUSE_PX -DUSE_CONE 
-		rm -f TFastJet.cxx 
-		rm -f Cuts.h 
-		rm -f Helpers.h 
-		rm -f TFastJet.h 
-#		cp /home/andriish/opalrivet/trunk/NEW/Code/FastJets2.cxx ./
-#		cp /home/andriish/opalrivet/trunk/NEW/Code/FastJets2.h ./		
-		cp /home/andriish/opalrivet/trunk/NEW/Code/TFastJet.cxx ./
-		cp /home/andriish/opalrivet/trunk/NEW/Code/Cuts.h ./
-		cp /home/andriish/opalrivet/trunk/NEW/Code/Helpers.h ./
-		cp /home/andriish/opalrivet/trunk/NEW/Code/TFastJet.h ./		
-		rm -f LinkDef.h
-		echo "#ifdef __MAKECINT__" >> LinkDef.h
-		echo "#pragma link C++ class TFastJet+;" >> LinkDef.h
-#		echo "#pragma link C++ class FastJets2+;" >> LinkDef.h
-		echo "#endif" >> LinkDef.h
-		rootcint -f TFastJetDict.cxx -c -p TFastJet.h   ./LinkDef.h
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. TFastJet.cxx -o TFastJet.o
-		g++ -fPIC -shared $(shell root-config --cflags ) -I.  TFastJetDict.cxx -o TFastJetDict.o
+lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc Makefile
 
-#		g++ -fPIC -shared $(shell root-config --cflags ) -I. FastJets2.cxx -o FastJets2.o		
-#		g++ -fPIC -shared $(shell root-config --cflags ) -I. FastJets2Dict.cxx -o FastJets2Dict.o		
-
-		g++ -fPIC -shared $(shell root-config --ldflags --libs )  TFastJetDict.o TFastJet.o  -o libTFastJet.so
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -L. -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
+		rm -f src/TFastJet.cxx 
+		rm -f inc/Cuts.h 
+		rm -f inc/Helpers.h 
+		rm -f inc/TFastJet.h 
+		cp ../NEW/Code/TFastJet.cxx ./src
+		cp ../NEW/Code/Cuts.h ./inc
+		cp ../NEW/Code/Helpers.h ./inc
+		cp ../NEW/Code/TFastJet.h ./inc		
+		rm -f  gen/LinkDef.h
+		
+		echo "#ifdef __MAKECINT__" >> gen/LinkDef.h
+		echo "#pragma link C++ class TFastJet+;" >> gen/LinkDef.h
+		echo "#endif" >> gen/LinkDef.h
+		rootcint -f gen/TFastJetDict.cxx -c -p inc/TFastJet.h   ./gen/LinkDef.h
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc gen/TFastJetDict.cxx -o obj/TFastJetDict.o	
+		g++ -fPIC -shared $(shell root-config --ldflags --libs )  obj/TFastJetDict.o obj/TFastJet.o  -o lib/libTFastJet.so
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
 		# -DUSE_ANTIKT
 
 
 
-Rivet$(NAME).yoda: lib/Rivet$(NAME).so ref/$(NAME).yoda  Run.dat 
+Rivet$(NAME).yoda: lib/Rivet$(NAME).so refs  Run.dat 
 		rm -f fifo.hepmc.hepmc2g
 		mkfifo fifo.hepmc.hepmc2g
-#		Sherpa EVENT_OUTPUT=HepMC_GenEvent[fifo.hepmc]   & 		
-		../run-$(GEN).sh    & 		
-		../run-rivet.sh $(NAME)
+		../bin/run-$(GEN).sh    & 		
+		../bin/run-rivet.sh $(NAME)
 		rm -f Sherpa_References.tex fifo.hepmc.hepmc2g
 		
-ref/$(NAME).yoda:  ../update/data/refdata/$(NAME).yoda ../update/data/plotinfo/$(NAME).plot ../update/data/anainfo/$(NAME).info
+refs:  ../update/data/refdata/$(NAME).yoda ../update/data/plotinfo/$(NAME).plot ../update/data/anainfo/$(NAME).info
 		cp ../update/data/refdata/$(NAME).yoda  ref/$(NAME).yoda
 		cp ../update/data/plotinfo/$(NAME).plot  ref/$(NAME).plot
 		cp ../update/data/anainfo/$(NAME).info  ref/$(NAME).info
 		
 dirs:
-	mkdir -p out src lib ref 
+		mkdir -p gen
+		mkdir -p lib
+		mkdir -p obj
+		mkdir -p inc
+		mkdir -p out
+		mkdir -p ref
+		mkdir -p src
+		mkdir -p root
 
 
-plots: Rivet$(NAME).yoda ref/$(NAME).yoda ref/$(NAME).plot ref/$(NAME).info
+plots: Rivet$(NAME).yoda refs
 		rm -rf out/Rivet$(NAME)/*-*.dat
-		../run-mkhtml.sh $(NAME)
+		../bin/run-mkhtml.sh $(NAME)
