@@ -6,12 +6,12 @@
 
 
 Name:           YODA
-Version:        1.0.6
+Version: 1.3.0
 Release:        1
 License:        GPLv3
 Url:		http://www.YODA.fr
 Source0:	http://www.hepforge.org/archive/yoda/%{name}-%{version}.tar.gz
-#Patch0: patch0.txt
+Patch0:     patch-YODA-0.txt
 Group:		Sciences/Physics
 Summary:        Fast implementation of several recombination jet algorithms
 BuildRequires:	gcc-gfortran gcc-c++
@@ -52,23 +52,16 @@ The library documentation is available on header files.
 
 %prep
 %setup -q
-#%patch0 -p0
+%patch0 -p0
 
 %build
 autoreconf
-#./configure  
-#--prefix=%{_prefix} 
-#--libdir=%{_libdir}
-#mkdir -p $(pwd)/tmp/usr
-#mkdir -p $(pwd)/tmp/%_lib
 #./configure --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --enable-root
 %configure --enable-root
 make  %{?_smp_mflags}
 
 %install
 make install  DESTDIR=$(pwd)/tmp
-#sed -i s@$(pwd)/tmp/usr/%_lib@/usr/%_lib@g  $(pwd)/tmp/usr/%_lib/*.la
-#sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/yoda-config
 
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
@@ -81,7 +74,7 @@ cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 /usr/%_lib/python2.6/site-packages/yoda-*-info
 /usr/%_lib/libYODA.la
 /usr/%_lib/libYODA.so
-
+/usr/%_lib/pkgconfig/yoda.pc
 /usr/share/YODA/yoda-completion
 
 /usr/bin/*
@@ -95,7 +88,7 @@ cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 
 
 %changelog
-* Fri Jan 20 2012 Alexander Khrukin <akhrukin@mandriva.org> 3.0.2-1
+* Fri Jan 20 2012 FAKEAlexander Khrukin <akhrukin@mandriva.org> 3.0.2-1
 + Revision: 763348
 - imported package YODA
 

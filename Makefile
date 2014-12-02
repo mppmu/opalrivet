@@ -1,5 +1,5 @@
 NAME=JADE_OPAL_2000_S4300807a
-VERS=2.1.1
+
 #VERS=2.2.0
 TOPDIR=./Rivet-$(VERS)	
 all: 	all_94.5 
@@ -55,9 +55,9 @@ ALL:
 
 
 
-
-DEVRPMS/Rivet-$(VERS).tar.gz:
-		wget http://www.hepforge.org/archive/rivet/Rivet-$(VERS).tar.gz -O DEVRPMS/Rivet-$(VERS).tar.gz
+RIVET_VERS=2.1.1
+DEVRPMS/Rivet-$(RIVET_VERS).tar.gz:
+		wget http://www.hepforge.org/archive/rivet/Rivet-$(VERS).tar.gz -O DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
 
 
 TAUOLA_VERS=1.1.4
@@ -153,22 +153,22 @@ allbinrpm: binrpm_YODA binrpm_AGILe binrpm_Cython binrpm_HepMC binrpm_PHOTOS bin
 beauty:
 		astyle -n --keep-one-line-blocks --style=gnu    ./*cc
 		
-srcrpm: DEVRPMS/Rivet-$(VERS).tar.gz 
-	rm -rf DEVRPMS/Rivet-$(VERS)
-	rm -rf DEVRPMS/Rivet-$(VERS)_orig	
-	tar -zxf  DEVRPMS/Rivet-$(VERS).tar.gz 
-	cp -R	Rivet-$(VERS) DEVRPMS/Rivet-$(VERS)_orig
-	mv 	Rivet-$(VERS) DEVRPMS/
+srcrpm: DEVRPMS/Rivet-$(RIVET_VERS).tar.gz 
+	rm -rf DEVRPMS/Rivet-$(RIVET_VERS)
+	rm -rf DEVRPMS/Rivet-$(RIVET_VERS)_orig	
+	tar -zxf  DEVRPMS/Rivet-$(RIVET_VERS).tar.gz 
+	cp -R	Rivet-$(RIVET_VERS) DEVRPMS/Rivet-$(RIVET_VERS)_orig
+	mv 	Rivet-$(RIVET_VERS) DEVRPMS/
 	rm -rf patch-Rivet-*.txt
-	cp -R update/* DEVRPMS/Rivet-$(VERS)/
+	cp -R update/* DEVRPMS/Rivet-$(RIVET_VERS)/
 	
-	diff -Naur  -x   *RivetPaths.* -x *rivet.pxd* DEVRPMS/Rivet-$(VERS)_orig  DEVRPMS/Rivet-$(VERS) > DEVRPMS/patch-Rivet-0.txt  || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(VERS)_orig/src/Tools/RivetPaths.cc  DEVRPMS/Rivet-$(VERS)/src/Tools/RivetPaths.cc > DEVRPMS/patch-Rivet-1.txt || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(VERS)_orig/src/Tools/RivetPaths.cc  DEVRPMS/Rivet-$(VERS)/src/Tools/RivetPaths.cc >> DEVRPMS/patch-Rivet-1.txt || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(VERS)_orig/include/Rivet/Tools/RivetPaths.hh  DEVRPMS/Rivet-$(VERS)/include/Rivet/Tools/RivetPaths.hh >> DEVRPMS/patch-Rivet-1.txt || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(VERS)_orig//pyext/rivet/rivet.pxd  DEVRPMS/Rivet-$(VERS)/pyext/rivet/rivet.pxd >> DEVRPMS/patch-Rivet-1.txt || exit 0
-	sed -i 's@DEVRPMS/Rivet-$(VERS)_orig@.@g' DEVRPMS/patch-Rivet-*.txt
-	sed -i 's@DEVRPMS/Rivet-$(VERS)@.@g' DEVRPMS/patch-Rivet-*.txt
+	diff -Naur  -x   *RivetPaths.* -x *rivet.pxd* DEVRPMS/Rivet-$(RIVET_VERS)_orig  DEVRPMS/Rivet-$(RIVET_VERS) > DEVRPMS/patch-Rivet-0.txt  || exit 0
+	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/src/Tools/RivetPaths.cc  DEVRPMS/Rivet-$(RIVET_VERS)/src/Tools/RivetPaths.cc > DEVRPMS/patch-Rivet-1.txt || exit 0
+	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/src/Tools/RivetPaths.cc  DEVRPMS/Rivet-$(RIVET_VERS)/src/Tools/RivetPaths.cc >> DEVRPMS/patch-Rivet-1.txt || exit 0
+	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/include/Rivet/Tools/RivetPaths.hh  DEVRPMS/Rivet-$(RIVET_VERS)/include/Rivet/Tools/RivetPaths.hh >> DEVRPMS/patch-Rivet-1.txt || exit 0
+	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig//pyext/rivet/rivet.pxd  DEVRPMS/Rivet-$(RIVET_VERS)/pyext/rivet/rivet.pxd >> DEVRPMS/patch-Rivet-1.txt || exit 0
+	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)_orig@.@g' DEVRPMS/patch-Rivet-*.txt
+	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)@.@g' DEVRPMS/patch-Rivet-*.txt
 
 #diff -Naur EvtGen-1.3.0_orig EvtGen-1.3.0  | sed 's@EvtGen-1.3.0/@./@g' | sed 's@EvtGen-1.3.0_orig/@./@g'
 #diff -Naur Herwig++-2.7.0_orig Herwig++-2.7.0  | sed 's@Herwig++-2.7.0/@./@g' | sed 's@Herwig++-2.7.0_orig/@./@g'
@@ -176,9 +176,9 @@ srcrpm: DEVRPMS/Rivet-$(VERS).tar.gz
 #diff -Naur  -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' >DEVRPMS/patch-YODA-0.txt
 binrpm: srcrpm
 		cp DEVRPMS/patch-Rivet-*.txt   /home/andriish/rpmbuild/SOURCES/
-		cp DEVRPMS/Rivet-$(VERS).tar.gz  /home/andriish/rpmbuild/SOURCES/
+		cp DEVRPMS/Rivet-$(RIVET_VERS).tar.gz  /home/andriish/rpmbuild/SOURCES/
 		rpmbuild -bs DEVRPMS/Rivet.spec
-		rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(VERS)-1.src.rpm
+		rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)-1.src.rpm
 
 
 YODA: DEVRPMS/YODA-$(YODA_VERS).tar.gz
@@ -186,16 +186,24 @@ YODA: DEVRPMS/YODA-$(YODA_VERS).tar.gz
 	rm -rf ./tmp/YODA-$(YODA_VERS) ./tmp/YODA-$(YODA_VERS)_orig
 	tar xvfz DEVRPMS/YODA-$(YODA_VERS).tar.gz  -C ./tmp
 	cp -R ./tmp/YODA-$(YODA_VERS) ./tmp/YODA-$(YODA_VERS)_orig
-	rm -f ./tmp/YODA-$(YODA_VERS)/bin/*2*
-	rm -f ./tmp/YODA-$(YODA_VERS)/pyext/yoda/script*
-##	rm -f ./YODA-$(YODA_VERS)/pyext/yoda/*root*
 	cp -R DEVRPMS/YODA/*  ./tmp/YODA-$(YODA_VERS)/
-#	cp -R DEVRPMS/YODA/include/*  ./tmp/YODA-$(YODA_VERS)/include
-#	cp -R DEVRPMS/YODA/pyext/*  ./tmp/YODA-$(YODA_VERS)/pyext
-#	cp -R DEVRPMS/YODA/src/*  ./tmp/YODA-$(YODA_VERS)/src
+
 
 YODApatch: YODA
-	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* YODA-$(YODA_VERS)_orig YODA-$(YODA_VERS)  | sed 's@YODA-'$(YODA_VERS)'/@./@g' | sed 's@YODA-'$(YODA_VERS)'_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
+	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* ./tmp/YODA-$(YODA_VERS)_orig ./tmp/YODA-$(YODA_VERS)  | sed 's@./tmp/YODA-'$(YODA_VERS)'/@./@g' | sed 's@./tmp/YODA-'$(YODA_VERS)'_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
+
+srcrpm_YODA: YODA YODApatch
+	sed -i 's@.*Version.*@Version: '$(YODA_VERS)'@g'  DEVRPMS/YODA.spec
+#	export   RPM_BUILD_ROOT=$HOME/rpmbuild
+#	mkdir -p $RPM_BUILD_ROOT/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+#	cp $PACKAGE.tar $RPM_BUILD_ROOT/SOURCES
+#	cp $PACKAGE.spec  $RPM_BUILD_ROOT/SPECS/$PACKAGE.spec
+#	cd  $RPM_BUILD_ROOT/SPECS
+	cp DEVRPMS/YODA-$(YODA_VERS).tar.gz $(HOME)/rpmbuild/SOURCES
+	cp DEVRPMS/patch-YODA-0.txt $(HOME)/rpmbuild/SOURCES
+	echo '%_topdir %(echo '$(HOME)'/rpmbuild)' > $(HOME)/.rpmmacros
+	rpmbuild -bs DEVRPMS/YODA.spec
+	rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/YODA-$(YODA_VERS)*
 
 	
 

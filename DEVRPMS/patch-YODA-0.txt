@@ -1,84 +1,11 @@
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2flat ./bin/aida2flat
---- ./bin/aida2flat	2014-05-27 17:14:52.490494534 +0200
-+++ ./bin/aida2flat	1970-01-01 01:00:00.000000000 +0100
-@@ -1,21 +0,0 @@
--#! /usr/bin/env python
--
--"""\
--%prog aidafile [flatfile]
--
--Convert an AIDA data file to a 'flat', human-readable data format.
--"""
--
--import yoda, os, sys, optparse
--from yoda.script_helpers import parse_x2y_args
--
--parser = optparse.OptionParser(usage=__doc__)
--opts, args = parser.parse_args()
--in_out = parse_x2y_args(args, ".aida", ".dat")
--if not in_out:
--    sys.stderr.write("You must specify the AIDA and FLAT file names\n")
--    sys.exit(1)
--
--for i, o in in_out:
--    analysisobjects = yoda.readAIDA(i)
--    yoda.writeFLAT(analysisobjects, o)
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/aida2yoda ./bin/aida2yoda
---- ./bin/aida2yoda	2014-05-27 17:14:52.491494525 +0200
-+++ ./bin/aida2yoda	1970-01-01 01:00:00.000000000 +0100
-@@ -1,21 +0,0 @@
--#! /usr/bin/env python
--
--"""\
--%prog aidafile [yodafile]
--
--Convert an AIDA data file to the YODA data format.
--"""
--
--import yoda, os, sys, optparse
--from yoda.script_helpers import parse_x2y_args
--
--parser = optparse.OptionParser(usage=__doc__)
--opts, args = parser.parse_args()
--in_out = parse_x2y_args(args, ".aida", ".yoda")
--if not in_out:
--    sys.stderr.write("You must specify the AIDA and YODA file names\n")
--    sys.exit(1)
--
--for i, o in in_out:
--    analysisobjects = yoda.readAIDA(i)
--    yoda.writeYODA(analysisobjects, o)
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/flat2yoda ./bin/flat2yoda
---- ./bin/flat2yoda	2014-05-27 17:14:52.490494534 +0200
-+++ ./bin/flat2yoda	1970-01-01 01:00:00.000000000 +0100
-@@ -1,21 +0,0 @@
--#! /usr/bin/env python
--
--"""\
--%prog flatfile [yodafile]
--
--Convert a FLAT data file to the YODA data format.
--"""
--
--import yoda, os, sys, optparse
--from yoda.script_helpers import parse_x2y_args
--
--parser = optparse.OptionParser(usage=__doc__)
--opts, args = parser.parse_args()
--in_out = parse_x2y_args(args, ".dat", ".yoda")
--if not in_out:
--    sys.stderr.write("You must specify the FLAT and YODA file names\n")
--    sys.exit(1)
--
--for i, o in in_out:
--    analysisobjects = yoda.readFLAT(i)
--    yoda.writeYODA(analysisobjects, o)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/Makefile.am ./bin/Makefile.am
---- ./bin/Makefile.am	2014-05-27 17:14:52.490494534 +0200
-+++ ./bin/Makefile.am	2014-05-27 17:14:52.499494455 +0200
-@@ -1,4 +1,14 @@
--dist_bin_SCRIPTS = yoda-config yoda2aida yoda2flat aida2yoda aida2flat flat2yoda yodamerge
-+dist_bin_SCRIPTS = yoda-config  yodamerge
+--- ./bin/Makefile.am	2014-12-02 12:44:03.452621764 +0100
++++ ./bin/Makefile.am	2014-12-02 12:44:03.457621715 +0100
+@@ -17,6 +17,16 @@
+ 
+ endif
+ 
+-if ENABLE_ROOT
 +
 +bin_PROGRAMS = yodaconvert
 +yodaconvert_SOURCES = yodaconvert.cc
@@ -86,105 +13,15 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/Makefile.am ./bin/Mak
 +yodaconvert_LDADD= $(SUBLIBS) $(AM_LDFLAGS) $(top_builddir)/src/libYODA.la 
 +
 +if  ENABLE_ROOT
++if ENABLE_PYEXT
+ dist_bin_SCRIPTS += yoda2root
+ endif
 +yodaconvert_LDADD+=$(ROOT_LIBS)
 +yodaconvert_CPPFLAGS = $(ROOT_CXXFLAGS) -Wno-long-long  -DENABLE_ROOT
 +endif
- 
- ## bash completion
- if ENABLE_PYEXT
-@@ -13,6 +23,6 @@
- EXTRA_DIST = yoda-completion
- endif
- 
--if ENABLE_ROOT
--dist_bin_SCRIPTS += yoda2root
--endif
-+
-+
-+
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2aida ./bin/yoda2aida
---- ./bin/yoda2aida	2014-05-27 17:14:52.491494525 +0200
-+++ ./bin/yoda2aida	1970-01-01 01:00:00.000000000 +0100
-@@ -1,21 +0,0 @@
--#! /usr/bin/env python
--
--"""\
--%prog yodafile [aidafile]
--
--Convert a YODA data file to the old AIDA XML data format.
--"""
--
--import yoda, os, sys, optparse
--from yoda.script_helpers import parse_x2y_args
--
--parser = optparse.OptionParser(usage=__doc__)
--opts, args = parser.parse_args()
--in_out = parse_x2y_args(args, ".yoda", ".aida")
--if not in_out:
--    sys.stderr.write("You must specify the YODA and AIDA file names\n")
--    sys.exit(1)
--
--for i, o in in_out:
--    analysisobjects = yoda.readYODA(i)
--    yoda.writeAIDA(analysisobjects, o)
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2flat ./bin/yoda2flat
---- ./bin/yoda2flat	2014-05-27 17:14:52.490494534 +0200
-+++ ./bin/yoda2flat	1970-01-01 01:00:00.000000000 +0100
-@@ -1,21 +0,0 @@
--#! /usr/bin/env python
--
--"""\
--%prog yodafile [flatfile]
--
--Convert a YODA data file to a 'flat', more human-readable data format.
--"""
--
--import yoda, os, sys, optparse
--from yoda.script_helpers import parse_x2y_args
--
--parser = optparse.OptionParser(usage=__doc__)
--opts, args = parser.parse_args()
--in_out = parse_x2y_args(args, ".yoda", ".dat")
--if not in_out:
--    sys.stderr.write("You must specify the YODA and FLAT file names\n")
--    sys.exit(1)
--
--for i, o in in_out:
--    analysisobjects = yoda.readYODA(i)
--    yoda.writeFLAT(analysisobjects, o)
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yoda2root ./bin/yoda2root
---- ./bin/yoda2root	2014-05-27 17:14:52.490494534 +0200
-+++ ./bin/yoda2root	1970-01-01 01:00:00.000000000 +0100
-@@ -1,26 +0,0 @@
--#! /usr/bin/env python
--
--"""\
--%prog yodafile [rootfile]
--
--Convert a YODA data file to the ROOT data format.
--"""
--
--import yoda, os, sys, optparse
--from yoda.script_helpers import parse_x2y_args
--
--parser = optparse.OptionParser(usage=__doc__)
--opts, args = parser.parse_args()
--in_out = parse_x2y_args(args, ".yoda", ".root")
--if not in_out:
--    sys.stderr.write("You must specify the YODA and ROOT file names\n")
--    sys.exit(1)
--
--import ROOT
--for i, o in in_out:
--    of = ROOT.TFile(o, "recreate")
--    analysisobjects = yoda.readYODA(i)
--    rootobjects = [yoda.to_root(ao) for ao in analysisobjects.values()]
--    #print rootobjects
--    of.Write()
--    of.Close()
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/yodaconvert.cc
 --- ./bin/yodaconvert.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./bin/yodaconvert.cc	2014-05-27 17:14:52.500494446 +0200
++++ ./bin/yodaconvert.cc	2014-12-02 12:44:03.461621675 +0100
 @@ -0,0 +1,126 @@
 +/* AV 2014 */
 +#include "YODA/WriterYODA.h"
@@ -314,7 +151,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h ./include/YODA/ReaderROOT.h
 --- ./include/YODA/ReaderROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ReaderROOT.h	2014-05-27 17:14:52.506494394 +0200
++++ ./include/YODA/ReaderROOT.h	2014-12-02 12:44:03.466621625 +0100
 @@ -0,0 +1,75 @@
 +// -*- C++ -*-
 +//
@@ -392,8 +229,17 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./include/YODA/ROOTCnv.h
---- ./include/YODA/ROOTCnv.h	2014-05-27 17:14:52.475494667 +0200
-+++ ./include/YODA/ROOTCnv.h	2014-05-27 17:14:52.505494402 +0200
+--- ./include/YODA/ROOTCnv.h	2014-12-02 12:44:03.436621923 +0100
++++ ./include/YODA/ROOTCnv.h	2014-12-02 12:44:03.466621625 +0100
+@@ -1,7 +1,7 @@
+ // -*- C++ -*-
+ //
+ // This file is part of YODA -- Yet more Objects for Data Analysis
+-// Copyright (C) 2008-2014 The YODA collaboration (see AUTHORS for details)
++// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
+ //
+ #ifndef YODA_ROOTCnv_h
+ #define YODA_ROOTCnv_h
 @@ -15,6 +15,11 @@
  #include "TProfile.h"
  #include "TGraphAsymmErrors.h"
@@ -466,7 +312,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./
        const double exminus = x - th1.GetBinLowEdge(i);
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.h ./include/YODA/ROOTConvert.h
 --- ./include/YODA/ROOTConvert.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ROOTConvert.h	2014-05-27 17:14:52.504494410 +0200
++++ ./include/YODA/ROOTConvert.h	2014-12-02 12:44:03.463621655 +0100
 @@ -0,0 +1,44 @@
 +// -*- C++ -*-
 +//
@@ -514,7 +360,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h ./include/YODA/WriterROOT.h
 --- ./include/YODA/WriterROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/WriterROOT.h	2014-05-27 17:14:52.504494410 +0200
++++ ./include/YODA/WriterROOT.h	2014-12-02 12:44:03.463621655 +0100
 @@ -0,0 +1,72 @@
 +// -*- C++ -*-
 +//
@@ -567,10 +413,10 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h
 +    void writeHisto1D(std::ostream& stream, const Histo1D& h);
 +    void writeHisto2D(std::ostream& stream, const Histo2D& h);
 +    void writeProfile1D(std::ostream& stream, const Profile1D& p);
-+    // void writeProfile2D(std::ostream& stream, const Profile2D& p);
-+    //void writeScatter1D(std::ostream& stream, const Scatter1D& s);
++     void writeProfile2D(std::ostream& stream, const Profile2D& p);
++    void writeScatter1D(std::ostream& stream, const Scatter1D& s);
 +    void writeScatter2D(std::ostream& stream, const Scatter2D& s);
-+    // void writeScatter3D(std::ostream& stream, const Scatter3D& s);
++     void writeScatter3D(std::ostream& stream, const Scatter3D& s);
 +
 +
 +  private:
@@ -588,20 +434,50 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h
 +}
 +
 +#endif
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/core.pyx ./pyext/yoda/core.pyx
---- ./pyext/yoda/core.pyx	2014-05-27 17:14:52.486494570 +0200
-+++ ./pyext/yoda/core.pyx	2014-05-27 17:14:52.517494297 +0200
-@@ -32,5 +32,5 @@
- include "include/HistoBin2D.pyx"
- include "include/Histo2D.pyx"
- include "include/Profile2D.pyx"
--include "include/Functions.pyx"
-+##include "include/Functions.pyx"
- include "include/IO.pyx"
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./Makefile.am ./Makefile.am
+--- ./Makefile.am	2014-12-02 12:44:03.425622031 +0100
++++ ./Makefile.am	2014-12-02 12:44:03.467621615 +0100
+@@ -1,5 +1,8 @@
+ ACLOCAL_AMFLAGS = -I m4
+-SUBDIRS = src include pyext tests bin
++SUBDIRS = src include  tests bin
++if ENABLE_PYEXT
++SUBDIRS+=pyext
++endif
+ 
+ EXTRA_FILES = main.dox
+ 
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.pxd ./pyext/yoda/declarations.pxd
---- ./pyext/yoda/declarations.pxd	2014-05-27 17:14:52.485494579 +0200
-+++ ./pyext/yoda/declarations.pxd	2014-05-27 17:14:52.517494297 +0200
-@@ -969,6 +969,9 @@
+--- ./pyext/yoda/declarations.pxd	2014-12-02 12:44:03.447621813 +0100
++++ ./pyext/yoda/declarations.pxd	2014-12-02 12:44:03.475621538 +0100
+@@ -251,7 +251,7 @@
+         Point2D () except +yodaerr
+         Point2D (Point2D p) except +yodaerr
+         Point2D (double x, double y,
+-                 double exminus, double explus,
++                  double exminus, double explus,
+                  double eyminus, double eyplus) except +yodaerr
+ 
+         double x() except +yodaerr
+@@ -720,7 +720,7 @@
+         Scatter2D(string path, string title) except +yodaerr
+ 
+         Scatter2D(sortedvector[Point2D],
+-                  string path,
++                string path,
+                   string title) except +yodaerr
+ 
+         Scatter2D(vector[double], vector[double],
+@@ -778,7 +778,7 @@
+         Scatter3D(string path, string title) except +yodaerr
+ 
+         Scatter3D(sortedvector[Point3D],
+-                  string path,
++                string path,
+                   string title) except +yodaerr
+ 
+         Scatter3D(vector[double], vector[double],
+@@ -1212,6 +1212,9 @@
  cdef extern from "YODA/ReaderFLAT.h" namespace "YODA":
      Reader& ReaderFLAT_create "YODA::ReaderFLAT::create" ()
  
@@ -612,9 +488,9 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
      Reader& ReaderAIDA_create "YODA::ReaderAIDA::create" ()
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./pyext/yoda/Makefile.am
---- ./pyext/yoda/Makefile.am	2014-05-27 17:14:52.479494631 +0200
-+++ ./pyext/yoda/Makefile.am	2014-05-27 17:14:52.511494349 +0200
-@@ -40,6 +40,10 @@
+--- ./pyext/yoda/Makefile.am	2014-12-02 12:44:03.439621893 +0100
++++ ./pyext/yoda/Makefile.am	2014-12-02 12:44:03.469621595 +0100
+@@ -45,6 +45,10 @@
      mktemplates \
      core.cpp core.h util.cpp
  
@@ -624,59 +500,22 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
 +
  
  if WITH_CYTHON
- core.cpp: $(CYTHON_SRC)
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./pyext/yoda/mktemplates
---- ./pyext/yoda/mktemplates	2014-05-27 17:14:52.485494579 +0200
-+++ ./pyext/yoda/mktemplates	2014-05-27 17:14:52.517494297 +0200
-@@ -50,9 +50,9 @@
-     #print plain_name
- 
-     try:
--        os.mkdir("generated")
-+        os.mkdir("include/generated")
-     except OSError as exc: # Python >2.5
--        if exc.errno == errno.EEXIST and os.path.isdir("generated"):
-+        if exc.errno == errno.EEXIST and os.path.isdir("include/generated"):
-             pass
-         else: raise
- 
-diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/script_helpers.py ./pyext/yoda/script_helpers.py
---- ./pyext/yoda/script_helpers.py	2014-05-27 17:14:52.486494570 +0200
-+++ ./pyext/yoda/script_helpers.py	1970-01-01 01:00:00.000000000 +0100
-@@ -1,27 +0,0 @@
--import os
--
--def parse_x2y_args(args, xextn, yextn):
--    """
--    Helper function for working out input and output filenames for YODA
--    converter scripts, where the output name is generated by replacing the input
--    file extension (xextn) with the output one (yextn), if there are exactly two
--    arguments and the second arg is consistent with an output name. The x/yextn
--    arguments should include the leading dot.
--    """
--    infiles = []
--    outfiles = []
--    ## If there are two args and the second has the right output extension, treat as in-, out-names
--    if len(args) == 2 and args[1].endswith(yextn):
--        infiles = [args[0]]
--        outfiles = [args[1]]
--    ## Otherwise treat as a list of in-names and generate default out-names
--    else:
--        for infile in args:
--            if infile.endswith(xextn):
--                outfile = infile.replace(xextn, yextn)
--            else:
--                outfile = infile + yextn
--            outfile = os.path.basename(outfile)
--            infiles.append(infile)
--            outfiles.append(outfile)
--    return zip(infiles, outfiles)
+ core.cpp core.h: $(CYTHON_SRC)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Makefile.am
---- ./src/Makefile.am	2014-05-27 17:14:52.487494561 +0200
-+++ ./src/Makefile.am	2014-05-27 17:14:52.522494253 +0200
-@@ -21,6 +21,14 @@
-     Scatter2D.cc \
+--- ./src/Makefile.am	2014-12-02 12:44:03.449621793 +0100
++++ ./src/Makefile.am	2014-12-02 12:44:03.475621538 +0100
+@@ -13,7 +13,7 @@
+     WriterAIDA.cc \
+     WriterFLAT.cc \
+     Dbn0D.cc \
+-	Dbn1D.cc \
++    Dbn1D.cc \
+     Counter.cc \
+     Histo1D.cc \
+     Histo2D.cc \
+@@ -24,6 +24,14 @@
      Scatter3D.cc
+ 
  
 -libYODA_la_LDFLAGS = -avoid-version
 +libYODA_la_LDFLAGS = -avoid-version 
@@ -692,9 +531,9 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Mak
 +libYODA_la_CPPFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reader.cc
---- ./src/Reader.cc	2014-05-27 17:14:52.488494552 +0200
-+++ ./src/Reader.cc	2014-05-27 17:14:52.522494253 +0200
-@@ -5,22 +5,31 @@
+--- ./src/Reader.cc	2014-12-02 12:44:03.450621783 +0100
++++ ./src/Reader.cc	2014-12-02 12:44:03.478621508 +0100
+@@ -5,6 +5,9 @@
  //
  #include "YODA/Reader.h"
  #include "YODA/ReaderYODA.h"
@@ -704,23 +543,10 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
  #include "YODA/ReaderAIDA.h"
  #include "YODA/ReaderFLAT.h"
  
- using namespace std;
- 
--namespace YODA {
-+namespace YODA
-+{
- 
- 
--  Reader& mkReader(const string& name) {
-+Reader& mkReader(const string& name)
-+{
-     const size_t lastdot = name.find_last_of(".");
--    const string fmt = boost::to_lower_copy((lastdot == string::npos) ? name : name.substr(lastdot+1));
-+    std::string fmt=((lastdot == std::string::npos) ? name : name.substr(lastdot+1));
-+    std::transform(fmt.begin(), fmt.end(), fmt.begin(), ::tolower);
+@@ -20,8 +23,11 @@
      if (fmt == "yoda") return ReaderYODA::create();
      if (fmt == "aida") return ReaderAIDA::create();
-     if (fmt == "dat")  return ReaderFLAT::create();
+     if (fmt == "dat" || fmt == "flat")  return ReaderFLAT::create();
 +#ifdef ENABLE_ROOT
 +    if (fmt == "root") return ReaderROOT::create(name);
 +#endif
@@ -732,7 +558,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
  }
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/ReaderROOT.cc
 --- ./src/ReaderROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ReaderROOT.cc	2014-05-27 17:14:52.522494253 +0200
++++ ./src/ReaderROOT.cc	2014-12-02 12:44:03.475621538 +0100
 @@ -0,0 +1,85 @@
 +// -*- C++ -*-
 +//
@@ -821,7 +647,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/ROOTConvert.cc
 --- ./src/ROOTConvert.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ROOTConvert.cc	2014-05-27 17:14:52.522494253 +0200
++++ ./src/ROOTConvert.cc	2014-12-02 12:44:03.476621528 +0100
 @@ -0,0 +1,233 @@
 +// -*- C++ -*-
 +//
@@ -950,12 +776,12 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/
 +    // Work out bin edges first
 +    std::vector<double> edges;
 +    edges.reserve(h->numBins()+1);
-+    edges.push_back(h->bin(0).lowEdge());
++    edges.push_back(h->bin(0).xMin());
 +    for (size_t i = 0; i < h->numBins(); ++i)
 +        {
 +            const HistoBin1D& b = h->bin(i);
-+            if (!fuzzyEquals(edges.back(), b.lowEdge())) edges.push_back(b.lowEdge());
-+            if (!fuzzyEquals(edges.back(), b.highEdge())) edges.push_back(b.highEdge());
++            if (!fuzzyEquals(edges.back(), b.xMin())) edges.push_back(b.xMin());
++            if (!fuzzyEquals(edges.back(), b.xMax())) edges.push_back(b.xMax());
 +        }
 +    // Book ROOT histogram
 +    TH1D* rtn= new TH1D(h->path().c_str(), h->title().c_str(), edges.size()-1, &edges[0]);
@@ -989,12 +815,12 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/
 +    // Work out bin edges first
 +    std::vector<double> edges;
 +    edges.reserve(p->numBins()+1);
-+    edges.push_back(p->bin(0).lowEdge());
++    edges.push_back(p->bin(0).xMin());
 +    for (size_t i = 0; i < p->numBins(); ++i)
 +        {
 +            const ProfileBin1D& b = p->bin(i);
-+            if (!fuzzyEquals(edges.back(), b.lowEdge())) edges.push_back(b.lowEdge());
-+            if (!fuzzyEquals(edges.back(), b.highEdge())) edges.push_back(b.highEdge());
++            if (!fuzzyEquals(edges.back(), b.xMin())) edges.push_back(b.xMin());
++            if (!fuzzyEquals(edges.back(), b.xMax())) edges.push_back(b.xMax());
 +        }
 +    // Book ROOT histogram
 +    TProfile *rtn =new TProfile(p->path().c_str(), p->title().c_str(), edges.size()-1, &edges[0]);
@@ -1057,38 +883,24 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Writer.cc
---- ./src/Writer.cc	2014-05-27 17:14:52.488494552 +0200
-+++ ./src/Writer.cc	2014-05-27 17:14:52.522494253 +0200
-@@ -7,65 +7,88 @@
+--- ./src/Writer.cc	2014-12-02 12:44:03.449621793 +0100
++++ ./src/Writer.cc	2014-12-02 12:44:03.475621538 +0100
+@@ -7,6 +7,9 @@
  #include "YODA/WriterYODA.h"
  #include "YODA/WriterAIDA.h"
  #include "YODA/WriterFLAT.h"
--#include "boost/algorithm/string.hpp"
 +#ifdef ENABLE_ROOT
 +#include "YODA/WriterROOT.h"
 +#endif
-+#include <algorithm>
+ #include "boost/algorithm/string.hpp"
  #include <iostream>
  #include <typeinfo>
- #include <sstream>
- 
- using namespace std;
- 
--namespace YODA {
-+namespace YODA
-+{
- 
- 
--  Writer& mkWriter(const std::string& name) {
-+Writer& mkWriter(const std::string& name)
-+{
-     const size_t lastdot = name.find_last_of(".");
--    const string fmt = boost::to_lower_copy((lastdot == std::string::npos) ? name : name.substr(lastdot+1));
-+    std::string fmt=((lastdot == std::string::npos) ? name : name.substr(lastdot+1));
-+    std::transform(fmt.begin(), fmt.end(), fmt.begin(), ::tolower);
+@@ -23,16 +26,19 @@
+     // cout << "File extension: " << fmt << endl;
      if (fmt == "yoda") return WriterYODA::create();
      if (fmt == "aida") return WriterAIDA::create();
-     if (fmt == "flat") return WriterFLAT::create();
+-    if (fmt == "dat" || fmt == "flat") return WriterFLAT::create();
++    if (fmt == "flat") return WriterFLAT::create();
 +#ifdef ENABLE_ROOT
 +    if (fmt == "root") return WriterROOT::create(name);
 +#endif
@@ -1097,9 +909,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
 +}
  
  
--  void Writer::write(std::ostream& stream, const AnalysisObject& ao) {
-+void Writer::write(std::ostream& stream, const AnalysisObject& ao)
-+{
+   void Writer::write(std::ostream& stream, const AnalysisObject& ao) {
      writeHeader(stream);
      writeBody(stream, ao);
      writeFooter(stream);
@@ -1107,10 +917,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
 +}
  
  
--  void Writer::write(const std::string& filename, const AnalysisObject& ao) {
-+void Writer::write(const std::string& filename, const AnalysisObject& ao)
-+{
-     ofstream outstream;
+   void Writer::write(const std::string& filename, const AnalysisObject& ao) {
+@@ -41,33 +47,33 @@
      outstream.open(filename.c_str());
      write(outstream, ao);
      outstream.close();
@@ -1118,60 +926,35 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
 +}
  
  
--  void Writer::writeBody(std::ostream& stream, const AnalysisObject& ao) {
-+void Writer::writeBody(std::ostream& stream, const AnalysisObject& ao)
-+{
+   void Writer::writeBody(std::ostream& stream, const AnalysisObject& ao) {
      const string aotype = ao.type();
--    if (aotype == "Counter") {
+     if (aotype == "Counter") {
 -      writeCounter(stream, dynamic_cast<const Counter&>(ao));
--    } else if (aotype == "Histo1D") {
++            writeCounter(stream, dynamic_cast<const Counter&>(ao));
+     } else if (aotype == "Histo1D") {
 -      writeHisto1D(stream, dynamic_cast<const Histo1D&>(ao));
--    } else if (aotype == "Histo2D") {
++            writeHisto1D(stream, dynamic_cast<const Histo1D&>(ao));
+     } else if (aotype == "Histo2D") {
 -      writeHisto2D(stream, dynamic_cast<const Histo2D&>(ao));
--    } else if (aotype == "Profile1D") {
++            writeHisto2D(stream, dynamic_cast<const Histo2D&>(ao));
+     } else if (aotype == "Profile1D") {
 -      writeProfile1D(stream, dynamic_cast<const Profile1D&>(ao));
--    // } else if (aotype == "Profile2D") {
--    //   writeProfile2D(stream, dynamic_cast<const Profile2D&>(ao));
--    // } else if (aotype == "Scatter1D") {
--    //   writeScatter1D(stream, dynamic_cast<const Scatter1D&>(ao));
--    } else if (aotype == "Scatter2D") {
++            writeProfile1D(stream, dynamic_cast<const Profile1D&>(ao));
+     } else if (aotype == "Profile2D") {
+       writeProfile2D(stream, dynamic_cast<const Profile2D&>(ao));
+     } else if (aotype == "Scatter1D") {
+       writeScatter1D(stream, dynamic_cast<const Scatter1D&>(ao));
+     } else if (aotype == "Scatter2D") {
 -      writeScatter2D(stream, dynamic_cast<const Scatter2D&>(ao));
--    // } else if (aotype == "Scatter3D") {
--    //   writeScatter3D(stream, dynamic_cast<const Scatter3D&>(ao));
--    } else {
++            writeScatter2D(stream, dynamic_cast<const Scatter2D&>(ao));
+     } else if (aotype == "Scatter3D") {
+       writeScatter3D(stream, dynamic_cast<const Scatter3D&>(ao));
+     } else {
 -      ostringstream oss;
 -      oss << "Unrecognised analysis object type " << aotype << " in Writer::write";
 -      throw Exception(oss.str());
 -    }
 -  }
-+    if (aotype == "Counter")
-+        {
-+            writeCounter(stream, dynamic_cast<const Counter&>(ao));
-+        }
-+    else if (aotype == "Histo1D")
-+        {
-+            writeHisto1D(stream, dynamic_cast<const Histo1D&>(ao));
-+        }
-+    else if (aotype == "Histo2D")
-+        {
-+            writeHisto2D(stream, dynamic_cast<const Histo2D&>(ao));
-+        }
-+    else if (aotype == "Profile1D")
-+        {
-+            writeProfile1D(stream, dynamic_cast<const Profile1D&>(ao));
-+            // } else if (aotype == "Profile2D") {
-+            //   writeProfile2D(stream, dynamic_cast<const Profile2D&>(ao));
-+            // } else if (aotype == "Scatter1D") {
-+            //   writeScatter1D(stream, dynamic_cast<const Scatter1D&>(ao));
-+        }
-+    else if (aotype == "Scatter2D")
-+        {
-+            writeScatter2D(stream, dynamic_cast<const Scatter2D&>(ao));
-+            // } else if (aotype == "Scatter3D") {
-+            //   writeScatter3D(stream, dynamic_cast<const Scatter3D&>(ao));
-+        }
-+    else
-+        {
 +            ostringstream oss;
 +            oss << "Unrecognised analysis object type " << aotype << " in Writer::write";
 +            throw Exception(oss.str());
@@ -1182,8 +965,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
  }
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/WriterROOT.cc ./src/WriterROOT.cc
 --- ./src/WriterROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/WriterROOT.cc	2014-05-27 17:14:52.523494244 +0200
-@@ -0,0 +1,58 @@
++++ ./src/WriterROOT.cc	2014-12-02 12:44:03.476621528 +0100
+@@ -0,0 +1,69 @@
 +// -*- C++ -*-
 +//
 +// This file is part of YODA -- Yet more Objects for Data Analysis
@@ -1241,4 +1024,15 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/WriterROOT.cc ./src/W
 +        }
 +    //dps->SetDirectory(0);
 +}
++
++
++     void WriterROOT::writeProfile2D(std::ostream& stream, const Profile2D& p){};
++    void WriterROOT::writeScatter1D(std::ostream& stream, const Scatter1D& s){};
++
++     void WriterROOT::writeScatter3D(std::ostream& stream, const Scatter3D& s){};
++
++
++
++
++
 +}
