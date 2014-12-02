@@ -1,7 +1,7 @@
 #ifndef CUTS_H
 #define CUTS_H
 
-namespace Cuts
+namespace MyCuts
 {
 const Int_t Icjst = 3;
 const Int_t  Iebst = 3;

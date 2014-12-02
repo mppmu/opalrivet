@@ -76,7 +76,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 #ifdef USE_DURHAM
 	Rivet::Particles particles1 = (applyProjection<FinalState>(e, "VFS")).particles();
     std::vector<TLorentzVector>  vtlv1 = GetMC2(&particles1);
-    double P1[]={Cuts::DURHAMR};
+    double P1[]={MyCuts::DURHAMR};
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
     Analysis_type1(this, tfj1,e.weight(),1,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
@@ -84,7 +84,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 #ifdef USE_JADE
 	Rivet::Particles particles2 = (applyProjection<FinalState>(e, "VFS")).particles();
     std::vector<TLorentzVector>  vtlv2 = GetMC2(&particles2);
-    double P2[]={Cuts::JADER};
+    double P2[]={MyCuts::JADER};
     TFastJet* tfj2 =new TFastJet( vtlv2, "jade",P2, NULL);
     Analysis_type1(this, tfj2,e.weight(),0,Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
@@ -92,7 +92,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 #ifdef USE_ANTIKT
 	Rivet::Particles particles3 = (applyProjection<FinalState>(e, "VFS")).particles();
     std::vector<TLorentzVector>  vtlv3 = GetMC2(&particles3);
-    double P3[]={Cuts::ANTIKTR,Cuts::ANTIKTP};
+    double P3[]={MyCuts::ANTIKTR,MyCuts::ANTIKTP};
     TFastJet* tfj3 =new TFastJet( vtlv3, "antikt",P3, NULL);
     Analysis_type2(this, tfj3,e.weight(),0,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif
@@ -100,7 +100,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 #ifdef USE_CA
 	Rivet::Particles particles4 = (applyProjection<FinalState>(e, "VFS")).particles();
     std::vector<TLorentzVector>  vtlv4 = GetMC2(&particles4);
-    double P4[]={Cuts::CAR,Cuts::CAP};
+    double P4[]={MyCuts::CAR,MyCuts::CAP};
     TFastJet* tfj4 =new TFastJet( vtlv4, "cambridge",P4, NULL);
     Analysis_type2(this, tfj4,e.weight(),0,Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 #endif

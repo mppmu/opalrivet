@@ -92,8 +92,16 @@ DEVRPMS/HepMC-2.06.09.tar.gz:
 
 YODA_VERS=1.0.6
 YODA_VERS=1.3.0
+YODA_VERS=1.3.1
 DEVRPMS/YODA-$(YODA_VERS).tar.gz: 
-		wget http://www.hepforge.org/archive/yoda/YODA-$(YODA_VERS).tar.gz -O DEVRPMS/YODA-$(YODA_VERS).tar.gz
+		rm -rf YODA-$(YODA_VERS)
+#		svn export http://yoda.hepforge.org/svn/tags/yoda-1.0.0 YODA-$(YODA_VERS)
+		hg clone http://yoda.hepforge.org/hg/yoda YODA-$(YODA_VERS)
+		tar cf YODA-$(YODA_VERS).tar YODA-$(YODA_VERS)
+		gzip YODA-$(YODA_VERS).tar
+		mv YODA-$(YODA_VERS).tar.gz DEVRPMS/
+		rm -rf YODA-$(YODA_VERS)
+#		wget http://www.hepforge.org/archive/yoda/YODA-$(YODA_VERS).tar.gz -O DEVRPMS/YODA-$(YODA_VERS).tar.gz
 
 FASTJET_VERS=3.0.2
 DEVRPMS/fastjet-$(FASTJET_VERS).tar.gz: 
@@ -331,7 +339,7 @@ convert: bin/cut_and_transform
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 
 bin/yodaconvert: src/yodaconvert.cc
-		g++ -std=c++0x src/yodaconvert.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o bin/yodaconvert
+		g++ -std=c++0x src/yodaconvert.cc $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o bin/yodaconvert
 
 
 bin/cut_and_transform: src/cut_and_transform.cc

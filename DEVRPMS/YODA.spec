@@ -6,7 +6,7 @@
 
 
 Name:           YODA
-Version: 1.3.0
+Version: 1.3.1
 Release:        1
 License:        GPLv3
 Url:		http://www.YODA.fr
@@ -14,7 +14,7 @@ Source0:	http://www.hepforge.org/archive/yoda/%{name}-%{version}.tar.gz
 Patch0:     patch-YODA-0.txt
 Group:		Sciences/Physics
 Summary:        Fast implementation of several recombination jet algorithms
-BuildRequires:	gcc-gfortran gcc-c++
+BuildRequires:	Cython gcc-c++
 
 
 %description
@@ -52,13 +52,18 @@ The library documentation is available on header files.
 
 %prep
 %setup -q
+######SVN
+autoreconf -i
+automake -a
+#######
 %patch0 -p0
 
 %build
-autoreconf
+#touch INSTALL depcomp
 #./configure --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --enable-root
-%configure --enable-root --disable-pyext
-make  %{?_smp_mflags}
+%configure --enable-root 
+make -k
+# %{?_smp_mflags}
 
 %install
 make install  DESTDIR=$(pwd)/tmp

@@ -1,4 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
+
 SUBDIRS = src include  tests bin
 if ENABLE_PYEXT
 SUBDIRS+=pyext
