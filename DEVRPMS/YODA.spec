@@ -57,7 +57,7 @@ The library documentation is available on header files.
 %build
 autoreconf
 #./configure --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --enable-root
-%configure --enable-root
+%configure --enable-root --disable-pyext
 make  %{?_smp_mflags}
 
 %install
@@ -70,12 +70,8 @@ cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
 %doc AUTHORS README COPYING
 
 %files -n %{libname}
-/usr/%_lib/python2.6/site-packages/yoda/*
-/usr/%_lib/python2.6/site-packages/yoda-*-info
-/usr/%_lib/libYODA.la
-/usr/%_lib/libYODA.so
-/usr/%_lib/pkgconfig/yoda.pc
-/usr/share/YODA/yoda-completion
+/usr/%_lib/*
+/usr/*
 
 /usr/bin/*
 

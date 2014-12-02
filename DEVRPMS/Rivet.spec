@@ -6,13 +6,13 @@
 
 
 Name:           Rivet
-Version:        2.1.1
+Version: 2.2.0
 Release:        1
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
 Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
 Patch0:         patch-Rivet-0.txt
-Patch1:         patch-Rivet-1.txt
+#Patch1:         patch-Rivet-1.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory
 BuildRequires:	gcc-gfortran gcc-c++ YODA YODA-devel boost-devel
@@ -57,24 +57,28 @@ The library documentation is available on header files.
 
 %prep
 %setup -q
-#%patch0 -p0
-%patch0 -p1
+%patch0 -p0
+#%patch0 -p1
 
 %build
 mkdir -p $(pwd)/tmp/usr
 mkdir -p $(pwd)/tmp/%_lib
 autoreconf
-./configure  --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --disable-analyses
+#./configure  --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --disable-analyses
+%configure --disable-analyses
 make %{?_smp_mflags}
 
 %install
-make install
-install -c -m 644 src/Analyses/*.cc  $(pwd)/tmp/usr/share/Rivet
-sed -i s@$(pwd)/tmp/usr/%_lib@/usr/%_lib@g  $(pwd)/tmp/usr/%_lib/*.la
-sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/rivet*
+#make install
+#install -c -m 644 src/Analyses/*.cc  $(pwd)/tmp/usr/share/Rivet
+#sed -i s@$(pwd)/tmp/usr/%_lib@/usr/%_lib@g  $(pwd)/tmp/usr/%_lib/*.la
+#sed -i s@$(pwd)/tmp/usr@/usr@g  $(pwd)/tmp/usr/bin/rivet*
+#mkdir -p $RPM_BUILD_ROOT/usr
+#cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
+#rm -rf $RPM_BUILD_ROOT/usr/share/Rivet/texmf
+make install  DESTDIR=$(pwd)/tmp
 mkdir -p $RPM_BUILD_ROOT/usr
 cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_ROOT/usr/share/Rivet/texmf
 
 %files 
 %doc AUTHORS README COPYING
@@ -94,7 +98,7 @@ rm -rf $RPM_BUILD_ROOT/usr/share/Rivet/texmf
 /usr/%_lib/python2.6/site-packages/*
 /usr/%_lib/*.so
 /usr/%_lib/*.la
-
+/usr/%_lib/*/*.pc
 
 %files -n %{libnamedev}
 

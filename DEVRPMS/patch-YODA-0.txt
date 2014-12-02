@@ -1,6 +1,6 @@
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/Makefile.am ./bin/Makefile.am
---- ./bin/Makefile.am	2014-12-02 12:44:03.452621764 +0100
-+++ ./bin/Makefile.am	2014-12-02 12:44:03.457621715 +0100
+--- ./bin/Makefile.am	2014-12-02 14:23:10.295886571 +0100
++++ ./bin/Makefile.am	2014-12-02 14:23:10.300886521 +0100
 @@ -17,6 +17,16 @@
  
  endif
@@ -21,7 +21,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/Makefile.am ./bin/Mak
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/yodaconvert.cc
 --- ./bin/yodaconvert.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./bin/yodaconvert.cc	2014-12-02 12:44:03.461621675 +0100
++++ ./bin/yodaconvert.cc	2014-12-02 14:23:10.305886473 +0100
 @@ -0,0 +1,126 @@
 +/* AV 2014 */
 +#include "YODA/WriterYODA.h"
@@ -151,7 +151,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./bin/yodaconvert.cc ./bin/
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h ./include/YODA/ReaderROOT.h
 --- ./include/YODA/ReaderROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ReaderROOT.h	2014-12-02 12:44:03.466621625 +0100
++++ ./include/YODA/ReaderROOT.h	2014-12-02 14:23:10.310886423 +0100
 @@ -0,0 +1,75 @@
 +// -*- C++ -*-
 +//
@@ -229,8 +229,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./include/YODA/ROOTCnv.h
---- ./include/YODA/ROOTCnv.h	2014-12-02 12:44:03.436621923 +0100
-+++ ./include/YODA/ROOTCnv.h	2014-12-02 12:44:03.466621625 +0100
+--- ./include/YODA/ROOTCnv.h	2014-12-02 14:23:10.278886733 +0100
++++ ./include/YODA/ROOTCnv.h	2014-12-02 14:23:10.310886423 +0100
 @@ -1,7 +1,7 @@
  // -*- C++ -*-
  //
@@ -312,7 +312,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./
        const double exminus = x - th1.GetBinLowEdge(i);
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.h ./include/YODA/ROOTConvert.h
 --- ./include/YODA/ROOTConvert.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ROOTConvert.h	2014-12-02 12:44:03.463621655 +0100
++++ ./include/YODA/ROOTConvert.h	2014-12-02 14:23:10.307886453 +0100
 @@ -0,0 +1,44 @@
 +// -*- C++ -*-
 +//
@@ -360,7 +360,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h ./include/YODA/WriterROOT.h
 --- ./include/YODA/WriterROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/WriterROOT.h	2014-12-02 12:44:03.463621655 +0100
++++ ./include/YODA/WriterROOT.h	2014-12-02 14:23:10.307886453 +0100
 @@ -0,0 +1,72 @@
 +// -*- C++ -*-
 +//
@@ -435,8 +435,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./Makefile.am ./Makefile.am
---- ./Makefile.am	2014-12-02 12:44:03.425622031 +0100
-+++ ./Makefile.am	2014-12-02 12:44:03.467621615 +0100
+--- ./Makefile.am	2014-12-02 14:23:10.261886899 +0100
++++ ./Makefile.am	2014-12-02 14:23:10.310886423 +0100
 @@ -1,5 +1,8 @@
  ACLOCAL_AMFLAGS = -I m4
 -SUBDIRS = src include pyext tests bin
@@ -448,8 +448,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./Makefile.am ./Makefile.am
  EXTRA_FILES = main.dox
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.pxd ./pyext/yoda/declarations.pxd
---- ./pyext/yoda/declarations.pxd	2014-12-02 12:44:03.447621813 +0100
-+++ ./pyext/yoda/declarations.pxd	2014-12-02 12:44:03.475621538 +0100
+--- ./pyext/yoda/declarations.pxd	2014-12-02 14:23:10.290886617 +0100
++++ ./pyext/yoda/declarations.pxd	2014-12-02 14:23:10.329886239 +0100
 @@ -251,7 +251,7 @@
          Point2D () except +yodaerr
          Point2D (Point2D p) except +yodaerr
@@ -488,8 +488,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
      Reader& ReaderAIDA_create "YODA::ReaderAIDA::create" ()
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./pyext/yoda/Makefile.am
---- ./pyext/yoda/Makefile.am	2014-12-02 12:44:03.439621893 +0100
-+++ ./pyext/yoda/Makefile.am	2014-12-02 12:44:03.469621595 +0100
+--- ./pyext/yoda/Makefile.am	2014-12-02 14:23:10.282886697 +0100
++++ ./pyext/yoda/Makefile.am	2014-12-02 14:23:10.312886404 +0100
 @@ -45,6 +45,10 @@
      mktemplates \
      core.cpp core.h util.cpp
@@ -501,9 +501,24 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
  
  if WITH_CYTHON
  core.cpp core.h: $(CYTHON_SRC)
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./pyext/yoda/mktemplates
+--- ./pyext/yoda/mktemplates	2014-12-02 14:23:10.290886617 +0100
++++ ./pyext/yoda/mktemplates	2014-12-02 14:23:10.332886211 +0100
+@@ -50,9 +50,9 @@
+     #print plain_name
+ 
+     try:
+-        os.mkdir("generated")
++        os.mkdir("include/generated")
+     except OSError as exc: # Python >2.5
+-        if exc.errno == errno.EEXIST and os.path.isdir("generated"):
++        if exc.errno == errno.EEXIST and os.path.isdir("include/generated"):
+             pass
+         else: raise
+ 
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Makefile.am
---- ./src/Makefile.am	2014-12-02 12:44:03.449621793 +0100
-+++ ./src/Makefile.am	2014-12-02 12:44:03.475621538 +0100
+--- ./src/Makefile.am	2014-12-02 14:23:10.292886598 +0100
++++ ./src/Makefile.am	2014-12-02 14:23:10.333886202 +0100
 @@ -13,7 +13,7 @@
      WriterAIDA.cc \
      WriterFLAT.cc \
@@ -531,8 +546,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Mak
 +libYODA_la_CPPFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reader.cc
---- ./src/Reader.cc	2014-12-02 12:44:03.450621783 +0100
-+++ ./src/Reader.cc	2014-12-02 12:44:03.478621508 +0100
+--- ./src/Reader.cc	2014-12-02 14:23:10.293886589 +0100
++++ ./src/Reader.cc	2014-12-02 14:23:10.342886114 +0100
 @@ -5,6 +5,9 @@
  //
  #include "YODA/Reader.h"
@@ -558,7 +573,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
  }
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/ReaderROOT.cc
 --- ./src/ReaderROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ReaderROOT.cc	2014-12-02 12:44:03.475621538 +0100
++++ ./src/ReaderROOT.cc	2014-12-02 14:23:10.332886211 +0100
 @@ -0,0 +1,85 @@
 +// -*- C++ -*-
 +//
@@ -647,7 +662,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/ROOTConvert.cc
 --- ./src/ROOTConvert.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ROOTConvert.cc	2014-12-02 12:44:03.476621528 +0100
++++ ./src/ROOTConvert.cc	2014-12-02 14:23:10.333886202 +0100
 @@ -0,0 +1,233 @@
 +// -*- C++ -*-
 +//
@@ -883,8 +898,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Writer.cc
---- ./src/Writer.cc	2014-12-02 12:44:03.449621793 +0100
-+++ ./src/Writer.cc	2014-12-02 12:44:03.475621538 +0100
+--- ./src/Writer.cc	2014-12-02 14:23:10.292886598 +0100
++++ ./src/Writer.cc	2014-12-02 14:23:10.333886202 +0100
 @@ -7,6 +7,9 @@
  #include "YODA/WriterYODA.h"
  #include "YODA/WriterAIDA.h"
@@ -965,7 +980,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
  }
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/WriterROOT.cc ./src/WriterROOT.cc
 --- ./src/WriterROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/WriterROOT.cc	2014-12-02 12:44:03.476621528 +0100
++++ ./src/WriterROOT.cc	2014-12-02 14:23:10.333886202 +0100
 @@ -0,0 +1,69 @@
 +// -*- C++ -*-
 +//

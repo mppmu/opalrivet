@@ -1,7 +1,7 @@
 NAME=JADE_OPAL_2000_S4300807a
 
 #VERS=2.2.0
-TOPDIR=./Rivet-$(VERS)	
+TOPDIR=./Rivet-$(RIVET_VERS)	
 all: 	all_94.5 
 	
 all_%: 	
@@ -55,9 +55,9 @@ ALL:
 
 
 
-RIVET_VERS=2.1.1
+RIVET_VERS=2.2.0
 DEVRPMS/Rivet-$(RIVET_VERS).tar.gz:
-		wget http://www.hepforge.org/archive/rivet/Rivet-$(VERS).tar.gz -O DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
+		wget http://www.hepforge.org/archive/rivet/Rivet-$(RIVET_VERS).tar.gz -O DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
 
 
 TAUOLA_VERS=1.1.4
@@ -194,16 +194,35 @@ YODApatch: YODA
 
 srcrpm_YODA: YODA YODApatch
 	sed -i 's@.*Version.*@Version: '$(YODA_VERS)'@g'  DEVRPMS/YODA.spec
-#	export   RPM_BUILD_ROOT=$HOME/rpmbuild
-#	mkdir -p $RPM_BUILD_ROOT/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
-#	cp $PACKAGE.tar $RPM_BUILD_ROOT/SOURCES
-#	cp $PACKAGE.spec  $RPM_BUILD_ROOT/SPECS/$PACKAGE.spec
-#	cd  $RPM_BUILD_ROOT/SPECS
 	cp DEVRPMS/YODA-$(YODA_VERS).tar.gz $(HOME)/rpmbuild/SOURCES
 	cp DEVRPMS/patch-YODA-0.txt $(HOME)/rpmbuild/SOURCES
 	echo '%_topdir %(echo '$(HOME)'/rpmbuild)' > $(HOME)/.rpmmacros
 	rpmbuild -bs DEVRPMS/YODA.spec
+binrpm_YODA: srcrpm_YODA
 	rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/YODA-$(YODA_VERS)*
+
+
+Rivet: DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
+	mkdir -p tmp
+	rm -rf ./tmp/Rivet-$(RIVET_VERS) ./tmp/Rivet-$(RIVET_VERS)_orig
+	tar xvfz DEVRPMS/Rivet-$(RIVET_VERS).tar.gz  -C ./tmp
+	cp -R ./tmp/Rivet-$(RIVET_VERS) ./tmp/Rivet-$(RIVET_VERS)_orig
+	cp -R DEVRPMS/Rivet/*  ./tmp/Rivet-$(RIVET_VERS)/
+
+
+Rivetpatch: Rivet
+	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* ./tmp/Rivet-$(RIVET_VERS)_orig ./tmp/Rivet-$(RIVET_VERS)  | sed 's@./tmp/Rivet-'$(RIVET_VERS)'/@./@g' | sed 's@./tmp/Rivet-'$(RIVET_VERS)'_orig/@./@g' > DEVRPMS/patch-Rivet-0.txt
+
+srcrpm_Rivet: Rivet Rivetpatch
+	sed -i 's@.*Version.*@Version: '$(RIVET_VERS)'@g'  DEVRPMS/Rivet.spec
+	cp DEVRPMS/Rivet-$(RIVET_VERS).tar.gz $(HOME)/rpmbuild/SOURCES
+	cp DEVRPMS/patch-Rivet-0.txt $(HOME)/rpmbuild/SOURCES
+	echo '%_topdir %(echo '$(HOME)'/rpmbuild)' > $(HOME)/.rpmmacros
+	rpmbuild -bs DEVRPMS/Rivet.spec
+binrpm_Rivet: srcrpm_Rivet
+	rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)*
+
+
 
 	
 
