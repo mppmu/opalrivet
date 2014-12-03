@@ -1,0 +1,29 @@
+ 	
+
+(run){
+  % general settings
+  EVENTS 200; NJET:=3;
+  % model parameters
+  ALPHAS(MZ) 0.1188;
+  ORDER_ALPHAS 1;
+  MASSIVE_PS 4 5;
+  % collider setup
+    BEAM_1 =  11; 
+    BEAM_2 = -11; 
+BEAM_ENERGY_1 = 91.5;
+BEAM_ENERGY_2 = 91.5;
+}(run)
+
+
+      (isr){
+      #  ISR_1 Off; ISR_2 Off; 
+      PDF_SET None;
+        }(isr)
+
+
+(processes){
+  Process 11 -11 -> 93 93 93{NJET};
+  CKKW pow(10,-2.25);
+  Order_EW 2;
+  End process;
+}(processes)
