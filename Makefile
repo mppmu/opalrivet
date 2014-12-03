@@ -1,3 +1,4 @@
+#export X509_USER_PROXY=$(pwd)/k5-ca-proxy.pem
 NAME=JADE_OPAL_2000_S4300807a
 TOPDIR=./Rivet-$(RIVET_VERS)	
 ARCH          =   $(shell uname -m)
@@ -11,14 +12,14 @@ dirs:
 
 data_%:  bin/$(ARCH)/runProof 
 #	make -C NEW
-	make  'output/OPAL_'$*
+#	make  'output/OPAL_'$*
 #output/OPAL_%: ../bin/$(ARCH)/runProof
 	bin/$(ARCH)/runProof  DCAP_OPAL_$*
 #	mv 'NEW/Output/OPAL_'$*'.root' ./output
 
 bin/$(ARCH)/runProof: src/runProof.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++ $(shell  root-config --ldflags --libs) -lProof  Scripts/runProof.cxx  -o ./bin/$(ARCH)/runProof
+		g++ $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
 
 
 
@@ -41,8 +42,8 @@ all_%:
 		make -C run
 		mv run/*root ./output
 
-prof: pprroffessorr.cxx
-		g++ $(shell root-config --cflags --glibs )  -lMinuit pprroffessorr.cxx -o ./prof
+bin/$(ARCH)/prof: src/pprroffessorr.cxx
+		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
 
 
 bin/$(ARCH)/draw: src/draw.cxx
@@ -252,7 +253,7 @@ binrpm_Rivet: srcrpm_Rivet
 
 
 
-convert: bin/cut_and_transform
+bin/$(ARCH)/convert: bin/$(ARCH)/cut_and_transform
 		rm -rf newdata.yoda
 # to have yoda files run
 #	for a in $(find 2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./yodaconvert  root2yoda   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
@@ -348,11 +349,11 @@ convert: bin/cut_and_transform
 	cat DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda.in > DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 
-./bin/$(ARCH)/yodaconvert: src/yodaconvert.cc
+bin/$(ARCH)/yodaconvert: src/yodaconvert.cc
 		g++ -std=c++0x src/yodaconvert.cc -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
 
 
-./bin/$(ARCH)/cut_and_transform: src/cut_and_transform.cc
+bin/$(ARCH)/cut_and_transform: src/cut_and_transform.cc
 #				g++ -std=c++0x cut_and_transform.cc  $(shell root-config --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o cut_and_transform
 				g++ -std=c++0x src/cut_and_transform.cc  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o ./bin/$(ARCH)/cut_and_transform
 
@@ -365,18 +366,18 @@ obj/opalrivetpythia8.o: src/opalrivetpythia8.cc
 	
 	
 	
-./bin/$(ARCH)/opalrivetpythia8: obj/opalrivetpythia8.o
+bin/$(ARCH)/opalrivetpythia8: obj/opalrivetpythia8.o
 	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L../top/usr/lib64
 
 
 
 
-./bin/$(ARCH)/opalrivetevtgen.o: src/opalrivetevtgen.cc
+bin/$(ARCH)/opalrivetevtgen.o: src/opalrivetevtgen.cc
 	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cc -o obj/opalrivetevtgen.o -I./  -I../top/usr/include
 	
 	
 	
-./bin/$(ARCH)/opalrivetevtgen: obj/opalrivetevtgen.o
+bin/$(ARCH)/opalrivetevtgen: obj/opalrivetevtgen.o
 	gcc  -lEvtGenExternal $(shell  root-config --libs)  obj/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  -L../top/usr/lib64
 
 

@@ -125,6 +125,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     TObjArray * parsed;
     Int_t i,POD=0;
     gSystem->Setenv("HOME",gSystem->GetFromPipe("readlink -f ./"));
+    //gSystem->Setenv("X509_USER_KEY",gSystem->GetFromPipe("readlink -f ./"));
     gSystem->GetFromPipe("rm -rf   ./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/*");
     gSystem->GetFromPipe("mkdir -p ./PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/");
 //    gSystem->GetFromPipe("mkdir -p ./Output/ROOTFILES");
