@@ -339,7 +339,7 @@ convert: bin/cut_and_transform
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 
 bin/yodaconvert: src/yodaconvert.cc
-		g++ -std=c++0x src/yodaconvert.cc $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o bin/yodaconvert
+		g++ -std=c++0x src/yodaconvert.cc -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o bin/yodaconvert
 
 
 bin/cut_and_transform: src/cut_and_transform.cc
