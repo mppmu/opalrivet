@@ -12,7 +12,7 @@ TARGET =
 
 
 ROOT-CONFIG   =     root-config
-CLHEP-CONFIG  =     clhep-config
+
 
 FASTJET-CONFIG = fastjet-config
 
@@ -30,9 +30,8 @@ LD                  =  $(shell  $(ROOT-CONFIG) --ld)
 LDFLAGS             =  -g -O0 -shared   $(shell  $(ROOT-CONFIG) --ldflags)
 SOFLAGS             =  -g -shared 
 
-LDFLAGS+=-lgfortran -lgcc_s $(shell $(CLHEP-CONFIG) --libs ) $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof 
-CXXFLAGS+=-I. -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(CLHEP-CONFIG) --include ) $(shell $(ROOT-CONFIG) --cflags)
-CPPFLAGS+=$(shell $(CLHEP-CONFIG) --include ) -std=c++0x
+LDFLAGS+=-lgfortran -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof 
+CXXFLAGS+=-I. -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags)
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)
 
@@ -49,7 +48,7 @@ all:            $(EVENTLIB)  $(ROOTMAP)
 
 $(ROOTMAP): 
 	@printf "Building $(ROOTMAP) ... "
-	rlibmap -f -o $@ -l lib$(TARGET).$(DllSuf) -d  $(shell $(CLHEP-CONFIG) --libs )/lib64/libCLHEP.so $(shell $(CLHEP-CONFIG) --libs )/lib/libCLHEP.so\
+	rlibmap -f -o $@ -l lib$(TARGET).$(DllSuf) -d  \
 	 libPhysics.so libMinuit.so libMLP.so libMatrix.so libTree.so  libTreePlayer.so libXMLIO.so \
 	 libTree.so libPhysics.so libThread.so libMatrix.so libTree.so  libGpad.so libGraf3d.so\
 	  libGraf.so libHist.so libNet.so  libRIO.so libMathCore.so libCore libPyROOT.so\
@@ -68,8 +67,6 @@ clean:
 nice: 
 	astyle -n --keep-one-line-blocks --style=gnu  ./*cxx ./*h ./*C
 
-doc:
-	doxygen 
 
 $(TARGET).$(ObjSuf): $(TARGET).h 
 

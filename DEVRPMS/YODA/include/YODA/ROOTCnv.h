@@ -15,11 +15,6 @@
 #include "TProfile.h"
 #include "TGraphAsymmErrors.h"
 #include "TVectorF.h"
-#include "TFile.h"
-#include "TList.h"
-#include "TKey.h"
-#include "TClass.h"
-#include "TH1F.h"
 
 namespace YODA {
 
@@ -38,27 +33,27 @@ namespace YODA {
   // ///
   // /// Note that ROOT's histograms do not contain enough information to properly rebuild
   // /// @a x distributions within bins, in underflow and overflow bins, or across the whole histogram.
-inline Histo1D toHisto1D(const TH1& th1) {
-   std::vector<HistoBin1D> bins;
-   TArrayD sumw2s = *th1.GetSumw2();
-    Dbn1D dbn_uflow, dbn_oflow;
-     double sumWtot(0), sumW2tot(0)
-    for (int i = 0; i =< th1.GetNbinsX()+1; ++i) {
-      Dbn1D dbn(static_cast<unsigned long>(th1.GetBinContent(i)), th1.GetBinContent(i), sumw2s[i], 0, 0,
-                  th1.GetBinContent(i)*th1.GetBinCenter(i), th1.GetBinContent(i)*sqr(th1.GetBinCenter(i)));
-       if (i == 0) dbn_uflow = dbn;
-      else if (i == th1.GetNbinsX()+1) dbn_oflow = dbn;
-       else bins.push_back(HistoBin1D(std::make_pair(th1.GetBinLowEdge(i), th1.GetBinLowEdge(i+1)), dbn));
-     sumWtot += th1.GetBinContent(i);
-      sumW2tot += sumw2s[i];
-     }
-    Dbn1D dbn_tot(static_cast<unsigned long>(th1.GetEntries()), sumWtot, sumW2tot, 0, 0);
+  // inline Histo1D toHisto1D(const TH1& th1) {
+  //   std::vector<HistoBin1D> bins;
+  //   TArrayD sumw2s = *th1.GetSumw2();
+  //   Dbn1D dbn_uflow, dbn_oflow;
+  //   double sumWtot(0), sumW2tot(0)
+  //   for (int i = 0; i =< th1.GetNbinsX()+1; ++i) {
+  //     Dbn1D dbn(static_cast<unsigned long>(th1.GetBinContent(i)), th1.GetBinContent(i), sumw2s[i], 0, 0);
+  //               // th1.GetBinContent(i)*th1.GetBinCenter(i), th1.GetBinContent(i)*sqr(th1.GetBinCenter(i)));
+  //     if (i == 0) dbn_uflow = dbn;
+  //     else if (i == th1.GetNbinsX()+1) dbn_oflow = dbn;
+  //     else bins.push_back(HistoBin1D(std::make_pair(th1.GetBinLowEdge(i), th1.GetBinLowEdge(i+1)), dbn));
+  //     sumWtot += th1.GetBinContent(i);
+  //     sumW2tot += sumw2s[i];
+  //   }
+  //   Dbn1D dbn_tot(static_cast<unsigned long>(th1.GetEntries()), sumWtot, sumW2tot, 0, 0);
 
-    Histo1D rtn(bins, dbn_tot, dbn_uflow, const Dbn1D& dbn_oflow, th1.GetName(), th1.GetTitle());
-    rtn.addAnnotation("XLabel", th1.GetXaxis->GetTitle());
-    rtn.addAnnotation("YLabel", th1.GetYaxis->GetTitle());
-    return rtn;
-  }
+  //   Histo1D rtn(bins, dbn_tot, dbn_uflow, const Dbn1D& dbn_oflow, th1.GetName(), th1.GetTitle());
+  //   rtn.addAnnotation("XLabel", th1.GetXaxis->GetTitle());
+  //   rtn.addAnnotation("YLabel", th1.GetYaxis->GetTitle());
+  //   return rtn;
+  // }
 
 
   // /// @brief Convert a ROOT 1D histogram to a YODA Histo1D

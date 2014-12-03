@@ -1,10 +1,6 @@
-// -*- C++ -*-
-//
-// This file is part of YODA -- Yet more Objects for Data Analysis
-// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
-//
-#ifndef YODA_ROOTCnv_h
-#define YODA_ROOTCnv_h
+// AV 2014
+#ifndef YODA_ROOTConvert_h
+#define YODA_ROOTConvert_h
 
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
@@ -25,10 +21,6 @@
 #include <string>
 
 namespace YODA {
-//Scatter2D*         TH1toScatter2D(const TH1* th1) ;
-
-
-
 
 Histo1D*           TH1toHisto1D  (const TH1* th1, std::string fname="");
 TH1D*              Histo1DtoTH1D(const Histo1D* h) ;

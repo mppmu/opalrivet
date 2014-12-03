@@ -232,16 +232,6 @@ binrpm_Rivet: srcrpm_Rivet
 
 
 
-	
-
-zz:
-	autoreconf
-	./configure  --prefix=$(pwd)/z --enable-root --disable-pyext
-	make -j 4
-	make install
-
-
-
 convert: bin/cut_and_transform
 		rm -rf newdata.yoda
 # to have yoda files run
