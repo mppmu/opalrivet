@@ -40,7 +40,7 @@ all_%:
 		cp share/Makefile.run run/Makefile
 		make bin/convert
 		make -C run
-		mv run/*root ./output
+		mv run/*.root ./output
 
 bin/$(ARCH)/prof: src/pprroffessorr.cxx
 		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
@@ -52,27 +52,16 @@ bin/$(ARCH)/draw: src/draw.cxx
 
 
 ALL:
-	rm -rf run/out_*
-	make all_65.0
-	mv run/out run/out_65.0
-	make all_68.0
-	mv run/out run/out_68.0
-	make all_80.5
-	mv run/out run/out_80.5
+	make all_65.0 data_130
+	make all_68.0 data_136
+	make all_80.5 data_161
 	make all_86
-	mv run/out run/out_86	
 	make all_91.5
-	mv run/out run/out_91.5	
 	make all_94.5
-	mv run/out run/out_94.5	
 	make all_96.0
-	mv run/out run/out_96.0
 	make all_98.0
-	mv run/out run/out_98.0
 	make all_102.5
-	mv run/out run/out_102.5
 	make all_103.5
-	mv run/out run/out_103.5
 
 
 
