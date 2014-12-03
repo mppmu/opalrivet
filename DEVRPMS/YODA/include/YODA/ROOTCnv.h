@@ -77,7 +77,7 @@ inline Histo1D toHisto1D(const TH1& th1) {
   ///
   /// @todo Add a bool flag for whether or not to divide y vals/errs by bin width.
   inline Scatter2D toScatter2D(const TH1& th1) {
-    Scatter2D rtn; 
+    Scatter2D rtn;
     for (int i = 1; i <= th1.GetNbinsX(); ++i) {
       const double x = th1.GetBinCenter(i);
       const double exminus = x - th1.GetBinLowEdge(i);

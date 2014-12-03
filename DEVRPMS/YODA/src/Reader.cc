@@ -27,7 +27,7 @@ namespace YODA {
     if (fmt == "root") return ReaderROOT::create(name);
 #endif
     throw UserError("Format cannot be identified from string '" + name + "'");
-}
+  }
 
 
 }

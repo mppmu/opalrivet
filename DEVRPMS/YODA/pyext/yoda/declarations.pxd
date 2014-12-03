@@ -251,7 +251,7 @@ cdef extern from "YODA/Point2D.h" namespace "YODA":
         Point2D () except +yodaerr
         Point2D (Point2D p) except +yodaerr
         Point2D (double x, double y,
-                  double exminus, double explus,
+                 double exminus, double explus,
                  double eyminus, double eyplus) except +yodaerr
 
         double x() except +yodaerr
@@ -720,7 +720,7 @@ cdef extern from "YODA/Scatter2D.h" namespace "YODA":
         Scatter2D(string path, string title) except +yodaerr
 
         Scatter2D(sortedvector[Point2D],
-                string path,
+                  string path,
                   string title) except +yodaerr
 
         Scatter2D(vector[double], vector[double],
@@ -778,7 +778,7 @@ cdef extern from "YODA/Scatter3D.h" namespace "YODA":
         Scatter3D(string path, string title) except +yodaerr
 
         Scatter3D(sortedvector[Point3D],
-                string path,
+                  string path,
                   string title) except +yodaerr
 
         Scatter3D(vector[double], vector[double],
