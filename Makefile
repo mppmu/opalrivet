@@ -6,10 +6,12 @@ all: dirs	all_94.5 data_189
 
 dirs:
 	mkdir -p ./bin/$(ARCH)
+	mkdir -p output
+	mkdir -p obj
 
 data_%:  bin/$(ARCH)/runProof 
 #	make -C NEW
-	make -C NEW 'Output/OPAL_'$*
+	make  'output/OPAL_'$*
 #output/OPAL_%: ../bin/$(ARCH)/runProof
 	bin/$(ARCH)/runProof  DCAP_OPAL_$*
 #	mv 'NEW/Output/OPAL_'$*'.root' ./output

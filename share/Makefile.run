@@ -22,10 +22,10 @@ lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc Makefile
 		rm -f inc/Cuts.h 
 		rm -f inc/Helpers.h 
 		rm -f inc/TFastJet.h 
-		cp ../NEW/Code/TFastJet.cxx ./src
-		cp ../NEW/Code/Cuts.h ./inc
-		cp ../NEW/Code/Helpers.h ./inc
-		cp ../NEW/Code/TFastJet.h ./inc		
+		cp ../Code/TFastJet.cxx ./src
+		cp ../Code/Cuts.h ./inc
+		cp ../Code/Helpers.h ./inc
+		cp ../Code/TFastJet.h ./inc		
 		rm -f  gen/LinkDef.h
 		
 		echo "#ifdef __MAKECINT__" >> gen/LinkDef.h
