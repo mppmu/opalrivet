@@ -940,7 +940,7 @@ void Count(TChain* C, TAnalysisInfo& A)
 int  Match(int run, TAnalysisInfo& Z, TH1F* H)
 {
 for (int i=0;i<MAX_RUNS;i++) Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]); 
-for (int i=0;i<MAX_RUNS;i++) if ((Z.fRunsBegin[i]<=run)&& (run<=Z.fRunsEnd[i])) return i;
+for (int i=0;i<MAX_RUNS;i++) if ((Z.fRunsBegin[i]<run)&& (run<Z.fRunsEnd[i])) return i;
 	return -1;
 }	
 

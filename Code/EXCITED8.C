@@ -15,10 +15,15 @@ void EXCITED8::SlaveBegin(TTree * tree)
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
     for (int i=0;i<fAlgorithms.size();i++)for (int j=0;j<fDataType.size();j++)  BookHistograms(this,fAI.fAT,Form("%s_%s_%3.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
-    fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",10,0.0,10.0)));
-    fHMap["weight"]->GetXaxis()->SetBinLabel(1,"data");
-    fHMap["weight"]->GetXaxis()->SetBinLabel(2,"mcsignal");
-    fHMap["weight"]->GetXaxis()->SetBinLabel(3,"mcbackgr");
+    fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
+    for (int i=0;i<10;i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
+    for (int i=0;i<10;i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
+    for (int i=0;i<10;i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+21,Form("mcbackgr,proc. %i",i));
+    fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
+    for (int i=0;i<10;i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+ 1,"data");
+    for (int i=0;i<10;i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
+    for (int i=0;i<10;i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+21,Form("mcbackgr,proc. %i",i));
+
 }
 Bool_t EXCITED8::Process(Long64_t gentry)
 {
@@ -28,15 +33,22 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
+    if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
     float weight=1.0;    
-    if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  if (fAI.fTypes[II]==2) weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]*1000.0); //FIXME
+	fHMap["weight_before_selection"]->Fill(fAI.fTypes[II],weight);   
+    if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  
+    //we need to weight to luminocity only bg!
+    if (fAI.fTypes[II]/10==2) { weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]);  
+		//printf("fAI.fEvents[%i]= %i\n", II,fAI.fEvents[II] ); 
+		}//assume one process=1 file
+    
     if (fAI.fAT==kLEP1)    if (!LEP1Preselection(this)) return kFALSE;
     if (fAI.fAT==kLEP1)    if (!LEP1Selection(this))    return kFALSE;	
 	std::vector<std::string> datatypes;
 	std::vector<std::string> options;
 	if (fAI.fTypes[II]==0) { tokenize("data",":",datatypes);                tokenize("tc",":",options);   }
-	if (fAI.fTypes[II]==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("tc:h",":",options); } 
-	if (fAI.fTypes[II]==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("tc:h",":",options); }
+	if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("tc:h",":",options); } 
+	if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("tc:h",":",options); }
 	for (int j=0;j<datatypes.size();j++) {
 	std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
 	for (int i=0;i<fAlgorithms.size();i++) 
@@ -77,7 +89,7 @@ TObject *obj = key->ReadObj();
 if ( obj->IsA()->InheritsFrom( "TH1"    ) ) fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj)   );
 if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TGraphAsymmErrors*> (std::string(key->GetName()) ,(TGraphAsymmErrors*)obj)   );
 }
-    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if ((H_it->first.find("JETR")!=std::string::npos) &&(H_it->first.find("data_")!=std::string::npos))  H_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));  //data
+    // Scale later ? for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if ((H_it->first.find("JETR")!=std::string::npos) &&(H_it->first.find("data_")!=std::string::npos))  H_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));  //data
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) {
     if (H_it->first.find("H_acceptancesignal_")!=std::string::npos) 
     {			
@@ -87,6 +99,14 @@ if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,T
 	fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name]);
 	fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_mcbackgr_")+name],-1.0);
 	fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
+    
+    if ((H_it->first.find("JETR")!=std::string::npos))  
+    {
+    int number_of_events=fHMap["weight"]->GetBinContent(1);  //all data
+    for (int i=20;i<30;i++)   number_of_events-=(fHMap["weight"]->GetBinContent(i)); //subtract number of MC BG events
+    fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
+    }
+    
     }
     if (H_it->first.find("H_acceptancebackgr")!=std::string::npos) 
     {			
