@@ -181,8 +181,8 @@ int plots()
 	std::vector<std::string> generators;	
 	std::vector<std::string> GENERATORS;
 //	tokenize("sherpa:herwig++:evtgen:pythia8",":",generators); 
-	tokenize("PYTHIA8",":",generators); 
-	tokenize("pythia8",":",GENERATORS); 
+	tokenize("PYTHIA8:SHERPA",":",generators); 
+	tokenize("pythia8:sherpa",":",GENERATORS); 
 
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TGraphAsymmErrors*> fGMap;

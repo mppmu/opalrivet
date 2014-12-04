@@ -1,4 +1,4 @@
-Main:numberOfEvents = 1500
+Main:numberOfEvents = 2000
 Main:writeAllSettings = on
 PDF:lepton = off
 WeakSingleBoson:ffbar2gmZ = on
