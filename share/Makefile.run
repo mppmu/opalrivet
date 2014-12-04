@@ -3,7 +3,7 @@ NAME=JADE_OPAL_2000_S4300807a
 #GEN=herwig++
 #GEN=pythia8
 #GEN=evtgen
-GEN?=pythia8
+#GEN?=pythia8
 
 all: dirs plots ref/$(NAME).yoda
 

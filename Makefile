@@ -1,4 +1,9 @@
 #export X509_USER_PROXY=$(pwd)/k5-ca-proxy.pem
+#GEN=sherpa
+#GEN=herwig++
+#GEN=pythia8
+GEN=evtgen
+#GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 TOPDIR=./Rivet-$(RIVET_VERS)	
 ARCH          =   $(shell uname -m)
@@ -44,7 +49,7 @@ all_%:
 
 		cp share/Makefile.run run/Makefile
 		make bin/convert
-		make -C run
+		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
 bin/$(ARCH)/prof: src/pprroffessorr.cxx
