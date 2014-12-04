@@ -22,6 +22,11 @@ bin/$(ARCH)/runProof: src/runProof.cxx
 		g++ $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
 
 
+bin/$(ARCH)/plots: src/plots.cxx
+		mkdir -p ../bin/$(ARCH)
+		g++ $(shell  root-config --ldflags --libs --cflags) -lProof  src/plots.cxx  -o ./bin/$(ARCH)/plots
+
+
 
 	
 all_%: 	
