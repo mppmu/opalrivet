@@ -126,6 +126,19 @@ void tokenize(const std::string& str, const std::string& delimiters , std::vecto
         }
 }
 
+
+double chi2_TH1(TH1D* A, TH1D* B)
+{
+	double chi2=0;
+	int N=0;
+for (int i=0;i<A->GetNbinsX();i++)	if (pow(A->GetBinError(i),2)+pow(B->GetBinError(i),2)>0.000001)
+{N++; chi2+=pow(A->GetBinContent(i)-B->GetBinContent(i),2)/(pow(A->GetBinError(i),2)+pow(B->GetBinError(i),2));}
+	return chi2/N;
+	
+}	
+
+
+
 void set_my_style()
 {
     gStyle->SetFrameFillColor(kWhite);
@@ -230,6 +243,8 @@ TLegend* A= new TLegend(0.1,0.9,0.30,0.80);
 A->AddEntry(fHMap[std::string(TString(Form("H_corrected_durham_%iGeV_JETR%i",ENERGY,i+2)).Data())],"Data");
 A->AddEntry(fHMap[std::string(TString(Form("H_prediction%s_durham_%iGeV_JETR%i",GENERATORS[j].c_str(),ENERGY,i+2)).Data())],Form("%s prediction",GENERATORS[j].c_str()));
 A->Draw();
+double c2=chi2_TH1(fHMap[std::string(TString(Form("H_corrected_durham_%iGeV_JETR%i",ENERGY,i+2)).Data())],fHMap[std::string(TString(Form("H_prediction%s_durham_%iGeV_JETR%i",GENERATORS[j].c_str(),ENERGY,i+2)).Data())]);
+printf("%f\n",c2);
 }
 C->SaveAs(Form("plots/H_corrected_durham_%iGeV_JETR_%s.png",ENERGY,GENERATORS[j].c_str()));
 C->Delete();
