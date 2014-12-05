@@ -174,6 +174,17 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TNtuple;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fProofFile;' %s.h",NAME.Data()));
+    
+    
+    
+    /*
+    gSystem->GetFromPipe(Form("sed -i '/fChain->SetMakeClass(1)/afChain->SetBranchStatus(\"*\",0);' %s.h",NAME.Data()));
+        gSystem->GetFromPipe(Form("sed -i '/#define /a#define SET_BRANCH_ADDRESS(C,N,M,B)     if(C->GetListOfBranches()->FindObject(N)) { C->SetBranchStatus(N,1); C->SetBranchAddress(N,M,B); }' %s.h",NAME.Data()));
+    
+    gSystem->GetFromPipe(Form("sed -i 's/fChain->SetBranchAddress(/SET_BRANCH_ADDRESS(fChain,/g' %s.h",NAME.Data()));
+    */
+    
+    
 //    gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fListFile;' %s.h",NAME.Data()));
 //    gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fListProofFile;' %s.h",NAME.Data()));
 //    gSystem->GetFromPipe(Form("sed -i '/public :/aTH1D   **fH;' %s.h",NAME.Data()));

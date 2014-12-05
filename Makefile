@@ -2,8 +2,8 @@
 #GEN=sherpa
 #GEN=herwig++
 #GEN=pythia8
-GEN=evtgen
-#GEN?=pythia8
+#GEN=evtgen
+GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 TOPDIR=./Rivet-$(RIVET_VERS)	
 ARCH          =   $(shell uname -m)

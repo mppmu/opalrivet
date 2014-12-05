@@ -3,6 +3,18 @@
 #include  "TFastJet.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
+
+/*
+inline void GETENTRIES(int e, TTree* T)
+{
+TObjArray *LOB= T->GetListOfBranches();
+for (int i = 0; i <LOB->GetLast()+1; i++)
+{
+            TBranch* B=(TBranch*)LOB->At(i);
+ if (B) B->GetEntry(e);           
+}            
+}
+*/
 void EXCITED8::Begin(TTree *tree) {	}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
@@ -32,13 +44,14 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
+
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
     float weight=1.0;    
 	fHMap["weight_before_selection"]->Fill(fAI.fTypes[II],weight);   
     if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  
     //we need to weight to luminocity only bg!
-    if (fAI.fTypes[II]/10==2) { weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]);  
+    if (fAI.fTypes[II]/10==2) { weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]);  //fixme -- sum over all data lumi
 		//printf("fAI.fEvents[%i]= %i\n", II,fAI.fEvents[II] ); 
 		}//assume one process=1 file
     
@@ -86,6 +99,7 @@ TIter next(type_fFile->GetListOfKeys());
 TKey *key;
 while ((key = (TKey*)next())) {
 TObject *obj = key->ReadObj();
+//if (!obj) continue;
 if ( obj->IsA()->InheritsFrom( "TH1"    ) ) fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj)   );
 if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TGraphAsymmErrors*> (std::string(key->GetName()) ,(TGraphAsymmErrors*)obj)   );
 }
