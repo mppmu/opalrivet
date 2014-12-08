@@ -1,4 +1,5 @@
 #define EXCITED8_cxx
+#include  <TBufferFile.h>
 #include  "EXCITED8.h"
 #include  "TFastJet.h"
 #include  "Helpers.h"
@@ -15,9 +16,11 @@ for (int i = 0; i <LOB->GetLast()+1; i++)
 }            
 }
 */
-void EXCITED8::Begin(TTree *tree) {	}
+void EXCITED8::Begin(TTree *tree) {		TBufferFile::SetGlobalWriteParam(4999);}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
+	
+	TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
     fProofFile = new TProofOutputFile(FILENAME, "M");
     TDirectory *savedir = gDirectory;
@@ -47,11 +50,26 @@ Bool_t EXCITED8::Process(Long64_t gentry)
 
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
+     if (II>-1) if (fAI.fTypes[II]<0) return kFALSE;
     float weight=1.0;    
 	fHMap["weight_before_selection"]->Fill(fAI.fTypes[II],weight);   
     if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  
     //we need to weight to luminocity only bg!
-    if (fAI.fTypes[II]/10==2) { weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]);  //fixme -- sum over all data lumi
+    if (fAI.fTypes[II]/10==2) { 
+		//weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]);  //fixme -- sum over all data lumi
+		
+		double datalumi=0;
+		double eventscs=0;
+		for (int i=0;i<MAX_RUNS;i++) 
+		{
+			if (fAI.fNames[i]=="") continue;
+			if (fAI.fTypes[i]/10==0) datalumi+=fAI.fLumis[i];//total cs of data
+		    if (fAI.fTypes[i]==fAI.fTypes[II]) eventscs+=fAI.fSigmas[i]*fAI.fEvents[i]; // cs of the given process
+		
+	   }
+		weight=datalumi/eventscs;
+		printf("%f %f %f\n",weight,datalumi,eventscs);
+		
 		//printf("fAI.fEvents[%i]= %i\n", II,fAI.fEvents[II] ); 
 		}//assume one process=1 file
     
@@ -131,7 +149,8 @@ if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,T
     }
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Write(0,TObject::kWriteDelete); H_it->second->SetDirectory(0);}  
 //Run 1 core!!!    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) FoldGraph(G_it->second,4);//We run on 4 cores.//FIXME
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if ((G_it->first.find("JETR")!=std::string::npos)  &&(G_it->first.find("data_")!=std::string::npos))  ScaleGraph(G_it->second,1.0/fHMap["weight"]->GetBinContent(1));
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if ((G_it->first.find("JETR")!=std::string::npos) 
+    &&(G_it->first.find("data_")!=std::string::npos))  ScaleGraph(G_it->second,1.0/fHMap["weight"]->GetBinContent(1));
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
     if (G_it->first.find("G_acceptancesignal_")!=std::string::npos) 
     {			

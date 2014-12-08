@@ -223,6 +223,7 @@ void ScaleGraph(TGraphAsymmErrors* A, double k,int scaleopt=0)
 	Double_t x,y;
     A->GetPoint(i,x,y);
 	A->SetPoint(i,x,y*k);
+	if (scaleopt==2) A->SetPointError(i,0,0,A->GetErrorYlow(i)*(k),A->GetErrorYhigh(i)*(k));
 	if (scaleopt==1) A->SetPointError(i,0,0,A->GetErrorYlow(i)*sqrt(k),A->GetErrorYhigh(i)*sqrt(k));
     if (scaleopt==0) A->SetPointError(i,0,0,A->GetErrorYlow(i),A->GetErrorYhigh(i));
     }
@@ -1338,6 +1339,10 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
 #include  "fastjet/ClusterSequence.hh"
 
 
+
+
+
+
 template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
 {
 bool PASSED=false;
@@ -1359,7 +1364,22 @@ std::string G_prefix=std::string("G_")+Iprefix;
             for ( j=0; j<5; j++) 
             for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1));i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j));i++)
             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
+        
+        
+         std::vector<fastjet::PseudoJet> fdjets =tfj->GetClusterSequence()->inclusive_jets();
+        if (fdjets.size()>2){
+      /*  
+std::vector<TVector3> A= CopyPseudoJetsToVectors3();
+double t;
+TVector3 B;
+tfj(*/
+
+
+         }
         }
+        
+
+        
 return PASSED;
 }
 

@@ -7,8 +7,11 @@ GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 TOPDIR=./Rivet-$(RIVET_VERS)	
 ARCH          =   $(shell uname -m)
-all: dirs	all_94.5 data_189
+all: dirs	all_94.5 data_189 all_91.5 data_183  all_65 data_130   all_68 data_136    all_80.5 data_161  all_86 data_172 
 
+
+
+allmc: all_65    all_68    all_80.5   all_86  all_91.5  all_94.5
 
 dirs:
 	mkdir -p ./bin/$(ARCH)
@@ -22,14 +25,22 @@ data_%:  bin/$(ARCH)/runProof
 	bin/$(ARCH)/runProof  DCAP_OPAL_$*
 #	mv 'NEW/Output/OPAL_'$*'.root' ./output
 
+pics: bin/$(ARCH)/plots
+	bin/$(ARCH)/plots 130
+	bin/$(ARCH)/plots 161		
+	bin/$(ARCH)/plots 172
+	bin/$(ARCH)/plots 183	
+	bin/$(ARCH)/plots 189	
+
+
 bin/$(ARCH)/runProof: src/runProof.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++ $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
+		g++  -g $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
 
 
 bin/$(ARCH)/plots: src/plots.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++ $(shell  root-config --ldflags --libs --cflags) -lProof  src/plots.cxx  -o ./bin/$(ARCH)/plots
+		g++ -g $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
 
 
 
@@ -48,7 +59,7 @@ all_%:
 		cp share/Runevtgen.dat run
 
 		cp share/Makefile.run run/Makefile
-		make bin/convert
+		make convert
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
@@ -252,7 +263,7 @@ binrpm_Rivet: srcrpm_Rivet
 
 
 
-bin/$(ARCH)/convert: bin/$(ARCH)/cut_and_transform
+convert: bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 		rm -rf newdata.yoda
 # to have yoda files run
 #	for a in $(find 2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./yodaconvert  root2yoda   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
@@ -347,7 +358,7 @@ bin/$(ARCH)/convert: bin/$(ARCH)/cut_and_transform
 
 	cat DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda.in > DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
-
+	bin/$(ARCH)/yodaconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807a.root
 bin/$(ARCH)/yodaconvert: src/yodaconvert.cc
 		g++ -std=c++0x src/yodaconvert.cc -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
 

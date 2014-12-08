@@ -135,6 +135,24 @@ std::vector<TLorentzVector>& TFastJet::CopyPseudoJetsToLorentzVectors()
     return *jetstlv;
 }
 
+
+std::vector<TVector3>& TFastJet::CopyPseudoJetsToVectors3()
+{
+    std::vector<TVector3>* jetstlv= new std::vector<TVector3>();
+    fastjet::PseudoJet pj;
+    for( UInt_t i= 0; i < fPJets->size(); i++ )
+        {
+            pj= (*fPJets)[i];
+            TVector3 tlv( pj.px(), pj.py(), pj.pz());
+            jetstlv->push_back( tlv );
+        }
+    return *jetstlv;
+}
+
+
+
+
+
 std::vector< std::vector<int> >& TFastJet::Constituents()
 {
     std::vector< std::vector<int> >* cnstmap= new std::vector< std::vector<int> >();
@@ -161,3 +179,80 @@ int TFastJet::NJets( double ycut )
 }
 
 
+  double  TFastJet::_calcT() 
+  {
+std::vector<TVector3> A= CopyPseudoJetsToVectors3();
+
+double t;
+TVector3 B;
+
+_calcT(A,t,B);
+return t;
+}
+
+
+
+  inline bool mod2Cmp(const TVector3& a, const TVector3& b) {
+    return a.Mag2() > b.Mag2();
+  }
+
+inline int intpow(int a, int b)
+{
+int r=1;
+for (int i=0;(i<b)&&(b>0);i++) r*=a; return r;	
+	
+}	
+
+  // Do the general case thrust calculation
+  void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis) {
+    // This function implements the iterative algorithm as described in the
+    // Pythia manual. We take eight (four) different starting vectors
+    // constructed from the four (three) leading particles to make sure that
+    // we don't find a local maximum.
+    std::vector<TVector3> p = momenta;
+    assert(p.size() >= 3);
+    unsigned int n = 3;
+    if (p.size() == 3) n = 3;
+    std::vector<TVector3> tvec;
+    std::vector<double> tval;
+    std::sort(p.begin(), p.end(), mod2Cmp);
+    for (int i = 0 ; i < intpow(2, n-1); ++i) {
+      // Create an initial vector from the leading four jets
+      TVector3 foo(0,0,0);
+      int sign = i;
+      for (unsigned int k = 0 ; k < n ; ++k) {
+        (sign % 2) == 1 ? foo += p[k] : foo -= p[k];
+        sign /= 2;
+      }
+      //foo=foo.unit();
+foo.SetMag(1.0);
+      // Iterate
+      double diff=999.;
+      while (diff>1e-5) {
+        TVector3 foobar(0,0,0);
+        for (unsigned int k=0 ; k<p.size() ; k++)
+          foo.Dot(p[k])>0 ? foobar+=p[k] : foobar-=p[k];
+        TVector3 foobar_unit=foobar;
+        foobar_unit.SetMag(1);
+        diff=(foo-foobar_unit).Mag();
+        foo=foobar_unit;
+      }
+
+      // Calculate the thrust value for the vector we found
+      t=0.;
+      for (unsigned int k=0 ; k<p.size() ; k++)
+        t+=fabs(foo.Dot(p[k]));
+
+      // Store everything
+      tval.push_back(t);
+      tvec.push_back(foo);
+    }
+
+    // Pick the solution with the largest thrust
+    t=0.;
+    for (unsigned int i=0 ; i<tvec.size() ; i++)
+      if (tval[i]>t){
+        t=tval[i];
+        taxis=tvec[i];
+      }
+  }

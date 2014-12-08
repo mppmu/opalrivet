@@ -34,12 +34,13 @@ public:
     double YMerge( int );
     int NJets( double );
 
-
+  void _calcT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis);
     fastjet::ClusterSequence* GetClusterSequence();
-
+  double  _calcT() ;
 private:
    bool FindAlgorithm(std::string jetalg);
     std::vector<TLorentzVector>& CopyPseudoJetsToLorentzVectors();
+    std::vector<TVector3>& CopyPseudoJetsToVectors3();
     fastjet::ClusterSequence* fClusterSequence;
     fastjet::SISConePlugin* fSISPlugin;
     fastjet::JadePlugin*  fJadePlugin;
