@@ -391,7 +391,7 @@ TH1D* HJ[GENERATORS.size()];
 
 TH1D* H=  TGraphAsymmErrors_to_TH1D_template("HH",fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],
 fHMap[std::string(TString(Form("H_prediction%s_%s_%iGeV_JETR%i",generators[0].c_str(),algorithm.c_str(),ENERGY,i+2)).Data())],4);
-H->SetTitle(";x;1/#sigma d#sigma/dx;");
+H->SetTitle("Integrated 2-jet rate with Durham algorithm in OPAL e^{+}e^{-} collisions for #sqrt{s}=189GeV;x;1/#sigma d#sigma/dx;");
 H->Draw();
 
 H->SetLineColor(Colors[0]);
