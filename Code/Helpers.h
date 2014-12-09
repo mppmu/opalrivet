@@ -231,6 +231,9 @@ void ScaleGraph(TGraphAsymmErrors* A, double k,int scaleopt=0)
     }
 }
 
+
+
+
 TGraphAsymmErrors* AddGraphs(double w1,double w2,TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL)
 {
 	
@@ -1409,7 +1412,7 @@ void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack
 template <class EXA>
 std::vector<TLorentzVector> GetMC2(EXA*A)
 {
-	int i;
+	unsigned int i;
 	int ifill=0;
 	int maxtrack=500;
 	std::vector<TLorentzVector> vtlv2; 
@@ -1474,7 +1477,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
             
                         std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
             std::vector<fastjet::PseudoJet> part;
-            for (int i=0;i<fdjets.size();i++)
+            for (unsigned int i=0;i<fdjets.size();i++)
             {				   std::vector<fastjet::PseudoJet> x=tfj->GetClusterSequence()->constituents( fdjets[i]);
             				   part.insert(part.end(),x.begin(),x.end()); 
             }
@@ -1483,7 +1486,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
 			TVector3 Z(0,0,0);
 			double t=Thrust(part,Z);
 						 A->fHMap[H_prefix+"1-T"]->Fill(t,weight);
-         } else printf("%i \n",part.size());
+         }
             
 
             
@@ -1533,7 +1536,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
             PASSED=true;
             std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
             std::vector<fastjet::PseudoJet> part;
-            for (int i=0;i<fdjets.size();i++)
+            for (unsigned int i=0;i<fdjets.size();i++)
             {				   std::vector<fastjet::PseudoJet> x=tfj->GetClusterSequence()->constituents( fdjets[i]);
             				   part.insert(part.end(),x.begin(),x.end()); 
             }
@@ -1542,7 +1545,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
 			TVector3 Z(0,0,0);
 			double t=Thrust(part,Z);
 			 A->fHMap[H_prefix+"1-T"]->Fill(t,weight);
-         } else printf("%i \n",part.size());
+         } 
             
 
             			

@@ -16,8 +16,7 @@ Run.dat: Run$(GEN).dat
 	mv Run.dat_tmp  Run.dat 
 
 
-lib/Rivet$(NAME).so:  src/Rivet$(NAME).cc Makefile
-
+lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		rm -f src/TFastJet.cxx 
 		rm -f inc/Cuts.h 
 		rm -f inc/Helpers.h 
@@ -65,4 +64,4 @@ dirs:
 
 plots: Rivet$(NAME).yoda refs
 		rm -rf out/Rivet$(NAME)/*-*.dat
-		../bin/run-mkhtml.sh $(NAME)
+#		../bin/run-mkhtml.sh $(NAME)

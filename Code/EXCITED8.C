@@ -53,7 +53,7 @@ Bool_t EXCITED8::Process(Long64_t gentry)
      if (II>-1) if (fAI.fTypes[II]<0) return kFALSE;
     float weight=1.0;    
 	fHMap["weight_before_selection"]->Fill(fAI.fTypes[II],weight);   
-    if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  
+    //if (fAI.fTypes[II]>0)  if (!MCNonRad(this))         return kFALSE;	  
     //we need to weight to luminocity only bg!
     if (fAI.fTypes[II]/10==2) { 
 		//weight=fAI.fLumis[0]/(fAI.fSigmas[II]*fAI.fEvents[II]);  //fixme -- sum over all data lumi
@@ -77,9 +77,9 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     if (fAI.fAT==kLEP1)    if (!LEP1Selection(this))    return kFALSE;	
 	std::vector<std::string> datatypes;
 	std::vector<std::string> options;
-	if (fAI.fTypes[II]==0) { tokenize("data",":",datatypes);                tokenize("tc",":",options);   }
-	if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("tc:h",":",options); } 
-	if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("tc:h",":",options); }
+	if (fAI.fTypes[II]==0) { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
+	if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); } 
+	if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
 	for (int j=0;j<datatypes.size();j++) {
 	std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
 	for (int i=0;i<fAlgorithms.size();i++) 

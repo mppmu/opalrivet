@@ -55,6 +55,8 @@ all_%: 	./bin/x86_64/cut_and_transform
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
 
 		cp share/Runherwig++.dat run
+		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat
+		
 		
 		cp share/Runevtgen.dat run
 
