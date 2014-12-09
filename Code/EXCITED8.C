@@ -68,7 +68,7 @@ Bool_t EXCITED8::Process(Long64_t gentry)
 		
 	   }
 		weight=datalumi/eventscs;
-		printf("%f %f %f\n",weight,datalumi,eventscs);
+	//	printf("%f %f %f\n",weight,datalumi,eventscs);
 		
 		//printf("fAI.fEvents[%i]= %i\n", II,fAI.fEvents[II] ); 
 		}//assume one process=1 file
@@ -132,14 +132,13 @@ if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,T
 	fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_mcbackgr_")+name],-1.0);
 	fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
     
-    if ((H_it->first.find("JETR")!=std::string::npos))  
-    {
+
     int number_of_events=fHMap["weight"]->GetBinContent(1);  //all data
     for (int i=20;i<30;i++)   number_of_events-=(fHMap["weight"]->GetBinContent(i)); //subtract number of MC BG events
     fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
-    }
     
     }
+  
     if (H_it->first.find("H_acceptancebackgr")!=std::string::npos) 
     {			
 	std::string name=H_it->first.substr(std::string("H_acceptancebackgr_").length());
@@ -147,18 +146,32 @@ if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,T
 	H_it->second->Divide(fHMap[std::string("H_truebackgr_")+name]);	
     }
     }
+    
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Write(0,TObject::kWriteDelete); H_it->second->SetDirectory(0);}  
+
+
+//FIXME! SCALE -->
 //Run 1 core!!!    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) FoldGraph(G_it->second,4);//We run on 4 cores.//FIXME
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if ((G_it->first.find("JETR")!=std::string::npos) 
-    &&(G_it->first.find("data_")!=std::string::npos))  ScaleGraph(G_it->second,1.0/fHMap["weight"]->GetBinContent(1));
+   // for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
+   // if ((G_it->first.find("JETR")!=std::string::npos) &&(G_it->first.find("data_")!=std::string::npos))  ScaleGraph(G_it->second,1.0/fHMap["weight"]->GetBinContent(1));
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
     if (G_it->first.find("G_acceptancesignal_")!=std::string::npos) 
-    {			
+    {	//puts(G_it->first.c_str());		
 	std::string name=G_it->first.substr(std::string("G_acceptancesignal_").length());
 	DivideGraphs(fGMap[std::string("G_mcsignal_")+name],fGMap[std::string("G_truesignal_")+name],G_it->second);//FIXME SUBTR BG!
-	DivideGraphs(fGMap[std::string("G_data_")+name],fGMap[std::string("G_acceptancesignal_")+name],fGMap[std::string("G_corrected_")+name]);
+	AddGraphs(1,-1,fGMap[std::string("G_data_")+name],fGMap[std::string("G_mcbackgr_")+name],fGMap[std::string("G_corrected_")+name]);
+	DivideGraphs(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name],fGMap[std::string("G_corrected_")+name]);
+    
+    int number_of_events=fHMap["weight"]->GetBinContent(1);  //all data
+    for (int i=20;i<30;i++)   number_of_events-=(fHMap["weight"]->GetBinContent(i)); //subtract number of MC BG events
+    ScaleGraph(fGMap[std::string("G_corrected_")+name],1.0/number_of_events,2);
+    
     }
+
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);	
+
+//<--FIXME! SCALE
+
     type_fFile->Close();
 }
 Bool_t EXCITED8::Notify() {return kTRUE;}

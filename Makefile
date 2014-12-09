@@ -35,17 +35,17 @@ pics: bin/$(ARCH)/plots
 
 bin/$(ARCH)/runProof: src/runProof.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++  -g $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
+		g++  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
 
 
 bin/$(ARCH)/plots: src/plots.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++ -g $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
+		g++ -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
 
 
 
 	
-all_%: 	
+all_%: 	./bin/x86_64/cut_and_transform
 		mkdir -p run
 		cp share/Runpythia8.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
@@ -59,15 +59,15 @@ all_%:
 		cp share/Runevtgen.dat run
 
 		cp share/Makefile.run run/Makefile
-		make convert
+		#make convert
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
-bin/$(ARCH)/prof: src/pprroffessorr.cxx
+bin/$(ARCH)/prof: dirs src/pprroffessorr.cxx
 		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
 
 
-bin/$(ARCH)/draw: src/draw.cxx
+bin/$(ARCH)/draw: dirs  src/draw.cxx
 		g++ $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o bin/$(ARCH)/draw
 
 
@@ -263,7 +263,7 @@ binrpm_Rivet: srcrpm_Rivet
 
 
 
-convert: bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
+convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 		rm -rf newdata.yoda
 # to have yoda files run
 #	for a in $(find 2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./yodaconvert  root2yoda   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
@@ -363,7 +363,7 @@ bin/$(ARCH)/yodaconvert: src/yodaconvert.cc
 		g++ -std=c++0x src/yodaconvert.cc -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
 
 
-bin/$(ARCH)/cut_and_transform: src/cut_and_transform.cc
+bin/$(ARCH)/cut_and_transform: dirs  src/cut_and_transform.cc
 #				g++ -std=c++0x cut_and_transform.cc  $(shell root-config --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o cut_and_transform
 				g++ -std=c++0x src/cut_and_transform.cc  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o ./bin/$(ARCH)/cut_and_transform
 
@@ -371,23 +371,23 @@ bin/$(ARCH)/cut_and_transform: src/cut_and_transform.cc
 
 
 
-obj/opalrivetpythia8.o: src/opalrivetpythia8.cc
+obj/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cc
 	gcc -c src/opalrivetpythia8.cc -o obj/opalrivetpythia8.o -I./  -I../top/usr/include
 	
 	
 	
-bin/$(ARCH)/opalrivetpythia8: obj/opalrivetpythia8.o
+bin/$(ARCH)/opalrivetpythia8:  dirs obj/opalrivetpythia8.o
 	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L../top/usr/lib64
 
 
 
 
-bin/$(ARCH)/opalrivetevtgen.o: src/opalrivetevtgen.cc
+bin/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cc
 	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cc -o obj/opalrivetevtgen.o -I./  -I../top/usr/include
 	
 	
 	
-bin/$(ARCH)/opalrivetevtgen: obj/opalrivetevtgen.o
+bin/$(ARCH)/opalrivetevtgen:  dirs obj/opalrivetevtgen.o
 	gcc  -lEvtGenExternal $(shell  root-config --libs)  obj/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  -L../top/usr/lib64
 
 

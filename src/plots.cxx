@@ -170,8 +170,12 @@ int plots()
 	std::vector<std::string> algorithms;	
 	std::vector<std::string> ALGORITHMS;
 	
-	tokenize("PYTHIA8:SHERPA",":",GENERATORS); 
-	tokenize("pythia8:sherpa",":",generators); 
+//	tokenize("PYTHIA8:SHERPA",":",GENERATORS); 
+//	tokenize("pythia8:sherpa",":",generators); 
+
+	tokenize("PYTHIA8",":",GENERATORS); 
+	tokenize("pythia8",":",generators); 
+
 
     tokenize("DURHAM:JADE",":",ALGORITHMS); 
     tokenize("durham:jade",":",algorithms);
@@ -234,7 +238,36 @@ std::string algorithm=algorithms[r];
 puts(algorithm.c_str());
 for (int j=0;j<GENERATORS.size();j++)
 {
-TCanvas* C= new TCanvas("","",1024*2,768*2);
+TCanvas* D= new TCanvas("D","D",1024*2,768*2);
+D->SetLogx();
+fHMap[std::string(TString(Form("H_corrected_%s_%iGeV_1-T",algorithm.c_str(),ENERGY)).Data())]->Draw();
+fHMap[std::string(TString(Form("H_corrected_%s_%iGeV_1-T",algorithm.c_str(),ENERGY)).Data())]->SetLineColor(kRed);
+fHMap[std::string(TString(Form("H_corrected_%s_%iGeV_1-T",algorithm.c_str(),ENERGY)).Data())]->GetXaxis()->SetRangeUser(0.001,1);
+//fHMap[std::string(TString(Form("H_corrected_%s_%iGeV_1-T",algorithm.c_str(),ENERGY)).Data())]->GetYaxis()->SetRangeUser(0,1.3);
+
+fHMap[std::string(TString(Form("H_prediction%s_%s_%iGeV_1-T",generators[j].c_str(),algorithm.c_str(),ENERGY)).Data())]->Draw("same");
+
+//ScaleGraph(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],0.01,2);
+//fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->Draw("SAMEPE");
+
+TLegend* A0= new TLegend(0.1,0.9,0.30,0.75);
+A0->AddEntry(fHMap[std::string(TString(Form("H_corrected_durham_%iGeV_1-T",ENERGY)).Data())],"Data, new");
+//A0->AddEntry(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"Data, old","P");
+A0->AddEntry(fHMap[std::string(TString(Form("H_prediction%s_%s_%iGeV_1-T",generators[j].c_str(),algorithm.c_str(),ENERGY)).Data())],Form("%s prediction",generators[j].c_str()));
+A0->Draw();
+D->SaveAs(Form("plots/H_corrected_%s_%iGeV_1-T_%s.png",algorithm.c_str(),ENERGY,generators[j].c_str()));
+D->SaveAs(Form("plots/H_corrected_%s_%iGeV_1-T_%s.root",algorithm.c_str(),ENERGY,generators[j].c_str()));
+D->SaveAs(Form("plots/H_corrected_%s_%iGeV_1-T_%s.pdf",algorithm.c_str(),ENERGY,generators[j].c_str()));
+D->Delete();
+
+
+
+
+
+
+
+
+TCanvas* C= new TCanvas("C","C",1024*2,768*2);
 C->SetLogx();
 C->Divide(2,3);
 for (int i=0;i<5;i++)

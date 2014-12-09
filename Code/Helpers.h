@@ -223,26 +223,123 @@ void ScaleGraph(TGraphAsymmErrors* A, double k,int scaleopt=0)
 	Double_t x,y;
     A->GetPoint(i,x,y);
 	A->SetPoint(i,x,y*k);
-	if (scaleopt==2) A->SetPointError(i,0,0,A->GetErrorYlow(i)*(k),A->GetErrorYhigh(i)*(k));
-	if (scaleopt==1) A->SetPointError(i,0,0,A->GetErrorYlow(i)*sqrt(k),A->GetErrorYhigh(i)*sqrt(k));
-    if (scaleopt==0) A->SetPointError(i,0,0,A->GetErrorYlow(i),A->GetErrorYhigh(i));
+	if (scaleopt==2) A->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),A->GetErrorYlow(i)*(k),A->GetErrorYhigh(i)*(k));
+	if (scaleopt==1) A->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),A->GetErrorYlow(i)*sqrt(k),A->GetErrorYhigh(i)*sqrt(k));
+    if (scaleopt==0) A->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),A->GetErrorYlow(i),A->GetErrorYhigh(i));
+   //  puts(A->GetTitle());
+   //  printf("Scale   %f %f\n",x,y);
     }
 }
 
+TGraphAsymmErrors* AddGraphs(double w1,double w2,TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL)
+{
+	
+ if(A->GetN() != B->GetN()) {
+         puts("TEfficiency::CheckBinnrams are not consistent: they have different number of bins");
+	 return NULL;
+      }
+TGraphAsymmErrors* C;
+if (!D)  C= new TGraphAsymmErrors( B->GetN()); else C=D;
+if (D)  if(A->GetN() != D->GetN()) {
+         puts("TEfficiency::CheckBinnrams are not consistent: they have different number of bins");
+	 return NULL;
+      }
 
+      for(Int_t i = 0; i < B->GetN() ; ++i)
+      
+      {
+        Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Byeh,Byel,Ayeh,Ayel,Byeh_,Byel_,Ayeh_,Ayel_;
+        A->GetPoint(i,Ax,Ay);
+        B->GetPoint(i,Bx,By);
+        if (D) D->GetPoint(i,Dx,Dy);
+        
+        Ayel=A->GetErrorYlow(i);
+        Ayeh=A->GetErrorYhigh(i);
+        
+        Byel=B->GetErrorYlow(i);
+        Byeh=B->GetErrorYhigh(i);
+        
+        Cx=Ax;
+
+        Cy=w1*Ay+w2*By;
+        
+        if (w1>0){Ayeh_=Ayeh;Ayel_=Ayel;}
+        if (w1<0){Ayeh_=Ayel;Ayel_=Ayeh;}
+
+        if (w2>0){Byeh_=Byeh;Byel_=Byel;}
+        if (w2<0){Byeh_=Byel;Byel_=Byeh;}
+
+        
+        Cyeh=sqrt(w1*w1*Ayeh_*Ayeh_+w2*w2*Byeh_*Byeh_);
+        Cyel=sqrt(w1*w1*Ayel_*Ayel_+w2*w2*Byel_*Byel_);
+	    
+	    
+	    
+        C->SetPoint(i,Cx,Cy);
+        C->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),Cyel,Cyeh);
+            //    printf("S %i %f %f %f %f\n",Cx,Cy,Cyel,Cyeh);
+         if(!TMath::AreEqualRel(Ax, Bx, 1.E-15)) {
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E1");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXlow(i), B->GetErrorXlow(i), 1.E-15)) {
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E2");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), B->GetErrorXhigh(i), 1.E-15)) 
+         {
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E3");
+	    return NULL;
+          }
+         if (D)
+         {
+         
+              if(!TMath::AreEqualRel(Ax, Dx, 1.E-15)) {
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E4");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXlow(i), D->GetErrorXlow(i), 1.E-15)) {
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E5");
+	    return NULL;
+       
+          }
+         
+         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), D->GetErrorXhigh(i), 1.E-15)) 
+         {
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E6");
+	    return NULL;
+          }    
+         
+         
+         
+         
+	         }
+         
+         }
+return C;
+
+	
+	
+}	
 
 
 TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL)
 {
 	
  if(A->GetN() != B->GetN()) {
-         gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different number of bins");
+         puts("TEfficiency::CheckBinnrams are not consistent: they have different number of bins");
 	 return NULL;
       }
 TGraphAsymmErrors* C;
-if (!D)  C= new TGraphAsymmErrors(); else C=D;
+if (!D)  C= new TGraphAsymmErrors( B->GetN()); else C=D;
 if (D)  if(A->GetN() != D->GetN()) {
-         gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different number of bins");
+         puts("TEfficiency::CheckBinnrams are not consistent: they have different number of bins");
 	 return NULL;
       }
 
@@ -270,42 +367,42 @@ if (D)  if(A->GetN() != D->GetN()) {
 	    else { Cy=0; Cyel=0; Cyeh=0;}
         C->SetPoint(i,Cx,Cy);
         C->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),Cyel,Cyeh);
-        
+      //  printf("D %i %f %f %f %f\n",Cx,Cy,Cyel,Cyeh);
          if(!TMath::AreEqualRel(Ax, Bx, 1.E-15)) {
-            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E1");
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E1");
 	    return NULL;
        
           }
          
          if(!TMath::AreEqualRel(A->GetErrorXlow(i), B->GetErrorXlow(i), 1.E-15)) {
-            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E2");
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E2");
 	    return NULL;
        
           }
          
          if(!TMath::AreEqualRel(A->GetErrorXhigh(i), B->GetErrorXhigh(i), 1.E-15)) 
          {
-            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E3");
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E3");
 	    return NULL;
           }
          if (D)
          {
          
               if(!TMath::AreEqualRel(Ax, Dx, 1.E-15)) {
-            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E4");
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E4");
 	    return NULL;
        
           }
          
          if(!TMath::AreEqualRel(A->GetErrorXlow(i), D->GetErrorXlow(i), 1.E-15)) {
-            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E5");
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E5");
 	    return NULL;
        
           }
          
          if(!TMath::AreEqualRel(A->GetErrorXhigh(i), D->GetErrorXhigh(i), 1.E-15)) 
          {
-            gROOT->Info("TEfficiency::CheckBinning","Histograms are not consistent: they have different bin edges: E6");
+            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E6");
 	    return NULL;
           }    
          
@@ -320,7 +417,7 @@ return C;
 	
 	
 }	
-
+#ifndef SIMPLE_HELPERS_ONLY
 std::string ROOT_to_YODA_name(std::string a)//FIXME. Random so far
 {
 
@@ -940,7 +1037,9 @@ void Count(TChain* C, TAnalysisInfo& A)
 
 int  Match(int run, TAnalysisInfo& Z, TH1F* H)
 {
-for (int i=0;i<MAX_RUNS;i++) Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]); 
+for (int i=0;i<MAX_RUNS;i++) { Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]);
+//printf("%s %i %i %i\n",Z.fNames[i].c_str(), Z.fEvents[i],Z.fRunsBegin[i],Z.fRunsEnd[i]);
+}
 for (int i=0;i<MAX_RUNS;i++) if ((Z.fRunsBegin[i]<run)&& (run<Z.fRunsEnd[i])) return i;
 	return -1;
 }	
@@ -1337,9 +1436,26 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
 #endif
 
 #include  "fastjet/ClusterSequence.hh"
+#include  "fastjet/PseudoJet.hh"
 
+ double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis)  {
+	  
+	  double t;
+    std::vector<TVector3> jetstlv;//= new std::vector<TVector3>();
+    fastjet::PseudoJet pj;
+    double momsum=0;
+    for( UInt_t i= 0; i < A.size(); i++ )
+        {
+            pj= A[i];
+            TVector3 tlv( pj.px(), pj.py(), pj.pz());
+            jetstlv.push_back( tlv );
+        momsum+=tlv.Mag();
+        }
 
-
+TFastJet::_calcT(jetstlv,t,taxis);
+t=1-t/momsum;
+return t;
+}
 
 
 
@@ -1352,7 +1468,27 @@ std::string G_prefix=std::string("G_")+Iprefix;
 
     if (tfj->GetClusterSequence())
         {
+
+			
             PASSED=true;
+            
+                        std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
+            std::vector<fastjet::PseudoJet> part;
+            for (int i=0;i<fdjets.size();i++)
+            {				   std::vector<fastjet::PseudoJet> x=tfj->GetClusterSequence()->constituents( fdjets[i]);
+            				   part.insert(part.end(),x.begin(),x.end()); 
+            }
+            part=sorted_by_pt(part);
+         if (part.size()>2){
+			TVector3 Z(0,0,0);
+			double t=Thrust(part,Z);
+						 A->fHMap[H_prefix+"1-T"]->Fill(t,weight);
+         } else printf("%i \n",part.size());
+            
+
+            
+            
+            
             int filly=1;
             std::vector<double> ycuts;
           //  std::vector<std::pair<double,double> > bounds;
@@ -1366,16 +1502,10 @@ std::string G_prefix=std::string("G_")+Iprefix;
             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
         
         
-         std::vector<fastjet::PseudoJet> fdjets =tfj->GetClusterSequence()->inclusive_jets();
-        if (fdjets.size()>2){
-      /*  
-std::vector<TVector3> A= CopyPseudoJetsToVectors3();
-double t;
-TVector3 B;
-tfj(*/
+        
+        
+        
 
-
-         }
         }
         
 
@@ -1401,6 +1531,23 @@ std::string G_prefix=std::string("G_")+Iprefix;
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
+            std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
+            std::vector<fastjet::PseudoJet> part;
+            for (int i=0;i<fdjets.size();i++)
+            {				   std::vector<fastjet::PseudoJet> x=tfj->GetClusterSequence()->constituents( fdjets[i]);
+            				   part.insert(part.end(),x.begin(),x.end()); 
+            }
+            part=sorted_by_pt(part);
+         if (part.size()>2){
+			TVector3 Z(0,0,0);
+			double t=Thrust(part,Z);
+			 A->fHMap[H_prefix+"1-T"]->Fill(t,weight);
+         } else printf("%i \n",part.size());
+            
+
+            			
+
+            
             int filly=1;
 			int q=0;
             for (q=0; q<5; q++) {
@@ -1525,7 +1672,7 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
 
 
 
-
+#endif
 
 
 

@@ -113,12 +113,15 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     TDirectory *savedir = gDirectory;
     fFile->cd();
     std::map<std::string,TH1D*>::iterator H_it;
-    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if (H_it->first.find("JETR")!=std::string::npos) { H_it->second->Sumw2();  
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) 
+    //if (H_it->first.find("JETR")!=std::string::npos) 
+    { H_it->second->Sumw2();  
 		H_it->second->Scale(1.0/fTotalWeight);  }
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2();  H_it->second->Write();H_it->second->SetDirectory(0); /*		it->second->SetName()ROOT_to_YODA_name*/ }
 
     std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) if (G_it->first.find("JETR")!=std::string::npos) {
+    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) //if (G_it->first.find("JETR")!=std::string::npos) 
+    {
 	ScaleGraph(G_it->second,1.0/fTotalWeight);	 /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  }
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) { 
 		

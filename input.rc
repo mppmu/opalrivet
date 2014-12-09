@@ -18,7 +18,7 @@ DCAP_OPAL_130.CHAIN:   h10
 DCAP_OPAL_130.FILEGEN: gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc12162_1_200.root
 DCAP_OPAL_130.DATA:    gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/da130_95_200.root gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/da130_97_200.root gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc12162_1_200.root gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc12162_2_200.root gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc11925_1_200.root gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc11925_2_200.root
 DCAP_OPAL_130.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-DCAP_OPAL_130.DEFINES:    \'-DFILENAME=\"./output/OPAL_130.root\"\' \'-DALGORITHMS=\"durham:jade:antikt:cambridge\"\' \'-DANALYSISINFO={130.0\,kLEP1\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"\,\"MCSIGNALHERWIG\"}\,{0\,0\,10\,10}\,{6800\,8560\,12161\,11924}\,{6950\,8660\,12163\,11926}\,{0.0\,0.0\,335.9\,334.9}\,{2.70\,2.61\,0.0\,0.0}\,{-1\,-1\,-1\,-1}}\'
+DCAP_OPAL_130.DEFINES:    \'-DFILENAME=\"./output/OPAL_130.root\"\' \'-DALGORITHMS=\"durham:jade:antikt:cambridge\"\' \'-DANALYSISINFO={130.0\,kLEP1\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"\,\"MCSIGNALHERWIG\"}\,{0\,0\,10\,-10}\,{6800\,8560\,12161\,11924}\,{6950\,8660\,12163\,11926}\,{0.0\,0.0\,335.9\,334.9}\,{2.70\,2.61\,0.0\,0.0}\,{-1\,-1\,-1\,-1}}\'
 DCAP_OPAL_130.NUMBER:  1000000000
 
 LOCAL_OPAL_130:
@@ -27,7 +27,7 @@ LOCAL_OPAL_130.CHAIN:   h10
 LOCAL_OPAL_130.FILEGEN: /scratch/andriish/opal/ntuple/qcd/mc12162_1_200.root
 LOCAL_OPAL_130.DATA:    /scratch/andriish/opal/ntuple/qcd/da130_95_200.root /scratch/andriish/opal/ntuple/qcd/da130_97_200.root /scratch/andriish/opal/ntuple/qcd/mc12162_1_200.root /scratch/andriish/opal/ntuple/qcd/mc12162_2_200.root /scratch/andriish/opal/ntuple/qcd/mc11925_1_200.root /scratch/andriish/opal/ntuple/qcd/mc11925_2_200.root
 LOCAL_OPAL_130.FILES:   EXCITED8.C   Makefile  EXCITEDLinkDef.h  Helpers.h  Cuts.h  TFastJet.h TFastJet.cxx
-LOCAL_OPAL_130.DEFINES:      \'-DFILENAME=\"./output/OPAL_130.root\"\' \'-DALGORITHMS=\"durham:jade:antikt:cambridge\"\' \'-DANALYSISINFO={130.0\,kLEP1\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"\,\"MCSIGNALHERWIG\"}\,{0\,0\,10\,10}\,{6800\,8560\,12161\,11924}\,{6950\,8660\,12163\,11926}\,{0.0\,0.0\,335.9\,334.9}\,{2.70\,2.61\,0.0\,0.0}\,{-1\,-1\,-1\,-1}}\'
+LOCAL_OPAL_130.DEFINES:      \'-DFILENAME=\"./output/OPAL_130.root\"\' \'-DALGORITHMS=\"durham:jade:antikt:cambridge\"\' \'-DANALYSISINFO={130.0\,kLEP1\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"\,\"MCSIGNALHERWIG\"}\,{0\,0\,10\,-10}\,{6800\,8560\,12161\,11924}\,{6950\,8660\,12163\,11926}\,{0.0\,0.0\,335.9\,334.9}\,{2.70\,2.61\,0.0\,0.0}\,{-1\,-1\,-1\,-1}}\'
 
 #FIX RUNS
 # NT_VERSION 200
