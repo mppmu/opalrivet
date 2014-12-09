@@ -367,8 +367,8 @@ TCanvas* E= new TCanvas("E","E",1024*2,1024*2);
 TPad *pad1 = new TPad("pad1", "The pad 80% of the height",0.0,0.2,1.0,1.0,kWhite,0,0);
 TPad *pad2 = new TPad("pad2", "The pad 20% of the height",0.0,0.0,1.0,0.2,kWhite,0,0);
    pad1->SetRightMargin(0.05);
-   pad1->SetTopMargin(0.05);
-   pad1->SetBottomMargin(0.075);
+   pad1->SetTopMargin(0.09);
+   pad1->SetBottomMargin(0.05);
 
 pad1->Draw();
 pad2->Draw();
