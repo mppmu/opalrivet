@@ -62,7 +62,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     OPALObs(this,   Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 
 
-    OPALObs(this,Form("prediction%s_durham_%iGeV_I_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+   // OPALObs(this,Form("prediction%s_durham_%iGeV_I_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 
    
     fTotalWeight=0;
@@ -84,7 +84,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
     Analysis_type1(this, tfj1,e.weight(),1,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 
-
+/*
 	Rivet::Particles particles1_I = (applyProjection<FinalState>(e, "FS")).particles();
     std::vector<TLorentzVector>  vtlv1_I = GetMC2(&particles1);
     double P1_I[]={MyCuts::DURHAMR};
@@ -92,7 +92,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     Analysis_type1(this, tfj1_I,e.weight(),1,Form("prediction%s_durham_%iGeV_I_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 
 
-
+*/
 
 #endif
 
@@ -137,7 +137,7 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) //if (G_it->first.find("JETR")!=std::string::npos) 
     {
-	ScaleGraph(G_it->second,1.0/fTotalWeight);	 /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  }
+	ScaleGraph(G_it->second,1.0/fTotalWeight,2);	 /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  }
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) { 
 		
      
