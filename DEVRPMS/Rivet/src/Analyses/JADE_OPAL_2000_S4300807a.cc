@@ -60,6 +60,10 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     OPALObs(this, Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
     OPALObs(this,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
     OPALObs(this,   Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+
+
+    OPALObs(this,Form("prediction%s_durham_%iGeV_I_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+
    
     fTotalWeight=0;
     const FinalState fs;
@@ -79,6 +83,17 @@ std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
     double P1[]={MyCuts::DURHAMR};
     TFastJet* tfj1 =new TFastJet( vtlv1, "durham",P1, NULL);
     Analysis_type1(this, tfj1,e.weight(),1,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+
+
+	Rivet::Particles particles1_I = (applyProjection<FinalState>(e, "FS")).particles();
+    std::vector<TLorentzVector>  vtlv1_I = GetMC2(&particles1);
+    double P1_I[]={MyCuts::DURHAMR};
+    TFastJet* tfj1_I =new TFastJet( vtlv1_I, "durham",P1_I, NULL);
+    Analysis_type1(this, tfj1_I,e.weight(),1,Form("prediction%s_durham_%iGeV_I_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+
+
+
+
 #endif
 
 #ifdef USE_JADE

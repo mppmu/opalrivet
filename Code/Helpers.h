@@ -248,7 +248,7 @@ if (D)  if(A->GetN() != D->GetN()) {
       for(Int_t i = 0; i < B->GetN() ; ++i)
       
       {
-        Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Byeh,Byel,Ayeh,Ayel,Byeh_,Byel_,Ayeh_,Ayel_;
+        Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Byeh,Byel,Ayeh,Ayel,Byeh_=0,Byel_=0,Ayeh_=0,Ayel_=0;
         A->GetPoint(i,Ax,Ay);
         B->GetPoint(i,Bx,By);
         if (D) D->GetPoint(i,Dx,Dy);
