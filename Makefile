@@ -7,11 +7,51 @@ GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 TOPDIR=./Rivet-$(RIVET_VERS)	
 ARCH          =   $(shell uname -m)
-all: dirs	all_94.5 data_189 all_91.5 data_183  all_65 data_130   all_68 data_136    all_80.5 data_161  all_86 data_172 
+all: dirs	 data_189  data_183  data_130   data_136     data_161   data_172 
 
 
 
-allmc: all_65    all_68    all_80.5   all_86  all_91.5  all_94.5
+inputhisto:  
+	mkdir -p Code/HEPDATA/irn4300807/bin/$(ARCH)
+	mkdir -p Code/HEPDATA/irn4300807/src
+	rm -f Code/HEPDATA/irn4300807/src/main.cxx
+	echo '#include "ZROOT.h"' >  Code/HEPDATA/irn4300807/src/main.cxx
+	echo 'int main(){ TFile* f_irn4300807=new TFile("Code/irn4300807.root","recreate");' >>  Code/HEPDATA/irn4300807/src/main.cxx
+	number=1 ; while [[ $$number -le 90 ]] ; do \
+        wget  "http://hepdata.cedar.ac.uk/view/irn4300807/d"$$number"/root" -O "Code/HEPDATA/irn4300807/"$$number".C" ; \
+		sed -i -e  '1ivoid\ irn4300807_'$$number'()\n' "Code/HEPDATA/irn4300807/"$$number".C"; \
+        sed -i -e  '1i#include "ZROOT.h"\n' "Code/HEPDATA/irn4300807/"$$number".C"; \
+        sed -n -i -e  '/TGraph/{s|^|TGraphAsymmErrors |};p'  "Code/HEPDATA/irn4300807/"$$number".C"; \
+		sed  -i -e  's/Draw(\"AP\");/Write();/g'   "Code/HEPDATA/irn4300807/"$$number".C"; \
+        sed -i -e  '1ivoid\ irn4300807_'$$number'();\n' Code/HEPDATA/irn4300807/src/main.cxx; \
+        echo 'irn4300807_'$$number'();' >>Code/HEPDATA/irn4300807/src/main.cxx;\
+        ((number = number + 1)) ; \
+    done
+	echo 'f_irn4300807->Close(); return 0;}' >>  Code/HEPDATA/irn4300807/src/main.cxx	
+	g++  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code Code/HEPDATA/irn4300807/*C Code/HEPDATA/irn4300807/src/main.cxx  -o Code/HEPDATA/irn4300807/bin/$(ARCH)/main
+	
+#	wget  http://hepdata.cedar.ac.uk/view/irn4300807/d19/root -O Code/HEPDATA/irn4300807/19.C
+
+
+allmc: 
+	make all_65 GEN=pythia8
+	make all_65 GEN=herwig++
+	make all_65 GEN=sherpa
+	make all_68 GEN=pythia8
+	make all_68 GEN=herwig++
+	make all_68 GEN=sherpa
+	make all_80.5 GEN=pythia8
+	make all_80.5 GEN=herwig++
+	make all_80.5 GEN=sherpa
+	make all_86 GEN=pythia8
+	make all_86 GEN=herwig++
+	make all_86 GEN=sherpa
+	make all_91.5 GEN=pythia8
+	make all_91.5 GEN=herwig++
+	make all_91.5 GEN=sherpa
+	make all_94.5 GEN=pythia8
+	make all_94.5 GEN=herwig++
+	make all_94.5 GEN=sherpa
 
 dirs:
 	mkdir -p ./bin/$(ARCH)

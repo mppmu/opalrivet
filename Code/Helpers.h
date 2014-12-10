@@ -525,7 +525,7 @@ return a;
 
 
 template <class EXA>
-void OPALObs(EXA * A,std::string Iprefix="")
+void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
 	
 	 TH1::SetDefaultSumw2(kTRUE);
@@ -549,6 +549,7 @@ void OPALObs(EXA * A,std::string Iprefix="")
     H_INSERTER_DBL(A->fHMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     H_INSERTER_DBL(A->fHMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
   
+
     H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({0.7000000E-05,
                  0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                  0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -618,7 +619,7 @@ prefix=std::string("G_")+Iprefix;
     G_INSERTER_DBL(A->fGMap,prefix+"MH2",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40}));
     G_INSERTER_DBL(A->fGMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     G_INSERTER_DBL(A->fGMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
-  
+  /*
     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({0.7000000E-05,
                  0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                  0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -660,6 +661,41 @@ prefix=std::string("G_")+Iprefix;
                  0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
                  0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
                                                     }));
+*/
+
+
+       G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316 , 
+    0.3162278
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
 
 
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
@@ -679,7 +715,7 @@ prefix=std::string("G_")+Iprefix;
 
 
 template <class EXA>
-void JADEObs(EXA * A,std::string Iprefix="")
+void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
      std::string prefix;
      prefix=std::string("H_")+Iprefix;
@@ -929,6 +965,91 @@ prefix=std::string("G_")+Iprefix;
     G_INSERTER_DBL(A->fGMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020, 
 			       0.030, 0.045, 0.070, 0.100, 0.150,
 			       0.250, 0.500,1.000}));
+
+
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316 , 
+    0.3162278
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+			       
+			       /*
+			        * 
+			        *     1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+			       
+			       
+1.000000e-05
+1.330000e-05
+1.780000e-05
+2.370000e-05
+3.160000e-05
+4.220000e-05
+5.620000e-05
+7.500000e-05
+1.000000e-04
+1.330000e-04
+1.780000e-04
+2.370000e-04
+3.160000e-04
+4.220000e-04
+5.620000e-04
+7.500000e-04
+1.000000e-03
+1.330000e-03
+1.780000e-03
+2.370000e-03
+3.160000e-03
+4.220000e-03
+5.620000e-03
+7.500000e-03
+1.000000e-02
+1.330000e-02
+1.780000e-02
+2.370000e-02
+3.160000e-02
+4.220000e-02
+5.620000e-02
+7.500000e-02
+1.000000e-01
+1.330000e-01
+1.780000e-01
+2.370000e-01
+3.160000e-01
+			       
+			       
     //Same as Donkers for Durham  +2 bins -->
     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
     0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
@@ -993,6 +1114,8 @@ prefix=std::string("G_")+Iprefix;
                                                     }));
 //<-- Same as Donkers for Durham  +2 bins
 
+*/
+
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                  0.14, 0.16, 0.20, 0.24, 0.30, 0.40
                                                  }));
@@ -1008,13 +1131,7 @@ prefix=std::string("G_")+Iprefix;
 }
 
 
-template <class EXA>
-void BookHistograms(EXA * A,TAnalysisType B, std::string Iprefix="")
-{
-	if (B==kLEP1||B==kLEP2) OPALObs(A,Iprefix);
-	if (B==kJADE)           JADEObs(A,Iprefix);
-	
-}	
+
 
 
 #define MAX_RUNS   20
@@ -1030,6 +1147,17 @@ typedef struct TAnalysisInfo_ {
 	double       fLumis[MAX_RUNS];
 	int          fEvents[MAX_RUNS];
 }  TAnalysisInfo;
+
+
+template <class EXA>
+void BookHistograms(EXA * A,TAnalysisInfo B, std::string Iprefix="")
+{
+	std::set<std::string> foo;
+	//if (B.fE>89&&B.fE<92) foo.insert("fine_jet_rate");
+	if (B.fAT==kLEP1||B.fAT==kLEP2) OPALObs(A,foo,Iprefix);
+	if (B.fAT==kJADE)           JADEObs(A,foo,Iprefix);
+	
+}	
 
 void Count(TChain* C, TAnalysisInfo& A)
 {
@@ -1501,12 +1629,31 @@ std::string G_prefix=std::string("G_")+Iprefix;
             //for ( j=0; j<5; j++)             bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
             if (filly)  for ( j=0; j<4; j++) {/*  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME */}
             for ( j=0; j<5; j++) 
+            
+            {
             for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1));i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j));i++)
             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
         
         
+        int i=0;
+        for (int i=0;i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN();i++)
+         if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
+         {
+         
+        
+	              
+	              
+	           double x,y;   
+	      A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);        
+	      A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
+A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetErrorY(i),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetErrorY(i),2)+weight*weight));
+
+	               
+	               
+	        }
         
         
+	}
         
 
         }

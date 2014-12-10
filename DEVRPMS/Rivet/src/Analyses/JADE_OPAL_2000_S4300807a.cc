@@ -55,11 +55,14 @@ std::transform(fGEN.begin(), fGEN.end(),fGEN.begin(), ::toupper);
 fgen = GENERATOR;
 std::transform(fgen.begin(), fgen.end(),fgen.begin(), ::tolower);
 
+
+    std::set<std::string> foo; 
+    if (int(sqrtS()/GeV + 0.5)>88&&int(sqrtS()/GeV + 0.5)<92) foo.insert("fine_jet_rate");
     fFile= new TFile(Form("PREDICTION%s_%i.root",fGEN.c_str(),int(sqrtS()/GeV + 0.5)),"recreate");    
-    OPALObs(this,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
-    OPALObs(this, Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
-    OPALObs(this,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
-    OPALObs(this,   Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,foo,Form("prediction%s_durham_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,foo, Form("prediction%s_jade_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,foo,Form("prediction%s_antikt_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
+    OPALObs(this,foo,   Form("prediction%s_cambridge_%iGeV_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));
 
 
    // OPALObs(this,Form("prediction%s_durham_%iGeV_I_",fgen.c_str(),int(sqrtS()/GeV + 0.5)));

@@ -44,7 +44,7 @@ OBJS          = $(EVENTO)
 
 .SUFFIXES: .$(SrcSuf) .$(SrcSuf2) .$(SrcSuf3) .$(ObjSuf) .$(DllSuf)
 
-all:            $(EVENTLIB)  $(ROOTMAP)
+all:            $(EVENTLIB)  $(ROOTMAP)   
 
 $(ROOTMAP): 
 	@printf "Building $(ROOTMAP) ... "

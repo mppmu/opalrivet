@@ -29,7 +29,8 @@ void EXCITED8::SlaveBegin(TTree * tree)
     TAnalysisInfo fAI=ANALYSISINFO;    
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
-    for (int i=0;i<fAlgorithms.size();i++)for (int j=0;j<fDataType.size();j++)  BookHistograms(this,fAI.fAT,Form("%s_%s_%3.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
+    for (int i=0;i<fAlgorithms.size();i++)for (int j=0;j<fDataType.size();j++)  
+    BookHistograms(this,fAI,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
     fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
     for (int i=0;i<10;i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
     for (int i=0;i<10;i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
@@ -91,7 +92,7 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     if (fAlgorithms.at(i)=="antikt")    {analysis=1; P[0]=MyCuts::ANTIKTR; P[1]=MyCuts::ANTIKTP;}
     if (fAlgorithms.at(i)=="cambridge") {analysis=1; P[0]=MyCuts::CAR;     P[1]=MyCuts::CAP;}
     TFastJet* tfj =new TFastJet( vtlv, fAlgorithms.at(i), P, NULL);
-    PASSED=Analysis(this, tfj,weight,analysis,Form("%s_%s_%3.0fGeV_",datatypes.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
+    PASSED=Analysis(this, tfj,weight,analysis,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
 	delete P;
 	delete tfj;
 	}
