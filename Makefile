@@ -66,6 +66,7 @@ data_%:  bin/$(ARCH)/runProof
 #	mv 'NEW/Output/OPAL_'$*'.root' ./output
 
 pics: bin/$(ARCH)/plots
+	bin/$(ARCH)/plots 91
 	bin/$(ARCH)/plots 130
 	bin/$(ARCH)/plots 161		
 	bin/$(ARCH)/plots 172
@@ -89,6 +90,10 @@ all_%: 	./bin/x86_64/cut_and_transform
 		mkdir -p run
 		cp share/Runpythia8.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
+
+		cp share/Runpythia8_nohad.dat run		
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat
+
 
 		cp share/Runsherpa.dat run
 		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
@@ -420,6 +425,10 @@ obj/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cc
 	
 bin/$(ARCH)/opalrivetpythia8:  dirs obj/opalrivetpythia8.o
 	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L../top/usr/lib64
+
+
+bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/opalrivetpythia8.o
+	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  -L../top/usr/lib64
 
 
 

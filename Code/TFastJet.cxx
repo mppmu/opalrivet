@@ -99,6 +99,30 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
     break;
     }
     
+
+
+////    
+TVector3 taxis;
+    	  double t=-1;
+    std::vector<TVector3> jetstlv;//= new std::vector<TVector3>();
+    fastjet::PseudoJet pj;
+    double momsum=0;
+    
+    std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
+    
+    for( UInt_t i= 0; i <  A.size(); i++ )
+        {
+            pj= A[i];
+            TVector3 tlv( pj.px(), pj.py(), pj.pz());
+            jetstlv.push_back( tlv );
+        momsum+=tlv.Mag();
+        }
+
+if (A.size()>2) _calcT(jetstlv,t,taxis);
+this->fThrust=1-t/momsum;
+//////////////
+    
+    
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
 }
 

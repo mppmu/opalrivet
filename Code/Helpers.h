@@ -332,7 +332,7 @@ return C;
 }	
 
 
-TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL)
+TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL,double toll=1.E-15)
 {
 	
  if(A->GetN() != B->GetN()) {
@@ -371,19 +371,19 @@ if (D)  if(A->GetN() != D->GetN()) {
         C->SetPoint(i,Cx,Cy);
         C->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),Cyel,Cyeh);
       //  printf("D %i %f %f %f %f\n",Cx,Cy,Cyel,Cyeh);
-         if(!TMath::AreEqualRel(Ax, Bx, 1.E-15)) {
+         if(!TMath::AreEqualRel(Ax, Bx, toll)) {
             puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E1");
 	    return NULL;
        
           }
          
-         if(!TMath::AreEqualRel(A->GetErrorXlow(i), B->GetErrorXlow(i), 1.E-15)) {
+         if(!TMath::AreEqualRel(A->GetErrorXlow(i), B->GetErrorXlow(i),  toll)) {
             puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E2");
 	    return NULL;
        
           }
          
-         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), B->GetErrorXhigh(i), 1.E-15)) 
+         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), B->GetErrorXhigh(i),  toll)) 
          {
             puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E3");
 	    return NULL;
@@ -391,19 +391,19 @@ if (D)  if(A->GetN() != D->GetN()) {
          if (D)
          {
          
-              if(!TMath::AreEqualRel(Ax, Dx, 1.E-15)) {
+              if(!TMath::AreEqualRel(Ax, Dx,  toll)) {
             puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E4");
 	    return NULL;
        
           }
          
-         if(!TMath::AreEqualRel(A->GetErrorXlow(i), D->GetErrorXlow(i), 1.E-15)) {
+         if(!TMath::AreEqualRel(A->GetErrorXlow(i), D->GetErrorXlow(i),  toll)) {
             puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E5");
 	    return NULL;
        
           }
          
-         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), D->GetErrorXhigh(i), 1.E-15)) 
+         if(!TMath::AreEqualRel(A->GetErrorXhigh(i), D->GetErrorXhigh(i), toll)) 
          {
             puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E6");
 	    return NULL;
@@ -533,6 +533,16 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
      std::string prefix;
      prefix=std::string("H_")+Iprefix;
 	
+	std::vector<std::string> tok;
+	tokenize(Iprefix,"_",tok);
+	std::string senergy="91";
+	if (tok.size()>2)  senergy=tok.at(2); 
+	replace_all(senergy,"GeV","");
+	int energy=atoi(senergy.c_str());
+	
+	printf("Prefix %s,  %i\n", senergy.c_str(),energy);
+	
+	
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     H_INSERTER_DBL(A->fHMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     H_INSERTER_DBL(A->fHMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
@@ -549,6 +559,8 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     H_INSERTER_DBL(A->fHMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     H_INSERTER_DBL(A->fHMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
   
+     
+
 
     H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({0.7000000E-05,
                  0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
@@ -663,6 +675,76 @@ prefix=std::string("G_")+Iprefix;
                                                     }));
 */
 
+switch (energy) 
+{
+case 91:
+       G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316 , 
+    0.3162278
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
+    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
+    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
+    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                    }));
+      break;
+
+case 189:  
+
+
+       G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({    6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
+    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05, 
+    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({     6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
+    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05, 
+    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({     6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
+    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05, 
+    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                    }));
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({     6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
+    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05, 
+    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                    }));
+
+
+    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({     6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
+    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05, 
+    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                    }));
+
+
+      
+    default:
 
        G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4, 
     1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178, 
@@ -696,6 +778,10 @@ prefix=std::string("G_")+Iprefix;
     0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316, 
     0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                     }));
+
+    
+}   
+
 
 
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
@@ -1603,19 +1689,8 @@ std::string G_prefix=std::string("G_")+Iprefix;
 			
             PASSED=true;
             
-                        std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
-            std::vector<fastjet::PseudoJet> part;
-            for (unsigned int i=0;i<fdjets.size();i++)
-            {				   std::vector<fastjet::PseudoJet> x=tfj->GetClusterSequence()->constituents( fdjets[i]);
-            				   part.insert(part.end(),x.begin(),x.end()); 
-            }
-            part=sorted_by_pt(part);
-         if (part.size()>2){
-			TVector3 Z(0,0,0);
-			double t=Thrust(part,Z);
-						 A->fHMap[H_prefix+"1-T"]->Fill(t,weight);
-         }
-            
+						 A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
+
 
             
             
@@ -1646,7 +1721,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
 	           double x,y;   
 	      A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);        
 	      A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
-A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetErrorY(i),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetErrorY(i),2)+weight*weight));
+A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYlow()[i],2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYhigh()[i],2)+weight*weight));
 
 	               
 	               
@@ -1681,20 +1756,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
-            std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
-            std::vector<fastjet::PseudoJet> part;
-            for (unsigned int i=0;i<fdjets.size();i++)
-            {				   std::vector<fastjet::PseudoJet> x=tfj->GetClusterSequence()->constituents( fdjets[i]);
-            				   part.insert(part.end(),x.begin(),x.end()); 
-            }
-            part=sorted_by_pt(part);
-         if (part.size()>2){
-			TVector3 Z(0,0,0);
-			double t=Thrust(part,Z);
-			 A->fHMap[H_prefix+"1-T"]->Fill(t,weight);
-         } 
-            
-
+						 A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
             			
 
             

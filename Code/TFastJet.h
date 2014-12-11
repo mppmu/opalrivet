@@ -40,6 +40,7 @@ public:
  // static void Thrust(std::vector<fastjet::PseudoJet> A, double& t, TVector3& taxis);
   
 //private:
+double fThrust;
    bool FindAlgorithm(std::string jetalg);
     std::vector<TLorentzVector>& CopyPseudoJetsToLorentzVectors();
 
