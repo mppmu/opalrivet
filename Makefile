@@ -33,6 +33,14 @@ inputhisto:
 #	wget  http://hepdata.cedar.ac.uk/view/irn4300807/d19/root -O Code/HEPDATA/irn4300807/19.C
 
 
+toyoda:  bin/$(ARCH)/yodaconvert
+		for a in $(shell find TC/2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do \
+		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
+		./bin/$(ARCH)/yodaconvert  root2yoda   $$( echo $$a| sed 's@rzhist@root@g') $$( echo $$a| sed 's@rzhist@yoda@g');\
+		done
+
+
+
 allmc: 
 	make all_65 GEN=pythia8
 	make all_65 GEN=herwig++
@@ -309,11 +317,18 @@ binrpm_Rivet: srcrpm_Rivet
 	rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)*
 
 
-
 convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 		rm -rf newdata.yoda
 # to have yoda files run
-#	for a in $(find 2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do h2root $a $(echo $a| sed 's@rzhist@root@g');   ./yodaconvert  root2yoda   $(echo $a| sed 's@rzhist@root@g') $(echo $a| sed 's@rzhist@yoda@g'); done
+#	
+	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860022 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y01    >> newdata.yoda
+	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860023 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y02    >> newdata.yoda
+	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860024 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y03    >> newdata.yoda
+	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860025 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y04    >> newdata.yoda
+	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860026 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y05    >> newdata.yoda
+
+
+
 
 	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860022 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y01    >> newdata.yoda
 	./bin/$(ARCH)/cut_and_transform yes  TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.yoda  /TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root/h1860023 /REF/JADE_OPAL_2000_S4300807a/d1009-x01-y02    >> newdata.yoda

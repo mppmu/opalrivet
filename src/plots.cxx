@@ -377,7 +377,7 @@ int plots(){
 		
 	std::vector<std::string> algorithms;	
 	std::vector<std::string> ALGORITHMS;
-	
+	std::vector<std::string> Algorithms;		
 	//tokenize("PYTHIA8:PYTHIA8_NOHAD:SHERPA:HERWIG++",":",GENERATORS); 
 	//tokenize("pythia8:pythia8_nohad:sherpa:herwig++",":",generators); 
 
@@ -388,8 +388,9 @@ int plots(){
 //	tokenize("pythia8",":",generators); 
 
 
-    tokenize("DURHAM:JADE",":",ALGORITHMS); 
-    tokenize("durham:jade",":",algorithms);
+    tokenize("DURHAM:JADE:ANTIKT",":",ALGORITHMS); 
+    tokenize("durham:jade:antikt",":",algorithms);
+    tokenize("Durham:Jade:Antikt",":",Algorithms);
 
  //   tokenize("DURHAM",":",ALGORITHMS); 
    // tokenize("durham",":",algorithms);
@@ -419,7 +420,12 @@ yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std:
 yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(183.0,"jade"),13));
 yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(189.0,"jade"),14));
 
-
+yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(91.0,"antikt"),9));
+yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(130.0,"antikt"),10));
+yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(161.0,"antikt"),11));
+yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(172.0,"antikt"),12));
+yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(183.0,"antikt"),13));
+yodaconv.insert(std::pair<std::pair<float,std::string>,int>(std::pair<float,std::string>(189.0,"antikt"),14));
 
 
 std::vector < std::string > ofiles;
@@ -451,6 +457,7 @@ for (int r=0;r<algorithms.size();r++)
 {
 std::string ALGORITHM=ALGORITHMS[r];    
 std::string algorithm=algorithms[r];
+std::string Algorithm=Algorithms[r];
 puts(algorithm.c_str());
 for (int j=0;j<GENERATORS.size();j++)
 {
@@ -532,11 +539,11 @@ fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yo
 fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->SetMarkerSize(1.0);
 fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->SetLineWidth(1.0);
 
-if (i<4) mg->Add(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"PE");
+if (i<4)if (algorithm!="antikt")  mg->Add(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"PE");
 
 TLegend* A= new TLegend(0.13,0.87,0.40,0.60);
 A->AddEntry(fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())],"Data, reanalysis (prel.)","P");
-A->AddEntry(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"Data, EPJ C17 19-51 (2000)","P");
+if (algorithm!="antikt") A->AddEntry(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"Data, EPJ C17 19-51 (2000)","P");
 A->AddEntry(fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())],Form("%s prediction",GENERATOR.c_str()),"P");
 A->SetTextSize(0.04);
 A->Draw();
@@ -564,8 +571,8 @@ C->Delete();
 TCanvas* C2= new TCanvas(Form("Hfff_corrected_%s_%iGeV_1-T",algorithm.c_str(),ENERGY),Form("Hff_corrected_%s_%iGeV_1-T",algorithm.c_str(),ENERGY),1024*2*3/4,768*2);
 C2->SetLogx();
 C2->cd();
-mg->SetTitle("Integrated 2,3,4,5-jet rates with Durham algorithm at OPAL (91GeV);y_{cut};Rates");
-mg->Draw("a");
+mg->SetTitle(Form("Integrated 2,3,4,5-jet rates with %s algorithm at OPAL (91GeV);y_{cut};Rates",Algorithm.c_str()));
+mg->Draw("ae");
 //mg->SetTitleSize(0.05);
 mg->GetXaxis()->SetRangeUser(0.0001,1);
 mg->GetYaxis()->SetRangeUser(0,1.4);
@@ -579,7 +586,7 @@ mg->GetYaxis()->SetTitleSize(0.05);
 TLegend* A2= new TLegend(0.13,0.87,0.45,0.60);
 int i=0;
 A2->AddEntry(fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())],"Data, reanalysis (prel.)","P");
-A2->AddEntry(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"Data, EPJ C17 19-51 (2000)","P");
+if (algorithm!="antikt")A2->AddEntry(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],"Data, EPJ C17 19-51 (2000)","P");
 A2->AddEntry(fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())],Form("%s prediction",GENERATOR.c_str()),"P");
 A2->SetTextSize(0.03);
 A2->Draw();
@@ -596,7 +603,12 @@ C2->SaveAs(Form("plots/2G_corrected_%s_%iGeV_JETR_%s.eps",algorithm.c_str(),ENER
 
 	std::string algorithm="durham";
 	std::string generator,GENERATOR;
+	
+
 	int i=0;
+	
+	
+	
 TCanvas* E= new TCanvas("E","E",1024,1024);
 TPad *pad1 = new TPad("pad1", "The pad 80% of the height",0.0,0.2,1.0,0.95,kWhite,0,0);
 TPad *pad2 = new TPad("pad2", "The pad 20% of the height",0.0,0.0,1.0,0.2,kWhite,0,0);
