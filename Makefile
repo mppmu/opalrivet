@@ -5,11 +5,8 @@
 #GEN=evtgen
 GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
-TOPDIR=./Rivet-$(RIVET_VERS)	
 ARCH          =   $(shell uname -m)
-all: dirs	 data_189  data_183  data_130   data_136     data_161   data_172 
-
-
+all: dirs	 data_189  
 
 inputhisto:  
 	mkdir -p Code/HEPDATA/irn4300807/bin/$(ARCH)
@@ -39,39 +36,15 @@ toyoda:  bin/$(ARCH)/yodaconvert
 		./bin/$(ARCH)/yodaconvert  root2yoda   $$( echo $$a| sed 's@rzhist@root@g') $$( echo $$a| sed 's@rzhist@yoda@g');\
 		done
 
-
-
-allmc: 
-	make all_65 GEN=pythia8
-	make all_65 GEN=herwig++
-	make all_65 GEN=sherpa
-	make all_68 GEN=pythia8
-	make all_68 GEN=herwig++
-	make all_68 GEN=sherpa
-	make all_80.5 GEN=pythia8
-	make all_80.5 GEN=herwig++
-	make all_80.5 GEN=sherpa
-	make all_86 GEN=pythia8
-	make all_86 GEN=herwig++
-	make all_86 GEN=sherpa
-	make all_91.5 GEN=pythia8
-	make all_91.5 GEN=herwig++
-	make all_91.5 GEN=sherpa
-	make all_94.5 GEN=pythia8
-	make all_94.5 GEN=herwig++
-	make all_94.5 GEN=sherpa
-
 dirs:
 	mkdir -p ./bin/$(ARCH)
+	mkdir -p ./obj/$(ARCH)
 	mkdir -p output
 	mkdir -p obj
-
+	mkdir -p tmp
+	
 data_%:  bin/$(ARCH)/runProof 
-#	make -C NEW
-#	make  'output/OPAL_'$*
-#output/OPAL_%: ../bin/$(ARCH)/runProof
 	bin/$(ARCH)/runProof  DCAP_OPAL_$*
-#	mv 'NEW/Output/OPAL_'$*'.root' ./output
 
 pics: bin/$(ARCH)/plots
 	bin/$(ARCH)/plots 91
@@ -83,7 +56,7 @@ pics: bin/$(ARCH)/plots
 
 
 	
-all_%: 	./bin/x86_64/cut_and_transform
+mc_%: 	./bin/$(ARCH)/cut_and_transform
 		mkdir -p run
 		cp share/Runpythia8.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
@@ -101,29 +74,9 @@ all_%: 	./bin/x86_64/cut_and_transform
 		
 		
 		cp share/Runevtgen.dat run
-
 		cp share/Makefile.run run/Makefile
-		#make convert
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
-
-
-
-
-
-
-ALL:
-	make all_65.0 data_130
-	make all_68.0 data_136
-	make all_80.5 data_161
-	make all_86
-	make all_91.5
-	make all_94.5
-	make all_96.0
-	make all_98.0
-	make all_102.5
-	make all_103.5
-
 
 
 RIVET_VERS=2.2.0
