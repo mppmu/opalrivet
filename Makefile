@@ -82,17 +82,6 @@ pics: bin/$(ARCH)/plots
 	bin/$(ARCH)/plots 189	
 
 
-bin/$(ARCH)/runProof: src/runProof.cxx
-		mkdir -p ../bin/$(ARCH)
-		g++  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
-
-
-bin/$(ARCH)/plots: src/plots.cxx
-		mkdir -p ../bin/$(ARCH)
-		g++ -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
-
-
-
 	
 all_%: 	./bin/x86_64/cut_and_transform
 		mkdir -p run
@@ -118,12 +107,8 @@ all_%: 	./bin/x86_64/cut_and_transform
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
-bin/$(ARCH)/prof: dirs src/pprroffessorr.cxx
-		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
 
 
-bin/$(ARCH)/draw: dirs  src/draw.cxx
-		g++ $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o bin/$(ARCH)/draw
 
 
 
@@ -421,6 +406,13 @@ convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 	cat DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda.in > DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	bin/$(ARCH)/yodaconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807a.root
+
+
+
+
+
+
+
 bin/$(ARCH)/yodaconvert: src/yodaconvert.cxx
 		g++ -std=c++0x src/yodaconvert.cxx -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
 
@@ -432,28 +424,34 @@ bin/$(ARCH)/cut_and_transform: dirs  src/cut_and_transform.cxx
 
 
 obj/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cxx
-	gcc -c src/opalrivetpythia8.cxx -o obj/opalrivetpythia8.o -I./  -I../top/usr/include
+	gcc -c src/opalrivetpythia8.cxx -o obj/opalrivetpythia8.o 
 	
 	
 	
 bin/$(ARCH)/opalrivetpythia8:  dirs obj/opalrivetpythia8.o
-	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L../top/usr/lib64
-
+	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  
 
 bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/opalrivetpythia8.o
-	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  -L../top/usr/lib64
-
-
-
+	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  
 
 bin/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
-	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/opalrivetevtgen.o -I./  -I../top/usr/include
-	
-	
-	
+	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/opalrivetevtgen.o 
+		
 bin/$(ARCH)/opalrivetevtgen:  dirs obj/opalrivetevtgen.o
-	gcc  -lEvtGenExternal $(shell  root-config --libs)  obj/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  -L../top/usr/lib64
+	gcc  -lEvtGenExternal $(shell  root-config --libs)  obj/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
+bin/$(ARCH)/prof: dirs src/pprroffessorr.cxx
+		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
 
+bin/$(ARCH)/draw: dirs  src/draw.cxx
+		g++ $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o bin/$(ARCH)/draw
+
+bin/$(ARCH)/runProof: src/runProof.cxx
+		mkdir -p ../bin/$(ARCH)
+		g++  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
+
+bin/$(ARCH)/plots: src/plots.cxx
+		mkdir -p ../bin/$(ARCH)
+		g++ -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
 
 
