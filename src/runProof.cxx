@@ -11,7 +11,6 @@
 #include "TEventList.h"
 #include "TMath.h"
 #include  "TKey.h"
-
 #include  <iostream>
 #include  <TString.h>
 #include  <TSystem.h>
@@ -127,11 +126,8 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     TObjArray * parsed;
     Int_t i,POD=0;
     gSystem->Setenv("HOME",gSystem->GetFromPipe("readlink -f ./"));
-    //gSystem->Setenv("X509_USER_KEY",gSystem->GetFromPipe("readlink -f ./"));
     gSystem->GetFromPipe("rm -rf   ./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/*");
     gSystem->GetFromPipe("mkdir -p ./PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/");
-//    gSystem->GetFromPipe("mkdir -p ./Output/ROOTFILES");
-//    gSystem->GetFromPipe("mkdir -p ./Output_H1/ROOTFILES");
     gSystem->GetFromPipe("mkdir -p ./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME);
     gEnv->SetValue("Proof.Sandbox", gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname")));
     gEnv->SetValue("Davix.UseOldClient","yes");
@@ -150,8 +146,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
         if  ( (TString(((TObjString *)parsed->At(i))->GetString()).Contains("dcap://")) || (TString(((TObjString *)parsed->At(i))->GetString()).Contains("http://"))|| (TString(((TObjString *)parsed->At(i))->GetString()).Contains("https://")))
             chainTD->Add(((TObjString *)parsed->At(i))->GetString());
         else
-        {
-            
+        {            
              TObjArray * parsed2;
              parsed2 = (gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString())).Tokenize(" ");
             for (int i2 = 0; i2 <parsed2->GetLast()+1; i2++)
@@ -165,9 +160,6 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             chainG->MakeSelector(NAME.Data());
         }
     else     chainTD->MakeSelector(NAME.Data());
-//    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#define MAX_RUNS   20' %s.h",NAME.Data()));
-//    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a  typedef struct TAnalysisInfo_ {double fE; TAnalysisType fAT; std::string  fNames[MAX_RUNS]; int fTypes[MAX_RUNS]; int fRuns[MAX_RUNS]; double fSigmas[MAX_RUNS]; double fLumis[MAX_RUNS];}  TAnalysisInfo;' %s.h",NAME.Data()));
-//    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TMap;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1D;' %s.h",NAME.Data()));
@@ -179,50 +171,19 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fProofFile;' %s.h",NAME.Data()));
     
     
-    
-    /*
-    gSystem->GetFromPipe(Form("sed -i '/fChain->SetMakeClass(1)/afChain->SetBranchStatus(\"*\",0);' %s.h",NAME.Data()));
-        gSystem->GetFromPipe(Form("sed -i '/#define /a#define SET_BRANCH_ADDRESS(C,N,M,B)     if(C->GetListOfBranches()->FindObject(N)) { C->SetBranchStatus(N,1); C->SetBranchAddress(N,M,B); }' %s.h",NAME.Data()));
-    
-    gSystem->GetFromPipe(Form("sed -i 's/fChain->SetBranchAddress(/SET_BRANCH_ADDRESS(fChain,/g' %s.h",NAME.Data()));
-    */
-    
-    
-//    gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fListFile;' %s.h",NAME.Data()));
-//    gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fListProofFile;' %s.h",NAME.Data()));
-//    gSystem->GetFromPipe(Form("sed -i '/public :/aTH1D   **fH;' %s.h",NAME.Data()));
-    
-    
-    //gSystem->GetFromPipe(Form("sed -i '/public :/a TMap* fMap;' %s.h",NAME.Data()));
+
     
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
-//    gSystem->GetFromPipe(Form("sed -i '/public :/a TH1D* fWeight;' %s.h",NAME.Data()));
+
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TGraphAsymmErrors*> fGMap;' %s.h",NAME.Data()));
     
-//    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp;' %s.h",NAME.Data()));
-
-    //gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  **fNtp2;' %s.h",NAME.Data()));
-
-//    gSystem->GetFromPipe(Form("sed -i '/public :/aTTree  *fOut;' %s.h",NAME.Data()));
-//    gSystem->GetFromPipe(Form("sed -i '/public :/aTEntryList  *fElist;' %s.h",NAME.Data()));
 
 gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
 gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
 
 
-
-/*
-gSystem->GetFromPipe(Form("sed -i '/fChain = tree;/a CustomInit();' %s.h",NAME.Data()));
-
-gSystem->GetFromPipe(Form("sed -i '/virtual void    Terminate();/a virtual void CustomInit();' %s.h",NAME.Data()));
-*/
-
-//gSystem->GetFromPipe(Form("sed -i '/public :/a struct TAnalysisInfo fAI;' %s.h",NAME.Data()));
-
-
-
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
-    for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("cp ../../Code/"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
+    for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("cp ../../"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
 
     if ((TString(gSystem->GetFromPipe("cat "+NAME+".C | grep Notify"))).Length()>0) // Here grep may reise an error. Very cool!
         {
@@ -239,7 +200,7 @@ gSystem->GetFromPipe(Form("sed -i '/virtual void    Terminate();/a virtual void 
 
     gSystem->GetFromPipe("echo '\n\
     gSystem->ListLibraries();\ngEnv->SetValue(\"Davix.UseOldClient\",\"yes\");\ngSystem->Exec(\"ldd lib'"+NAME+"'.so\");\ngSystem->Exec(\"pwd\");\ngSystem->Exec(\"ls -lah\");\ngSystem->Exec(\"echo $LD_LIBRARY_PATH\"); \nint q=gSystem->Load(\"lib'"+NAME+"'\"); gSystem->ListLibraries();\n if (q == -1) return -1;\nreturn 0;\n}\n'  >> PROOF-INF/SETUP.C");
-//    gSystem->GetFromPipe("mv Makefile_"+NAME+"  Makefile");
+
     parsed = (nows(new TString(DEFINES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("sed -i '/TARGET =/aCXXFLAGS+='"+TString(((TObjString *)parsed->At(i))->GetString())+" Makefile");
 
@@ -273,13 +234,6 @@ gSystem->GetFromPipe(Form("sed -i '/virtual void    Terminate();/a virtual void 
             f.Close();
             chainTD->SetEntryList(elist);
         }
-//#ifndef HERAI
-//    gSystem->ChangeDirectory("./Output");
-//#else
-//    gSystem->ChangeDirectory("./Output_H1");
-//#indif
-//chainTD->SetName("CHAIN");
-//    p->AddInput(chainTD);
 
          
     chainTD->Process(NAME,"SYN",NUMBER);

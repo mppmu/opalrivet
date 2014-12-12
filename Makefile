@@ -421,20 +421,18 @@ convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 	cat DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda.in > DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	bin/$(ARCH)/yodaconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807a.root
-bin/$(ARCH)/yodaconvert: src/yodaconvert.cc
-		g++ -std=c++0x src/yodaconvert.cc -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
+bin/$(ARCH)/yodaconvert: src/yodaconvert.cxx
+		g++ -std=c++0x src/yodaconvert.cxx -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
 
 
-bin/$(ARCH)/cut_and_transform: dirs  src/cut_and_transform.cc
-#				g++ -std=c++0x cut_and_transform.cc  $(shell root-config --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o cut_and_transform
-				g++ -std=c++0x src/cut_and_transform.cc  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o ./bin/$(ARCH)/cut_and_transform
-
-#				g++ -std=c++0x cut_and_transform.cc -L./YODA-1.0.6/z/lib -lYODA $(shell root-config --cflags --libs --ldflags) -I./YODA-1.0.6/include  -o cut_and_transform
+bin/$(ARCH)/cut_and_transform: dirs  src/cut_and_transform.cxx
+				g++ -std=c++0x src/cut_and_transform.cxx  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o ./bin/$(ARCH)/cut_and_transform
 
 
 
-obj/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cc
-	gcc -c src/opalrivetpythia8.cc -o obj/opalrivetpythia8.o -I./  -I../top/usr/include
+
+obj/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cxx
+	gcc -c src/opalrivetpythia8.cxx -o obj/opalrivetpythia8.o -I./  -I../top/usr/include
 	
 	
 	
@@ -448,8 +446,8 @@ bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/opalrivetpythia8.o
 
 
 
-bin/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cc
-	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cc -o obj/opalrivetevtgen.o -I./  -I../top/usr/include
+bin/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
+	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/opalrivetevtgen.o -I./  -I../top/usr/include
 	
 	
 	
