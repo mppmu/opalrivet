@@ -53,6 +53,9 @@
 #include "EvtGenBase/EvtAbsRadCorr.hh"
 #include "EvtGenBase/EvtDecayBase.hh"
 
+
+#define EVTGEN_EXTERNAL
+
 #ifdef EVTGEN_EXTERNAL
 #include "EvtGenExternal/EvtExternalGenList.hh"
 #endif
@@ -71,11 +74,16 @@
 #include "TApplication.h"
 #include "TROOT.h"
 
+
+#include "HepMC/GenEvent.h"
+#include "HepMC/IO_GenEvent.h"
+#include "EvtGenBase/EvtHepMCEvent.hh"
+
 using std::vector;
 
 void runFile(int nevent,char* fname,EvtGen& myGenerator);
 
-
+std::string output;
 int main(int argc, char* argv[]){
 
   EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
@@ -116,8 +124,10 @@ int main(int argc, char* argv[]){
 		     radCorrEngine, &extraModels);
 
   if (!strcmp(argv[1],"file")) {
+  output=std::string(argv[4]);
     int nevent=atoi(argv[2]);
     runFile(nevent,argv[3],myGenerator);
+
   }
 
   delete myRandomEngine;
@@ -128,6 +138,9 @@ int main(int argc, char* argv[]){
 
 void runFile(int nevent,char* fname, EvtGen &myGenerator) {
 
+
+  HepMC::IO_GenEvent ascii_io(output.c_str(), std::ios::out);
+
   static EvtId UPS4=EvtPDL::getId(std::string("Upsilon(4S)"));
 
   int count;
@@ -136,7 +149,7 @@ void runFile(int nevent,char* fname, EvtGen &myGenerator) {
   
   strcpy(udecay_name,fname);
   
-  myGenerator.readUDecay(udecay_name);
+  myGenerator.readUDecay(udecay_name,false);
   
   count=1;
   
@@ -150,6 +163,13 @@ void runFile(int nevent,char* fname, EvtGen &myGenerator) {
     
     myGenerator.generateDecay(root_part);
     
+    
+        EvtHepMCEvent theEvent;
+    theEvent.constructEvent(root_part);
+    HepMC::GenEvent* genEvent = theEvent.getEvent();
+    
+     ascii_io << genEvent;
+     //delete genEvent;
     root_part->deleteTree();  
     
   }while (count++<nevent);
