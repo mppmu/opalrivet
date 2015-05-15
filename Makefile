@@ -6,6 +6,7 @@
 GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
+.PHONY: dirs
 all: dirs	 data_189  
 
 inputhisto:  
@@ -37,6 +38,7 @@ toyoda:  bin/$(ARCH)/yodaconvert
 		done
 
 dirs:
+	mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 	mkdir -p ./bin/$(ARCH)
 	mkdir -p ./obj/$(ARCH)
 	mkdir -p output
@@ -103,8 +105,9 @@ DEVRPMS/PHOTOS-$(PHOTOS_VERS).tar.gz:
 		rm -rf PHOTOS.$(PHOTOS_VERS).tar.gz
 
 DEVRPMS/EvtGen-1.3.0.tar.gz:
-		wget http://evtgen.warwick.ac.uk/static/srcrep/R01-03-00/EvtGen.R01-03-00.tar.gz
-		tar xvfz EvtGen.R01-03-00.tar.gz
+#		wget http://evtgen.warwick.ac.uk/static/srcrep/R01-03-00/EvtGen.R01-03-00.tar.gz
+#		tar xvfz EvtGen.R01-03-00.tar.gz
+		svn export http://svn.cern.ch/guest/evtgen/tags/R01-03-00 EvtGen
 		rm -rf EvtGen-1.3.0
 		mkdir -p EvtGen-1.3.0
 		mv EvtGen/R01-03-00/* EvtGen-1.3.0
@@ -155,14 +158,14 @@ DEVRPMS/AGILe-1.4.1.tar.gz:
 	wget http://www.hepforge.org/archive/agile/AGILe-1.4.1.tar.gz -O DEVRPMS/AGILe-1.4.1.tar.gz
 
 
-getallsrc: DEVRPMS/fastjet-3.0.2.tar.gz DEVRPMS/Cython-0.19.tar.gz DEVRPMS/pythia8180.tgz DEVRPMS/TAUOLA-1.1.4.tar.gz DEVRPMS/PHOTOS-3.54.tar.gz DEVRPMS/EvtGen-1.3.0.tar.gz DEVRPMS/HepMC-2.06.09.tar.gz DEVRPMS/YODA-1.0.6.tar.gz DEVRPMS/SHERPA-MC-2.1.0.tar.gz DEVRPMS/ThePEG-1.9.0.tar.bz2 DEVRPMS/Herwig++-2.7.0.tar.bz2  DEVRPMS/Cython-0.19.tar.gz DEVRPMS/AGILe-1.4.1.tar.gz
+getallsrc: DEVRPMS/fastjet-3.0.2.tar.gz DEVRPMS/Cython-0.19.tar.gz DEVRPMS/pythia8180.tgz DEVRPMS/TAUOLA-1.1.4.tar.gz DEVRPMS/PHOTOS-3.54.tar.gz DEVRPMS/EvtGen-1.3.0.tar.gz DEVRPMS/HepMC-2.06.09.tar.gz DEVRPMS/YODA-$(YODA_VERS).tar.gz DEVRPMS/SHERPA-MC-2.1.0.tar.gz DEVRPMS/ThePEG-1.9.0.tar.bz2 DEVRPMS/Herwig++-2.7.0.tar.bz2  DEVRPMS/Cython-0.19.tar.gz DEVRPMS/AGILe-1.4.1.tar.gz
 
 
-installallsrc: getallsrc   DEVRPMS/HepMC-examples-hwaend.patch DEVRPMS/HepMC-examples-makefile.patch DEVRPMS/HepMC-fix-typo-hierachy-hierarchy.patch DEVRPMS/HepMC-linking.patch DEVRPMS/patch-EvtGen-0.txt DEVRPMS/patch-PHOTOS-0.txt DEVRPMS/patch-TAUOLA-0.txt DEVRPMS/patch-ThePEG-0.txt DEVRPMS/pythia8-fix-soname.patch DEVRPMS/pythia8-hepmc-version.patch DEVRPMS/pythia8-xmldir.patch
-		cp  DEVRPMS/*patch* ~/rpmbuild/SOURCES/
-		cp DEVRPMS/*tar.gz ~/rpmbuild/SOURCES/
-		cp DEVRPMS/*tar.bz2 ~/rpmbuild/SOURCES/
-		cp DEVRPMS/*tgz ~/rpmbuild/SOURCES/		
+installallsrc:  dirs getallsrc   DEVRPMS/HepMC-examples-hwaend.patch DEVRPMS/HepMC-examples-makefile.patch DEVRPMS/HepMC-fix-typo-hierachy-hierarchy.patch DEVRPMS/HepMC-linking.patch DEVRPMS/patch-EvtGen-0.txt DEVRPMS/patch-PHOTOS-0.txt DEVRPMS/patch-TAUOLA-0.txt DEVRPMS/patch-ThePEG-0.txt DEVRPMS/pythia8-fix-soname.patch DEVRPMS/pythia8-hepmc-version.patch DEVRPMS/pythia8-xmldir.patch
+		cp  DEVRPMS/*patch* /home/andriish/rpmbuild/SOURCES/
+		cp DEVRPMS/*tar.gz /home/andriish/rpmbuild/SOURCES/
+		cp DEVRPMS/*tar.bz2 /home/andriish/rpmbuild/SOURCES/
+		cp DEVRPMS/*tgz /home/andriish/rpmbuild/SOURCES/		
 
 
 getsrc_%:
@@ -174,10 +177,10 @@ getsrc_%:
 	 
 	 
 srcrpm_%: installallsrc
-	rpmbuild -bs DEVRPMS/$*.spec
+	rpmbuild -D '%_topdir '/home/andriish/rpmbuild -bs DEVRPMS/$*.spec
 
 binrpm_%: srcrpm srcrpm_$**
-		rpmbuild --rebuild ~/rpmbuild/SRPMS/$**
+		rpmbuild -D '%_topdir '/home/andriish/rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/$**
 
 allbinrpm: binrpm_YODA binrpm_AGILe binrpm_Cython binrpm_HepMC binrpm_PHOTOS binrpm_TAUOLA binrpm_Herwig++ binrpm_ThePEG  binrpm
 	
@@ -185,7 +188,7 @@ allbinrpm: binrpm_YODA binrpm_AGILe binrpm_Cython binrpm_HepMC binrpm_PHOTOS bin
 beauty:
 		astyle -n --keep-one-line-blocks --style=gnu    ./*cc
 		
-srcrpm: DEVRPMS/Rivet-$(RIVET_VERS).tar.gz 
+srcrpm: installallsrc DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
 	rm -rf DEVRPMS/Rivet-$(RIVET_VERS)
 	rm -rf DEVRPMS/Rivet-$(RIVET_VERS)_orig	
 	tar -zxf  DEVRPMS/Rivet-$(RIVET_VERS).tar.gz 
@@ -209,8 +212,8 @@ srcrpm: DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
 binrpm: srcrpm
 		cp DEVRPMS/patch-Rivet-*.txt   /home/andriish/rpmbuild/SOURCES/
 		cp DEVRPMS/Rivet-$(RIVET_VERS).tar.gz  /home/andriish/rpmbuild/SOURCES/
-		rpmbuild -bs DEVRPMS/Rivet.spec
-		rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)-1.src.rpm
+		rpmbuild -D '%_topdir '~/rpmbuild  -bs DEVRPMS/Rivet.spec
+		rpmbuild  -D '%_topdir '~/rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)-1.src.rpm
 
 
 YODA: DEVRPMS/YODA-$(YODA_VERS).tar.gz
@@ -387,11 +390,11 @@ bin/$(ARCH)/opalrivetpythia8:  dirs obj/opalrivetpythia8.o
 bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/opalrivetpythia8.o
 	gcc -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  
 
-bin/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
-	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/opalrivetevtgen.o 
+obj/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
+	gcc $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/$(ARCH)/opalrivetevtgen.o
 		
-bin/$(ARCH)/opalrivetevtgen:  dirs obj/opalrivetevtgen.o
-	gcc  -lEvtGenExternal $(shell  root-config --libs)  obj/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
+bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
+	g++  -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
 bin/$(ARCH)/prof: dirs src/pprroffessorr.cxx
 		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
