@@ -518,7 +518,7 @@ int iconv=0;
 std::string YODA_to_ROOT_name(std::string a, std::string prefix="")
 {
 	
-return a;
+return prefix+a;
 }	
 
 
@@ -1678,6 +1678,7 @@ return t;
 
 template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
 {
+printf("Param filly=%i\n",filly);
 bool PASSED=false;
 std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
@@ -1710,7 +1711,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
         
         
-        int i=0;
+        
         for (int i=0;i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN();i++)
          if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
          {
@@ -1749,7 +1750,7 @@ return PASSED;
 template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
 {
 bool PASSED=false;
-
+printf("Param filly=%i\n",filly);
 std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
 
@@ -1759,8 +1760,7 @@ std::string G_prefix=std::string("G_")+Iprefix;
 						 A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
             			
 
-            
-            int filly=1;
+           
 			int q=0;
             for (q=0; q<5; q++) {
               for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
@@ -1794,6 +1794,7 @@ return PASSED;
 
 template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string Iprefix="")
 {
+	printf("Param filly=%i\n",filly);
 	std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
 	

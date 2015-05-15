@@ -4,7 +4,7 @@
 #include  "TFastJet.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
-
+#include  <TGenericClassInfo.h>
 /*
 inline void GETENTRIES(int e, TTree* T)
 {
@@ -16,6 +16,14 @@ for (int i = 0; i <LOB->GetLast()+1; i++)
 }            
 }
 */
+/*
+namespace ROOTDict {
+   TGenericClassInfo *GenerateInitInstance(const ::EXCITED8*)
+   {
+      return GenerateInitInstanceLocal((::EXCITED8*)0);
+   }
+}*/
+
 void EXCITED8::Begin(TTree *tree) {		TBufferFile::SetGlobalWriteParam(4999);}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
@@ -29,7 +37,7 @@ void EXCITED8::SlaveBegin(TTree * tree)
     TAnalysisInfo fAI=ANALYSISINFO;    
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
-    for (int i=0;i<fAlgorithms.size();i++)for (int j=0;j<fDataType.size();j++)  
+    for (unsigned int i=0;i<fAlgorithms.size();i++)for (unsigned int j=0;j<fDataType.size();j++)  
     BookHistograms(this,fAI,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
     fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
     for (int i=0;i<10;i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
@@ -81,9 +89,9 @@ Bool_t EXCITED8::Process(Long64_t gentry)
 	if (fAI.fTypes[II]==0) { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
 	if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); } 
 	if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
-	for (int j=0;j<datatypes.size();j++) {
+	for (unsigned int j=0;j<datatypes.size();j++) {
 	std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
-	for (int i=0;i<fAlgorithms.size();i++) 
+	for (unsigned int i=0;i<fAlgorithms.size();i++) 
 	{   	
 	int analysis=9999;
 	double* P= new double(10);

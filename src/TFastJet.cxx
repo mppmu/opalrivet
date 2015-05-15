@@ -6,8 +6,9 @@
 #include "fastjet/JadePlugin.hh"
 #include "fastjet/JadePlugin.hh"
 #include "TFastJet.h"
+/*
 ClassImp(TFastJet)
-
+*/
 TFastJet::TFastJet() {}
 
 fastjet::ClusterSequence* TFastJet::GetClusterSequence() {return fClusterSequence;};

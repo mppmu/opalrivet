@@ -50,8 +50,8 @@ double fThrust;
     std::vector<fastjet::PseudoJet>* fPJets;
     std::string fJetAlgString;
     int fJetAlg; //This should be enum, but fastjet has a bug which amkes it imposible to use with root.
-
+/*
     ClassDef(TFastJet,0)
-
+*/
 };
 #endif
