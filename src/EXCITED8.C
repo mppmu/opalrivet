@@ -1,28 +1,8 @@
 #define EXCITED8_cxx
-#include  <TBufferFile.h>
 #include  "EXCITED8.h"
 #include  "TFastJet.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
-#include  <TGenericClassInfo.h>
-/*
-inline void GETENTRIES(int e, TTree* T)
-{
-TObjArray *LOB= T->GetListOfBranches();
-for (int i = 0; i <LOB->GetLast()+1; i++)
-{
-            TBranch* B=(TBranch*)LOB->At(i);
- if (B) B->GetEntry(e);           
-}            
-}
-*/
-/*
-namespace ROOTDict {
-   TGenericClassInfo *GenerateInitInstance(const ::EXCITED8*)
-   {
-      return GenerateInitInstanceLocal((::EXCITED8*)0);
-   }
-}*/
 
 void EXCITED8::Begin(TTree *tree) {		TBufferFile::SetGlobalWriteParam(4999);}
 void EXCITED8::SlaveBegin(TTree * tree)

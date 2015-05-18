@@ -19,7 +19,8 @@ class JadePlugin;
 
 }
 
-class TFastJet : public TObject
+class TFastJet 
+//: public TObject
 {
 public:
 

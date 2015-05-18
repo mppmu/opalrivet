@@ -1,20 +1,22 @@
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/Makefile.am ./include/YODA/Makefile.am
---- ./include/YODA/Makefile.am	2014-12-08 20:35:33.214524828 +0200
-+++ ./include/YODA/Makefile.am	2014-12-08 20:35:33.226524677 +0200
-@@ -18,6 +18,10 @@
+--- ./include/YODA/Makefile.am	2015-05-18 14:37:38.488226831 +0200
++++ ./include/YODA/Makefile.am	2015-05-18 14:37:39.360251416 +0200
+@@ -16,7 +16,11 @@
+     ScatterND.h PointND.h ErrorND.h \
+     Writer.h WriterAIDA.h WriterFLAT.h WriterYODA.h \
      Reader.h ReaderAIDA.h ReaderYODA.h ReaderFLAT.h \
-     IO.h ROOTCnv.h
- 
+-    YODA.h IO.h ROOTCnv.h
++    IO.h ROOTCnv.h
++
 +if  ENABLE_ROOT
 +pkginclude_HEADERS+=WriterROOT.h ReaderROOT.h ROOTConvert.h
 +endif
-+
+ 
  nobase_pkginclude_HEADERS = \
  	WriterMethods.icc \
- 	Utils/StringUtils.h \
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h ./include/YODA/ReaderROOT.h
---- ./include/YODA/ReaderROOT.h	1970-01-01 03:00:00.000000000 +0300
-+++ ./include/YODA/ReaderROOT.h	2014-12-08 20:35:33.227524664 +0200
+--- ./include/YODA/ReaderROOT.h	1970-01-01 01:00:00.000000000 +0100
++++ ./include/YODA/ReaderROOT.h	2015-05-18 14:37:39.360251416 +0200
 @@ -0,0 +1,75 @@
 +// -*- C++ -*-
 +//
@@ -91,9 +93,193 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +/// @endcond
 +
 +#endif
+diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./include/YODA/ROOTCnv.h
+--- ./include/YODA/ROOTCnv.h	2015-05-18 14:37:38.476226494 +0200
++++ ./include/YODA/ROOTCnv.h	2015-05-18 14:37:39.356251302 +0200
+@@ -1,7 +1,7 @@
+ // -*- C++ -*-
+ //
+ // This file is part of YODA -- Yet more Objects for Data Analysis
+-// Copyright (C) 2008-2015 The YODA collaboration (see AUTHORS for details)
++// Copyright (C) 2008-2014 The YODA collaboration (see AUTHORS for details)
+ //
+ #ifndef YODA_ROOTCnv_h
+ #define YODA_ROOTCnv_h
+@@ -140,61 +140,6 @@
+   }
+ 
+ 
+-
+-  /// @brief Convert a YODA Histo2D to a ROOT 2D histogram
+-  ///
+-  /// @todo Check/improve/extend -- needs SetBinError or not?
+-  inline TH2D toTH2D(const Histo2D& h) {
+-    // Work out bin edges first
+-    std::vector<double> xedges, yedges;
+-    xedges.reserve(h.numBins()+1);
+-    yedges.reserve(h.numBins()+1);
+-    xedges.push_back(h.bin(0).xMin());
+-    yedges.push_back(h.bin(0).yMin());
+-    for (size_t i = 0; i < h.numBins(); ++i) {
+-      const HistoBin2D& b = h.bin(i);
+-      xedges.push_back(b.xMin());
+-      xedges.push_back(b.xMax());
+-      yedges.push_back(b.yMin());
+-      yedges.push_back(b.yMax());
+-    }
+-    // Sort and remove (fuzzy) duplicate edges
+-    std::sort(xedges.begin(), xedges.end());
+-    std::sort(yedges.begin(), yedges.end());
+-    const std::vector<double>::iterator xlast = std::unique(xedges.begin(), xedges.end());
+-    const std::vector<double>::iterator ylast = std::unique(yedges.begin(), yedges.end());
+-    xedges.erase(xlast, xedges.end());
+-    yedges.erase(ylast, yedges.end());
+-
+-    // Book ROOT histogram
+-    TH2D rtn(h.path().c_str(), h.title().c_str(), xedges.size()-1, &xedges[0], yedges.size()-1, &yedges[0]);
+-    rtn.Sumw2();
+-    TArrayD& sumw2s = *rtn.GetSumw2();
+-    for (int ix = 1; ix <= rtn.GetNbinsX(); ++ix) {
+-      for (int iy = 1; iy <= rtn.GetNbinsY(); ++iy) {
+-        const int i = rtn.GetBin(ix, iy);
+-        try {
+-          const HistoBin2D& b = h.binAt(rtn.GetBinCenter(ix), rtn.GetBinCenter(iy)); // throws if in a gap
+-          rtn.SetBinContent(i, b.sumW());
+-          sumw2s[i] = b.sumW2();
+-        } catch (const Exception& e) {  }
+-      }
+-    }
+-    // Overflows
+-    /// @todo Connect up when supported in YODA... if 2D overflows are possible in ROOT?!
+-    // rtn.SetBinContent(0, h.underflow().sumW());
+-    // rtn.SetBinContent(rtn.GetNbinsX()+1, h.overflow().sumW());
+-    // sumw2s[0] = h.underflow().sumW2();
+-    // sumw2s[rtn.GetNbinsX()+1] = h.overflow().sumW2();
+-    // Labels
+-    if (h.hasAnnotation("XLabel")) rtn.SetXTitle(h.annotation("XLabel").c_str());
+-    if (h.hasAnnotation("YLabel")) rtn.SetYTitle(h.annotation("YLabel").c_str());
+-    if (h.hasAnnotation("ZLabel")) rtn.SetZTitle(h.annotation("ZLabel").c_str());
+-    return rtn;
+-  }
+-
+-
+-
+   /// @brief Convert a YODA Scatter2D to a ROOT TH1D
+ 
+ 
+@@ -214,62 +159,21 @@
+     // Book ROOT histogram
+     TProfile rtn(p.path().c_str(), p.title().c_str(), edges.size()-1, &edges[0]);
+     rtn.Sumw2();
+-    Double_t* sumwys = rtn.GetArray(); //< YUCK!!!
+-    TArrayD& sumwy2s = *rtn.GetSumw2(); //< YUCK!!!
+-    for (int i = 1; i <= rtn.GetNbinsX(); ++i) {
+-      try {
+-        const ProfileBin1D& b = p.binAt(rtn.GetBinCenter(i)); // throws if in a gap
+-        // rtn.SetBinContent(i, b.mean());
+-        // rtn.SetBinError(i, b.stdErr());
+-        /// @todo Need to set the following, according to Roman Lysak:
+-        // - for sum(y*y): TProfile::GetSumw2()
+-        // - for sum(y):   TProfile::GetArray()
+-        // - for sum(w):   TProfile::SetBinEntries(bin, w)
+-        // Clearly, the names of accessors/methods are confusing...
+-        rtn.SetBinEntries(i, b.sumW());
+-        sumwys[i] = b.sumWY();
+-        sumwy2s[i] = b.sumWY2();
+-      } catch (const Exception& e) {  }
+-    }
+-    // Overflows
+-    rtn.SetBinEntries(0, p.underflow().sumW());
+-    rtn.SetBinEntries(rtn.GetNbinsX()+1, p.overflow().sumW());
+-    sumwys[0] = p.underflow().sumWY();
+-    sumwys[0] = p.underflow().sumWY();
+-    sumwy2s[rtn.GetNbinsX()+1] = p.overflow().sumWY2();
+-    sumwy2s[rtn.GetNbinsX()+1] = p.overflow().sumWY2();
+-    // Labels
+-    if (p.hasAnnotation("XLabel")) rtn.SetXTitle(p.annotation("XLabel").c_str());
+-    if (p.hasAnnotation("YLabel")) rtn.SetYTitle(p.annotation("YLabel").c_str());
+-    return rtn;
+-  }
+-
+-
+-  /// @brief Convert a YODA Profile1D to a ROOT TH1D
+-  inline TH1D toTH1D(const Profile1D& p) {
+-    // Work out bin edges first
+-    std::vector<double> edges;
+-    edges.reserve(p.numBins()+1);
+-    edges.push_back(p.bin(0).xMin());
+-    for (size_t i = 0; i < p.numBins(); ++i) {
+-      const ProfileBin1D& b = p.bin(i);
+-      if (!fuzzyEquals(edges.back(), b.xMin())) edges.push_back(b.xMin());
+-      if (!fuzzyEquals(edges.back(), b.xMax())) edges.push_back(b.xMax());
+-    }
+-    // Book ROOT histogram
+-    TH1D rtn(p.path().c_str(), p.title().c_str(), edges.size()-1, &edges[0]);
++    TArrayD& sumw2s = *rtn.GetSumw2();
+     for (int i = 1; i <= rtn.GetNbinsX(); ++i) {
+       try {
+         const ProfileBin1D& b = p.binAt(rtn.GetBinCenter(i)); // throws if in a gap
+-        rtn.SetBinContent(i, b.mean());
+-        rtn.SetBinError(i, b.stdErr());
++        /// @todo This part is probably wrong -- also need to do something with GetW,
++        ///   GetW2, GetB, GetB2, and/or GetBinSumw2? ROOT docs are 100% useless...
++        rtn.SetBinContent(i, b.sumW());
++        sumw2s[i] = b.sumW2();
+       } catch (const Exception& e) {  }
+     }
+     // Overflows
+-    rtn.SetBinContent(0, p.underflow().yMean());
+-    rtn.SetBinContent(rtn.GetNbinsX()+1, p.overflow().yMean());
+-    rtn.SetBinError(0, p.underflow().yStdErr());
+-    rtn.SetBinError(rtn.GetNbinsX()+1, p.overflow().yStdErr());
++    rtn.SetBinContent(0, p.underflow().sumW());
++    rtn.SetBinContent(rtn.GetNbinsX()+1, p.overflow().sumW());
++    sumw2s[0] = p.underflow().sumW2();
++    sumw2s[rtn.GetNbinsX()+1] = p.overflow().sumW2();
+     // Labels
+     if (p.hasAnnotation("XLabel")) rtn.SetXTitle(p.annotation("XLabel").c_str());
+     if (p.hasAnnotation("YLabel")) rtn.SetYTitle(p.annotation("YLabel").c_str());
+@@ -277,12 +181,6 @@
+   }
+ 
+ 
+-  /// @todo Convert a YODA Profile2D to a ROOT TProfile2D
+-
+-
+-
+-
+-
+   /// @brief Convert a YODA Scatter2D to a ROOT TGraphAsymmErrors
+   ///
+   /// @todo Check/improve/extend.
+@@ -309,24 +207,6 @@
+     return rtn;
+   }
+ 
+-
+-  /// @brief Convert a YODA Histo1D to a ROOT TGraphAsymmErrors
+-  ///
+-  inline TGraphAsymmErrors toTGraph(const Histo1D& h) {
+-    return toTGraph(mkScatter(h));
+-  }
+-
+-
+-  /// @brief Convert a YODA Profile1D to a ROOT TGraphAsymmErrors
+-  ///
+-  inline TGraphAsymmErrors toTGraph(const Profile1D& p) {
+-    return toTGraph(mkScatter(p));
+-  }
+-
+-
+-  /// @todo Convert YODA Histo2D and Profile2D to TGraph colour maps
+-
+-
+   //@}
+ 
+ 
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.h ./include/YODA/ROOTConvert.h
---- ./include/YODA/ROOTConvert.h	1970-01-01 03:00:00.000000000 +0300
-+++ ./include/YODA/ROOTConvert.h	2014-12-08 20:35:33.229524638 +0200
+--- ./include/YODA/ROOTConvert.h	1970-01-01 01:00:00.000000000 +0100
++++ ./include/YODA/ROOTConvert.h	2015-05-18 14:37:39.364251528 +0200
 @@ -0,0 +1,36 @@
 +// AV 2014
 +#ifndef YODA_ROOTConvert_h
@@ -132,8 +318,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h ./include/YODA/WriterROOT.h
---- ./include/YODA/WriterROOT.h	1970-01-01 03:00:00.000000000 +0300
-+++ ./include/YODA/WriterROOT.h	2014-12-08 20:35:33.227524664 +0200
+--- ./include/YODA/WriterROOT.h	1970-01-01 01:00:00.000000000 +0100
++++ ./include/YODA/WriterROOT.h	2015-05-18 14:37:39.360251416 +0200
 @@ -0,0 +1,72 @@
 +// -*- C++ -*-
 +//
@@ -208,8 +394,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/Makefile.am ./pyext/Makefile.am
---- ./pyext/Makefile.am	2014-12-08 20:35:33.093526360 +0200
-+++ ./pyext/Makefile.am	2014-12-08 20:35:33.231524614 +0200
+--- ./pyext/Makefile.am	2015-05-18 14:37:39.288249385 +0200
++++ ./pyext/Makefile.am	2015-05-18 14:37:39.364251528 +0200
 @@ -4,7 +4,7 @@
  PYEXT_ENV = CC="$(CC)" CXX="$(CXX)" CXXFLAGS="$(PYEXT_CXXFLAGS)" ARCHFLAGS=""
  
@@ -220,9 +406,148 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/Makefile.am ./pyext
  
  ## Always force setup.py, it's not good at guessing what needs to rebuild
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.pxd ./pyext/yoda/declarations.pxd
---- ./pyext/yoda/declarations.pxd	2014-12-08 20:35:33.095526334 +0200
-+++ ./pyext/yoda/declarations.pxd	2014-12-08 20:35:33.238524525 +0200
-@@ -1217,6 +1217,9 @@
+--- ./pyext/yoda/declarations.pxd	2015-05-18 14:37:39.340250852 +0200
++++ ./pyext/yoda/declarations.pxd	2015-05-18 14:37:39.368251640 +0200
+@@ -359,8 +359,8 @@
+ 
+         #We're fine as long as we don't try to instantiate these from Python
+ 
+-        # void scaleW(double scale) except +yodaerr
+-        # void scaleX(double scale) except +yodaerr
++        void scaleW(double scale) except +yodaerr
++        void scaleX(double scale) except +yodaerr
+         void reset()  except +yodaerr
+ 
+         pair[double, double] edges() except +yodaerr
+@@ -407,8 +407,8 @@
+         Bin2D() # (DO NOT CALL DO NOT CALL)
+         ################################################
+ 
+-        # void scaleW(double scale) except +yodaerr
+-        # void scaleXY(double, double) except +yodaerr
++        void scaleW(double scale) except +yodaerr
++        void scaleXY(double, double) except +yodaerr
+         void reset()  except +yodaerr
+ 
+         pair[double, double] xEdges() except +yodaerr
+@@ -470,8 +470,8 @@
+     cdef cppclass ProfileBin1D(Bin1D_Dbn2D):
+         ProfileBin1D(ProfileBin1D) except +yodaerr
+         ProfileBin1D(double, double) except +yodaerr
+-        #void fill(double x, double y, double weight) except +yodaerr
+-        #void fillBin(double y, double weight) except +yodaerr
++        void fill(double x, double y, double weight) except +yodaerr
++        void fillBin(double y, double weight) except +yodaerr
+         void reset() except +yodaerr
+ 
+         double mean() except +yodaerr
+@@ -485,7 +485,8 @@
+         ProfileBin1D operator + (ProfileBin1D) except +yodaerr
+         ProfileBin1D operator - (ProfileBin1D) except +yodaerr
+ 
+-        # void scaleY(double) except +yodaerr
++        void scaleY(double) except +yodaerr
++        void scaleXY(double) except +yodaerr
+ 
+ # }}} ProfileBin1D
+ 
+@@ -505,8 +506,8 @@
+     cdef cppclass ProfileBin2D(Bin2D_Dbn3D):
+         ProfileBin2D (ProfileBin2D h) except +yodaerr
+         ProfileBin2D (double, double, double, double) except +yodaerr
+-        # void fill(double x, double y, double z, double weight) except +yodaerr
+-        # void fillBin(double z, double weight) except +yodaerr
++        void fill(double x, double y, double z, double weight) except +yodaerr
++        void fillBin(double z, double weight) except +yodaerr
+ 
+         double mean() except +yodaerr
+         double stdDev() except +yodaerr
+@@ -519,8 +520,6 @@
+         ProfileBin2D operator + (ProfileBin2D) except +yodaerr
+         ProfileBin2D operator - (ProfileBin2D) except +yodaerr
+ 
+-        # void scaleZ(double) except +yodaerr
+-
+ # }}} ProfileBin2D
+ 
+ 
+@@ -529,8 +528,8 @@
+     cdef cppclass HistoBin1D(Bin1D_Dbn1D):
+         HistoBin1D(double lowedge, double highedge) except +yodaerr
+         HistoBin1D(HistoBin1D) except +yodaerr
+-        # void fill(double x, double weight) except +yodaerr
+-        # void fillBin(double weight) except +yodaerr
++        void fill(double x, double weight) except +yodaerr
++        void fillBin(double weight) except +yodaerr
+ 
+         double area() except +yodaerr
+         double height() except +yodaerr
+@@ -559,8 +558,8 @@
+         HistoBin2D(double xmin, double xmax, double ymin, double ymax) except +yodaerr
+         HistoBin2D(HistoBin2D) except +yodaerr
+ 
+-        # void fill(double x, double y, double weight) except +yodaerr
+-        # void fillBin(double weight) except +yodaerr
++        void fill(double x, double y, double weight) except +yodaerr
++        void fillBin(double weight) except +yodaerr
+         void reset()
+ 
+         # Accessors
+@@ -864,8 +863,6 @@
+         void fillBin(size_t i, double y, double weight) except +yodaerr
+ 
+         void scaleW(double s) except +yodaerr
+-        void scaleY(double s) except +yodaerr
+-
+         void mergeBins(size_t, size_t) except +yodaerr
+         void rebin(int n) except +yodaerr
+ 
+@@ -910,7 +907,7 @@
+     Profile1D* Profile1D_div_Profile1D "cython_div" (Profile1D*, Profile1D*)
+ 
+ cdef extern from "YODA/Scatter2D.h" namespace "YODA":
+-    Scatter2D mkScatter_Profile1D "YODA::mkScatter" (const Profile1D&, bool) except +yodaerr
++    Scatter2D mkScatter_Profile1D "YODA::mkScatter" (const Profile1D&) except +yodaerr
+ 
+ #}}} Profile1D
+ 
+@@ -995,7 +992,7 @@
+     Profile2D* Profile2D_div_Profile2D "cython_div" (Profile2D*, Profile2D*)
+ 
+ cdef extern from "YODA/Scatter3D.h" namespace "YODA":
+-    Scatter3D mkScatter_Profile2D "YODA::mkScatter" (const Profile2D&, bool) except +yodaerr
++    Scatter3D mkScatter_Profile2D "YODA::mkScatter" (const Profile2D&) except +yodaerr
+ 
+ #}}} Profile2D
+ 
+@@ -1091,7 +1088,7 @@
+     Histo1D* Histo1D_div_Histo1D "cython_div" (Histo1D*, Histo1D*)
+ 
+ cdef extern from "YODA/Scatter2D.h" namespace "YODA":
+-    Scatter2D mkScatter_Histo1D "YODA::mkScatter" (const Histo1D&, bool) except +yodaerr
++    Scatter2D mkScatter_Histo1D "YODA::mkScatter" (const Histo1D&) except +yodaerr
+ 
+ #}}} Histo1D
+ 
+@@ -1138,7 +1135,7 @@
+         size_t numBinsX() except +yodaerr
+         size_t numBinsY() except +yodaerr
+ 
+-        vector[HistoBin2D]& bins() #except +yodaerr
++        vector[HistoBin1D]& bins() #except +yodaerr
+         int binIndexAt(double x, double y) except +yodaerr
+         HistoBin2D& bin(size_t ix) #except +yodaerr
+         HistoBin2D& binAt(double x, double y) #except +yodaerr
+@@ -1191,7 +1188,7 @@
+     Histo2D* Histo2D_div_Histo2D "cython_div" (Histo2D*, Histo2D*)
+ 
+ cdef extern from "YODA/Scatter3D.h" namespace "YODA":
+-    Scatter3D mkScatter_Histo2D "YODA::mkScatter" (const Histo2D&, bool) except +yodaerr
++    Scatter3D mkScatter_Histo2D "YODA::mkScatter" (const Histo2D&) except +yodaerr
+ 
+ # Histo2D }}}
+ 
+@@ -1220,6 +1217,9 @@
  cdef extern from "YODA/ReaderFLAT.h" namespace "YODA":
      Reader& ReaderFLAT_create "YODA::ReaderFLAT::create" ()
  
@@ -233,9 +558,23 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
      Reader& ReaderAIDA_create "YODA::ReaderAIDA::create" ()
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./pyext/yoda/Makefile.am
---- ./pyext/yoda/Makefile.am	2014-12-08 20:35:33.093526360 +0200
-+++ ./pyext/yoda/Makefile.am	2014-12-08 20:35:33.231524614 +0200
-@@ -46,9 +46,14 @@
+--- ./pyext/yoda/Makefile.am	2015-05-18 14:37:39.292249499 +0200
++++ ./pyext/yoda/Makefile.am	2015-05-18 14:37:39.364251528 +0200
+@@ -4,7 +4,6 @@
+     errors.cpp errors.hh \
+     pyroot_helpers.hh merge.hh \
+     rootcompat.pxd rootcompat.pyx \
+-    search.py plotting.py \
+     script_helpers.py
+ 
+ CYTHON_SRC = \
+@@ -41,14 +40,20 @@
+     include/Scatter2D.pyx \
+     include/Scatter3D.pyx
+ 
++
+ EXTRA_DIST += \
+     $(CYTHON_SRC) \
      mktemplates \
      core.cpp core.h util.cpp
  
@@ -289,8 +628,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
 -	rm -f core.cpp core.h util.cpp rootcompat.cpp include/generated/* .made_pyx_templates
 +	rm -f core.cpp core.h util.cpp rootcompat.cpp include/generated/*
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./pyext/yoda/mktemplates
---- ./pyext/yoda/mktemplates	2014-12-08 20:35:33.100526269 +0200
-+++ ./pyext/yoda/mktemplates	2014-12-08 20:35:33.238524525 +0200
+--- ./pyext/yoda/mktemplates	2015-05-18 14:37:39.344250964 +0200
++++ ./pyext/yoda/mktemplates	2015-05-18 14:37:39.372251752 +0200
 @@ -52,8 +52,9 @@
      try:
          os.mkdir("include/generated")
@@ -304,8 +643,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./
      includes = []
      for a in individuals:
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pxd ./pyext/yoda/rootcompat.pxd
---- ./pyext/yoda/rootcompat.pxd	2014-12-08 20:35:33.094526347 +0200
-+++ ./pyext/yoda/rootcompat.pxd	2014-12-08 20:35:33.232524602 +0200
+--- ./pyext/yoda/rootcompat.pxd	2015-05-18 14:37:39.344250964 +0200
++++ ./pyext/yoda/rootcompat.pxd	2015-05-18 14:37:39.372251752 +0200
 @@ -28,8 +28,8 @@
  cdef extern from "pyroot_helpers.hh":
      cpython.PyObject* root_to_py_owned(TObject* root_obj)
@@ -321,8 +660,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pxd
 +#    TProfile toTProfile(Profile1D)
 +#    TGraphAsymmErrors toTGraph(Scatter2D)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pyx ./pyext/yoda/rootcompat.pyx
---- ./pyext/yoda/rootcompat.pyx	2014-12-08 20:35:33.094526347 +0200
-+++ ./pyext/yoda/rootcompat.pyx	2014-12-08 20:35:33.232524602 +0200
+--- ./pyext/yoda/rootcompat.pyx	2015-05-18 14:37:39.340250852 +0200
++++ ./pyext/yoda/rootcompat.pyx	2015-05-18 14:37:39.368251640 +0200
 @@ -24,26 +24,27 @@
  
      cdef void *ptr = yoda_obj.ptr()
@@ -369,8 +708,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pyx
 +#    return ROOT.TGraphAsymmErrors(
 +#        root_to_py(new c.TGraphAsymmErrors(c.toTGraph(deref(s2d)))))
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Makefile.am
---- ./src/Makefile.am	2014-12-08 20:35:33.117526054 +0200
-+++ ./src/Makefile.am	2014-12-08 20:35:33.240524501 +0200
+--- ./src/Makefile.am	2015-05-18 14:37:38.564228975 +0200
++++ ./src/Makefile.am	2015-05-18 14:37:39.376251864 +0200
 @@ -27,3 +27,13 @@
  libYODA_la_LDFLAGS = -avoid-version
  libYODA_la_LIBADD = tinyxml/libtinyxml.la
@@ -386,9 +725,14 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Mak
 +
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reader.cc
---- ./src/Reader.cc	2014-12-08 20:35:33.117526054 +0200
-+++ ./src/Reader.cc	2014-12-08 20:35:33.240524501 +0200
-@@ -5,6 +5,9 @@
+--- ./src/Reader.cc	2015-05-18 14:37:38.560228860 +0200
++++ ./src/Reader.cc	2015-05-18 14:37:39.372251752 +0200
+@@ -1,10 +1,13 @@
+ // -*- C++ -*-
+ //
+ // This file is part of YODA -- Yet more Objects for Data Analysis
+-// Copyright (C) 2008-2015 The YODA collaboration (see AUTHORS for details)
++// Copyright (C) 2008-2014 The YODA collaboration (see AUTHORS for details)
  //
  #include "YODA/Reader.h"
  #include "YODA/ReaderYODA.h"
@@ -409,8 +753,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
    }
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/ReaderROOT.cc
---- ./src/ReaderROOT.cc	1970-01-01 03:00:00.000000000 +0300
-+++ ./src/ReaderROOT.cc	2014-12-08 20:35:33.243524462 +0200
+--- ./src/ReaderROOT.cc	1970-01-01 01:00:00.000000000 +0100
++++ ./src/ReaderROOT.cc	2015-05-18 14:37:39.376251864 +0200
 @@ -0,0 +1,85 @@
 +// -*- C++ -*-
 +//
@@ -498,8 +842,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/ROOTConvert.cc
---- ./src/ROOTConvert.cc	1970-01-01 03:00:00.000000000 +0300
-+++ ./src/ROOTConvert.cc	2014-12-08 20:35:33.240524501 +0200
+--- ./src/ROOTConvert.cc	1970-01-01 01:00:00.000000000 +0100
++++ ./src/ROOTConvert.cc	2015-05-18 14:37:39.376251864 +0200
 @@ -0,0 +1,233 @@
 +// -*- C++ -*-
 +//
@@ -735,9 +1079,16 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Writer.cc
---- ./src/Writer.cc	2014-12-08 20:35:33.118526042 +0200
-+++ ./src/Writer.cc	2014-12-08 20:35:33.240524501 +0200
-@@ -7,6 +7,9 @@
+--- ./src/Writer.cc	2015-05-18 14:37:38.592229765 +0200
++++ ./src/Writer.cc	2015-05-18 14:37:39.380251979 +0200
+@@ -1,12 +1,15 @@
+ // -*- C++ -*-
+ //
+ // This file is part of YODA -- Yet more Objects for Data Analysis
+-// Copyright (C) 2008-2015 The YODA collaboration (see AUTHORS for details)
++// Copyright (C) 2008-2014 The YODA collaboration (see AUTHORS for details)
+ //
+ #include "YODA/Writer.h"
  #include "YODA/WriterYODA.h"
  #include "YODA/WriterAIDA.h"
  #include "YODA/WriterFLAT.h"
@@ -760,8 +1111,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
    }
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/WriterROOT.cc ./src/WriterROOT.cc
---- ./src/WriterROOT.cc	1970-01-01 03:00:00.000000000 +0300
-+++ ./src/WriterROOT.cc	2014-12-08 20:35:33.240524501 +0200
+--- ./src/WriterROOT.cc	1970-01-01 01:00:00.000000000 +0100
++++ ./src/WriterROOT.cc	2015-05-18 14:37:39.380251979 +0200
 @@ -0,0 +1,69 @@
 +// -*- C++ -*-
 +//

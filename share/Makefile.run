@@ -27,13 +27,19 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		cp ../src/TFastJet.h ./inc		
 		rm -f  gen/LinkDef.h
 		
-		echo "#ifdef __MAKECINT__" >> gen/LinkDef.h
-		echo "#pragma link C++ class TFastJet+;" >> gen/LinkDef.h
-		echo "#endif" >> gen/LinkDef.h
-		rootcint -f gen/TFastJetDict.cxx -c -p inc/TFastJet.h   ./gen/LinkDef.h
+#		echo "#ifdef __MAKECINT__" >> gen/LinkDef.h
+#		echo "#pragma link C++ class TFastJet+;" >> gen/LinkDef.h
+#		echo "#endif" >> gen/LinkDef.h
+#		rootcint -f gen/TFastJetDict.cxx -c -p inc/TFastJet.h   ./gen/LinkDef.h
+#		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
+#		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc gen/TFastJetDict.cxx -o obj/TFastJetDict.o	
+#		g++ -fPIC -shared $(shell root-config --ldflags --libs )  obj/TFastJetDict.o obj/TFastJet.o  -o lib/libTFastJet.so
+
 		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc gen/TFastJetDict.cxx -o obj/TFastJetDict.o	
-		g++ -fPIC -shared $(shell root-config --ldflags --libs )  obj/TFastJetDict.o obj/TFastJet.o  -o lib/libTFastJet.so
+		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TFastJet.o  -o lib/libTFastJet.so
+
+
+
 		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
 		# -DUSE_ANTIKT
 

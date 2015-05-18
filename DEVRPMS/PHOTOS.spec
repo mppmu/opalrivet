@@ -14,7 +14,8 @@ Source0:	   http://photospp.web.cern.ch/photospp/resources/PHOTOS.3.54/PHOTOS.3.
 Patch0:         patch-PHOTOS-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory
-BuildRequires:	gcc-gfortran gcc-c++ YODA YODA-devel boost-devel
+Requires:	HepMC
+BuildRequires:	HepMC-devel
 
 %description
 The PHOTOS project (Robust Independent Validation of Experiment and Theory) 

@@ -14,7 +14,7 @@ Source0:	    http://www.hepforge.org/archive/thepeg/%{name}-%{version}.tar.bz2
 Patch0:         patch-ThePEG-0.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory
-BuildRequires:	gcc-gfortran gcc-c++ YODA YODA-devel boost-devel
+#BuildRequires:	
 
 %description
 The ThePEG project (Robust Independent Validation of Experiment and Theory) 

@@ -6,9 +6,31 @@
 GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
-.PHONY: dirs
 CXX?=g++
-all: dirs	 data_189  
+
+
+
+
+
+
+YODA_VERS=1.0.6
+YODA_VERS=1.3.0
+YODA_VERS=1.3.1
+RIVET_VERS=2.2.0
+PHOTOS_VERS=3.54
+TAUOLA_VERS=1.1.4
+SHERPA_VERS=2.1.0
+FASTJET_VERS=3.0.2
+HEPMC_VERS=2.06.09
+PYTHIA8_VERS=8180
+THEPEG_VERS=1.9.0
+HERWIG++_VERS=2.7.0
+
+include Makefile.software
+
+.PHONY: dirs
+
+all: dirs mc_189	 data_189  
 
 inputhisto:  
 	mkdir -p Code/HEPDATA/irn4300807/bin/$(ARCH)
@@ -59,8 +81,10 @@ pics: bin/$(ARCH)/plots
 
 
 	
-mc_%: 	./bin/$(ARCH)/cut_and_transform
+mc_%: 	
+#./bin/$(ARCH)/cut_and_transform
 		mkdir -p run
+		
 		cp share/Runpythia8.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
 
@@ -72,191 +96,20 @@ mc_%: 	./bin/$(ARCH)/cut_and_transform
 		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
 
-		cp share/Runherwi$(CXX).dat run
-		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwi$(CXX).dat
+		cp share/Runherwig++.dat run
+		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat
 		
 		
 		cp share/Runevtgen.dat run
+		
+		
 		cp share/Makefile.run run/Makefile
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
 
-RIVET_VERS=2.2.0
-DEVRPMS/Rivet-$(RIVET_VERS).tar.gz:
-		wget http://www.hepforge.org/archive/rivet/Rivet-$(RIVET_VERS).tar.gz -O DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
-
-
-TAUOLA_VERS=1.1.4
-#TAUOLA_VERS=1.1.5
-DEVRPMS/TAUOLA-$(TAUOLA_VERS).tar.gz:
-		wget http://tauolapp.web.cern.ch/tauolapp/resources/TAUOLA.$(TAUOLA_VERS)/TAUOLA.$(TAUOLA_VERS).tar.gz
-		tar xvfz TAUOLA.$(TAUOLA_VERS).tar.gz
-		mv TAUOLA TAUOLA-$(TAUOLA_VERS)
-		tar cvf DEVRPMS/TAUOLA-$(TAUOLA_VERS).tar.gz TAUOLA-$(TAUOLA_VERS)
-		rm -rf TAUOLA.$(TAUOLA_VERS).tar.gz
-
-PHOTOS_VERS=3.54
-#PHOTOS_VERS=3.56
-DEVRPMS/PHOTOS-$(PHOTOS_VERS).tar.gz:
-		wget http://photospp.web.cern.ch/photospp/resources/PHOTOS.$(PHOTOS_VERS)/PHOTOS.$(PHOTOS_VERS).tar.gz
-		tar xvfz PHOTOS.$(PHOTOS_VERS).tar.gz
-		mv PHOTOS PHOTOS-$(PHOTOS_VERS)
-		tar cvf DEVRPMS/PHOTOS-$(PHOTOS_VERS).tar.gz PHOTOS-$(PHOTOS_VERS)
-		rm -rf PHOTOS.$(PHOTOS_VERS).tar.gz
-
-DEVRPMS/EvtGen-1.3.0.tar.gz:
-#		wget http://evtgen.warwick.ac.uk/static/srcrep/R01-03-00/EvtGen.R01-03-00.tar.gz
-#		tar xvfz EvtGen.R01-03-00.tar.gz
-		svn export http://svn.cern.ch/guest/evtgen/tags/R01-03-00 EvtGen
-		rm -rf EvtGen-1.3.0
-		mkdir -p EvtGen-1.3.0
-		mv EvtGen/R01-03-00/* EvtGen-1.3.0
-		tar cvf DEVRPMS/EvtGen-1.3.0.tar.gz EvtGen-1.3.0
-		rm -rf EvtGen.R01-03-00.tar.gz EvtGen
-
-DEVRPMS/HepMC-2.06.09.tar.gz: 
-		wget http://lcgapp.cern.ch/project/simu/HepMC/download/HepMC-2.06.09.tar.gz -O DEVRPMS/HepMC-2.06.09.tar.gz
-
-YODA_VERS=1.0.6
-YODA_VERS=1.3.0
-YODA_VERS=1.3.1
-DEVRPMS/YODA-$(YODA_VERS).tar.gz: 
-		rm -rf YODA-$(YODA_VERS)
-#		svn export http://yoda.hepforge.org/svn/tags/yoda-1.0.0 YODA-$(YODA_VERS)
-		hg clone http://yoda.hepforge.org/hg/yoda YODA-$(YODA_VERS)
-		tar cf YODA-$(YODA_VERS).tar YODA-$(YODA_VERS)
-		gzip YODA-$(YODA_VERS).tar
-		mv YODA-$(YODA_VERS).tar.gz DEVRPMS/
-		rm -rf YODA-$(YODA_VERS)
-#		wget http://www.hepforge.org/archive/yoda/YODA-$(YODA_VERS).tar.gz -O DEVRPMS/YODA-$(YODA_VERS).tar.gz
-
-FASTJET_VERS=3.0.2
-DEVRPMS/fastjet-$(FASTJET_VERS).tar.gz: 
-		wget http://www.fastjet.fr/repo/fastjet-$(FASTJET_VERS).tar.gz -O DEVRPMS/fastjet-$(FASTJET_VERS).tar.gz
-
-
-
-DEVRPMS/pythia8180.tgz:
-		wget http://home.thep.lu.se/~torbjorn/pythia8/pythia8180.tgz -O DEVRPMS/pythia8180.tgz
-
-
-SHERPA_VERS=2.1.0
-DEVRPMS/SHERPA-MC-$(SHERPA_VERS).tar.gz:
-		wget http://www.hepforge.org/archive/sherpa/SHERPA-MC-$(SHERPA_VERS).tar.gz -O DEVRPMS/SHERPA-MC-$(SHERPA_VERS).tar.gz
-
-DEVRPMS/ThePEG-1.9.0.tar.bz2:
-		wget http://www.hepforge.org/archive/thepeg/ThePEG-1.9.0.tar.bz2 -O DEVRPMS/ThePEG-1.9.0.tar.bz2
-
-DEVRPMS/Herwi$(CXX)-2.7.0.tar.bz2:
-	wget http://www.hepforge.org/archive/herwig/Herwi$(CXX)-2.7.0.tar.bz2 -O DEVRPMS/Herwi$(CXX)-2.7.0.tar.bz2
-
-DEVRPMS/Cython-0.19.tar.gz:
-	wget http://www.cython.org/release/Cython-0.19.tar.gz -O DEVRPMS/Cython-0.19.tar.gz
-
-
-DEVRPMS/AGILe-1.4.1.tar.gz:
-	wget http://www.hepforge.org/archive/agile/AGILe-1.4.1.tar.gz -O DEVRPMS/AGILe-1.4.1.tar.gz
-
-
-getallsrc: DEVRPMS/fastjet-3.0.2.tar.gz DEVRPMS/Cython-0.19.tar.gz DEVRPMS/pythia8180.tgz DEVRPMS/TAUOLA-1.1.4.tar.gz DEVRPMS/PHOTOS-3.54.tar.gz DEVRPMS/EvtGen-1.3.0.tar.gz DEVRPMS/HepMC-2.06.09.tar.gz DEVRPMS/YODA-$(YODA_VERS).tar.gz DEVRPMS/SHERPA-MC-2.1.0.tar.gz DEVRPMS/ThePEG-1.9.0.tar.bz2 DEVRPMS/Herwig++-2.7.0.tar.bz2  DEVRPMS/Cython-0.19.tar.gz DEVRPMS/AGILe-1.4.1.tar.gz
-
-
-installallsrc:  dirs getallsrc   DEVRPMS/HepMC-examples-hwaend.patch DEVRPMS/HepMC-examples-makefile.patch DEVRPMS/HepMC-fix-typo-hierachy-hierarchy.patch DEVRPMS/HepMC-linking.patch DEVRPMS/patch-EvtGen-0.txt DEVRPMS/patch-PHOTOS-0.txt DEVRPMS/patch-TAUOLA-0.txt DEVRPMS/patch-ThePEG-0.txt DEVRPMS/pythia8-fix-soname.patch DEVRPMS/pythia8-hepmc-version.patch DEVRPMS/pythia8-xmldir.patch
-		cp  DEVRPMS/*patch* /home/andriish/rpmbuild/SOURCES/
-		cp DEVRPMS/*tar.gz /home/andriish/rpmbuild/SOURCES/
-		cp DEVRPMS/*tar.bz2 /home/andriish/rpmbuild/SOURCES/
-		cp DEVRPMS/*tgz /home/andriish/rpmbuild/SOURCES/		
-
-
-getsrc_%:
-	 S_URL=$(shell cat 'DEVRPMS/'$*'.spec' | grep Source0: | sed 's@Source0:@@g'    )
-	 S_NAME=$(shell cat 'DEVRPMS/'$*'.spec' | grep Name: | cut -f 2 -d: | )
-	 S_VERSION=$(shell cat 'DEVRPMS/'$*'.spec' | grep Version: | cut -f 2 -d:  )
-	 S_DOWN= $(shell echo $(S_URL) | sed 's@%{version}@'$(S_VERSION)'@g' | sed 's@%{name}@'$(S_NAME)'@g' )
-	 wget $(S_DOWN)
-	 
-	 
-srcrpm_%: installallsrc
-	rpmbuild -D '%_topdir '/home/andriish/rpmbuild -bs DEVRPMS/$*.spec
-
-binrpm_%: srcrpm srcrpm_$**
-		rpmbuild -D '%_topdir '/home/andriish/rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/$**
-
-allbinrpm: binrpm_YODA binrpm_AGILe binrpm_Cython binrpm_HepMC binrpm_PHOTOS binrpm_TAUOLA binrpm_Herwi$(CXX) binrpm_ThePEG  binrpm
-	
-
 beauty:
 		astyle -n --keep-one-line-blocks --style=gnu    ./*cc
-		
-srcrpm: installallsrc DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
-	rm -rf DEVRPMS/Rivet-$(RIVET_VERS)
-	rm -rf DEVRPMS/Rivet-$(RIVET_VERS)_orig	
-	tar -zxf  DEVRPMS/Rivet-$(RIVET_VERS).tar.gz 
-	cp -R	Rivet-$(RIVET_VERS) DEVRPMS/Rivet-$(RIVET_VERS)_orig
-	mv 	Rivet-$(RIVET_VERS) DEVRPMS/
-	rm -rf patch-Rivet-*.txt
-	cp -R update/* DEVRPMS/Rivet-$(RIVET_VERS)/
-	
-	diff -Naur  -x   *RivetPaths.* -x *rivet.pxd* DEVRPMS/Rivet-$(RIVET_VERS)_orig  DEVRPMS/Rivet-$(RIVET_VERS) > DEVRPMS/patch-Rivet-0.txt  || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/src/Tools/RivetPaths.cc  DEVRPMS/Rivet-$(RIVET_VERS)/src/Tools/RivetPaths.cc > DEVRPMS/patch-Rivet-1.txt || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/src/Tools/RivetPaths.cc  DEVRPMS/Rivet-$(RIVET_VERS)/src/Tools/RivetPaths.cc >> DEVRPMS/patch-Rivet-1.txt || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/include/Rivet/Tools/RivetPaths.hh  DEVRPMS/Rivet-$(RIVET_VERS)/include/Rivet/Tools/RivetPaths.hh >> DEVRPMS/patch-Rivet-1.txt || exit 0
-	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig//pyext/rivet/rivet.pxd  DEVRPMS/Rivet-$(RIVET_VERS)/pyext/rivet/rivet.pxd >> DEVRPMS/patch-Rivet-1.txt || exit 0
-	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)_orig@.@g' DEVRPMS/patch-Rivet-*.txt
-	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)@.@g' DEVRPMS/patch-Rivet-*.txt
-
-#diff -Naur EvtGen-1.3.0_orig EvtGen-1.3.0  | sed 's@EvtGen-1.3.0/@./@g' | sed 's@EvtGen-1.3.0_orig/@./@g'
-#diff -Naur Herwi$(CXX)-2.7.0_orig Herwi$(CXX)-2.7.0  | sed 's@Herwi$(CXX)-2.7.0/@./@g' | sed 's@Herwi$(CXX)-2.7.0_orig/@./@g'
-#diff -Naur  -x  *Makefile.in* acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g'
-#diff -Naur  -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' >DEVRPMS/patch-YODA-0.txt
-binrpm: srcrpm
-		cp DEVRPMS/patch-Rivet-*.txt   /home/andriish/rpmbuild/SOURCES/
-		cp DEVRPMS/Rivet-$(RIVET_VERS).tar.gz  /home/andriish/rpmbuild/SOURCES/
-		rpmbuild -D '%_topdir '~/rpmbuild  -bs DEVRPMS/Rivet.spec
-		rpmbuild  -D '%_topdir '~/rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)-1.src.rpm
-
-
-YODA: DEVRPMS/YODA-$(YODA_VERS).tar.gz
-	mkdir -p tmp
-	rm -rf ./tmp/YODA-$(YODA_VERS) ./tmp/YODA-$(YODA_VERS)_orig
-	tar xvfz DEVRPMS/YODA-$(YODA_VERS).tar.gz  -C ./tmp
-	cp -R ./tmp/YODA-$(YODA_VERS) ./tmp/YODA-$(YODA_VERS)_orig
-	cp -R DEVRPMS/YODA/*  ./tmp/YODA-$(YODA_VERS)/
-
-
-YODApatch: YODA
-	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* ./tmp/YODA-$(YODA_VERS)_orig ./tmp/YODA-$(YODA_VERS)  | sed 's@./tmp/YODA-'$(YODA_VERS)'/@./@g' | sed 's@./tmp/YODA-'$(YODA_VERS)'_orig/@./@g' > DEVRPMS/patch-YODA-0.txt
-
-srcrpm_YODA: YODA YODApatch
-	sed -i 's@.*Version.*@Version: '$(YODA_VERS)'@g'  DEVRPMS/YODA.spec
-	cp DEVRPMS/YODA-$(YODA_VERS).tar.gz $(HOME)/rpmbuild/SOURCES
-	cp DEVRPMS/patch-YODA-0.txt $(HOME)/rpmbuild/SOURCES
-	echo '%_topdir %(echo '$(HOME)'/rpmbuild)' > $(HOME)/.rpmmacros
-	rpmbuild -bs DEVRPMS/YODA.spec
-binrpm_YODA: srcrpm_YODA
-	rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/YODA-$(YODA_VERS)*
-
-
-Rivet: DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
-	mkdir -p tmp
-	rm -rf ./tmp/Rivet-$(RIVET_VERS) ./tmp/Rivet-$(RIVET_VERS)_orig
-	tar xvfz DEVRPMS/Rivet-$(RIVET_VERS).tar.gz  -C ./tmp
-	cp -R ./tmp/Rivet-$(RIVET_VERS) ./tmp/Rivet-$(RIVET_VERS)_orig
-	cp -R DEVRPMS/Rivet/*  ./tmp/Rivet-$(RIVET_VERS)/
-
-
-Rivetpatch: Rivet
-	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* ./tmp/Rivet-$(RIVET_VERS)_orig ./tmp/Rivet-$(RIVET_VERS)  | sed 's@./tmp/Rivet-'$(RIVET_VERS)'/@./@g' | sed 's@./tmp/Rivet-'$(RIVET_VERS)'_orig/@./@g' > DEVRPMS/patch-Rivet-0.txt
-
-srcrpm_Rivet: Rivet Rivetpatch
-	sed -i 's@.*Version.*@Version: '$(RIVET_VERS)'@g'  DEVRPMS/Rivet.spec
-	cp DEVRPMS/Rivet-$(RIVET_VERS).tar.gz $(HOME)/rpmbuild/SOURCES
-	cp DEVRPMS/patch-Rivet-0.txt $(HOME)/rpmbuild/SOURCES
-	echo '%_topdir %(echo '$(HOME)'/rpmbuild)' > $(HOME)/.rpmmacros
-	rpmbuild -bs DEVRPMS/Rivet.spec
-binrpm_Rivet: srcrpm_Rivet
-	rpmbuild --rebuild $(HOME)/rpmbuild/SRPMS/Rivet-$(RIVET_VERS)*
 
 
 convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
