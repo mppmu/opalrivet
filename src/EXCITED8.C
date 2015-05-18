@@ -1,4 +1,5 @@
 #define EXCITED8_cxx
+#include "TBufferFile.h"
 #include  "EXCITED8.h"
 #include  "TFastJet.h"
 #include  "Helpers.h"

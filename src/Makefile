@@ -31,7 +31,7 @@ LDFLAGS             =  -g -O0 -shared   $(shell  $(ROOT-CONFIG) --ldflags)
 SOFLAGS             =  -g -shared 
 
 LDFLAGS+=-lgfortran  -g -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
-CXXFLAGS+=-I. -g -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags)
+CXXFLAGS+=-I. -g -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags)  -Wno-unused-variable
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)
 
