@@ -1,12 +1,13 @@
 #export X509_USER_PROXY=$(pwd)/k5-ca-proxy.pem
 #GEN=sherpa
-#GEN=herwig++
+#GEN=herwi$(CXX)
 #GEN=pythia8
 #GEN=evtgen
 GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
 .PHONY: dirs
+CXX?=g++
 all: dirs	 data_189  
 
 inputhisto:  
@@ -26,7 +27,7 @@ inputhisto:
         ((number = number + 1)) ; \
     done
 	echo 'f_irn4300807->Close(); return 0;}' >>  Code/HEPDATA/irn4300807/src/main.cxx	
-	g++  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code Code/HEPDATA/irn4300807/*C Code/HEPDATA/irn4300807/src/main.cxx  -o Code/HEPDATA/irn4300807/bin/$(ARCH)/main
+	$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code Code/HEPDATA/irn4300807/*C Code/HEPDATA/irn4300807/src/main.cxx  -o Code/HEPDATA/irn4300807/bin/$(ARCH)/main
 	
 #	wget  http://hepdata.cedar.ac.uk/view/irn4300807/d19/root -O Code/HEPDATA/irn4300807/19.C
 
@@ -71,8 +72,8 @@ mc_%: 	./bin/$(ARCH)/cut_and_transform
 		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
 
-		cp share/Runherwig++.dat run
-		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat
+		cp share/Runherwi$(CXX).dat run
+		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwi$(CXX).dat
 		
 		
 		cp share/Runevtgen.dat run
@@ -147,8 +148,8 @@ DEVRPMS/SHERPA-MC-$(SHERPA_VERS).tar.gz:
 DEVRPMS/ThePEG-1.9.0.tar.bz2:
 		wget http://www.hepforge.org/archive/thepeg/ThePEG-1.9.0.tar.bz2 -O DEVRPMS/ThePEG-1.9.0.tar.bz2
 
-DEVRPMS/Herwig++-2.7.0.tar.bz2:
-	wget http://www.hepforge.org/archive/herwig/Herwig++-2.7.0.tar.bz2 -O DEVRPMS/Herwig++-2.7.0.tar.bz2
+DEVRPMS/Herwi$(CXX)-2.7.0.tar.bz2:
+	wget http://www.hepforge.org/archive/herwig/Herwi$(CXX)-2.7.0.tar.bz2 -O DEVRPMS/Herwi$(CXX)-2.7.0.tar.bz2
 
 DEVRPMS/Cython-0.19.tar.gz:
 	wget http://www.cython.org/release/Cython-0.19.tar.gz -O DEVRPMS/Cython-0.19.tar.gz
@@ -182,7 +183,7 @@ srcrpm_%: installallsrc
 binrpm_%: srcrpm srcrpm_$**
 		rpmbuild -D '%_topdir '/home/andriish/rpmbuild --rebuild /home/andriish/rpmbuild/SRPMS/$**
 
-allbinrpm: binrpm_YODA binrpm_AGILe binrpm_Cython binrpm_HepMC binrpm_PHOTOS binrpm_TAUOLA binrpm_Herwig++ binrpm_ThePEG  binrpm
+allbinrpm: binrpm_YODA binrpm_AGILe binrpm_Cython binrpm_HepMC binrpm_PHOTOS binrpm_TAUOLA binrpm_Herwi$(CXX) binrpm_ThePEG  binrpm
 	
 
 beauty:
@@ -206,7 +207,7 @@ srcrpm: installallsrc DEVRPMS/Rivet-$(RIVET_VERS).tar.gz
 	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)@.@g' DEVRPMS/patch-Rivet-*.txt
 
 #diff -Naur EvtGen-1.3.0_orig EvtGen-1.3.0  | sed 's@EvtGen-1.3.0/@./@g' | sed 's@EvtGen-1.3.0_orig/@./@g'
-#diff -Naur Herwig++-2.7.0_orig Herwig++-2.7.0  | sed 's@Herwig++-2.7.0/@./@g' | sed 's@Herwig++-2.7.0_orig/@./@g'
+#diff -Naur Herwi$(CXX)-2.7.0_orig Herwi$(CXX)-2.7.0  | sed 's@Herwi$(CXX)-2.7.0/@./@g' | sed 's@Herwi$(CXX)-2.7.0_orig/@./@g'
 #diff -Naur  -x  *Makefile.in* acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g'
 #diff -Naur  -x  *Makefile.in* -x acloc* YODA-1.0.6_orig YODA-1.0.6  | sed 's@YODA-1.0.6/@./@g' | sed 's@YODA-1.0.6_orig/@./@g' >DEVRPMS/patch-YODA-0.txt
 binrpm: srcrpm
@@ -370,11 +371,11 @@ convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 
 
 bin/$(ARCH)/yodaconvert: src/yodaconvert.cxx
-		g++ -std=c++0x src/yodaconvert.cxx -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
+		$(CXX) -std=c++0x src/yodaconvert.cxx -DENABLE_ROOT  $(shell yoda-config --cppflags --libs)  $(shell root-config --cflags --libs --ldflags)  -o ./bin/$(ARCH)/yodaconvert
 
 
 bin/$(ARCH)/cut_and_transform: dirs  src/cut_and_transform.cxx
-				g++ -std=c++0x src/cut_and_transform.cxx  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o ./bin/$(ARCH)/cut_and_transform
+				$(CXX) -std=c++0x src/cut_and_transform.cxx  $(shell root-config  --cflags --libs --ldflags) $(shell yoda-config  --libs --cppflags)  -o ./bin/$(ARCH)/cut_and_transform
 
 
 
@@ -397,17 +398,17 @@ bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
 	g++  -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
 bin/$(ARCH)/prof: dirs src/pprroffessorr.cxx
-		g++ $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
+		$(CXX) $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
 
 bin/$(ARCH)/draw: dirs  src/draw.cxx
-		g++ $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o bin/$(ARCH)/draw
+		$(CXX) $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o bin/$(ARCH)/draw
 
 bin/$(ARCH)/runProof: src/runProof.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
+		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
 
 bin/$(ARCH)/plots: src/plots.cxx
 		mkdir -p ../bin/$(ARCH)
-		g++ -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
+		$(CXX) -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
 
 

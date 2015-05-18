@@ -1,7 +1,9 @@
 #ifndef ZROOT_H
 #define ZROOT_H
 #include <TH2.h>
+#include "TSystem.h"
 #include <TStyle.h>
+#include "TString.h"
 #include "TF1.h"
 #include "TF2.h"
 #include "TFile.h"
@@ -19,7 +21,7 @@
 #include  <TLorentzVector.h>
 #include  <TPaveLabel.h>
 #include  <TArrow.h>
-#include  <math.h>
+#include  "TBufferFile.h"
 #include  "TEntryList.h"
 #include "TProofOutputFile.h"
 #include <TH2.h>
@@ -132,7 +134,9 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gEnv->SetValue("Proof.Sandbox", gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname")));
     gEnv->SetValue("Davix.UseOldClient","yes");
     TProof* p;
-    p=TProof::Open(connection_string.Data(),"workers=1");
+    p=TProof::Open(connection_string.Data()
+    //,"workers=1"
+    );
     p->SetParameter("PROOF_CacheSize", 200000000);
     p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
     p->SetParameter("Davix.UseOldClient","yes");
@@ -204,7 +208,7 @@ gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataTyp
     parsed = (nows(new TString(DEFINES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("sed -i '/TARGET =/aCXXFLAGS+='"+TString(((TObjString *)parsed->At(i))->GetString())+" Makefile");
 
-    gSystem->GetFromPipe("sed -i \"s/TARGET/"+NAME+"/g\" EXCITEDLinkDef.h");
+    gSystem->GetFromPipe("sed -i \"s/TARGET/"+NAME+"/g\" "+NAME+"LinkDef.h");
 
     gSystem->ChangeDirectory("../");
     gSystem->GetFromPipe("tar zcvf "+NAME+".tar.gz  "+NAME) ;
