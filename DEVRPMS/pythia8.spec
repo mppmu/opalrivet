@@ -1,12 +1,12 @@
 Name:		pythia8
-Version:	8.1.80
+Version:	8.2.05
 Release:	1%{?dist}
 Summary:	Pythia Event Generator for High Energy Physics
 Group:		System Environment/Libraries
 
 License:	GPLv2
 URL:		http://home.thep.lu.se/~torbjorn/Pythia.html
-Source0:	http://home.thep.lu.se/~torbjorn/pythia8/pythia8180.tgz
+Source0:	http://home.thep.lu.se/~torbjorn/pythia8/pythia8205.tgz
 Patch0:		%{name}-fix-soname.patch
 Patch1:		%{name}-hepmc-version.patch
 Patch2:		%{name}-xmldir.patch
@@ -34,24 +34,24 @@ Requires:	lhapdf-devel%{?_isa}
 %description devel
 This package provides development files for Pythia 8.
 
-%package hepmcinterface
-Summary:	Pythia 8 HepMC Interface
-Group:		System Environment/Libraries
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+#%package hepmcinterface
+#Summary:	Pythia 8 HepMC Interface
+#Group:		System Environment/Libraries
+#Requires:	%{name}%{?_isa} = %{version}-%{release}
 
-%description hepmcinterface
-This package provides the HepMC interface for Pythia 8.
+#%description hepmcinterface
+#This package provides the HepMC interface for Pythia 8.
 
-%package hepmcinterface-devel
-Summary:	Pythia 8 HepMC Interface Development Files
-Group:		Development/Libraries
-Requires:	%{name}-hepmcinterface%{?_isa} = %{version}-%{release}
-Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-Requires:	HepMC-devel%{?_isa}
+#%package hepmcinterface-devel
+#Summary:	Pythia 8 HepMC Interface Development Files
+#Group:		Development/Libraries
+#Requires:	%{name}-hepmcinterface%{?_isa} = %{version}-%{release}
+#Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+#Requires:	HepMC-devel%{?_isa}
 
-%description hepmcinterface-devel
-This package provides development files for the HepMC interface for
-Pythia 8.
+#%description hepmcinterface-devel
+#This package provides development files for the HepMC interface for
+#Pythia 8.
 
 %package data
 Summary:	Pythia 8 Data Files
@@ -84,42 +84,50 @@ BuildArch:	noarch
 This package provides documentation for Pythia 8.
 
 %prep
-%setup -q -n pythia8180
-%patch0 -p1
-%patch1 -p1
-%patch2 -p1
+%setup -q -n pythia8205
+#%patch0 -p1
+#%patch1 -p1
+#%patch2 -p1
 
 # Use the real lhapdf library
 rm -rf lhapdfdummy
 
 # Remove DOS end-of-line
-dos2unix examples/softsusy.spc xmldoc/mrstlostarstar.00.dat \
-	 phpdoc/pythia.css htmldoc/pythia.css
+#dos2unix examples/softsusy.spc xmldoc/mrstlostarstar.00.dat \
+#	 phpdoc/pythia.css htmldoc/pythia.css
 
 %build
 export USRCXXFLAGS="%{optflags}"
 export USRLDFLAGSSHARED="%{?__global_ldflags} -Wl,-z,defs"
-%configure --enable-shared --with-hepmc=/usr
+%configure --enable-shared --with-hepmc2 --with-evtgen --with-root --with-fastjet3 --with-root-include=$(root-config --incdir) --with-root-lib=$(root-config --libdir)
 make %{?_smp_mflags} SHAREDSUFFIX=so.%{version}
 
 %install
 rm -rf %{buildroot}
 
+#mkdir -p %{buildroot}%{_libdir}
+#install -m 755 lib/libpythia8.so.%{version} %{buildroot}%{_libdir}
+#ln -s libpythia8.so.%{version} %{buildroot}%{_libdir}/libpythia8.so
+#install -m 755 lib/libpythia8tohepmc.so.%{version} %{buildroot}%{_libdir}
+#ln -s libpythia8tohepmc.so.%{version} %{buildroot}%{_libdir}/libpythia8tohepmc.so
+
+
 mkdir -p %{buildroot}%{_libdir}
-install -m 755 lib/libpythia8.so.%{version} %{buildroot}%{_libdir}
-ln -s libpythia8.so.%{version} %{buildroot}%{_libdir}/libpythia8.so
-install -m 755 lib/libpythia8tohepmc.so.%{version} %{buildroot}%{_libdir}
-ln -s libpythia8tohepmc.so.%{version} %{buildroot}%{_libdir}/libpythia8tohepmc.so
+install -m 755 lib/libpythia8*.so* %{buildroot}%{_libdir}
+
 
 mkdir -p %{buildroot}%{_includedir}/Pythia8
 install -m 644 -p include/Pythia8/* %{buildroot}%{_includedir}/Pythia8
+mkdir -p %{buildroot}%{_includedir}/Pythia8Plugins
+install -m 644 -p include/Pythia8Plugins/* %{buildroot}%{_includedir}/Pythia8Plugins
+
 
 mkdir -p %{buildroot}%{_datadir}/%{name}-data/xmldoc
-install -m 644 -p xmldoc/*.xml %{buildroot}%{_datadir}/%{name}-data/xmldoc
-install -m 644 -p xmldoc/*.dat %{buildroot}%{_datadir}/%{name}-data/xmldoc
-install -m 644 -p xmldoc/*.data %{buildroot}%{_datadir}/%{name}-data/xmldoc
-install -m 644 -p xmldoc/*.pds %{buildroot}%{_datadir}/%{name}-data/xmldoc
-install -m 644 -p xmldoc/*.tbl %{buildroot}%{_datadir}/%{name}-data/xmldoc
+install -m 644 -p share/Pythia8/xmldoc/*.xml %{buildroot}%{_datadir}/%{name}-data/xmldoc
+install -m 644 -p share/Pythia8/xmldoc/*.dat %{buildroot}%{_datadir}/%{name}-data/xmldoc
+install -m 644 -p share/Pythia8/xmldoc/*.data %{buildroot}%{_datadir}/%{name}-data/xmldoc
+install -m 644 -p share/Pythia8/xmldoc/*.pds %{buildroot}%{_datadir}/%{name}-data/xmldoc
+install -m 644 -p share/Pythia8/xmldoc/*.tbl %{buildroot}%{_datadir}/%{name}-data/xmldoc
 
 %clean
 rm -rf %{buildroot}
@@ -128,36 +136,37 @@ rm -rf %{buildroot}
 
 %postun -p /sbin/ldconfig
 
-%post hepmcinterface -p /sbin/ldconfig
+#%post hepmcinterface -p /sbin/ldconfig
 
-%postun hepmcinterface -p /sbin/ldconfig
+#%postun hepmcinterface -p /sbin/ldconfig
 
 %files
-%{_libdir}/libpythia8.so.*
-%doc AUTHORS COPYING GUIDELINES
+%{_libdir}/libpythia8.so*
+#%doc AUTHORS COPYING GUIDELINES
 
 %files devel
 %{_libdir}/libpythia8.so
 %{_includedir}/Pythia8
-%exclude %{_includedir}/Pythia8/Pythia8ToHepMC.h
-%doc CODINGSTYLE
+%{_includedir}/Pythia8Plugins
+#%exclude %{_includedir}/Pythia8/Pythia8ToHepMC.h
+#%doc CODINGSTYLE
 
-%files hepmcinterface
-%{_libdir}/libpythia8tohepmc.so.*
+#%files hepmcinterface
+#%{_libdir}/libpythia8tohepmc.so*
 
-%files hepmcinterface-devel
-%{_libdir}/libpythia8tohepmc.so
-%{_includedir}/Pythia8/Pythia8ToHepMC.h
+#%files hepmcinterface-devel
+#%{_libdir}/libpythia8tohepmc.so
+#%{_includedir}/Pythia8/Pythia8ToHepMC.h
 
 %files data
 %{_datadir}/%{name}-data
-%doc COPYING
+#%doc COPYING
 
 %files examples
-%doc COPYING examples/*.cc examples/*.cmnd examples/*.lhe examples/*.spc examples/outref
+%doc examples/*
 
 %files doc
-%doc COPYING htmldoc/*.html htmldoc/*.css htmldoc/*.gif htmldoc/*.pdf
+%doc share/Pythia8/htmldoc/* share/Pythia8/pdfdoc/*  share/Pythia8/outref/*
 
 %changelog
 * Wed Oct 30 2013 Mattias Ellert <mattias.ellert@fysast.uu.se> - 8.1.80-1

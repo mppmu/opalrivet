@@ -2,8 +2,11 @@
 #GEN=sherpa
 #GEN=herwi$(CXX)
 #GEN=pythia8
+
 #GEN=evtgen
-GEN?=pythia8
+#GEN?=pythia8
+GEN=pythia8_evtgen
+
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
 CXX?=g++
@@ -50,8 +53,7 @@ pics: bin/$(ARCH)/plots
 
 
 	
-mc_%: 	
-#./bin/$(ARCH)/cut_and_transform
+mc_%: 	bin/$(ARCH)/opalrivet$(GEN)
 		mkdir -p run
 		
 		cp share/Runpythia8.dat run		
@@ -80,6 +82,9 @@ mc_%:
 beauty:
 		astyle -n --keep-one-line-blocks --style=gnu    ./*cc
 
+bin/$(ARCH)/opalrivet$(GEN):
+	rm bin/$(ARCH)/opalrivet$(GEN)
+	touch bin/$(ARCH)/opalrivet$(GEN)
 
 
 obj/$(ARCH)/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cxx
@@ -88,10 +93,21 @@ obj/$(ARCH)/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cxx
 	
 	
 bin/$(ARCH)/opalrivetpythia8:  dirs obj/$(ARCH)/opalrivetpythia8.o
-	$(CXX) -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  
+	$(CXX) -lpythia8tohepmc  obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  
 
 bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/$(ARCH)/opalrivetpythia8.o
-	$(CXX) -lpythia8tohepmc  obj/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  
+	$(CXX) -lpythia8tohepmc  obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  
+
+
+
+obj/$(ARCH)/opalrivetpythia8_evtgen.o:  dirs src/opalrivetpythia8_evtgen.cxx
+	$(CXX) -c src/opalrivetpythia8_evtgen.cxx -o obj/$(ARCH)/opalrivetpythia8_evtgen.o 
+	
+
+bin/$(ARCH)/opalrivetpythia8_evtgen:  dirs obj/$(ARCH)/opalrivetpythia8_evtgen.o
+	$(CXX) -lpythia8tohepmc  obj/$(ARCH)/opalrivetpythia8_evtgen.o -o ./bin/$(ARCH)/opalrivetpythia8_evtgen
+
+
 
 obj/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
 	$(CXX) $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/$(ARCH)/opalrivetevtgen.o

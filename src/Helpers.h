@@ -1678,7 +1678,7 @@ return t;
 
 template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
 {
-printf("Param filly=%i\n",filly);
+//printf("Param filly=%i\n",filly);
 bool PASSED=false;
 std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
@@ -1750,7 +1750,7 @@ return PASSED;
 template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
 {
 bool PASSED=false;
-printf("Param filly=%i\n",filly);
+//printf("Param filly=%i\n",filly);
 std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
 
@@ -1794,7 +1794,7 @@ return PASSED;
 
 template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string Iprefix="")
 {
-	printf("Param filly=%i\n",filly);
+	//printf("Param filly=%i\n",filly);
 	std::string H_prefix=std::string("H_")+Iprefix;
 std::string G_prefix=std::string("G_")+Iprefix;
 	

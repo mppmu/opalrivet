@@ -38,6 +38,9 @@
 #include "EvtGenBase/EvtGammaMatrix.hh"
 #include "EvtGenBase/EvtRandom.hh"
 #include "EvtGenBase/EvtRandomEngine.hh"
+
+
+
 #include "EvtGenBase/EvtDecayTable.hh"
 #include "EvtGenBase/EvtReport.hh"
 #include "EvtGenBase/EvtPDL.hh"
@@ -54,11 +57,22 @@
 #include "EvtGenBase/EvtDecayBase.hh"
 
 
+
+
+
+
 #define EVTGEN_EXTERNAL
 
 #ifdef EVTGEN_EXTERNAL
+#define EVTGEN_PYTHIA
 #include "EvtGenExternal/EvtExternalGenList.hh"
+//#include "EvtGenExternal/EvtAbsExternalGen.hh"
+#include "EvtGenExternal/EvtPythiaRandom.hh"
+#include "EvtGenExternal/EvtPythiaEngine.hh"
 #endif
+
+
+
 
 #include <cstdio>
 #include <fstream>
@@ -86,7 +100,8 @@ void runFile(int nevent,char* fname,EvtGen& myGenerator);
 std::string output;
 int main(int argc, char* argv[]){
 
-  EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
+
+  
 
   if (!TROOT::Initialized()) {
     static TROOT root("RooTuple", "RooTuple ROOT in EvtGen");
@@ -118,6 +133,24 @@ int main(int argc, char* argv[]){
   DEC+="/share/DECAY_2010.DEC";
   std::string pdl(usr_c); 
   pdl+="/share/evt.pdl";
+
+
+  //EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
+  
+  
+  EvtPythiaEngine* myRandomEngine = new EvtPythiaEngine("/usr/share/pythia8-data/xmldoc/");
+  
+  /*
+  EvtPythiaEngine(std::string xmlDir = "./xmldoc", 
+		  bool convertPhysCodes = false,
+		  bool useEvtGenRandom = true);
+  virtual ~EvtPythiaEngine();
+
+  virtual bool doDecay(EvtParticle* theMother);
+
+  virtual void initialise();
+  */
+  
 
   
   EvtGen myGenerator(DEC.c_str(), pdl.c_str(), myRandomEngine,
