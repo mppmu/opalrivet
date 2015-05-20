@@ -15,6 +15,7 @@ Patch0:         patch-Rivet-0.txt
 #Patch1:         patch-Rivet-1.txt
 Group:		    Sciences/Physics
 Summary:        Robust Independent Validation of Experiment and Theory
+#Ubuntu is crap
 BuildRequires:	gcc-gfortran gcc-c++ YODA YODA-devel boost-devel
 
 %description

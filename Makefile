@@ -11,16 +11,26 @@ CXX?=g++
 
 
 
-include Makefile.software
-include Makefile.convert
-
-.PHONY: dirs
 
 all: dirs mc_189	 data_189  
 
 
+
+
+include Makefile.software
+include Makefile.convert
+
+
+localsystem: dirs src_Rivet
+
+
+.PHONY: dirs
+
+
+
+
 dirs:
-	mkdir -p ~/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
+	mkdir -p $(_TOPDIR)/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 	mkdir -p ./bin/$(ARCH)
 	mkdir -p ./obj/$(ARCH)
 	mkdir -p output

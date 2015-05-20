@@ -55,14 +55,14 @@ AC_ARG_ENABLE(stdcxx11,
 
 
 if test "x$enable_stdcxx11" = "xyes"; then
-AC_MSG_RESULT([yes])
-dnl remove the wrapper if block and "optional" once we decide to have C++11 always on
-AX_CXX_COMPILE_STDCXX_11([noext],[optional])
-if test "x$HAVE_CXX11" != "x1"; then
-AC_MSG_ERROR([compiler does not recognize requested c++11 option])
-fi
+  AC_MSG_RESULT([yes])
+  dnl remove the wrapper if block and "optional" once we decide to have C++11 always on
+  AX_CXX_COMPILE_STDCXX_11([noext],[optional])
+  if test "x$HAVE_CXX11" != "x1"; then
+  AC_MSG_ERROR([compiler does not recognize requested c++11 option])
+  fi
 else
-AC_MSG_RESULT([no])
+  AC_MSG_RESULT([no])
 fi
 
 AC_PROG_INSTALL
