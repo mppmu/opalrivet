@@ -37,10 +37,11 @@ DEVRPMS/PHOTOS-$(PHOTOS_VERS).tar.gz:
 
 src_EvtGen: DEVRPMS/EvtGen-1.3.0.tar.gz  DEVRPMS/patch-EvtGen-0.txt 
 DEVRPMS/EvtGen-1.3.0.tar.gz:
-		svn export http://svn.cern.ch/guest/evtgen/tags/R01-03-00 EvtGen
+		svn export http://svn.cern.ch/guest/evtgen/tags/R01-03-00 EvtGen --force
 		rm -rf EvtGen-1.3.0
 		mkdir -p EvtGen-1.3.0
-		mv EvtGen/R01-03-00/* EvtGen-1.3.0
+		mv EvtGen/* EvtGen-1.3.0
+		cp DEVRPMS/EvtGen/* EvtGen-1.3.0
 		tar cvf DEVRPMS/EvtGen-1.3.0.tar.gz EvtGen-1.3.0
 		rm -rf EvtGen.R01-03-00.tar.gz EvtGen
 

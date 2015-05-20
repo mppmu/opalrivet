@@ -57,7 +57,7 @@ The library documentation is available on header files.
 %prep
 %setup -q
 #%patch0 -p0
-%patch0 -p1
+#%patch0 -p1
 
 %build
 mkdir -p $(pwd)/tmp/usr
