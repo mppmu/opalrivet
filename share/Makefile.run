@@ -23,7 +23,9 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		rm -f inc/TFastJet.h 
 		cp ../src/TFastJet.cxx ./src
 		cp ../src/Cuts.h ./inc
+		cp ../src/Cuts.cxx ./src
 		cp ../src/Helpers.h ./inc
+		cp ../src/Helpers.cxx ./src
 		cp ../src/TFastJet.h ./inc		
 		rm -f  gen/LinkDef.h
 		
@@ -40,7 +42,7 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 
 
 
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
 		# -DUSE_ANTIKT
 
 

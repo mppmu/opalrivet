@@ -1,33 +1,39 @@
 #ifndef CUTS_H
 #define CUTS_H
+#include <map>
+#include <string>
+std::map<std::string,std::map<std::string,double> > InitCuts();	
 
 namespace MyCuts
 {
-const Int_t Icjst = 3;
-const Int_t  Iebst = 3;
-const Int_t Itkmh = 1;
-const Int_t Ntkd02 = 5;
-const Int_t Inonr=1;
-const Float_t costt = 0.9;
+	
+
+	
+const int Icjst = 3;
+const int  Iebst = 3;
+const int Itkmh = 1;
+const int Ntkd02 = 5;
+const int Inonr=1;
+const double costt = 0.9;
 
 
-const Float_t ANTIKTR=0.7;
-const Float_t ANTIKTP=-1.0;
+const double ANTIKTR=0.7;
+const double ANTIKTP=-1.0;
 
 
-const Float_t DURHAMR=0.7;
-const Float_t JADER=0.7;
+const double DURHAMR=0.7;
+const double JADER=0.7;
 
 
-const Float_t SISCONE_OVERLAP_THRESHOLD=0.75;
-const Float_t SISCONER=0.75;//?
+const double SISCONE_OVERLAP_THRESHOLD=0.75;
+const double SISCONER=0.75;//?
 
 
 
 
 
-const Float_t CAR=0.7;
-const Float_t CAP=-1.0;
+const double CAR=0.7;
+const double CAP=-1.0;
 
 
 }

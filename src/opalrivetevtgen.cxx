@@ -98,113 +98,120 @@ using std::vector;
 void runFile(int nevent,char* fname,EvtGen& myGenerator);
 
 std::string output;
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[])
+{
 
 
-  
 
-  if (!TROOT::Initialized()) {
-    static TROOT root("RooTuple", "RooTuple ROOT in EvtGen");
-  }
-  if (argc==1){
 
-    EvtVector4R p(0.0,1.0,0.0,0.0);
-    EvtVector4R k(0.0,0.0,1.0,0.0);
+    if (!TROOT::Initialized())
+        {
+            static TROOT root("RooTuple", "RooTuple ROOT in EvtGen");
+        }
+    if (argc==1)
+        {
 
-    EvtTensor4C T=dual(EvtGenFunctions::directProd(p,k));
+            EvtVector4R p(0.0,1.0,0.0,0.0);
+            EvtVector4R k(0.0,0.0,1.0,0.0);
 
-    report(INFO,"EvtGen") << "p:"<<p<<std::endl;
-    report(INFO,"EvtGen") << "k:"<<k<<std::endl;
-    report(INFO,"EvtGen") << "T=dual(directProd(p,k)):"<<T<<std::endl;
-    report(INFO,"EvtGen") << "T03:"<<T.get(0,3)<<std::endl;
-    return 1;
-  }
+            EvtTensor4C T=dual(EvtGenFunctions::directProd(p,k));
 
-  EvtAbsRadCorr* radCorrEngine = 0;
-  std::list<EvtDecayBase*> extraModels;
+            report(INFO,"EvtGen") << "p:"<<p<<std::endl;
+            report(INFO,"EvtGen") << "k:"<<k<<std::endl;
+            report(INFO,"EvtGen") << "T=dual(directProd(p,k)):"<<T<<std::endl;
+            report(INFO,"EvtGen") << "T03:"<<T.get(0,3)<<std::endl;
+            return 1;
+        }
+
+    EvtAbsRadCorr* radCorrEngine = 0;
+    std::list<EvtDecayBase*> extraModels;
 
 #ifdef EVTGEN_EXTERNAL
-  EvtExternalGenList genList;
-  radCorrEngine = genList.getPhotosModel();
-  extraModels = genList.getListOfModels();
+    EvtExternalGenList genList;
+    radCorrEngine = genList.getPhotosModel();
+    extraModels = genList.getListOfModels();
 #endif
-  char* usr_c = getenv("EVTGENDIR");
-  std::string DEC(usr_c); 
-  DEC+="/share/DECAY_2010.DEC";
-  std::string pdl(usr_c); 
-  pdl+="/share/evt.pdl";
+    char* usr_c = getenv("EVTGENDIR");
+    std::string DEC(usr_c);
+    DEC+="/share/DECAY_2010.DEC";
+    std::string pdl(usr_c);
+    pdl+="/share/evt.pdl";
 
 
-  //EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
-  
-  
-  EvtPythiaEngine* myRandomEngine = new EvtPythiaEngine("/usr/share/pythia8-data/xmldoc/");
-  
-  /*
-  EvtPythiaEngine(std::string xmlDir = "./xmldoc", 
-		  bool convertPhysCodes = false,
-		  bool useEvtGenRandom = true);
-  virtual ~EvtPythiaEngine();
+    //EvtRandomEngine* myRandomEngine = new EvtStdlibRandomEngine();
 
-  virtual bool doDecay(EvtParticle* theMother);
 
-  virtual void initialise();
-  */
-  
+    EvtPythiaEngine* myRandomEngine = new EvtPythiaEngine("/usr/share/pythia8-data/xmldoc/");
 
-  
-  EvtGen myGenerator(DEC.c_str(), pdl.c_str(), myRandomEngine,
-		     radCorrEngine, &extraModels);
+    /*
+    EvtPythiaEngine(std::string xmlDir = "./xmldoc",
+    	  bool convertPhysCodes = false,
+    	  bool useEvtGenRandom = true);
+    virtual ~EvtPythiaEngine();
 
-  if (!strcmp(argv[1],"file")) {
-  output=std::string(argv[4]);
-    int nevent=atoi(argv[2]);
-    runFile(nevent,argv[3],myGenerator);
+    virtual bool doDecay(EvtParticle* theMother);
 
-  }
+    virtual void initialise();
+    */
 
-  delete myRandomEngine;
-  return 0;
+
+
+    EvtGen myGenerator(DEC.c_str(), pdl.c_str(), myRandomEngine,
+                       radCorrEngine, &extraModels);
+
+    if (!strcmp(argv[1],"file"))
+        {
+            output=std::string(argv[4]);
+            int nevent=atoi(argv[2]);
+            runFile(nevent,argv[3],myGenerator);
+
+        }
+
+    delete myRandomEngine;
+    return 0;
 
 
 }
 
-void runFile(int nevent,char* fname, EvtGen &myGenerator) {
+void runFile(int nevent,char* fname, EvtGen &myGenerator)
+{
 
 
-  HepMC::IO_GenEvent ascii_io(output.c_str(), std::ios::out);
+    HepMC::IO_GenEvent ascii_io(output.c_str(), std::ios::out);
 
-  static EvtId UPS4=EvtPDL::getId(std::string("Upsilon(4S)"));
+    static EvtId UPS4=EvtPDL::getId(std::string("Upsilon(4S)"));
 
-  int count;
-  
-  char udecay_name[100];
-  
-  strcpy(udecay_name,fname);
-  
-  myGenerator.readUDecay(udecay_name,false);
-  
-  count=1;
-  
-  do{
-    
-    EvtVector4R p_init(EvtPDL::getMass(UPS4),0.0,0.0,0.0);
-    
-    EvtParticle* root_part=EvtParticleFactory::particleFactory(UPS4,
-							       p_init);
-    root_part->setVectorSpinDensity();      
-    
-    myGenerator.generateDecay(root_part);
-    
-    
-        EvtHepMCEvent theEvent;
-    theEvent.constructEvent(root_part);
-    HepMC::GenEvent* genEvent = theEvent.getEvent();
-    
-     ascii_io << genEvent;
-     //delete genEvent;
-    root_part->deleteTree();  
-    
-  }while (count++<nevent);
-  report(INFO,"EvtGen") << "SUCCESS\n";
+    int count;
+
+    char udecay_name[100];
+
+    strcpy(udecay_name,fname);
+
+    myGenerator.readUDecay(udecay_name,false);
+
+    count=1;
+
+    do
+        {
+
+            EvtVector4R p_init(EvtPDL::getMass(UPS4),0.0,0.0,0.0);
+
+            EvtParticle* root_part=EvtParticleFactory::particleFactory(UPS4,
+                                   p_init);
+            root_part->setVectorSpinDensity();
+
+            myGenerator.generateDecay(root_part);
+
+
+            EvtHepMCEvent theEvent;
+            theEvent.constructEvent(root_part);
+            HepMC::GenEvent* genEvent = theEvent.getEvent();
+
+            ascii_io << genEvent;
+            //delete genEvent;
+            root_part->deleteTree();
+
+        }
+    while (count++<nevent);
+    report(INFO,"EvtGen") << "SUCCESS\n";
 }

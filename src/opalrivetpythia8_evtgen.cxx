@@ -12,9 +12,8 @@
 // Therefore large event samples may be impractical.
 
 #include "Pythia8/Pythia.h"
-#include "Pythia8/Pythia8ToHepMC.h"
-#include "HepMC/GenEvent.h"
-#include "HepMC/IO_GenEvent.h"
+#include "Pythia8Plugins/HepMC2.h"
+#include "Pythia8Plugins/EvtGen.h"
 
 using namespace Pythia8;
 
@@ -28,11 +27,27 @@ int main(int argc, char ** argv)
     Pythia pythia;
 
     pythia.readFile("Run.dat");
+    pythia.readString("HardQCD:hardbbbar = on");
     pythia.init();
+
+////////////////
+    char* usr_c = getenv("EVTGENDIR");
+    std::string DEC(usr_c);
+    DEC+="/share/DECAY_2010.DEC";
+    std::string pdl(usr_c);
+    pdl+="/share/evt.pdl";
+    EvtGenDecays *evtgen = 0;
+    evtgen = new EvtGenDecays(&pythia,DEC.c_str(), pdl.c_str());
+    evtgen->readDecayFile("../share/main48.dec");
+////////////////
     // Begin event loop. Generate event. Skip if error.
     for (int iEvent = 0; iEvent < pythia.mode("Main:numberOfEvents"); ++iEvent)
         {
             if (!pythia.next()) continue;
+/////////////////////////
+            evtgen->decay();
+/////////////////////////
+
             // Construct new empty HepMC event and fill it.
             // Units will be as chosen for HepMC build; but can be changed
             // by arguments, e.g. GenEvt( HepMC::Units::GEV, HepMC::Units::MM)

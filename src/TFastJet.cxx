@@ -26,32 +26,32 @@ TFastJet::TFastJet( const std::vector<TParticle>& vtp ) : fClusterSequence(0), f
         }
     double R= 0.4;
     fastjet::JetDefinition jetdef( fastjet::antikt_algorithm, R );
-     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
+    fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
     return;
 }
 
 bool TFastJet::FindAlgorithm(std::string jetalg)
 {
-            fJetAlgString= std::string(jetalg); 
-            if (fJetAlgString==std::string("kt"))        { fJetAlg=fastjet::kt_algorithm; return true;}
-            if (fJetAlgString==std::string("cambridge")) { fJetAlg=fastjet::cambridge_algorithm; return true;}
-            if (fJetAlgString==std::string("antikt"))    { fJetAlg=fastjet::antikt_algorithm; return true;}
-            if (fJetAlgString==std::string("genkt"))     { fJetAlg=fastjet::genkt_algorithm; return true;}
-            if (fJetAlgString==std::string("siscone")||fJetAlgString==std::string("jade"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
-            if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))      { fJetAlg=fastjet::ee_kt_algorithm; return true;}
- 
-            return false;
+    fJetAlgString= std::string(jetalg);
+    if (fJetAlgString==std::string("kt"))        { fJetAlg=fastjet::kt_algorithm; return true;}
+    if (fJetAlgString==std::string("cambridge")) { fJetAlg=fastjet::cambridge_algorithm; return true;}
+    if (fJetAlgString==std::string("antikt"))    { fJetAlg=fastjet::antikt_algorithm; return true;}
+    if (fJetAlgString==std::string("genkt"))     { fJetAlg=fastjet::genkt_algorithm; return true;}
+    if (fJetAlgString==std::string("siscone")||fJetAlgString==std::string("jade"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
+    if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))      { fJetAlg=fastjet::ee_kt_algorithm; return true;}
+
+    return false;
 }
 
 TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                     std::string jetalg,
-                    double* R,
+                    std::map<std::string,double> R,
                     const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
 {
-      if (!FindAlgorithm(jetalg)) printf("Warning: Unknown algorithm  %s!",jetalg.c_str());
-      fPJets= new std::vector<fastjet::PseudoJet>();
-      std::vector<fastjet::PseudoJet> particles;
-     
+    if (!FindAlgorithm(jetalg)) printf("Warning: Unknown algorithm  %s!",jetalg.c_str());
+    fPJets= new std::vector<fastjet::PseudoJet>();
+    std::vector<fastjet::PseudoJet> particles;
+
     for( UInt_t i= 0; i < vtl.size(); i++ )
         {
             fastjet::PseudoJet pj( vtl[i] );
@@ -59,71 +59,75 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
             particles.push_back( pj );
         }
     fastjet::JetDefinition jetdef;
-      int ok=0;
-    switch (fJetAlg) {
-    case fastjet::plugin_algorithm:
+    int ok=0;
+    switch (fJetAlg)
+        {
+        case fastjet::plugin_algorithm:
 
-           if ( fJetAlgString == "siscone" )
+
+            if ( fJetAlgString == "siscone" )
                 {
-                    fSISPlugin= new fastjet::SISConePlugin( R[0], R[1] );
-                    //fPlugin= new fastjet::SISConePlugin( R, 0.75 );
+                    fSISPlugin= new fastjet::SISConePlugin( R["R"], R["OVERLAP_THRESHOLD"] );
                     jetdef= fastjet::JetDefinition( fSISPlugin );
-                
-                ok=1;
+
+                    ok=1;
                 }
 
-           if ( fJetAlgString == "jade" )
+            if ( fJetAlgString == "jade" )
                 {
-                    //fPlugin= new fastjet::JadePlugin();
                     fJadePlugin= new fastjet::JadePlugin();
                     jetdef= fastjet::JetDefinition( fJadePlugin );
-                ok=1;
+                    ok=1;
                 }
-           if (!ok)
-           {
-           std::cout << "TFastJet::TFastJet: jet plugin not known: " << fJetAlgString<<" "<<fJetAlg << std::endl;
-           return;
-	   }
+            if (!ok)
+                {
+                    std::cout << "TFastJet::TFastJet: jet plugin not known: " << fJetAlgString<<" "<<fJetAlg << std::endl;
+                    return;
+                }
 
-    break;
-    case fastjet::ee_kt_algorithm: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg );
-    break;                
-    
-    case fastjet::antikt_algorithm: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg,R[0]);
-    break;                
-    
-    case fastjet::cambridge_algorithm: jetdef= fastjet::JetDefinition(fastjet::cambridge_algorithm, R[0]);
-    break;
-    
-    //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
-    default: jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R[0] );
-    break;
-    }
-    
+            break;
+        case fastjet::ee_kt_algorithm:
+            jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg );
+            break;
+
+        case fastjet::antikt_algorithm:
+            jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg,R["R"]);
+            break;
+
+        case fastjet::cambridge_algorithm:
+            jetdef= fastjet::JetDefinition(fastjet::cambridge_algorithm, R["R"]);
+            break;
+
+        //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
+        default:
+            jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R["R"] );
+            break;
+        }
 
 
-////    
-TVector3 taxis;
-    	  double t=-1;
+
+////
+    TVector3 taxis;
+    double t=-1;
     std::vector<TVector3> jetstlv;//= new std::vector<TVector3>();
     fastjet::PseudoJet pj;
     double momsum=0;
-    
+
     std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
-    
+
     for( UInt_t i= 0; i <  A.size(); i++ )
         {
             pj= A[i];
             TVector3 tlv( pj.px(), pj.py(), pj.pz());
             jetstlv.push_back( tlv );
-        momsum+=tlv.Mag();
+            momsum+=tlv.Mag();
         }
 
-if (A.size()>2) _calcT(jetstlv,t,taxis);
-this->fThrust=1-t/momsum;
+    if (A.size()>2) _calcT(jetstlv,t,taxis);
+    this->fThrust=1-t/momsum;
 //////////////
-    
-    
+
+
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
 }
 
@@ -201,13 +205,15 @@ int TFastJet::NJets( double ycut )
 
 inline int intpow(int a, int b)
 {
-int r=1;
-for (int i=0;(i<b)&&(b>0);i++) r*=a; return r;	
-	
-}	
+    int r=1;
+    for (int i=0; (i<b)&&(b>0); i++) r*=a;
+    return r;
 
-  // Do the general case thrust calculation
-void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis) {
+}
+
+// Do the general case thrust calculation
+void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis)
+{
     // This function implements the iterative algorithm as described in the
     // Pythia manual. We take eight (four) different starting vectors
     // constructed from the four (three) leading particles to make sure that
@@ -217,46 +223,50 @@ void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3&
     unsigned int n = 3;
     std::vector<TVector3> tvec;
     std::vector<double> tval;
-  //  std::sort(p.begin(), p.end(), mod2Cmp);
-    for (int i = 0 ; i < intpow(2, n-1); ++i) {
-      // Create an initial vector from the leading four jets
-      TVector3 foo(0,0,0);
-      int sign = i;
-      for (unsigned int k = 0 ; k < n ; ++k) {
-        (sign % 2) == 1 ? foo += p[k] : foo -= p[k];
-        sign /= 2;
-      }
-      //foo=foo.unit();
-foo.SetMag(1.0);
-      // Iterate
-      double diff=999.;
-      TVector3 foobar(0,0,0);
-      while (diff>1e-5) {
-        foobar=TVector3 (0,0,0);
-        for (unsigned int k=0 ; k<p.size() ; k++)
-          foo.Dot(p[k])>0 ? foobar+=p[k] : foobar-=p[k];
-        TVector3 foobar_unit(foobar);
-        foobar_unit.SetMag(1.0);
-        diff=(foo-foobar_unit).Mag();
-        foo=foobar_unit;
-      }
+    //  std::sort(p.begin(), p.end(), mod2Cmp);
+    for (int i = 0 ; i < intpow(2, n-1); ++i)
+        {
+            // Create an initial vector from the leading four jets
+            TVector3 foo(0,0,0);
+            int sign = i;
+            for (unsigned int k = 0 ; k < n ; ++k)
+                {
+                    (sign % 2) == 1 ? foo += p[k] : foo -= p[k];
+                    sign /= 2;
+                }
+            //foo=foo.unit();
+            foo.SetMag(1.0);
+            // Iterate
+            double diff=999.;
+            TVector3 foobar(0,0,0);
+            while (diff>1e-5)
+                {
+                    foobar=TVector3 (0,0,0);
+                    for (unsigned int k=0 ; k<p.size() ; k++)
+                        foo.Dot(p[k])>0 ? foobar+=p[k] : foobar-=p[k];
+                    TVector3 foobar_unit(foobar);
+                    foobar_unit.SetMag(1.0);
+                    diff=(foo-foobar_unit).Mag();
+                    foo=foobar_unit;
+                }
 
-      // Calculate the thrust value for the vector we found
-      t=0.;
-      for (unsigned int k=0 ; k<p.size() ; k++)
-        t+=fabs(foo.Dot(p[k]));
+            // Calculate the thrust value for the vector we found
+            t=0.;
+            for (unsigned int k=0 ; k<p.size() ; k++)
+                t+=fabs(foo.Dot(p[k]));
 
-        
-      // Store everything
-      tval.push_back(t);
-      tvec.push_back(foo);
-    }
+
+            // Store everything
+            tval.push_back(t);
+            tvec.push_back(foo);
+        }
 
     // Pick the solution with the largest thrust
     t=0.;
     for (unsigned int i=0 ; i<tvec.size() ; i++)
-      if (tval[i]>t){
-        t=tval[i];
-        taxis=tvec[i];
-      }
-  }
+        if (tval[i]>t)
+            {
+                t=tval[i];
+                taxis=tvec[i];
+            }
+}

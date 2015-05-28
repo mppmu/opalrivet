@@ -122,7 +122,7 @@ TString* nows(TString* a)
 void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
               TString CLASSES,int NUMBER,TString FILEGEN,TString EVENTLIST,TString opt_string, TString CHAIN)
 {
-		TBufferFile::SetGlobalWriteParam(4999);
+    TBufferFile::SetGlobalWriteParam(4999);
     TString connection_string="";
     TChain* chainTD = new TChain(CHAIN);
     TObjArray * parsed;
@@ -135,8 +135,8 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gEnv->SetValue("Davix.UseOldClient","yes");
     TProof* p;
     p=TProof::Open(connection_string.Data()
-    //,"workers=1"
-    );
+                   //,"workers=1"
+                  );
     p->SetParameter("PROOF_CacheSize", 200000000);
     p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
     p->SetParameter("Davix.UseOldClient","yes");
@@ -150,13 +150,13 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
         if  ( (TString(((TObjString *)parsed->At(i))->GetString()).Contains("dcap://")) || (TString(((TObjString *)parsed->At(i))->GetString()).Contains("http://"))|| (TString(((TObjString *)parsed->At(i))->GetString()).Contains("https://")))
             chainTD->Add(((TObjString *)parsed->At(i))->GetString());
         else
-        {            
-             TObjArray * parsed2;
-             parsed2 = (gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString())).Tokenize(" ");
-            for (int i2 = 0; i2 <parsed2->GetLast()+1; i2++)
-            chainTD->Add(((TObjString *)parsed2->At(i2))->GetString());
+            {
+                TObjArray * parsed2;
+                parsed2 = (gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString())).Tokenize(" ");
+                for (int i2 = 0; i2 <parsed2->GetLast()+1; i2++)
+                    chainTD->Add(((TObjString *)parsed2->At(i2))->GetString());
 
-		}
+            }
     if (FILEGEN.Length()!=0)
         {
             TChain *chainG = new TChain(CHAIN);
@@ -173,17 +173,17 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TNtuple;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fProofFile;' %s.h",NAME.Data()));
-    
-    
 
-    
+
+
+
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
 
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TGraphAsymmErrors*> fGMap;' %s.h",NAME.Data()));
-    
 
-gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
-gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
+
+    gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
 
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
@@ -214,13 +214,13 @@ gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataTyp
     gSystem->GetFromPipe("tar zcvf "+NAME+".tar.gz  "+NAME) ;
     gSystem->GetFromPipe("cp "+NAME+".tar.gz ../PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME+".par");
     gSystem->ChangeDirectory("../");
-    
+
     /******************/
-        chainTD->Draw("Irun>>RUNHIST(20000,0.0,20000.0)");
-    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST"); 
-      p->AddInput(RUNHIST);
+    chainTD->Draw("Irun>>RUNHIST(20000,0.0,20000.0)");
+    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
+    p->AddInput(RUNHIST);
     /******************/
-    
+
     chainTD->SetProof();
     gSystem->SetAclicMode(TSystem::kDebug);
     gSystem->SetFlagsOpt("-ffast-math -O3");
@@ -239,7 +239,7 @@ gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataTyp
             chainTD->SetEntryList(elist);
         }
 
-         
+
     chainTD->Process(NAME,"SYN",NUMBER);
     gSystem->ChangeDirectory("../");
 

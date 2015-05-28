@@ -33,7 +33,7 @@ SOFLAGS             =  -g -shared
 LDFLAGS+=-lgfortran  -g -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
 CXXFLAGS+=-I. -g -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags)  -Wno-unused-variable
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
-				TFastJet.$(ObjSuf)
+				TFastJet.$(ObjSuf) Cuts.$(ObjSuf) Helpers.$(ObjSuf)
 
 ROOTMAP       =  lib$(TARGET).rootmap
                  
@@ -53,9 +53,10 @@ $(ROOTMAP): $(TARGET)LinkDef.h
 	 libTree.so libPhysics.so libThread.so libMatrix.so libTree.so  libGpad.so libGraf3d.so\
 	  libGraf.so libHist.so libNet.so  libRIO.so libMathCore.so libCore libPyROOT.so\
 	    libGX11.so libGui.so libGX11TTF libProof.so  libProofPlayer.so libSessionViewer.so\
-	    libfastjettools.so libfastjet.so libfastjetplugins.so\
+	    libfastjettools.so libfastjet.so libfastjetplugins.so libsiscone.so libsiscone_spherical.so\
 	      libTreePlayer.so libPhysics.so  -c $^	
 	@echo "Done"
+
 
 
 $(EVENTSO):     $(EVENTO)

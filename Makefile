@@ -4,8 +4,8 @@
 #GEN=pythia8
 
 #GEN=evtgen
-#GEN?=pythia8
-GEN=pythia8_evtgen
+GEN?=pythia8
+#GEN=pythia8_evtgen
 
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
