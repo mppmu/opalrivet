@@ -69,30 +69,15 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     if (fAI.fTypes[II]==0)    { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
     if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); }
     if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
+    std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
-            std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
-           
-                    std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
+            std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );           
             for (std::vector<std::string>::iterator it=fAlgorithms.begin();it!=fAlgorithms.end();it++)    
          {
          TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
 		 MyAnalysis(this, tfj,weight,0,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),it->c_str(),fAI.fE));
 		 } 
-           
-           /* for (unsigned int i=0; i<fAlgorithms.size(); i++)
-                {
-                    int analysis=9999;
-                    double* P= new double(10);
-                    if (fAlgorithms.at(i)=="durham")    {analysis=0; P[0]=MyCuts::DURHAMR;  }
-                    if (fAlgorithms.at(i)=="jade")      {analysis=0; P[0]=MyCuts::JADER;}
-                    if (fAlgorithms.at(i)=="antikt")    {analysis=1; P[0]=MyCuts::ANTIKTR; P[1]=MyCuts::ANTIKTP;}
-                    if (fAlgorithms.at(i)=="cambridge") {analysis=1; P[0]=MyCuts::CAR;     P[1]=MyCuts::CAP;}
-                    TFastJet* tfj =new TFastJet( vtlv, fAlgorithms.at(i), P, NULL);
-                    PASSED=MyAnalysis(this, tfj,weight,analysis,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
-                    delete P;
-                    delete tfj;
-                }*/
         }
     fHMap["weight"]->Fill(fAI.fTypes[II],weight);
     return kTRUE;

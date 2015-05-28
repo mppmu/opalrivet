@@ -26,14 +26,7 @@ public:
 
     JADE_OPAL_2000_S4300807a() :  Analysis("JADE_OPAL_2000_S4300807a") 
     {		
-		char a[20];
-		sprintf(a,"%i",90
-		//int(sqrtS()/GeV + 0.5)
-		);
-		fEnergyString=std::string(a);
-		fGenerator = std::string(GENERATOR);
-        std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
-		tokenize(ALGORITHMS,":",fAlgorithms);		    
+		    
      }
 
     double fTotalWeight;
@@ -48,9 +41,20 @@ public:
   void init()
     {    
 
+		char a[20];
+		sprintf(a,"%i",
+		(int)(sqrtS()/GeV + 0.5)
+		);
+		fEnergyString=std::string(a);
+		fGenerator = std::string(GENERATOR);
+        std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
+		tokenize(ALGORITHMS,":",fAlgorithms);
+
+
     std::set<std::string> foo; 
     if (int(sqrtS()/GeV + 0.5)>88&&int(sqrtS()/GeV + 0.5)<92) foo.insert("fine_jet_rate");
-    fFile= new TFile( Form("prediction%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()),"recreate");                
+    fFile= new TFile( Form("prediction%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()),"recreate");    
+    fFile->cd();            
     for (std::vector<std::string>::iterator it=fAlgorithms.begin();it!=fAlgorithms.end();it++)    
     OPALObs(this,foo, Form("prediction%s_%s_%sGeV_",fGenerator.c_str(),it->c_str(),fEnergyString.c_str()));
     fTotalWeight=0;
@@ -86,21 +90,25 @@ public:
     //if (H_it->first.find("JETR")!=std::string::npos) 
     { H_it->second->Sumw2();  
 		H_it->second->Scale(1.0/fTotalWeight);  }
-    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2();  H_it->second->Write();H_it->second->SetDirectory(0); /*		it->second->SetName()ROOT_to_YODA_name*/ }
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2(); H_it->second->SetDirectory(fFile); H_it->second->Write();H_it->second->SetDirectory(0); /*		it->second->SetName()ROOT_to_YODA_name*/ }
 
     std::map<std::string,TGraphAsymmErrors*>::iterator G_it;
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) //if (G_it->first.find("JETR")!=std::string::npos) 
     {
-	//ScaleGraph(G_it->second,1.0/fTotalWeight,2);	 /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  }
+	//ScaleGraph(G_it->second,1.0/fTotalWeight,2);	 /*G_it->second->Sumw2(); */ /*it->second->Scale(1.0/fTotalWeight*100);*/  
+	}
     for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) { 
 		
      
-		/*G_it->second->Sumw2(); */ G_it->second->Write();/* G_it->second->SetDirectory(0);*/ /*		it->second->SetName()ROOT_to_YODA_name*/ }
+		/*G_it->second->Sumw2(); */ //G_it->second->SetDirectory(fFile);
+		//G_it->second->SetName(G_it->first.c_str());
+		//G_it->second->SetDirectory(fFile);
+		 G_it->second->Write();/* G_it->second->SetDirectory(0);*/ /*		it->second->SetName()ROOT_to_YODA_name*/ }
     
     gDirectory = savedir;
     fFile->Close();  
    
-    }
+    
      }
 };
 DECLARE_RIVET_PLUGIN(JADE_OPAL_2000_S4300807a);

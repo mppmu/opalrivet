@@ -57,7 +57,7 @@ mc_%: 	bin/$(ARCH)/opalrivet$(GEN)
 		mkdir -p run
 		
 		cp share/Runpythia8.dat run		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
 
 		cp share/Runpythia8_nohad.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat

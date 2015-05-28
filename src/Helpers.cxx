@@ -50,6 +50,7 @@ void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t
     A[t]->SetDrawOption("APL");
     A[t]->SetTitle(t.c_str());
     A[t]->SetName(t.c_str());
+    //gDirectory->Append(A[t]);
 
 }
 
