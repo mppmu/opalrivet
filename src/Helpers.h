@@ -39,7 +39,7 @@
 #include "TTree.h"
 #include <TVector3.h>
 #include <TVirtualFitter.h>
-
+#include "TBufferFile.h"
 
 #endif
 
@@ -216,49 +216,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     G_INSERTER_DBL(A->fGMap,prefix+"MH2",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40}));
     G_INSERTER_DBL(A->fGMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     G_INSERTER_DBL(A->fGMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
-    /*
-      G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({0.7000000E-05,
-                   0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
-                   0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
-                   0.7196680E-03, 0.1280330E-02, 0.2276270E-02, 0.4048330E-02,
-                   0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
-                   0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
-                                                      }));
 
-      G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({0.7000000E-05,
-                   0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
-                   0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
-                   0.7196680E-03, 0.1280330E-02, 0.2276270E-02, 0.4048330E-02,
-                   0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
-                   0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
-                                                      }));
-
-
-      G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({0.7000000E-05,
-                   0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
-                   0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
-                   0.7196680E-03, 0.1280330E-02, 0.2276270E-02, 0.4048330E-02,
-                   0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
-                   0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
-                                                      }));
-
-      G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({0.7000000E-05,
-                   0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
-                   0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
-                   0.7196680E-03, 0.1280330E-02, 0.2276270E-02, 0.4048330E-02,
-                   0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
-                   0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
-                                                      }));
-
-
-      G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({0.7000000E-05,
-                   0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
-                   0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
-                   0.7196680E-03, 0.1280330E-02, 0.2276270E-02, 0.4048330E-02,
-                   0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
-                   0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
-                                                      }));
-    */
 
     switch (energy)
         {
@@ -447,95 +405,7 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.030, 0.045, 0.070, 0.100, 0.150,
                    0.250, 0.500,1.000
                                                           }));
-    /*
 
-    H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({
-    5.01187233627272462e-03,
-    8.70963589956080461e-03,
-    1.25892541179416749e-02,
-    1.99526231496887987e-02,
-    3.01995172040201605e-02,
-    3.98107170553497342e-02,
-    5.01187233627272202e-02,
-    6.02559586074357806e-02,
-    7.07945784384138022e-02,
-    7.94328234724281379e-02,
-    9.54992586021435885e-02,
-    1.14815362149688294e-01,
-    1.34896288259165359e-01,
-    1.58489319246111343e-01
-    }));
-
-    H_INSERTER_DBL(A->fHMap,prefix+"JETR3", ARRAY_PROTECT({
-    5.01187233627272462e-03,
-    8.70963589956080461e-03,
-    1.25892541179416749e-02,
-    1.99526231496887987e-02,
-    3.01995172040201605e-02,
-    3.98107170553497342e-02,
-    5.01187233627272202e-02,
-    6.02559586074357806e-02,
-    7.07945784384138022e-02,
-    7.94328234724281379e-02,
-    9.54992586021435885e-02,
-    1.14815362149688294e-01,
-    1.34896288259165359e-01,
-    1.58489319246111343e-01
-    }));
-
-    H_INSERTER_DBL(A->fHMap,prefix+"JETR4", ARRAY_PROTECT({
-    5.01187233627272462e-03,
-    8.70963589956080461e-03,
-    1.25892541179416749e-02,
-    1.99526231496887987e-02,
-    3.01995172040201605e-02,
-    3.98107170553497342e-02,
-    5.01187233627272202e-02,
-    6.02559586074357806e-02,
-    7.07945784384138022e-02,
-    7.94328234724281379e-02,
-    9.54992586021435885e-02,
-    1.14815362149688294e-01,
-    1.34896288259165359e-01,
-    1.58489319246111343e-01
-    }));
-
-    H_INSERTER_DBL(A->fHMap,prefix+"JETR5", ARRAY_PROTECT({
-    5.01187233627272462e-03,
-    8.70963589956080461e-03,
-    1.25892541179416749e-02,
-    1.99526231496887987e-02,
-    3.01995172040201605e-02,
-    3.98107170553497342e-02,
-    5.01187233627272202e-02,
-    6.02559586074357806e-02,
-    7.07945784384138022e-02,
-    7.94328234724281379e-02,
-    9.54992586021435885e-02,
-    1.14815362149688294e-01,
-    1.34896288259165359e-01,
-    1.58489319246111343e-01
-    }));
-
-    H_INSERTER_DBL(A->fHMap,prefix+"JETR6", ARRAY_PROTECT({
-    5.01187233627272462e-03,
-    8.70963589956080461e-03,
-    1.25892541179416749e-02,
-    1.99526231496887987e-02,
-    3.01995172040201605e-02,
-    3.98107170553497342e-02,
-    5.01187233627272202e-02,
-    6.02559586074357806e-02,
-    7.07945784384138022e-02,
-    7.94328234724281379e-02,
-    9.54992586021435885e-02,
-    1.14815362149688294e-01,
-    1.34896288259165359e-01,
-    1.58489319246111343e-01
-    }));
-
-    */
-    //Same as Donkers for Durham   -->  -2.50 .. -0.5     ; For Jade:  -2.30.. -0.80
     H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
                    0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
                    0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
@@ -704,119 +574,7 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                                              }));
 
 
-    /*
-     *
-     *     1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
-    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
-    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
-    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
-
-
-    1.000000e-05
-    1.330000e-05
-    1.780000e-05
-    2.370000e-05
-    3.160000e-05
-    4.220000e-05
-    5.620000e-05
-    7.500000e-05
-    1.000000e-04
-    1.330000e-04
-    1.780000e-04
-    2.370000e-04
-    3.160000e-04
-    4.220000e-04
-    5.620000e-04
-    7.500000e-04
-    1.000000e-03
-    1.330000e-03
-    1.780000e-03
-    2.370000e-03
-    3.160000e-03
-    4.220000e-03
-    5.620000e-03
-    7.500000e-03
-    1.000000e-02
-    1.330000e-02
-    1.780000e-02
-    2.370000e-02
-    3.160000e-02
-    4.220000e-02
-    5.620000e-02
-    7.500000e-02
-    1.000000e-01
-    1.330000e-01
-    1.780000e-01
-    2.370000e-01
-    3.160000e-01
-
-
-    //Same as Donkers for Durham  +2 bins -->
-    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
-    0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
-    0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
-    0.3162278E-03, 0.4216965E-03, 0.5623413E-03, 0.7498942E-03,
-    0.1000000E-02, 0.1333521E-02, 0.1778279E-02, 0.2371374E-02,
-    0.3162278E-02, 0.4216965E-02, 0.5623413E-02, 0.7498942E-02,
-    0.1000000E-01, 0.1333521E-01, 0.1778279E-01, 0.2371374E-01,
-    0.3162277E-01, 0.4216965E-01, 0.5623413E-01, 0.7498942E-01,
-    0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    ,
-    0.3162278
-                                     }));
-
-    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
-    0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
-    0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
-    0.3162278E-03, 0.4216965E-03, 0.5623413E-03, 0.7498942E-03,
-    0.1000000E-02, 0.1333521E-02, 0.1778279E-02, 0.2371374E-02,
-    0.3162278E-02, 0.4216965E-02, 0.5623413E-02, 0.7498942E-02,
-    0.1000000E-01, 0.1333521E-01, 0.1778279E-01, 0.2371374E-01,
-    0.3162277E-01, 0.4216965E-01, 0.5623413E-01, 0.7498942E-01,
-    0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    ,
-    0.3162278
-                                     }));
-
-
-    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
-    0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
-    0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
-    0.3162278E-03, 0.4216965E-03, 0.5623413E-03, 0.7498942E-03,
-    0.1000000E-02, 0.1333521E-02, 0.1778279E-02, 0.2371374E-02,
-    0.3162278E-02, 0.4216965E-02, 0.5623413E-02, 0.7498942E-02,
-    0.1000000E-01, 0.1333521E-01, 0.1778279E-01, 0.2371374E-01,
-    0.3162277E-01, 0.4216965E-01, 0.5623413E-01, 0.7498942E-01,
-    0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    ,
-    0.3162278
-                                     }));
-
-    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
-    0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
-    0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
-    0.3162278E-03, 0.4216965E-03, 0.5623413E-03, 0.7498942E-03,
-    0.1000000E-02, 0.1333521E-02, 0.1778279E-02, 0.2371374E-02,
-    0.3162278E-02, 0.4216965E-02, 0.5623413E-02, 0.7498942E-02,
-    0.1000000E-01, 0.1333521E-01, 0.1778279E-01, 0.2371374E-01,
-    0.3162277E-01, 0.4216965E-01, 0.5623413E-01, 0.7498942E-01,
-    0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    ,
-    0.3162278
-                                     }));
-
-
-    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({0.1000000E-04, 0.1333521E-04, 0.1778279E-04, 0.2371374E-04,
-    0.3162278E-04, 0.4216965E-04, 0.5623413E-04, 0.7498942E-04,
-    0.1000000E-03, 0.1333522E-03, 0.1778279E-03, 0.2371374E-03,
-    0.3162278E-03, 0.4216965E-03, 0.5623413E-03, 0.7498942E-03,
-    0.1000000E-02, 0.1333521E-02, 0.1778279E-02, 0.2371374E-02,
-    0.3162278E-02, 0.4216965E-02, 0.5623413E-02, 0.7498942E-02,
-    0.1000000E-01, 0.1333521E-01, 0.1778279E-01, 0.2371374E-01,
-    0.3162277E-01, 0.4216965E-01, 0.5623413E-01, 0.7498942E-01,
-    0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    ,
-    0.3162278
-                                     }));
-    //<-- Same as Donkers for Durham  +2 bins
-
-    */
-
+  
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                    0.14, 0.16, 0.20, 0.24, 0.30, 0.40
                                                           }));
@@ -832,11 +590,7 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 }
 
 
-
-
-
 #define MAX_RUNS   20
-
 typedef struct TAnalysisInfo_
 {
     double fE;
@@ -863,14 +617,9 @@ void BookHistograms(EXA * A,TAnalysisInfo B, std::string Iprefix="")
 
 void Count(TChain* C, TAnalysisInfo& A);
 int  Match(int run, TAnalysisInfo& Z, TH1F* H);
-
-
 #ifndef USE_RIVET
-
 template <class EXA> Float_t costt(EXA* A) { return A->Tvectc[2]; }
 template <class EXA> Float_t tdmt(EXA* A) { return A->Tdmt; }
-
-
 template <class EXA>
 bool LEP1Preselection(EXA* A)
 {
@@ -901,11 +650,7 @@ Float_t dmt_ymerge(EXA* A, Int_t njet )
     if( njet > 0 && njet <= A->Nxjdmt ) return A->Yddmt[njet-1];
     else return -1;
 }
-
 #endif
-
-
-
 
 template <class EXA>
 void GetP(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
@@ -929,16 +674,12 @@ std::vector<TLorentzVector> GetH2(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t ma
     std::vector<TLorentzVector> vtlv2;
     for( Int_t itrk= 0; itrk < A->Ntrkh; itrk++ )
         {
-
-
-
             vtlv2.push_back(TLorentzVector(A->Ptrkh[itrk][0],
                                            A->Ptrkh[itrk][1],
                                            A->Ptrkh[itrk][2],
                                            A->Ptrkh[itrk][3]));
         }
     ntrack= A->Ntrkh;
-
     return vtlv2;
 }
 
@@ -997,13 +738,11 @@ void GetMt(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack 
     Int_t ifill= 0;
     for( Int_t itrk= 0; (itrk < A->Ntrk)&&(ifill<maxtrack); itrk++ )
         {
-
             // Check if track is selected:
             if( A->Id02[itrk] == 0 ) continue;
             // Check if track is scaled:
             Float_t scf= 1.0;
             for( Int_t jmttrk= 0; jmttrk < A->Nmttrk; jmttrk++ )   scf= A->Mtscft[jmttrk];
-
             // Copy track components:
             ptrack[ifill][3]= 0.0;
             for( Int_t j= 0; j < 3; j++ )
@@ -1012,11 +751,9 @@ void GetMt(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack 
                     ptrack[ifill][3]+= pow( ptrack[ifill][j], 2 );
                 }
             ptrack[ifill][3]=sqrt(ptrack[ifill][3]+mpi2);
-
             ifill++;
         }
     if( ifill == maxtrack ) std::cout << "getMt: array too small " << ifill << std::endl;
-
     // Clusters are either killed, scaled or copied:
     for( Int_t iclus= 0; (iclus < TMath::Min( maxtrack, A->Nclus ))&&(ifill<maxtrack); iclus++ )
         {
@@ -1027,7 +764,6 @@ void GetMt(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack 
             // Check if cluster is scaled:
             Float_t scf= 1.0;
             for( Int_t jmtcls= 0; jmtcls < A->Nmtcls; jmtcls++ )if( A->Imtcls[jmtcls]-1 == iclus ) scf= A->Mtscfc[jmtcls];
-
             // Copy cluster components:
             ptrack[ifill][3]= 0.0;
             for( Int_t j= 0; j < 3; j++ )
@@ -1040,10 +776,8 @@ void GetMt(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack 
 
         }
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
-    // The End:
     ntrack= ifill;
     return;
-
 }
 
 
@@ -1056,21 +790,15 @@ void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack
     for (i=0; (i<A->size())&&(ifill<maxtrack); i++)
         {
             const Rivet::FourMomentum fv = A->at(i).momentum();
-
-
             ptrack[ifill][0]= fv.px();
             ptrack[ifill][1]= fv.py();
             ptrack[ifill][2]= fv.pz();
             ptrack[ifill][3]= fv.E();
             ifill++;
-
         }
-
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
     ntrack= ifill;
     return;
-
-
 }
 
 template <class EXA>
@@ -1093,19 +821,9 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
         }
 
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
-    // The End:
-    //ntrack= ifill;
     return vtlv2;
-
-
 }
-
 #endif
-
-
-
-
-
 
 template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
 {
@@ -1113,19 +831,10 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
     int j;
-
     if (tfj->GetClusterSequence())
         {
-
-
             PASSED=true;
-
             A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
-
-
-
-
-
             int filly=1;
             std::vector<double> ycuts;
             //  std::vector<std::pair<double,double> > bounds;
@@ -1135,37 +844,19 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
             //for ( j=0; j<5; j++)             bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
             if (filly)  for ( j=0; j<4; j++) {/*  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME */}
             for ( j=0; j<5; j++)
-
                 {
                     for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
                         A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
-
-
-
                     for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
                         if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
                             {
-
-
-
-
                                 double x,y;
                                 A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
                                 A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
                                 A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYlow()[i],2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYhigh()[i],2)+weight*weight));
-
-
-
                             }
-
-
                 }
-
-
         }
-
-
-
     return PASSED;
 }
 
@@ -1182,14 +873,10 @@ template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,in
     bool PASSED=false;
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
-
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
             A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
-
-
-
             int q=0;
             for (q=0; q<5; q++)
                 {
@@ -1207,16 +894,10 @@ template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,in
                                 {
                                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
                                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
-
                                 }
                         }
                 }
-
-
         }
-
-
-
     return PASSED;
 }
 
@@ -1225,13 +906,10 @@ template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,in
 
 template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string Iprefix="")
 {
-
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
-
     bool PASSED=false;
     int k;
-
     for (k=0; k<7; k++)// FIXME
         {
             if (scsJet->GetClusterSequence())
@@ -1253,43 +931,24 @@ template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight
                                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(k,x,y);
                                     ye=A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(k);
                                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(k,x,0,y+weight,sqrt(ye*ye+weight*weight));
-
-
                                 }
-
                         }
                 }
-
         }
-
-
     return PASSED;
 }
 
 
-template <class EXA> bool MyAnalysis(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string Iprefix="")
+template <class EXA> bool MyAnalysis(EXA* A, TFastJet* scsJet,  float weight,std::string filly,std::string Iprefix="")
 {
-    bool ret=false;
-    switch (filly)
-        {
-        case 0:
-            ret=Analysis_type1(A,scsJet, weight,filly,Iprefix);
-            break;
-        case 1:
-            ret=Analysis_type2(A,scsJet, weight,filly,Iprefix);
-            break;
-        case 2:
-            ret=Analysis_type3(A,scsJet, weight,filly,Iprefix);
-            break;
-        default:
-            ret=Analysis_type1(A,scsJet, weight,filly,Iprefix);
-            break;
-        }
-    return ret;
-
+if (filly==std::string("0"))
+            return Analysis_type1(A,scsJet, weight,0,Iprefix);
+if (filly==std::string("1"))
+            return Analysis_type2(A,scsJet, weight,0,Iprefix);
+if (filly==std::string("2"))
+            return Analysis_type3(A,scsJet, weight,0,Iprefix);
+            return Analysis_type1(A,scsJet, weight,0,Iprefix);
 }
-
-
 
 template <class EXA>
 std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
@@ -1337,10 +996,4 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     for( Int_t itrk= 0; itrk < ntrack; itrk++ ) vtlv.push_back( TLorentzVector( ptrack[itrk][0], ptrack[itrk][1], ptrack[itrk][2], ptrack[itrk][3] ));
     return vtlv;
 }
-
-
-
 #endif
-
-
-

@@ -98,46 +98,47 @@ this->SetPointError(j,0,0,	finalyel[j],	finalyeh[j]);
 
 
 
-void TAdvancedGraph::Scale(TGraphAsymmErrors* A, double k)
+void TAdvancedGraph::Scale(double k)
 {
     int i;
-    for (i=0; i<A->GetN(); i++)
+    for (i=0; i<this->GetN(); i++)
         {
             Double_t x,y;
-            A->GetPoint(i,x,y);
-            A->SetPoint(i,x,y*k);
-            A->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),A->GetErrorYlow(i),A->GetErrorYhigh(i));
+            this->GetPoint(i,x,y);
+            this->SetPoint(i,x,y*k);
+            this->SetPointError(i,this->GetErrorXlow(i),this->GetErrorXhigh(i),this->GetErrorYlow(i),this->GetErrorYhigh(i));
         }
 }
 
 
-#endif
 
-/*
-TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL,double toll=1.E-15)
+
+void TAdvancedGraph::Divide(TAdvancedGraph* A, TAdvancedGraph* B)
 {
 
     if(A->GetN() != B->GetN())
         {
-            puts("TEfficiency::CheckBinnrams are not consistent: they have different number of bins");
-            return NULL;
+            puts("TAdvancedGraph::Divide are not consistent: they have different number of bins");
+            return;
         }
-    TGraphAsymmErrors* C;
-    if (!D)  C= new TGraphAsymmErrors( B->GetN());
-    else C=D;
-    if (D)  if(A->GetN() != D->GetN())
-            {
-                puts("TEfficiency::CheckBinnrams are not consistent: they have different number of bins");
-                return NULL;
-            }
+
+std::vector<double>	finaly;
+std::vector<double>	finalyel;
+std::vector<double>	finalyeh;
+ std::vector<double>	finalx;
+std::vector<double>	finalxel;
+std::vector<double>	finalxeh;
+
 
     for(Int_t i = 0; i < B->GetN() ; ++i)
 
         {
-            Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Byeh,Byel,Ayeh,Ayel;
+            Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Cxeh,Cxel,Byeh,Byel,Ayeh,Ayel;
             A->GetPoint(i,Ax,Ay);
             B->GetPoint(i,Bx,By);
-            if (D) D->GetPoint(i,Dx,Dy);
+
+            Cxel=A->GetErrorXlow(i);
+            Cxeh=A->GetErrorXhigh(i);
 
             Ayel=A->GetErrorYlow(i);
             Ayeh=A->GetErrorYhigh(i);
@@ -146,67 +147,54 @@ TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGra
             Byeh=B->GetErrorYhigh(i);
 
             Cx=Ax;
-            if (TMath::Abs(By)>1.E-15)
+            if (std::abs(By)>1.E-15)
                 {
                     Cy=Ay/By;
                     Cyeh=sqrt(Ayeh*Ayeh/(By*By)+Byel*Byel/(By*By*By*By)*Ay*Ay);
                     Cyel=sqrt(Ayel*Ayel/(By*By)+Byeh*Byeh/(By*By*By*By)*Ay*Ay);
                 }
             else { Cy=0; Cyel=0; Cyeh=0;}
-            C->SetPoint(i,Cx,Cy);
-            C->SetPointError(i,A->GetErrorXlow(i),A->GetErrorXhigh(i),Cyel,Cyeh);
-            //  printf("D %i %f %f %f %f\n",Cx,Cy,Cyel,Cyeh);
-            if(!TMath::AreEqualRel(Ax, Bx, toll))
+            
+            
+            finaly.push_back(Cy);
+            finalyel.push_back(Cyel);
+            finalyeh.push_back(Cyeh);       
+            
+                        finalx.push_back(Cx);
+            finalxel.push_back(Cxel);
+            finalxeh.push_back(Cxeh);     
+            
+             if(std::abs(Ax-Bx)>1e-12)
                 {
-                    puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E1");
-                    return NULL;
+                    puts("TAdvancedGraph::Divide are not consistent: they have different bin edges: E1");
+                    return;
 
                 }
 
-            if(!TMath::AreEqualRel(A->GetErrorXlow(i), B->GetErrorXlow(i),  toll))
+            if(std::abs(A->GetErrorXlow(i)- B->GetErrorXlow(i))>1e-12)
                 {
-                    puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E2");
-                    return NULL;
+                    puts("TAdvancedGraph::Divide are not consistent: they have different bin edges: E2");
+                    return;
 
                 }
 
-            if(!TMath::AreEqualRel(A->GetErrorXhigh(i), B->GetErrorXhigh(i),  toll))
+            if(std::abs(A->GetErrorXhigh(i)- B->GetErrorXhigh(i))>1e-12)
                 {
-                    puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E3");
-                    return NULL;
-                }
-            if (D)
-                {
-
-                    if(!TMath::AreEqualRel(Ax, Dx,  toll))
-                        {
-                            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E4");
-                            return NULL;
-
-                        }
-
-                    if(!TMath::AreEqualRel(A->GetErrorXlow(i), D->GetErrorXlow(i),  toll))
-                        {
-                            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E5");
-                            return NULL;
-
-                        }
-
-                    if(!TMath::AreEqualRel(A->GetErrorXhigh(i), D->GetErrorXhigh(i), toll))
-                        {
-                            puts("TEfficiency::CheckBinnrams are not consistent: they have different bin edges: E6");
-                            return NULL;
-                        }
-
-
-
-
+                    puts("TAdvancedGraph::Divide are not consistent: they have different bin edges: E3");
+                    return;
                 }
 
         }
-    return C;
-
-
-
+        
+this->Set(finalx.size());
+for (unsigned int j=0;j<finalx.size();j++)
+{
+this->SetPoint(j,finalx[j],	finaly[j]);
+this->SetPointError(j,finalxel[j],	finalxeh[j],	finalyel[j],	finalyeh[j]);	
+	
+}	
+        
+        
 }
-*/
+#endif
+

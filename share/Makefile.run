@@ -51,7 +51,14 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 
 
 
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph '-DGENERATOR=\"$(GEN)\"'
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall\
+		   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph '-DGENERATOR=\"$(GEN)\"'  \
+			-DMC -DANALYSISTYPE=kLEP1 -'DALGORITHMS=\"durham\"'
+#define MC
+#define ALGORITHMS "kt:antikt:siscone:cambridge:durham"
+#define ALGORITHMS "durham"
+#define ANALYSISTYPE kLEP1
+
 		# -DUSE_ANTIKT
 
 
