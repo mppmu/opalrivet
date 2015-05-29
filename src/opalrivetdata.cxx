@@ -1,11 +1,11 @@
-#define EXCITED8_cxx
-#include  "EXCITED8.h"
+#define opalrivetdata_cxx
+#include  "opalrivetdata.h"
 #include  "TFastJet.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
 
-void EXCITED8::Begin(TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
-void EXCITED8::SlaveBegin(TTree * tree)
+void opalrivetdata::Begin(TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
+void opalrivetdata::SlaveBegin(TTree * tree)
 {
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
@@ -27,7 +27,7 @@ void EXCITED8::SlaveBegin(TTree * tree)
     for (int i=0; i<10; i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
     for (int i=0; i<10; i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+21,Form("mcbackgr,proc. %i",i));
 }
-Bool_t EXCITED8::Process(Long64_t gentry)
+Bool_t opalrivetdata::Process(Long64_t gentry)
 {
     TAnalysisInfo fAI=ANALYSISINFO; // We put it here because we do not want just another type/class for ROOT and therefore cannot make it a member
     Bool_t PASSED=kFALSE;
@@ -73,7 +73,7 @@ Bool_t EXCITED8::Process(Long64_t gentry)
     fHMap["weight"]->Fill(fAI.fTypes[II],weight);
     return kTRUE;
 }
-void EXCITED8::SlaveTerminate()
+void opalrivetdata::SlaveTerminate()
 {
     TDirectory *savedir = gDirectory;
     fFile->cd();
@@ -84,7 +84,7 @@ void EXCITED8::SlaveTerminate()
     gDirectory = savedir;
     fFile->Close();
 }
-void EXCITED8::Terminate()
+void opalrivetdata::Terminate()
 {
     TFile* type_fFile= new TFile(FILENAME, "UPDATE");
     type_fFile->cd();
@@ -138,4 +138,4 @@ void EXCITED8::Terminate()
     
     type_fFile->Close();
 }
-Bool_t EXCITED8::Notify() {return kTRUE;}
+Bool_t opalrivetdata::Notify() {return kTRUE;}
