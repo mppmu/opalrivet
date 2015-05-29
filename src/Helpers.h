@@ -40,16 +40,15 @@
 #include <TVector3.h>
 #include <TVirtualFitter.h>
 #include "TBufferFile.h"
+#include <TCanvas.h>
+#include <TMultiGraph.h>
+#include <TMath.h>
 
 #endif
 
-#include  "fastjet/ClusterSequence.hh"
-#include  "fastjet/PseudoJet.hh"
+#include <vector>
+#include <cmath>
 
-#include "Rivet/Rivet.hh"
-
-#include "Cuts.h"
-#include "TFastJet.h"
 #include "TAdvancedGraph.h"
 #include  <map>
 #include  <sstream>
@@ -88,11 +87,37 @@ enum TAnalysisType {kLEP1,kLEP2,kJADE};
 static const Int_t nt_maxtrk= 501;
 static const Int_t nt_maxp= 50;
 static const Int_t nt_maxh= 2004;
+#define MAX_RUNS   20
+typedef struct TAnalysisInfo_
+{
+    double fE;
+    TAnalysisType fAT;
+    std::string  fNames[MAX_RUNS];
+    int          fTypes[MAX_RUNS];
+    int          fRunsBegin[MAX_RUNS];
+    int          fRunsEnd[MAX_RUNS];
+    double       fSigmas[MAX_RUNS];
+    double       fLumis[MAX_RUNS];
+    int          fEvents[MAX_RUNS];
+}  TAnalysisInfo;
 
 
 //http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
 void tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens);
 void replace_all(std::string& str, const std::string& from, const std::string& to);
+
+void set_my_style();
+#ifndef SIMPLE_HELPERS_ONLY
+
+#include  "fastjet/ClusterSequence.hh"
+#include  "fastjet/PseudoJet.hh"
+
+#include "Rivet/Rivet.hh"
+
+#include "Cuts.h"
+#include "TFastJet.h"
+
+
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[]);
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[]);
 
@@ -102,7 +127,7 @@ void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s,
 double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis);
 
 
-#ifndef SIMPLE_HELPERS_ONLY
+
 std::string ROOT_to_YODA_name(std::string a);//FIXME. Random so far
 
 std::string YODA_to_ROOT_name(std::string a, std::string prefix="");
@@ -590,19 +615,6 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 }
 
 
-#define MAX_RUNS   20
-typedef struct TAnalysisInfo_
-{
-    double fE;
-    TAnalysisType fAT;
-    std::string  fNames[MAX_RUNS];
-    int          fTypes[MAX_RUNS];
-    int          fRunsBegin[MAX_RUNS];
-    int          fRunsEnd[MAX_RUNS];
-    double       fSigmas[MAX_RUNS];
-    double       fLumis[MAX_RUNS];
-    int          fEvents[MAX_RUNS];
-}  TAnalysisInfo;
 
 
 template <class EXA>
@@ -996,4 +1008,5 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     for( Int_t itrk= 0; itrk < ntrack; itrk++ ) vtlv.push_back( TLorentzVector( ptrack[itrk][0], ptrack[itrk][1], ptrack[itrk][2], ptrack[itrk][3] ));
     return vtlv;
 }
+
 #endif

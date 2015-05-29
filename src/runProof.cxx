@@ -196,6 +196,14 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             gSystem->GetFromPipe("sed -i \"/Bool_t "+NAME+"::Notify()/,/}/d\" "+NAME+".h");
         }
 
+    if ((TString(gSystem->GetFromPipe("cat "+NAME+".cxx | grep Notify"))).Length()>0) // Here grep may reise an error. Very cool!
+        {
+            puts( "We have Notify implementation in selector!");
+            gSystem->GetFromPipe("sed -i \"/Bool_t "+NAME+"::Notify()/,/}/d\" "+NAME+".h");
+        }
+
+
+
     gSystem->GetFromPipe("mkdir PROOF-INF");
     gSystem->GetFromPipe("echo '#!/bin/sh \n if [ \"\" = \"clean\" ]; then \n make distclean \n exit 0\n  fi\n make TARGET="+NAME+" \n' >>PROOF-INF/BUILD.sh");
     gSystem->GetFromPipe("chmod +x PROOF-INF/BUILD.sh");

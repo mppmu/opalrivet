@@ -6,7 +6,8 @@
 #include <algorithm>
 //ClassImp(TAdvancedGraph)
 
-
+ TAdvancedGraph::TAdvancedGraph(Int_t n, const Double_t* x, const Double_t* y, const Double_t* exl , const Double_t* exh , const Double_t* eyl , const Double_t* eyh ):
+ TGraphAsymmErrors(n,x,y,exl,exh,eyl,eyh){};
 TAdvancedGraph::TAdvancedGraph(Int_t n) : TGraphAsymmErrors(n){};
 int TAdvancedGraph::Merge(TCollection *hlist)
 {

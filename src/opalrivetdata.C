@@ -128,7 +128,7 @@ void opalrivetdata::Terminate()
         if (G_it->first.find("G_acceptancesignal_")!=std::string::npos)
         {
         std::string name=G_it->first.substr(std::string("G_acceptancesignal_").length());
-        G_it->second->Add(fGMap[std::string("G_mcsignal_")+name]);
+        G_it->second->Add(NULL,fGMap[std::string("G_mcsignal_")+name]);
         G_it->second->Divide(fGMap[std::string("G_mcsignal_")+name],fGMap[std::string("G_truesignal_")+name]);
         fGMap[std::string("G_corrected_")+name]->Add(fGMap[std::string("G_data_")+name],fGMap[std::string("G_mcbackgr_")+name],1,-1);
         fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);

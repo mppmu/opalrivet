@@ -131,6 +131,6 @@ bin/$(ARCH)/runProof: src/runProof.cxx
 
 bin/$(ARCH)/plots: src/plots.cxx
 		mkdir -p ../bin/$(ARCH)
-		$(CXX) -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof -I./Code src/plots.cxx  -o ./bin/$(ARCH)/plots
+		$(CXX) -g -I. -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof -I./Code src/plots.cxx  src/TAdvancedGraph.cxx src/Helpers.cxx  -o ./bin/$(ARCH)/plots
 
 

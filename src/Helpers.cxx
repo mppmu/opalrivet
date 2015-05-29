@@ -1,7 +1,33 @@
 #include "Helpers.h"
 
 
+void set_my_style()
+{
+    gStyle->SetFrameFillColor(kWhite);
+    gStyle->SetPadColor(kWhite);
+    gStyle->SetCanvasColor(kWhite);
+    gStyle->SetStatColor(kWhite);
+    gStyle->SetTitleFillColor(kWhite);
+    gStyle->SetCanvasDefH(768);
+    gStyle->SetCanvasDefW(1024);
+    gStyle->SetPadTickX(1);
+    gStyle->SetPadTickY(1);
+    gStyle->SetMarkerColor(kBlue);
+    gStyle->SetMarkerSize(15);
+    gStyle->SetHistFillColor(kYellow);
+    gStyle->SetOptStat(kFALSE);
 
+    gStyle->SetLegendBorderSize(0);
+
+    gStyle->SetStatColor(kWhite);
+
+    gStyle->SetCanvasBorderMode(0);
+    gStyle->SetPadBorderMode(0);
+
+    gStyle->SetTitleFillColor(kWhite);
+
+
+}
 
 
 
@@ -72,7 +98,7 @@ void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s,
 
 
 
-
+#ifndef SIMPLE_HELPERS_ONLY
 
 std::string ROOT_to_YODA_name(std::string a)//FIXME. Random so far
 {
@@ -232,3 +258,4 @@ double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis)
 
 
 
+#endif

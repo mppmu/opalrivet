@@ -1,115 +1,5 @@
-//#include  "Code/Helpers.h"
-//#include  "Code/Cuts.h"
-//http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
-#ifndef ZROOT_H
-#define ZROOT_H
-#include <TH2.h>
-#include <TColor.h>
-#include <TStyle.h>
-#include "TF1.h"
-#include "TF2.h"
-#include "TFile.h"
-#include "TNtuple.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TEventList.h"
-#include "TMath.h"
-#include  "TKey.h"
-#include "TMultiGraph.h"
-#include  <iostream>
-#include  <TString.h>
-#include  <TSystem.h>
-#include  <TDatime.h>
-#include  <TVector3.h>
-#include  <TLorentzVector.h>
-#include  <TPaveLabel.h>
-#include  <TArrow.h>
-#include  <math.h>
-#include  "TEntryList.h"
-#include "TProofOutputFile.h"
-#include <TH2.h>
-#include <TStyle.h>
-#include "TF1.h"
-#include "TFile.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TEventList.h"
-#include "TMath.h"
-#include  <iostream>
-#include  <TString.h>
-#include  <TDatime.h>
-#include  <TVector3.h>
-#include  <TLorentzVector.h>
-#include  <TPaveLabel.h>
-#include  <TArrow.h>
-#include  <math.h>
-#include <TH2.h>
-#include <TStyle.h>
-#include "TF1.h"
-#include "TFile.h"
-#include "TNtuple.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TEventList.h"
-#include "TMath.h"
-#include  <iostream>
-#include  <TString.h>
-#include  <TSystem.h>
-#include  <TDatime.h>
-#include  <TVector3.h>
-#include  <TLorentzVector.h>
-#include  <TPaveLabel.h>
-#include  <TArrow.h>
-#include  <math.h>
-#include "TProofOutputFile.h"
-
-#include "TApplication.h"
-#include "math.h"
-#include "TH1D.h"
-#include "TH1D.h"
-#include "TH2F.h"
-#include "TF2.h"
-#include "TF1.h"
-#include "TFile.h"
-#include "TEllipse.h"
-#include "TCanvas.h"
-#include "TArrow.h"
-#include "TLorentzVector.h"
-#include "TStyle.h"
-#include "TDSet.h"
-#include "TMap.h"
-#include "TLegend.h"
-#include "TPaveLabel.h"
-#include "TEntryList.h"
-#include "TPaveText.h"
-#include "TROOT.h"
-#include "TTree.h"
-#include "TLatex.h"
-#include "TObjArray.h"
-#include "TObjString.h"
-#include "TChain.h"
-#include "TSystem.h"
-#include "TString.h"
-#include "TProof.h"
-#include "TEnv.h"
-#include <TF1.h>
-#include <TROOT.h>
-#include <TSystem.h>
-#include <TH1D.h>
-#include <TFile.h>
-#include <TVirtualFitter.h>
-#include <TError.h>
-#include <TGraphAsymmErrors.h>
-#include <TCanvas.h>
-#include <TMath.h>
-#include <vector>
-#include <cmath>
-#include <cassert>
-
-#endif
 #include "Helpers.h"
 
-#include <map>
 
 
 double chi2_TH1(TH1D* A, TH1D* B)
@@ -122,7 +12,7 @@ double chi2_TH1(TH1D* A, TH1D* B)
 
 }
 
-double chi2_TG(TGraphAsymmErrors* A, TGraphAsymmErrors* B,double mi=-TMath::Infinity(),double ma=TMath::Infinity())
+double chi2_TG(TAdvancedGraph* A, TAdvancedGraph* B,double mi=-TMath::Infinity(),double ma=TMath::Infinity())
 {
     double chi2=0;
     int N=0;
@@ -152,14 +42,14 @@ double chi2_TG(TGraphAsymmErrors* A, TGraphAsymmErrors* B,double mi=-TMath::Infi
 
 }
 
-void ShiftPoints(TGraphAsymmErrors* B,double shift=0.05)
+void ShiftPoints(TAdvancedGraph* B,double shift=0.05)
 {
     for (int j=0; j<B->GetN(); j++)
         B->GetX()[j]=B->GetX()[j]+shift*(B->GetX()[j+1]-B->GetX()[j]);
 
 }
 
-void RemovePoints(TGraphAsymmErrors* B,int n)
+void RemovePoints(TAdvancedGraph* B,int n)
 {
     for (int j=0; j<n; j++)
         B->RemovePoint(j);
@@ -168,7 +58,7 @@ void RemovePoints(TGraphAsymmErrors* B,int n)
 
 
 
-TGraphAsymmErrors* ExtendGraph2(TGraphAsymmErrors* A, TGraphAsymmErrors* B)
+TAdvancedGraph* ExtendGraph2(TAdvancedGraph* A, TAdvancedGraph* B)
 {
 
     double X[A->GetN()+B->GetN()];
@@ -232,7 +122,7 @@ TGraphAsymmErrors* ExtendGraph2(TGraphAsymmErrors* A, TGraphAsymmErrors* B)
             if (!ok) { puts("failed to extend!"); return NULL;}
         }
 
-    TGraphAsymmErrors* C= new TGraphAsymmErrors(q,X,Y,Xel,Xeh,Yel,Yeh);
+    TAdvancedGraph* C= new TAdvancedGraph(q,X,Y,Xel,Xeh,Yel,Yeh);
     return C;
 
 }
@@ -241,7 +131,7 @@ bool myfunction(std::vector<double> a, std::vector<double> b)
     return (a[0]<b[0]);
 }
 
-TGraphAsymmErrors* ExtendGraph(TGraphAsymmErrors* A, TGraphAsymmErrors* B,double margin)
+TAdvancedGraph* ExtendGraph(TAdvancedGraph* A, TAdvancedGraph* B,double margin)
 {
 
     std::vector< std::vector<double> > Z;
@@ -279,7 +169,7 @@ TGraphAsymmErrors* ExtendGraph(TGraphAsymmErrors* A, TGraphAsymmErrors* B,double
         else if (Z2.back()[6]<0) Z2[Z2.size()-1]=Z.at(i);
 
 
-    TGraphAsymmErrors* C= new TGraphAsymmErrors(Z2.size());
+    TAdvancedGraph* C= new TAdvancedGraph(Z2.size());
     for (int j=0; j<Z2.size(); j++)
         {
 
@@ -293,45 +183,10 @@ TGraphAsymmErrors* ExtendGraph(TGraphAsymmErrors* A, TGraphAsymmErrors* B,double
     return C;
 }
 
-void set_my_style()
-{
-    gStyle->SetFrameFillColor(kWhite);
-    gStyle->SetPadColor(kWhite);
-    gStyle->SetCanvasColor(kWhite);
-    gStyle->SetStatColor(kWhite);
-    gStyle->SetTitleFillColor(kWhite);
-    gStyle->SetCanvasDefH(768);
-    gStyle->SetCanvasDefW(1024);
-    gStyle->SetPadTickX(1);
-    gStyle->SetPadTickY(1);
-    gStyle->SetMarkerColor(kBlue);
-    gStyle->SetMarkerSize(15);
-    gStyle->SetHistFillColor(kYellow);
-    gStyle->SetOptStat(kFALSE);
 
-    gStyle->SetLegendBorderSize(0);
-
-    gStyle->SetStatColor(kWhite);
-
-    gStyle->SetCanvasBorderMode(0);
-    gStyle->SetPadBorderMode(0);
-
-    gStyle->SetTitleFillColor(kWhite);
-
-//gStyle->SetTitleAlign(13);
-
-//#define ROMAN
-#ifdef ROMAN
-    gStyle->SetTitleFont(22,"X");
-    gStyle->SetTitleFont(22,"Y");
-    gStyle->SetLabelFont(22,"X");
-    gStyle->SetLabelFont(22,"Y");
-    gStyle->SetTextFont(22);
-#endif
-}
 
 /*
-TH1D*  TGraphAsymmErrors_to_TH1D(const char* name,TGraphAsymmErrors* A)
+TH1D*  TAdvancedGraph_to_TH1D(const char* name,TAdvancedGraph* A)
 {
 
 	double* X= new double[A->GetN()+1];
@@ -353,7 +208,7 @@ TH1D*  TGraphAsymmErrors_to_TH1D(const char* name,TGraphAsymmErrors* A)
 
 }
 */
-TH1D*  TGraphAsymmErrors_to_TH1D_template(const char* name,TGraphAsymmErrors* A,TH1D* B,int offset=0)//STUPID YODA!
+TH1D*  TAdvancedGraph_to_TH1D_template(const char* name,TAdvancedGraph* A,TH1D* B,int offset=0)//STUPID YODA!
 {
 
     TH1D* Q= 	(TH1D*)B->Clone(name);
@@ -380,31 +235,15 @@ int plots()
 #endif
 
     std::map<std::string,TH1D*> fHMap;
-    std::map<std::string,TGraphAsymmErrors*> fGMap;
+    std::map<std::string,TAdvancedGraph*> fGMap;
 
-    std::vector<std::string> GENERATORS;
     std::vector<std::string> generators;
-
     std::vector<std::string> algorithms;
-    std::vector<std::string> ALGORITHMS;
-    std::vector<std::string> Algorithms;
-    //tokenize("PYTHIA8:PYTHIA8_NOHAD:SHERPA:HERWIG++",":",GENERATORS);
-    //tokenize("pythia8:pythia8_nohad:sherpa:herwig++",":",generators);
+//    tokenize("pythia8:sherpa:herwig++",":",generators);
 
-    tokenize("PYTHIA8:SHERPA:HERWIG++",":",GENERATORS);
-    tokenize("pythia8:sherpa:herwig++",":",generators);
-
-//	tokenize("PYTHIA8",":",GENERATORS);
-//	tokenize("pythia8",":",generators);
-
-
-    tokenize("DURHAM:JADE:ANTIKT",":",ALGORITHMS);
-    tokenize("durham:jade:antikt",":",algorithms);
-    tokenize("Durham:Jade:Antikt",":",Algorithms);
-
-//   tokenize("DURHAM",":",ALGORITHMS);
-    // tokenize("durham",":",algorithms);
-
+tokenize("pythia8",":",generators);
+//    tokenize("durham:jade:antikt",":",algorithms);
+    tokenize("durham",":",algorithms);
 
     if (argc<2) {printf("Not enough arguments\n"); exit(1);}
 
@@ -439,9 +278,9 @@ int plots()
 
 
     std::vector < std::string > ofiles;
-    for (int j=0; j<GENERATORS.size(); j++) ofiles.push_back(std::string(TString(Form("output/PREDICTION%s_%i.root",GENERATORS[j].c_str(),ENERGY)).Data()));
+    for (int j=0; j<generators.size(); j++) ofiles.push_back(std::string(TString(Form("output/prediction%s_%i.root",generators[j].c_str(),ENERGY)).Data()));
     ofiles.push_back(std::string(TString(Form("output/OPAL_%i.root",ENERGY)).Data()));
-    ofiles.push_back(std::string(TString("output/JADE_OPAL_2000_S4300807a.root").Data()));
+   //>???????????? //ofiles.push_back(std::string(TString("output/JADE_OPAL_2000_S4300807a.root").Data()));
 
     for (int j=0; j<ofiles.size(); j++)
         {
@@ -459,7 +298,7 @@ int plots()
                         }
                     if ( obj->IsA()->InheritsFrom( "TGraph" ) )
                         {
-                            fGMap.insert(std::pair<std::string,TGraphAsymmErrors*> (std::string(key->GetName()) ,(TGraphAsymmErrors*)obj)   );
+                            fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
                             //fGMap[std::string(key->GetName())]->SetDirectory(0);
                         }
                     if(key) puts(key->GetName());
@@ -471,14 +310,14 @@ int plots()
     system("mkdir -p plots");
     for (int r=0; r<algorithms.size(); r++)
         {
-            std::string ALGORITHM=ALGORITHMS[r];
+            std::string ALGORITHM=algorithms[r];
             std::string algorithm=algorithms[r];
-            std::string Algorithm=Algorithms[r];
+            std::string Algorithm=algorithms[r];
             puts(algorithm.c_str());
-            for (int j=0; j<GENERATORS.size(); j++)
+            for (int j=0; j<generators.size(); j++)
                 {
                     std::string generator=generators[j];
-                    std::string GENERATOR=GENERATORS[j];
+                    std::string GENERATOR=generators[j];
                     puts(generator.c_str());
                     TCanvas* D= new TCanvas("D","D",1024*2,768*2);
                     D->cd(1);
@@ -521,10 +360,8 @@ int plots()
                             else       fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())]->SetTitle(Form("Integrated %i-jet rate with %s algorithm (%iGeV);y_{cut};Rate",i+2,ALGORITHM.c_str(),ENERGY));
 
                             std::string option="APEL";
-//if ((i!=0)&&(SAME)) option="SAMEAPE+";
+
                             fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())]->Draw(option.c_str());
-//else
-//fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())]->Draw("APESAME");
                             fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())]->SetLineColor(kRed);
                             fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())]->GetXaxis()->SetRangeUser(0.00001,1);
                             fGMap[std::string(TString(Form("G_corrected_%s_%iGeV_JETR%i",algorithm.c_str(),ENERGY,i+2)).Data())]->GetYaxis()->SetRangeUser(0,1.6);
@@ -548,7 +385,7 @@ int plots()
                             if (i<4) mg->Add(fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())],"PE");
 
                             puts(std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data()).c_str());
-                            if (j==0) ScaleGraph(fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],0.01,2);
+                            if (j==0) fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->Scale(0.01);
                             fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->Draw("SAMEPE");
                             fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->SetMarkerColor(kBlack);
                             fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())]->SetMarkerStyle(kFullCircle);
@@ -651,14 +488,14 @@ int plots()
 
     TMultiGraph *mg2 = new TMultiGraph();
     TMultiGraph *mg3 = new TMultiGraph();
-    TGraphAsymmErrors* HJ[GENERATORS.size()];
+    TAdvancedGraph* HJ[generators.size()];
     /*
-    TH1D* H=  TGraphAsymmErrors_to_TH1D_template("HH",fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",
+    TH1D* H=  TAdvancedGraph_to_TH1D_template("HH",fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",
     yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())],
     fHMap[std::string(TString(Form("H_prediction%s_%s_%iGeV_JETR%i",generators[0].c_str(),algorithm.c_str(),ENERGY,i+2)).Data())],0);
     //H->SetTitle("Integrated 2-jet rate with Durham algorithm in OPAL e^{+}e^{-} collisions for #sqrt{s}=189GeV;x;1/#sigma d#sigma/dx");
     */
-    TGraphAsymmErrors* H=fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())];
+    TAdvancedGraph* H=fGMap[std::string(TString(Form("/REF/JADE_OPAL_2000_S4300807a/d%i-x01-y0%i",yodaconv[std::pair<float,std::string>(ENERGY*1.0,algorithm)],i+1)).Data())];
     H->SetTitle(Form("Integrated 2-jet rate with Durham algorithm at OPAL (%iGeV);y_{cut};Rate",ENERGY));
 
 //H->Draw("AP");
@@ -685,10 +522,10 @@ int plots()
     TLegend* L= new TLegend(0.13,0.87,0.45,0.65);
     L->AddEntry(H,"Data, EPJ C17 19-51 (2000)","P");
 
-    for (int j=0; j<GENERATORS.size(); j++)
+    for (int j=0; j<generators.size(); j++)
         {
             generator=generators[j];
-            GENERATOR=GENERATORS[j];
+            GENERATOR=generators[j];
 
 //fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())]->Draw("SAME");
 //RemovePoints(fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())],9);
@@ -707,14 +544,14 @@ int plots()
 
             pad2->SetBottomMargin(0.04);
 
-//HJ[j]=TGraphAsymmErrors(fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())]);//->Clone(Form("H%i",j));
+//HJ[j]=TAdvancedGraph(fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())]);//->Clone(Form("H%i",j));
 
 //HJ[j]->DivideBayesis(H);
 
-            TGraphAsymmErrors *Q=fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())];
+            TAdvancedGraph *Q=fGMap[std::string(TString(Form("G_prediction%s_%s_%iGeV_JETR%i",generator.c_str(),algorithm.c_str(),ENERGY,i+2)).Data())];
             Q=ExtendGraph(Q,H,0.000001);
             H=ExtendGraph(H,Q,0.000001);
-            HJ[j]=DivideGraphs(Q,H,NULL,0.000001);
+            HJ[j]->Divide(Q,H);
             HJ[j]->SetTitle(";y_{cut};Data/MC;");
 
             HJ[j]->SetLineColor(Colors[j+1]);
