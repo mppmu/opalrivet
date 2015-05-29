@@ -1,13 +1,13 @@
-void FoldGraph(TGraphAsymmErrors* A, int N);
-
-
-void ScaleGraph(TGraphAsymmErrors* A, double k,int scaleopt=0);
-
-
-
-
-TGraphAsymmErrors* AddGraphs(double w1,double w2,TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL);
-
-
-TGraphAsymmErrors* DivideGraphs(TGraphAsymmErrors* A, TGraphAsymmErrors* B, TGraphAsymmErrors* D=NULL,double toll=1.E-15);
-
+#ifndef UBACKGROUND_H
+#define UBACKGROUND_H
+#include "TGraphAsymmErrors.h"
+class TAdvancedGraph: public TGraphAsymmErrors
+{
+public:
+ TAdvancedGraph(Int_t n);// : TGraphAsymmErrors(n){};
+int Merge(TCollection *hlist);
+Bool_t Add( TAdvancedGraph* h,  TAdvancedGraph* h2, Double_t c1 = 1, Double_t c2 = 1);
+void Scale(TGraphAsymmErrors* A, double k);
+//ClassDef(TAdvancedGraph,0)
+};
+#endif

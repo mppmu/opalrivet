@@ -22,11 +22,17 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		rm -f inc/Helpers.h 
 		rm -f inc/TFastJet.h 
 		cp ../src/TFastJet.cxx ./src
+		cp ../src/TFastJet.h ./inc	
+
+		cp ../src/TAdvancedGraph.cxx ./src
+		cp ../src/TAdvancedGraph.h ./inc	
+
+
 		cp ../src/Cuts.h ./inc
 		cp ../src/Cuts.cxx ./src
 		cp ../src/Helpers.h ./inc
 		cp ../src/Helpers.cxx ./src
-		cp ../src/TFastJet.h ./inc		
+	
 		rm -f  gen/LinkDef.h
 		
 #		echo "#ifdef __MAKECINT__" >> gen/LinkDef.h
@@ -40,9 +46,12 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
 		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TFastJet.o  -o lib/libTFastJet.so
 
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraph.cxx -o obj/TAdvancedGraph.o
+		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TAdvancedGraph.o  -o lib/libTAdvancedGraph.so
 
 
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet  '-DGENERATOR=\"$(GEN)\"'
+
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall   -DUSE_RIVET  -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph '-DGENERATOR=\"$(GEN)\"'
 		# -DUSE_ANTIKT
 
 

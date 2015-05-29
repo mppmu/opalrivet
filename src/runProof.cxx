@@ -166,6 +166,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     else     chainTD->MakeSelector(NAME.Data());
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TAdvancedGraph;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1D;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1F;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TEntryList;' %s.h",NAME.Data()));
@@ -179,7 +180,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 
     gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
 
-    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TGraphAsymmErrors*> fGMap;' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TAdvancedGraph*> fGMap;' %s.h",NAME.Data()));
 
 
     gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));

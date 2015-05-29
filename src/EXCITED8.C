@@ -5,7 +5,14 @@
 #include  "Helpers.h"
 #include  "Cuts.h"
 
-void EXCITED8::Begin(TTree *tree) {		TBufferFile::SetGlobalWriteParam(4999);}
+void EXCITED8::Begin(TTree *tree) {		
+	
+	//    tree->Draw("Irun>>RUNHIST2(20000,0.0,20000.0)");
+  //  TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST2");
+    //p->AddInput(RUNHIST);
+//	RUNHIST->Draw();
+	
+	TBufferFile::SetGlobalWriteParam(4999);}
 void EXCITED8::SlaveBegin(TTree * tree)
 {
 
@@ -87,7 +94,7 @@ void EXCITED8::SlaveTerminate()
     TDirectory *savedir = gDirectory;
     fFile->cd();
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2();  H_it->second->Write(); H_it->second->SetDirectory(0);      }
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) {  G_it->second->Write();}
+    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) {  G_it->second->Write();}
     fProofFile->Print();
     fOutput->Add(fProofFile);
     gDirectory = savedir;
@@ -104,7 +111,7 @@ void EXCITED8::Terminate()
             TObject *obj = key->ReadObj();
 //if (!obj) continue;
             if ( obj->IsA()->InheritsFrom( "TH1"    ) ) fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj)   );
-            if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TGraphAsymmErrors*> (std::string(key->GetName()) ,(TGraphAsymmErrors*)obj)   );
+            if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
         }
     // Scale later ? for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if ((H_it->first.find("JETR")!=std::string::npos) &&(H_it->first.find("data_")!=std::string::npos))  H_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));  //data
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
@@ -137,10 +144,10 @@ void EXCITED8::Terminate()
 
 
 //FIXME! SCALE -->
-//Run 1 core!!!    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) FoldGraph(G_it->second,4);//We run on 4 cores.//FIXME
-    // for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
+//Run 1 core!!!    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) FoldGraph(G_it->second,4);//We run on 4 cores.//FIXME
+    // for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
     // if ((G_it->first.find("JETR")!=std::string::npos) &&(G_it->first.find("data_")!=std::string::npos))  ScaleGraph(G_it->second,1.0/fHMap["weight"]->GetBinContent(1));
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
+    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
         if (G_it->first.find("G_acceptancesignal_")!=std::string::npos)
             {
                 //puts(G_it->first.c_str());
@@ -155,7 +162,7 @@ void EXCITED8::Terminate()
 
             }
 
-    for (std::map<std::string,TGraphAsymmErrors*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
+    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
 
 //<--FIXME! SCALE
 

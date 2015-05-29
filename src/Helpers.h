@@ -50,12 +50,14 @@
 
 #include "Cuts.h"
 #include "TFastJet.h"
+#include "TAdvancedGraph.h"
 #include  <map>
 #include  <sstream>
 #include <vector>
 #include <cassert>
 #include <cmath>
 #include <iostream>
+
 #include <map>
 #include <math.h>
 #include <sstream>
@@ -92,7 +94,7 @@ static const Int_t nt_maxh= 2004;
 void tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens);
 void replace_all(std::string& str, const std::string& from, const std::string& to);
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[]);
-void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t s, const Double_t a[]);
+void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[]);
 
 
 

@@ -42,7 +42,7 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
     for (int b = 0; b < A[t]->GetNbinsX(); b++) A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b));
     //A[t]->SetBinErrorOption( TH1::EBinErrorOpt::kPoisson);
 }
-
+/*
 void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t s, const Double_t a[])
 {
     A.insert(std::pair<std::string,TGraphAsymmErrors*>( t,new TGraphAsymmErrors(s)));
@@ -53,6 +53,24 @@ void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t
     //gDirectory->Append(A[t]);
 
 }
+*/
+
+
+void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[])
+{
+	TAdvancedGraph* Q= new TAdvancedGraph(Int_t(s));
+    A.insert(std::pair<std::string,TAdvancedGraph*>( t,Q));
+    for (int b = 0; b < s; b++) { A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b)); A[t]->SetPoint(b,a[b],0.0); }
+    A[t]->SetDrawOption("APL");
+    A[t]->SetTitle(t.c_str());
+    A[t]->SetName(t.c_str());
+    //gDirectory->Append(A[t]);
+
+}
+
+
+
+
 
 
 
