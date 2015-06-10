@@ -7,16 +7,21 @@
 void opalrivetdata::Begin(TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
+    TAnalysisInfo fAI=ANALYSISINFO;
+	fGenerator="opal";
+		char a[20];
+		sprintf(a,"%i",(int)(fAI.fE + 0.5));
+		fEnergyString=std::string(a);
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
-    fProofFile = new TProofOutputFile(FILENAME, "M");
+    fProofFile = new TProofOutputFile(Form("output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
     
     	//return ;
     
-    TAnalysisInfo fAI=ANALYSISINFO;
+
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++) BookHistograms(this,fAI,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
@@ -91,7 +96,7 @@ void opalrivetdata::SlaveTerminate()
 void opalrivetdata::Terminate()
 {
    // return;
-    TFile* type_fFile= new TFile(FILENAME, "UPDATE");
+    TFile* type_fFile= new TFile(Form("output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "UPDATE");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
     TKey *key;

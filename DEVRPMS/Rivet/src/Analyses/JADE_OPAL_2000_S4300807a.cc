@@ -32,9 +32,9 @@ public:
 		fAI.fAT=ANALYSISTYPE ;
         std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
 		tokenize(ALGORITHMS,":",fAlgorithms);
-    fFile= new TFile( Form("prediction%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()),"recreate");    
+    fFile= new TFile( (fGenerator+"_"+fEnergyString+".root").c_str(),"recreate");    
     for (std::vector<std::string>::iterator it=fAlgorithms.begin();it!=fAlgorithms.end();it++)    
-    BookHistograms(this,fAI,std::string("prediction")+fGenerator+"_"+*it+"_"+fEnergyString+"GeV_");
+    BookHistograms(this,fAI,fGenerator+"_"+*it+"_"+fEnergyString+"GeV_");
     fTotalWeight=0;
     const FinalState fs;
     addProjection(fs, "FS");
@@ -51,7 +51,7 @@ public:
 		 Rivet::Particles particles = (applyProjection<FinalState>(e, "VFS")).particles();
 		 std::vector<TLorentzVector>  vtlv = GetMC2(&particles);
          TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
-		 MyAnalysis(this, tfj,e.weight(),*it,std::string("prediction")+fGenerator+"_"+*it+"_"+fEnergyString+"GeV_");
+		 MyAnalysis(this, tfj,e.weight(),*it,fGenerator+"_"+*it+"_"+fEnergyString+"GeV_");
 		 } 
     }
     void finalize()    {
@@ -59,12 +59,11 @@ public:
     fFile->cd();
     std::map<std::string,TH1D*>::iterator H_it;
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) 
-    //if (H_it->first.find("JETR")!=std::string::npos) 
-    { H_it->second->Sumw2(); H_it->second->Scale(1.0/fTotalWeight);  H_it->second->Write(); }
+     
+    { H_it->second->Sumw2(); if (H_it->first.find("JETR")!=std::string::npos)H_it->second->Scale(1.0/fTotalWeight);  H_it->second->Write(); }
     std::map<std::string,TAdvancedGraph*>::iterator G_it;
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
-    //if (G_it->first.find("JETR")!=std::string::npos)     
-	{ G_it->second->Scale(1.0/fTotalWeight);	G_it->second->Write();}
+	{ if (G_it->first.find("JETR")!=std::string::npos) G_it->second->Scale(1.0/fTotalWeight);	G_it->second->Write();}
 	    gDirectory = savedir;
     fFile->Close();  
      }

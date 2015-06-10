@@ -176,54 +176,14 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
   //  chainTD->MakeSelector("TAutomaticSelector");
 }
     
-/////////////////
-  /*  
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TAdvancedGraph;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1D;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TH1F;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TEntryList;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TProofOutputFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TNtuple;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTFile *fFile;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/aTProofOutputFile *fProofFile;' %s.h",NAME.Data()));
 
-
-
-
-    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TH1D*> fHMap;' %s.h",NAME.Data()));
-
-    gSystem->GetFromPipe(Form("sed -i '/public :/astd::map<std::string,TAdvancedGraph*> fGMap;' %s.h",NAME.Data()));
-
-
-    gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
-    gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
-*/
-//////////////
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#include \"TUserProofData.h\"' %s.h",NAME.Data()));
    gSystem->GetFromPipe(Form("sed -i 's@public TSelector@public TSelector, public TUserProofData@g' %s.h",NAME.Data()));
 
-///////////////////////////
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   
     gSystem->GetFromPipe("cp ../../"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
-/*
-    if ((TString(gSystem->GetFromPipe("cat "+NAME+".C | grep Notify"))).Length()>0) // Here grep may reise an error. Very cool!
-        {
-            puts( "We have Notify implementation in selector!");
-            gSystem->GetFromPipe("sed -i \"/Bool_t "+NAME+"::Notify()/,/}/d\" "+NAME+".h");
-        }
-
-    if ((TString(gSystem->GetFromPipe("cat "+NAME+".cxx | grep Notify"))).Length()>0) // Here grep may reise an error. Very cool!
-        {
-            puts( "We have Notify implementation in selector!");
-            gSystem->GetFromPipe("sed -i \"/Bool_t "+NAME+"::Notify()/,/}/d\" "+NAME+".h");
-        }
-
-*/
-
     gSystem->GetFromPipe("mkdir PROOF-INF");
     gSystem->GetFromPipe("echo '#!/bin/sh \n if [ \"\" = \"clean\" ]; then \n make distclean \n exit 0\n  fi\n make TARGET="+NAME+" \n' >>PROOF-INF/BUILD.sh");
     gSystem->GetFromPipe("chmod +x PROOF-INF/BUILD.sh");
@@ -236,9 +196,6 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 
     parsed = (nows(new TString(DEFINES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("sed -i '/TARGET =/aCXXFLAGS+='"+TString(((TObjString *)parsed->At(i))->GetString())+" Makefile");
-
-  //  gSystem->GetFromPipe("sed -i \"s/TARGET/"+NAME+"/g\" "+NAME+"LinkDef.h");
-
     gSystem->ChangeDirectory("../");
     gSystem->GetFromPipe("tar zcvf "+NAME+".tar.gz  "+NAME) ;
     gSystem->GetFromPipe("cp "+NAME+".tar.gz ../PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME+".par");
