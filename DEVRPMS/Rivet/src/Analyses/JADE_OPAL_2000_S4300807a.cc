@@ -29,7 +29,8 @@ public:
 		sprintf(a,"%i",(int)(sqrtS()/GeV + 0.5));
 		fEnergyString=std::string(a);
 		fGenerator = std::string(GENERATOR);
-		fAI.fAT=ANALYSISTYPE ;
+		TAnalysisInfo t=ANALYSISINFO;
+		fAI=t;
         std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
 		tokenize(ALGORITHMS,":",fAlgorithms);
     fFile= new TFile( (fGenerator+"_"+fEnergyString+".root").c_str(),"recreate");    

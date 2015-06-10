@@ -13,9 +13,9 @@ CXX?=g++
 
 
 
-all: dirs mc_91	 data_91 
+#all: dirs mc_91	 data_91 
 
-#all: dirs mc_189	 data_189  
+all: dirs mc_189	 data_189  
 
 
 
