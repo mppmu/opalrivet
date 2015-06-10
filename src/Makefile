@@ -79,39 +79,39 @@ nice:
 .PHONY: TFastJetLinkDef.h TAutomaticSelectorLinkDef.h TAdvancedGraphLinkDef.h $(TARGET)LinkDef.h
 
 $(TARGET)LinkDef.h:
-	rm -f $(TARGET)LinkDef.h
-	echo  "#ifdef __MAKECINT__"   >> $(TARGET)LinkDef.h
-	echo  "#pragma link C++ class "$(TARGET)"+;"   >> $(TARGET)LinkDef.h
-	echo  "#endif                ">> $(TARGET)LinkDef.h
+	@rm -f $(TARGET)LinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> $(TARGET)LinkDef.h
+	@echo  "#pragma link C++ class "$(TARGET)"+;"   >> $(TARGET)LinkDef.h
+	@echo  "#endif                ">> $(TARGET)LinkDef.h
 
 
 TAutomaticSelectorLinkDef.h:
-	rm -f TAutomaticSelectorLinkDef.h
-	echo  "#ifdef __MAKECINT__"   >> TAutomaticSelectorLinkDef.h
-	echo  "#pragma link C++ class TAutomaticSelector+;"   >> TAutomaticSelectorLinkDef.h
-	echo  "#endif                ">> TAutomaticSelectorLinkDef.h
+	@rm -f TAutomaticSelectorLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> TAutomaticSelectorLinkDef.h
+	@echo  "#pragma link C++ class TAutomaticSelector+;"   >> TAutomaticSelectorLinkDef.h
+	@echo  "#endif                ">> TAutomaticSelectorLinkDef.h
 
 
 TUserProofDataLinkDef.h:
-	rm -f TUserProofDataLinkDef.h
-	echo  "#ifdef __MAKECINT__"   >> TUserProofDataLinkDef.h
-	echo  "#pragma link C++ class TUserProofData+;"   >> TUserProofDataLinkDef.h
-	echo  "#endif                ">> TUserProofDataLinkDef.h
+	@rm -f TUserProofDataLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> TUserProofDataLinkDef.h
+	@echo  "#pragma link C++ class TUserProofData+;"   >> TUserProofDataLinkDef.h
+	@echo  "#endif                ">> TUserProofDataLinkDef.h
 
 
 
 TAdvancedGraphLinkDef.h:
-	rm -f TAdvancedGraphLinkDef.h
-	echo  "#ifdef __MAKECINT__"   >> TAdvancedGraphLinkDef.h
-	echo  "#pragma link C++ class TAdvancedGraph+;"   >> TAdvancedGraphLinkDef.h
-	echo  "#endif                ">> TAdvancedGraphLinkDef.h
+	@rm -f TAdvancedGraphLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> TAdvancedGraphLinkDef.h
+	@echo  "#pragma link C++ class TAdvancedGraph+;"   >> TAdvancedGraphLinkDef.h
+	@echo  "#endif                ">> TAdvancedGraphLinkDef.h
 
 
 TFastJetLinkDef.h:
-	rm -f TFastJetLinkDef.h
-	echo  "#ifdef __MAKECINT__"   >> TFastJetLinkDef.h
-	echo  "#pragma link C++ class TFastJet+;"   >> TFastJetLinkDef.h
-	echo  "#endif                ">> TFastJetLinkDef.h
+	@rm -f TFastJetLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> TFastJetLinkDef.h
+	@echo  "#pragma link C++ class TFastJet+;"   >> TFastJetLinkDef.h
+	@echo  "#endif                ">> TFastJetLinkDef.h
 
 
 

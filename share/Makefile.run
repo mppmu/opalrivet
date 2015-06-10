@@ -47,11 +47,11 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TFastJet.o  -o lib/libTFastJet.so
 
 
-		rm -f TAdvancedGraphLinkDef.h
-		echo  "#ifdef __MAKECINT__"   >> TAdvancedGraphLinkDef.h
-		echo  "#pragma link C++ class TAdvancedGraph+;"   >> TAdvancedGraphLinkDef.h
-		echo  "#endif                ">> TAdvancedGraphLinkDef.h
-		rootcint -f src/TAdvancedGraphDict.cxx -c  ./inc/TAdvancedGraph.h TAdvancedGraphLinkDef.h
+		@rm -f TAdvancedGraphLinkDef.h
+		@echo  "#ifdef __MAKECINT__"   >> TAdvancedGraphLinkDef.h
+		@echo  "#pragma link C++ class TAdvancedGraph+;"   >> TAdvancedGraphLinkDef.h
+		@echo  "#endif                ">> TAdvancedGraphLinkDef.h
+		@rootcint -f src/TAdvancedGraphDict.cxx -c  ./inc/TAdvancedGraph.h TAdvancedGraphLinkDef.h
 
 		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraphDict.cxx -o obj/TAdvancedGraphDict.o
 		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraph.cxx -o obj/TAdvancedGraph.o

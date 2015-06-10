@@ -122,7 +122,7 @@ TString* nows(TString* a)
 void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
               TString CLASSES,int NUMBER,TString FILEGEN,TString EVENTLIST,TString opt_string, TString CHAIN)
 {
-    TBufferFile::SetGlobalWriteParam(4999);
+   // TBufferFile::SetGlobalWriteParam(4999);
     TString connection_string="";
     TChain* chainTD = new TChain(CHAIN);
     TObjArray * parsed;
@@ -142,7 +142,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
                    //,"workers=1"
   //);
     p->SetParameter("PROOF_CacheSize", 200000000);
-    p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
+   // p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
     p->SetParameter("Davix.UseOldClient","yes");
     p->AddEnvVar("HOME",gSystem->GetFromPipe("readlink -f ./")) ;
     p->AddEnvVar("Davix.UseOldClient","yes");
