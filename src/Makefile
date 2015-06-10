@@ -37,7 +37,8 @@ CXXFLAGS+=-I. -g -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf)\
-				Cuts.$(ObjSuf) Helpers.$(ObjSuf)
+				Cuts.$(ObjSuf) Helpers.$(ObjSuf)\
+								TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf)
 #				TAutomaticSelector.$(ObjSuf) TAutomaticSelectorDict.$(ObjSuf)\
 
 
@@ -91,6 +92,14 @@ TAutomaticSelectorLinkDef.h:
 	echo  "#endif                ">> TAutomaticSelectorLinkDef.h
 
 
+TUserProofDataLinkDef.h:
+	rm -f TUserProofDataLinkDef.h
+	echo  "#ifdef __MAKECINT__"   >> TUserProofDataLinkDef.h
+	echo  "#pragma link C++ class TUserProofData+;"   >> TUserProofDataLinkDef.h
+	echo  "#endif                ">> TUserProofDataLinkDef.h
+
+
+
 TAdvancedGraphLinkDef.h:
 	rm -f TAdvancedGraphLinkDef.h
 	echo  "#ifdef __MAKECINT__"   >> TAdvancedGraphLinkDef.h
@@ -107,6 +116,10 @@ TFastJetLinkDef.h:
 
 
 .$(SrcSuf)Dict.$(SrcSuf): .$(SrcSuf).h .$(SrcSuf)LinkDef.h
+	@echo "Generating dictionary $@..."
+	@rootcint -f $@ -c  $^
+
+TUserProofDataDict.$(SrcSuf): TUserProofData.h TUserProofDataLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c  $^
 

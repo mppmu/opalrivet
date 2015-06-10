@@ -1,0 +1,27 @@
+#ifndef userproofdata_h
+#define userproofdata_h
+#include <TROOT.h>
+#include <TChain.h>
+#include <TObject.h>
+class TNtuple;
+class TProofOutputFile;
+class TEntryList;
+class TH1F;
+class TH1D;
+class TAdvancedGraph;
+class TGraphAsymmErrors;
+class TFile;
+class TUserProofData  {
+public :
+std::vector<std::string> fDataType;
+std::vector<std::string> fAlgorithms;
+std::map<std::string,TAdvancedGraph*> fGMap;
+std::map<std::string,TH1D*> fHMap;
+TProofOutputFile *fProofFile;
+TFile *fFile; 
+TUserProofData();
+~TUserProofData();
+
+   ClassDef(TUserProofData,0);
+};
+#endif

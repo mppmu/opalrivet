@@ -177,7 +177,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 }
     
 /////////////////
-    
+  /*  
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TAdvancedGraph;' %s.h",NAME.Data()));
@@ -199,6 +199,11 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 
     gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
+*/
+//////////////
+    gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#include \"TUserProofData.h\"' %s.h",NAME.Data()));
+   gSystem->GetFromPipe(Form("sed -i 's@public TSelector@public TSelector, public TUserProofData@g' %s.h",NAME.Data()));
+
 ///////////////////////////
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
