@@ -135,12 +135,12 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gEnv->SetValue("Davix.UseOldClient","yes");
     TProof* p;
 
-//    p=TProof::Open(connection_string.Data()
+    p=TProof::Open(connection_string.Data()
+                   ,"workers=1"
+                  );
+  //    p=TProof::Open("",0,0,0
                    //,"workers=1"
-  //                );
-      p=TProof::Open("",0,0,0
-                   //,"workers=1"
-  );
+  //);
     p->SetParameter("PROOF_CacheSize", 200000000);
     p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
     p->SetParameter("Davix.UseOldClient","yes");
