@@ -13,11 +13,13 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
+    
+    	//return ;
+    
     TAnalysisInfo fAI=ANALYSISINFO;
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
-    for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++)
-            BookHistograms(this,fAI,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
+    for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++) BookHistograms(this,fAI,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
     fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
     for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
     for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
@@ -29,12 +31,13 @@ void opalrivetdata::SlaveBegin(TTree * tree)
 }
 Bool_t opalrivetdata::Process(Long64_t gentry)
 {
+
     TAnalysisInfo fAI=ANALYSISINFO; // We put it here because we do not want just another type/class for ROOT and therefore cannot make it a member
     Bool_t PASSED=kFALSE;
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-
+	//return true;
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
     if (II>-1) if (fAI.fTypes[II]<0) return kFALSE;
@@ -75,6 +78,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
 }
 void opalrivetdata::SlaveTerminate()
 {
+	//return;
     TDirectory *savedir = gDirectory;
     fFile->cd();
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2();  H_it->second->Write(); H_it->second->SetDirectory(0);      }
@@ -86,6 +90,7 @@ void opalrivetdata::SlaveTerminate()
 }
 void opalrivetdata::Terminate()
 {
+   // return;
     TFile* type_fFile= new TFile(FILENAME, "UPDATE");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
@@ -138,4 +143,4 @@ void opalrivetdata::Terminate()
     
     type_fFile->Close();
 }
-Bool_t opalrivetdata::Notify() {return kTRUE;}
+//Bool_t opalrivetdata::Notify() {return kTRUE;}

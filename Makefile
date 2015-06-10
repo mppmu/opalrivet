@@ -13,9 +13,9 @@ CXX?=g++
 
 
 
+all: dirs mc_91	 data_91 
 
-
-all: dirs mc_189	 data_189  
+#all: dirs mc_189	 data_189  
 
 
 
@@ -41,7 +41,7 @@ dirs:
 	mkdir -p tmp
 	
 data_%:  bin/$(ARCH)/runProof 
-	bin/$(ARCH)/runProof  DCAP_OPAL_$*
+	bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 pics: bin/$(ARCH)/plots
 	bin/$(ARCH)/plots 91

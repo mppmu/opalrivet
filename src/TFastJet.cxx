@@ -1,4 +1,4 @@
-#include "fastjet/internal/base.hh"
+//#include "fastjet/internal/base.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"

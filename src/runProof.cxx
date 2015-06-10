@@ -134,9 +134,13 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     gEnv->SetValue("Proof.Sandbox", gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname")));
     gEnv->SetValue("Davix.UseOldClient","yes");
     TProof* p;
-    p=TProof::Open(connection_string.Data()
+
+//    p=TProof::Open(connection_string.Data()
                    //,"workers=1"
-                  );
+  //                );
+      p=TProof::Open("",0,0,0
+                   //,"workers=1"
+  );
     p->SetParameter("PROOF_CacheSize", 200000000);
     p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
     p->SetParameter("Davix.UseOldClient","yes");
@@ -162,8 +166,18 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             TChain *chainG = new TChain(CHAIN);
             chainG->Add(FILEGEN.Data());
             chainG->MakeSelector(NAME.Data());
+    //        chainG->MakeSelector("TAutomaticSelector");
         }
-    else     chainTD->MakeSelector(NAME.Data());
+    else     
+    
+    
+    {
+		chainTD->MakeSelector(NAME.Data());
+  //  chainTD->MakeSelector("TAutomaticSelector");
+}
+    
+/////////////////
+    
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TFile;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TGraphAsymmErrors;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/aclass TAdvancedGraph;' %s.h",NAME.Data()));
@@ -185,11 +199,12 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
 
     gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fAlgorithms;' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i '/public :/a std::vector<std::string> fDataType;' %s.h",NAME.Data()));
-
+///////////////////////////
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
-    for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("cp ../../"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
-
+    for (i = 0; i <parsed->GetLast()+1; i++)   
+    gSystem->GetFromPipe("cp ../../"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
+/*
     if ((TString(gSystem->GetFromPipe("cat "+NAME+".C | grep Notify"))).Length()>0) // Here grep may reise an error. Very cool!
         {
             puts( "We have Notify implementation in selector!");
@@ -202,7 +217,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             gSystem->GetFromPipe("sed -i \"/Bool_t "+NAME+"::Notify()/,/}/d\" "+NAME+".h");
         }
 
-
+*/
 
     gSystem->GetFromPipe("mkdir PROOF-INF");
     gSystem->GetFromPipe("echo '#!/bin/sh \n if [ \"\" = \"clean\" ]; then \n make distclean \n exit 0\n  fi\n make TARGET="+NAME+" \n' >>PROOF-INF/BUILD.sh");
@@ -217,7 +232,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     parsed = (nows(new TString(DEFINES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)   gSystem->GetFromPipe("sed -i '/TARGET =/aCXXFLAGS+='"+TString(((TObjString *)parsed->At(i))->GetString())+" Makefile");
 
-    gSystem->GetFromPipe("sed -i \"s/TARGET/"+NAME+"/g\" "+NAME+"LinkDef.h");
+  //  gSystem->GetFromPipe("sed -i \"s/TARGET/"+NAME+"/g\" "+NAME+"LinkDef.h");
 
     gSystem->ChangeDirectory("../");
     gSystem->GetFromPipe("tar zcvf "+NAME+".tar.gz  "+NAME) ;
@@ -229,7 +244,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
     p->AddInput(RUNHIST);
     /******************/
-
+   // gDebug=7;
     chainTD->SetProof();
     gSystem->SetAclicMode(TSystem::kDebug);
     gSystem->SetFlagsOpt("-ffast-math -O3");
