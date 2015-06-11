@@ -137,7 +137,7 @@ std::string YODA_to_ROOT_name(std::string a, std::string prefix="");
 template <class EXA>
 void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
-
+    printf("NOptions used: %zu\n",options.size());
     TH1::SetDefaultSumw2(kTRUE);
 
     std::string prefix;
@@ -371,6 +371,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 template <class EXA>
 void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
+    printf("NOptions used: %zu\n",options.size());
     std::string prefix;
     prefix=std::string("H_")+Iprefix;
 
@@ -599,7 +600,7 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                                              }));
 
 
-  
+
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                    0.14, 0.16, 0.20, 0.24, 0.30, 0.40
                                                           }));
@@ -633,27 +634,27 @@ int  Match(int run, TAnalysisInfo& Z, TH1F* H);
 template <class EXA> Float_t costt(EXA* A) { return A->Tvectc[2]; }
 template <class EXA> Float_t tdmt(EXA* A) { return A->Tdmt; }
 template <class EXA>
-bool LEP1Preselection(EXA* A)
+bool LEP1Preselection(EXA* A,std::map<std::string,double> cuts)
 {
     bool result= true;
-    if( A->Icjst != MyCuts::Icjst || A->Iebst != MyCuts::Iebst ) result= false;
-    if( A->Itkmh != MyCuts::Itkmh ) result= false;
+    if( A->Icjst != int(cuts["Icjst"]) || A->Iebst != int(cuts["Iebst"]) ) result= false;
+    if( A->Itkmh != int(cuts["Itkmh"])) result= false;
     return result;
 }
 template <class EXA>
-bool LEP1Selection(EXA* A)
+bool LEP1Selection(EXA* A,std::map<std::string,double> cuts)
 {
     bool result= true;
-    if( !LEP1Preselection(A) ) result= false;
-    if( A->Ntkd02 < MyCuts::Ntkd02 ) result= false;
-    if( costt(A) > MyCuts::costt ) result= false;
+    if( !LEP1Preselection(A,cuts) ) result= false;
+    if( A->Ntkd02 < int(cuts["Ntkd02"]) ) result= false;
+    if( costt(A) > cuts["costt"] ) result= false;
     return result;
 }
 template <class EXA>
-bool MCNonRad(EXA* A)
+bool MCNonRad(EXA* A,std::map<std::string,double> cuts)
 {
     bool result= false;
-    if( (Int_t) A->Inonr == MyCuts::Inonr ) result= true;
+    if( (Int_t) A->Inonr == int(cuts["Inonr"]) ) result= true;
     return result;
 }
 template <class EXA>
@@ -667,16 +668,18 @@ Float_t dmt_ymerge(EXA* A, Int_t njet )
 template <class EXA>
 void GetP(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
 {
-    for( Int_t itrk= 0; itrk < A->Ntrkp; itrk++ ) for( Int_t j= 0; j < 4; j++ )  ptrack[itrk][j]= A->Ptrkp[itrk][j];
-    ntrack= A->Ntrkp;
+    for( Int_t itrk= 0; itrk < std::min(A->Ntrkp,maxtrack); itrk++ ) for( Int_t j= 0; j < 4; j++ )  ptrack[itrk][j]= A->Ptrkp[itrk][j];
+    ntrack= std::min(A->Ntrkp,maxtrack);
+    if (ntrack!=A->Ntrkp) printf("Maxtrack is too low\n");
     printf("ntrack=%i\n",ntrack);
     return;
 }
 template <class EXA>
 void GetH(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
 {
-    for( Int_t itrk= 0; itrk < A->Ntrkh; itrk++ ) for( Int_t j= 0; j < 4; j++ )  ptrack[itrk][j]= A->Ptrkh[itrk][j];
-    ntrack= A->Ntrkh;
+    for( Int_t itrk= 0; itrk < std::min(A->Ntrkh,maxtrack); itrk++ ) for( Int_t j= 0; j < 4; j++ )  ptrack[itrk][j]= A->Ptrkh[itrk][j];
+    ntrack= std::min(A->Ntrkh,maxtrack);
+    if (ntrack!=A->Ntrkh) printf("Maxtrack is too low\n");
     return;
 }
 
@@ -837,8 +840,10 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
 }
 #endif
 
-template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
+template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,int fillyx=0,std::string Iprefix="")
 {
+    if (fillyx>2||fillyx<0) printf("Wrong option\n");
+    int filly=1;
     bool PASSED=false;
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
@@ -847,7 +852,8 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
         {
             PASSED=true;
             A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
-            int filly=1;
+            A->fHMap[H_prefix+"T"]->Fill(1-tfj->fThrust,weight);
+
             std::vector<double> ycuts;
             //  std::vector<std::pair<double,double> > bounds;
             ycuts.push_back(1.0);
@@ -880,8 +886,9 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
 
 
 
-template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,int filly=0,std::string Iprefix="")
+template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,int fillyx=0,std::string Iprefix="")
 {
+    if (fillyx>2||fillyx<0) printf("Wrong option\n");
     bool PASSED=false;
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
@@ -916,8 +923,9 @@ template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,in
 
 
 
-template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight,int filly=0,std::string Iprefix="")
+template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight,int fillyx=0,std::string Iprefix="")
 {
+    if (fillyx>2||fillyx<0) printf("Wrong option\n");
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
     bool PASSED=false;
@@ -953,13 +961,13 @@ template <class EXA> bool Analysis_type3(EXA* A, TFastJet* scsJet,  float weight
 
 template <class EXA> bool MyAnalysis(EXA* A, TFastJet* scsJet,  float weight,std::string filly,std::string Iprefix="")
 {
-if (filly==std::string("0"))
-            return Analysis_type1(A,scsJet, weight,0,Iprefix);
-if (filly==std::string("1"))
-            return Analysis_type2(A,scsJet, weight,0,Iprefix);
-if (filly==std::string("2"))
-            return Analysis_type3(A,scsJet, weight,0,Iprefix);
-            return Analysis_type1(A,scsJet, weight,0,Iprefix);
+    if (filly==std::string("0"))
+        return Analysis_type1(A,scsJet, weight,0,Iprefix);
+    if (filly==std::string("1"))
+        return Analysis_type2(A,scsJet, weight,0,Iprefix);
+    if (filly==std::string("2"))
+        return Analysis_type3(A,scsJet, weight,0,Iprefix);
+    return Analysis_type1(A,scsJet, weight,0,Iprefix);
 }
 
 template <class EXA>

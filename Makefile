@@ -84,7 +84,7 @@ mc_%: 	bin/$(ARCH)/opalrivet$(GEN)
 
 
 beauty:
-		astyle -n --keep-one-line-blocks --style=gnu    ./*cc
+		astyle -n --keep-one-line-blocks --style=gnu    ./*/*.h  ./*/*.hh ./*/*.cxx ./*/.C
 
 bin/$(ARCH)/opalrivet$(GEN):
 	rm bin/$(ARCH)/opalrivet$(GEN)

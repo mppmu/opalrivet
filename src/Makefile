@@ -32,8 +32,8 @@ SOFLAGS             =  -g -shared
 FASTJET_LIBDIR=$(shell $(FASTJET-CONFIG) --libs |  tr ' ' '\n' | grep '\-L' | sed 's@-L@@g')
 
 
-LDFLAGS+=-lgfortran  -g -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
-CXXFLAGS+=-I. -g -Wextra  -std=c++0x  -Wall -I.  -Wextra -fPIC  -Wall $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags)  -Wno-unused-variable
+LDFLAGS+=-g  -lgfortran  -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
+CXXFLAGS+=-g -std=c++0x -Wall -Wextra  -Wno-unused-variable  -I.  -fPIC  $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags) 
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf)\
@@ -56,12 +56,13 @@ all:            $(EVENTLIB)  $(ROOTMAP)
 $(ROOTMAP): $(TARGET)LinkDef.h
 	@printf "Building $(ROOTMAP) ... "
 	rlibmap -f -o $@ -l lib$(TARGET).$(DllSuf) -d  \
-	 libPhysics.so libMinuit.so libMLP.so libMatrix.so libTree.so  libTreePlayer.so libXMLIO.so \
-	 libTree.so libPhysics.so libThread.so libMatrix.so libTree.so  libGpad.so libGraf3d.so\
-	  libGraf.so libHist.so libNet.so  libRIO.so libMathCore.so libCore libPyROOT.so\
-	    libGX11.so libGui.so libGX11TTF libProof.so  libProofPlayer.so libSessionViewer.so\
-	    $(FASTJET_LIBDIR)/libfastjettools.so $(FASTJET_LIBDIR)/libfastjet.so $(FASTJET_LIBDIR)/libfastjetplugins.so $(FASTJET_LIBDIR)/libsiscone.so $(FASTJET_LIBDIR)/libsiscone_spherical.so\
-	      libTreePlayer.so libPhysics.so  -c $^	
+	libMinuit.so libMLP.so libMatrix.so libTree.so  libTreePlayer.so libXMLIO.so \
+	libTree.so libPhysics.so libThread.so libMatrix.so libTree.so  libGpad.so libGraf3d.so \
+	libGraf.so libHist.so libNet.so  libRIO.so libMathCore.so libCore libPyROOT.so \
+	libGX11.so libGui.so libGX11TTF libProof.so  libProofPlayer.so libSessionViewer.so \
+	$(FASTJET_LIBDIR)/libfastjettools.so $(FASTJET_LIBDIR)/libfastjet.so \
+	$(FASTJET_LIBDIR)/libfastjetplugins.so $(FASTJET_LIBDIR)/libsiscone.so \
+	$(FASTJET_LIBDIR)/libsiscone_spherical.so -c $^	
 	@echo "Done"
 
 

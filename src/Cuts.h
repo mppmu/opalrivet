@@ -2,13 +2,13 @@
 #define CUTS_H
 #include <map>
 #include <string>
-std::map<std::string,std::map<std::string,double> > InitCuts();	
-
+std::map<std::string,std::map<std::string,double> > InitCuts();
+/*
 namespace MyCuts
 {
-	
 
-	
+
+
 const int Icjst = 3;
 const int  Iebst = 3;
 const int Itkmh = 1;
@@ -37,5 +37,5 @@ const double CAP=-1.0;
 
 
 }
-
+*/
 #endif

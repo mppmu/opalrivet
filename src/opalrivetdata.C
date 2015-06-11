@@ -61,14 +61,15 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
             weight=datalumi/eventscs;
 
         }//assume one process=1 file
-    if (fAI.fAT==kLEP1)    if (!LEP1Preselection(this)) return kFALSE;
-    if (fAI.fAT==kLEP1)    if (!LEP1Selection(this))    return kFALSE;
+    std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
+    if (fAI.fAT==kLEP1)    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    if (fAI.fAT==kLEP1)    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
     if (fAI.fTypes[II]==0)    { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
     if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); }
     if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
-    std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
+
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );           

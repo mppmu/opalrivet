@@ -11,19 +11,20 @@ class TH1D;
 class TAdvancedGraph;
 class TGraphAsymmErrors;
 class TFile;
-class TUserProofData  {
+class TUserProofData
+{
 public :
-std::string fGenerator;
-std::string fEnergyString;
-std::vector<std::string> fDataType;
-std::vector<std::string> fAlgorithms;
-std::map<std::string,TAdvancedGraph*> fGMap;
-std::map<std::string,TH1D*> fHMap;
-TProofOutputFile *fProofFile;
-TFile *fFile; 
-TUserProofData();
-~TUserProofData();
+    std::string fGenerator;
+    std::string fEnergyString;
+    std::vector<std::string> fDataType;
+    std::vector<std::string> fAlgorithms;
+    std::map<std::string,TAdvancedGraph*> fGMap;
+    std::map<std::string,TH1D*> fHMap;
+    TProofOutputFile *fProofFile;
+    TFile *fFile;
+    TUserProofData();
+    ~TUserProofData();
 
-   ClassDef(TUserProofData,0);
+    ClassDef(TUserProofData,0);
 };
 #endif

@@ -18,7 +18,7 @@ int TAdvancedGraph::Merge(TCollection *hlist)
    if (hlist) {
       TAdvancedGraph *xh = 0;
       TIter nxh(hlist);
-      while (xh = (TAdvancedGraph *) nxh()) {
+      while ((xh = (TAdvancedGraph *) nxh())) {
          // Add this histogram to me
          Add(this,xh);
       }
