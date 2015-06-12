@@ -7,14 +7,19 @@
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
-	/*
-	TFile* TDB=new TFile("./opalrivetdata/wow.root","r");
-	TCanvas* C= new TCanvas("OK");
-	TH1F * q=  (TH1F*)TDB->Get("dd");
-	q->Draw();
-	C->SaveAs("1.pdf");
-	TDB->Close();
-	*/
+	FILE* TL=fopen("./opalrivetdata/opalrivetdataFilesList.h","r");
+	if (TL) while (getline(&line,&len,TL)!=-1)
+	{
+    std::string q=std::string(line);
+    q = q.substr(0, q.find_last_not_of("\n \t")+1);
+
+    }
+    fclose(TL);
+    
+    
+    
+
+
     TAnalysisInfo fAI=ANALYSISINFO;
     fE=fAI.fE;
 	fGenerator="opal";
@@ -72,8 +77,8 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
 
         }//assume one process=1 file
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-    if (fAI.fAT==kLEP1)    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
-    if (fAI.fAT==kLEP1)    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
+    if (fAI.fAT==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    if (fAI.fAT==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
     if (fAI.fTypes[II]==0)    { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
@@ -185,8 +190,15 @@ Bool_t opalrivetdata::Notify() {
 	char* line=NULL;
 	size_t len=0;
 	FILE* TL=fopen("./opalrivetdata/opalrivetdataFilesList.h","r");
-	gDirectory->ls();
-	TDB->ls();
+
+	if (TL) while (getline(&line,&len,TL)!=-1)
+	{
+    std::string q=std::string(line);
+    q = q.substr(0, q.find_last_not_of("\n \t")+1);
+
+
+    }
+/*
 	if (TL) while (getline(&line,&len,TL)!=-1)
 	{
     std::string q=std::string(line);
@@ -202,7 +214,7 @@ Bool_t opalrivetdata::Notify() {
 	if (a) thisfilehisto=(TH1F*)(a->ReadObjectAny(TH1F::Class()));
 	else printf("I dont know this key:%s!\n",currentfile.c_str());
 	if (thisfilehisto) printf("I know this file!\n");
-	
+	*/
 	
 	TDB->Close();
 

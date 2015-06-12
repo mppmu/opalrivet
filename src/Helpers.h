@@ -48,41 +48,15 @@
 
 #include <vector>
 #include <cmath>
-
-#include "TAdvancedGraph.h"
 #include  <map>
 #include  <sstream>
-#include <vector>
 #include <cassert>
 #include <cmath>
 #include <iostream>
-
-#include <map>
 #include <math.h>
 #include <sstream>
 
 
-#define ARRAY_PROTECT(...) __VA_ARGS__
-#define H_INSERTER_DBL(a,b,c)     { const double temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(double)-1,temp); }
-
-
-#define H_INSERTER_FLT(a,b,c)     { const float temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(float)-1,temp); }
-
-#define H_INSERTER_INT(a,b,c)     { const   int temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(int)-1,temp);   }
-
-
-#define G_INSERTER_FLT(a,b,c)     { const float temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(float)-1,temp); }
-#define G_INSERTER_DBL(a,b,c)     { const double temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(double)-1,temp); }
-
-#define G_INSERTER_INT(a,b,c)     { const   int temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(int)-1,temp);   }
-
-#define OPT_TO_INT(a)    (256*((int)(a[0]))+(int)(a[1]))
-#define OPT_TO_INT2(a,b)    (256*(int)(a)+(int)(b))
-#define mpi2    0.13957018*0.13957018
-
-
-
-enum TAnalysisType {kLEP1,kLEP2,kJADE};
 
 static const Int_t nt_maxtrk= 501;
 static const Int_t nt_maxp= 50;
@@ -91,7 +65,7 @@ static const Int_t nt_maxh= 2004;
 typedef struct TAnalysisInfo_
 {
     double fE;
-    TAnalysisType fAT;
+    std::string fAT;
     std::string  fNames[MAX_RUNS];
     int          fTypes[MAX_RUNS];
     int          fRunsBegin[MAX_RUNS];
@@ -99,6 +73,7 @@ typedef struct TAnalysisInfo_
     double       fSigmas[MAX_RUNS];
     double       fLumis[MAX_RUNS];
     int          fEvents[MAX_RUNS];
+    std::string  fFiles[MAX_RUNS];
 }  TAnalysisInfo;
 
 
@@ -107,30 +82,27 @@ void tokenize(const std::string& str, const std::string& delimiters , std::vecto
 void replace_all(std::string& str, const std::string& from, const std::string& to);
 
 void set_my_style();
-#ifndef SIMPLE_HELPERS_ONLY
+
 
 #include  "fastjet/ClusterSequence.hh"
 #include  "fastjet/PseudoJet.hh"
-
 #include "Rivet/Rivet.hh"
-
 #include "Cuts.h"
 #include "TFastJet.h"
-
+#include "TAdvancedGraph.h"
+#define ARRAY_PROTECT(...) __VA_ARGS__
+#define H_INSERTER_DBL(a,b,c)     { const double temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(double)-1,temp); }
+#define H_INSERTER_FLT(a,b,c)     { const float temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(float)-1,temp); }
+#define H_INSERTER_INT(a,b,c)     { const   int temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(int)-1,temp);   }
+#define G_INSERTER_FLT(a,b,c)     { const float temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(float)-1,temp); }
+#define G_INSERTER_DBL(a,b,c)     { const double temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(double)-1,temp); }
+#define G_INSERTER_INT(a,b,c)     { const   int temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(int)-1,temp);   }
+#define OPT_TO_INT(a)    (256*((int)(a[0]))+(int)(a[1]))
+#define OPT_TO_INT2(a,b)    (256*(int)(a)+(int)(b))
+#define mpi2    0.13957018*0.13957018
 
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[]);
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[]);
-
-
-
-
-//double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis);
-
-
-
-std::string ROOT_to_YODA_name(std::string a);//FIXME. Random so far
-
-std::string YODA_to_ROOT_name(std::string a, std::string prefix="");
 
 
 
@@ -622,10 +594,9 @@ template <class EXA>
 void BookHistograms(EXA * A,TAnalysisInfo B, std::string Iprefix="")
 {
     std::set<std::string> foo;
-    //if (B.fE>89&&B.fE<92) foo.insert("fine_jet_rate");
-    if (B.fAT==kLEP1||B.fAT==kLEP2) OPALObs(A,foo,Iprefix);
-    if (B.fAT==kJADE)           JADEObs(A,foo,Iprefix);
-
+    if (B.fAT==std::string("kLEP1")||B.fAT==std::string("kLEP2")) { OPALObs(A,foo,Iprefix); return;}
+    if (B.fAT==std::string("kJADE"))           {JADEObs(A,foo,Iprefix); return;}
+    printf("UNKNOWN FILL OPTION %s\n",B.fAT.c_str());
 }
 
 void Count(TChain* C, TAnalysisInfo& A);
@@ -1041,4 +1012,3 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     return vtlv;
 }
 
-#endif

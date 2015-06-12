@@ -26,6 +26,8 @@ public:
     TAnalysisInfo fAI;
   void init()
     {    
+		TAnalysisInfo t=ANALYSISINFO ;
+		fAI=t;
 		char a[20];
 		fE=sqrtS()/GeV;
 		sprintf(a,"%i",(int)(fE + 0.5));

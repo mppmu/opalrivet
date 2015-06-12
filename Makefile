@@ -15,10 +15,10 @@ CXX?=g++
 
 #all: dirs mc_91	 data_91 
 
-all: dirs mc_189	 data_189  
+#all: dirs mc_189	 data_189  
 
 
-
+all: output/opal_136.root output/pythia8_136.root
 
 include Makefile.software
 include Makefile.convert
@@ -39,18 +39,17 @@ dirs:
 	mkdir -p output
 	mkdir -p obj
 	mkdir -p tmp
+	mkdir -p gen
+	mkdir -p run
 	
 output/opal_%.root:  bin/$(ARCH)/runProof 
 	bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
-pics: bin/$(ARCH)/plots
-	bin/$(ARCH)/plots 91
-	bin/$(ARCH)/plots 130
-	bin/$(ARCH)/plots 161		
-	bin/$(ARCH)/plots 172
-	bin/$(ARCH)/plots 183	
-	bin/$(ARCH)/plots 189	
+	
+output/$(GEN)_%.root: dirs	bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat run/Makefile
 
+		make -C run GEN=$(GEN)
+		mv run/*.root ./output
 
 	
 output/$(GEN)_%.root: 	bin/$(ARCH)/opalrivet$(GEN)
@@ -59,28 +58,29 @@ output/$(GEN)_%.root: 	bin/$(ARCH)/opalrivet$(GEN)
 		cp share/Runpythia8.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
 
+run/Runpythia8_nohad.dat: share/Runpythia8_nohad.dat
 		cp share/Runpythia8_nohad.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat
 
+run/Runpythia8_evtgen.dat: share/Runpythia8_evtgen.dat
 		cp share/Runpythia8_evtgen.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_evtgen.dat
 
 
-
+run/Runsherpa.dat: share/Runsherpa.dat
 		cp share/Runsherpa.dat run
 		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
 		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
 
+run/Runherwig++.dat: share/Runherwig++.dat
 		cp share/Runherwig++.dat run
 		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat
 		
-		
+run/Runevtgen.dat: share/Runevtgen.dat		
 		cp share/Runevtgen.dat run
 		
-		
+run/Makefile: share/Makefile.run		
 		cp share/Makefile.run run/Makefile
-		make -C run GEN=$(GEN)
-		mv run/*.root ./output
 
 
 beauty:
@@ -119,19 +119,15 @@ obj/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
 bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
 	$(CXX)  -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
-bin/$(ARCH)/prof: dirs src/pprroffessorr.cxx
-		$(CXX) $(shell root-config --cflags --glibs )  -lMinuit src/pprroffessorr.cxx -o bin/$(ARCH)/prof
-
-bin/$(ARCH)/draw: dirs  src/draw.cxx
-		$(CXX) $(shell root-config --cflags --glibs )  -lMinuit draw.cxx -o bin/$(ARCH)/draw
 
 bin/$(ARCH)/runProof: src/runProof.cxx
 		mkdir -p ../bin/$(ARCH)
 		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
 
-bin/$(ARCH)/plots: src/plots.cxx
+
+bin/$(ARCH)/makeDB: src/makeDB.cxx
 		mkdir -p ../bin/$(ARCH)
-		$(CXX) -g -I. -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof -I./Code src/plots.cxx  src/TAdvancedGraph.cxx src/Helpers.cxx  -o ./bin/$(ARCH)/plots
+		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  -o ./bin/$(ARCH)/makeDB
 
 
 
