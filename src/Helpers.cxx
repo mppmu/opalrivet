@@ -62,7 +62,7 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
         }
 }
 
- void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[])
+void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[])
 {
     A.insert(std::pair<std::string,TH1D*>( t,new TH1D(t.c_str(),t.c_str(),s,a)));
     for (int b = 0; b < A[t]->GetNbinsX(); b++) A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b));
@@ -84,7 +84,7 @@ void G_inserter(std::map<std::string,TGraphAsymmErrors*> &A,std::string t, Int_t
 
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[])
 {
-	TAdvancedGraph* Q= new TAdvancedGraph(Int_t(s));
+    TAdvancedGraph* Q= new TAdvancedGraph(Int_t(s));
     A.insert(std::pair<std::string,TAdvancedGraph*>( t,Q));
     for (int b = 0; b < s; b++) { A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b)); A[t]->SetPoint(b,a[b],0.0); }
     A[t]->SetDrawOption("APL");
@@ -206,11 +206,11 @@ void Count(TChain* C, TAnalysisInfo& A)
 int  Match(int run, TAnalysisInfo& Z, TH1F* H)
 {
     for (int i=0; i<MAX_RUNS; i++)
-            Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]);
+        Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]);
     for (int i=0; i<MAX_RUNS; i++) if ((Z.fRunsBegin[i]<run)&& (run<Z.fRunsEnd[i])) return i;
     return -1;
 }
-
+/*
 double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis)
 {
 
@@ -231,7 +231,7 @@ double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis)
     return t;
 }
 
-
+*/
 
 
 

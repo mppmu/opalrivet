@@ -31,6 +31,7 @@ public:
 		fGenerator = std::string(GENERATOR);
 		TAnalysisInfo t=ANALYSISINFO;
 		fAI=t;
+		fAI.fE=sqrtS()/GeV;
         std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
 		tokenize(ALGORITHMS,":",fAlgorithms);
     fFile= new TFile( (fGenerator+"_"+fEnergyString+".root").c_str(),"recreate");    

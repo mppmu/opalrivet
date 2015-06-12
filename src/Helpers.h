@@ -124,7 +124,7 @@ void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s,
 
 
 
-double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis);
+//double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis);
 
 
 
@@ -851,8 +851,33 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
-            A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
-            A->fHMap[H_prefix+"T"]->Fill(1-tfj->fThrust,weight);
+            //printf("%f\n",tfj->_thrusts[0]);
+            A->fHMap[H_prefix+"1-T"]->Fill(1-tfj->_thrusts[0],weight);
+            A->fHMap[H_prefix+"T"]->Fill(tfj->_thrusts[0],weight);
+
+            A->fHMap[H_prefix+"T-Maj"]->Fill(tfj->_thrusts[1],weight);
+            A->fHMap[H_prefix+"T-Min"]->Fill(tfj->_thrusts[2],weight);
+
+            A->fHMap[H_prefix+"O"]->Fill(tfj->_thrusts[1]-tfj->_thrusts[2],weight);
+
+            A->fHMap[H_prefix+"A"]->Fill(tfj->_lambdas[1][0]*3 / 2.0,weight);
+            A->fHMap[H_prefix+"S"]->Fill(tfj->_lambdas[1][0]*3 / 2.0+tfj->_lambdas[1][1]*3 / 2.0,weight);
+//3.0 / 2.0 * (lambda2() + lambda3());
+            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[0][0]*tfj->_lambdas[0][1]+tfj->_lambdas[0][1]*tfj->_lambdas[0][2]+tfj->_lambdas[0][2]*tfj->_lambdas[0][0]),weight);
+            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight);
+
+
+            A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
+            A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);
+            A->fHMap[H_prefix+"BT"]->Fill(tfj->fB[1]+tfj->fB[0],weight);
+
+//printf("%f %f\n",tfj->fM[0],A->fAI.fE);
+            A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/A->fAI.fE,weight);
+            A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/A->fAI.fE,weight);
+
+            A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/A->fAI.fE,2),weight);
+
+
 
             std::vector<double> ycuts;
             //  std::vector<std::pair<double,double> > bounds;
@@ -860,6 +885,9 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
             for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
             ycuts.push_back(0.0);
             //for ( j=0; j<5; j++)             bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
+
+            A->fHMap[H_prefix+"D2"]->Fill(ycuts[0],weight);
+
             if (filly)  for ( j=0; j<4; j++) {/*  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME */}
             for ( j=0; j<5; j++)
                 {
@@ -895,7 +923,7 @@ template <class EXA> bool Analysis_type2(EXA* A, TFastJet* tfj,  float weight,in
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
-            A->fHMap[H_prefix+"1-T"]->Fill(tfj->fThrust,weight);
+            A->fHMap[H_prefix+"1-T"]->Fill(tfj->_thrusts[0],weight);
             int q=0;
             for (q=0; q<5; q++)
                 {

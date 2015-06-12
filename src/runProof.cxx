@@ -122,7 +122,7 @@ TString* nows(TString* a)
 void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
               TString CLASSES,int NUMBER,TString FILEGEN,TString EVENTLIST,TString opt_string, TString CHAIN)
 {
-   // TBufferFile::SetGlobalWriteParam(4999);
+    // TBufferFile::SetGlobalWriteParam(4999);
     TString connection_string="";
     TChain* chainTD = new TChain(CHAIN);
     TObjArray * parsed;
@@ -138,11 +138,11 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     p=TProof::Open(connection_string.Data()
                    ,"workers=1"
                   );
-  //    p=TProof::Open("",0,0,0
-                   //,"workers=1"
-  //);
+    //    p=TProof::Open("",0,0,0
+    //,"workers=1"
+    //);
     p->SetParameter("PROOF_CacheSize", 200000000);
-   // p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
+    // p->SetParameter("PROOF_UseTreeCache", 0);//TRYING TO DEBUG
     p->SetParameter("Davix.UseOldClient","yes");
     p->AddEnvVar("HOME",gSystem->GetFromPipe("readlink -f ./")) ;
     p->AddEnvVar("Davix.UseOldClient","yes");
@@ -166,24 +166,24 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             TChain *chainG = new TChain(CHAIN);
             chainG->Add(FILEGEN.Data());
             chainG->MakeSelector(NAME.Data());
-    //        chainG->MakeSelector("TAutomaticSelector");
+            //        chainG->MakeSelector("TAutomaticSelector");
         }
-    else     
-    
-    
-    {
-		chainTD->MakeSelector(NAME.Data());
-  //  chainTD->MakeSelector("TAutomaticSelector");
-}
-    
+    else
+
+
+        {
+            chainTD->MakeSelector(NAME.Data());
+            //  chainTD->MakeSelector("TAutomaticSelector");
+        }
+
 
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#include \"TUserProofData.h\"' %s.h",NAME.Data()));
-   gSystem->GetFromPipe(Form("sed -i 's@public TSelector@public TSelector, public TUserProofData@g' %s.h",NAME.Data()));
+    gSystem->GetFromPipe(Form("sed -i 's@public TSelector@public TSelector, public TUserProofData@g' %s.h",NAME.Data()));
 
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
-    for (i = 0; i <parsed->GetLast()+1; i++)   
-    gSystem->GetFromPipe("cp ../../"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
+    for (i = 0; i <parsed->GetLast()+1; i++)
+        gSystem->GetFromPipe("cp ../../"+TString(((TObjString *)parsed->At(i))->GetString())+"    ./");
     gSystem->GetFromPipe("mkdir PROOF-INF");
     gSystem->GetFromPipe("echo '#!/bin/sh \n if [ \"\" = \"clean\" ]; then \n make distclean \n exit 0\n  fi\n make TARGET="+NAME+" \n' >>PROOF-INF/BUILD.sh");
     gSystem->GetFromPipe("chmod +x PROOF-INF/BUILD.sh");
@@ -206,7 +206,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
     p->AddInput(RUNHIST);
     /******************/
-   // gDebug=7;
+    // gDebug=7;
     chainTD->SetProof();
     gSystem->SetAclicMode(TSystem::kDebug);
     gSystem->SetFlagsOpt("-ffast-math -O3");

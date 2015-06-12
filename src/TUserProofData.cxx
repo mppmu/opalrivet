@@ -4,10 +4,10 @@
 #include "TCollection.h"
 ClassImp(TUserProofData)
 
-TUserProofData::TUserProofData(){};
-        
-TUserProofData::~TUserProofData(){};
-        
+TUserProofData::TUserProofData() {};
+
+TUserProofData::~TUserProofData() {};
+
 
 #endif
 

@@ -4,7 +4,7 @@
 #include  "Helpers.h"
 #include  "Cuts.h"
 
-void opalrivetdata::Begin(TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
+void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
     TAnalysisInfo fAI=ANALYSISINFO;
@@ -14,7 +14,7 @@ void opalrivetdata::SlaveBegin(TTree * tree)
 		fEnergyString=std::string(a);
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
-    fProofFile = new TProofOutputFile(Form("output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "M");
+    fProofFile = new TProofOutputFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
@@ -42,6 +42,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
+    if (gentry%500!=1) return kFALSE;
 	//return true;
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
@@ -97,7 +98,13 @@ void opalrivetdata::SlaveTerminate()
 void opalrivetdata::Terminate()
 {
    // return;
-    TFile* type_fFile= new TFile(Form("output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "UPDATE");
+    TAnalysisInfo fAI=ANALYSISINFO;
+	fGenerator="opal";
+		char a[20];
+		sprintf(a,"%i",(int)(fAI.fE + 0.5));
+		fEnergyString=std::string(a);
+   
+    TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "UPDATE");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
     TKey *key;
