@@ -1,109 +1,44 @@
 #ifndef ZROOT_H
 #define ZROOT_H
-#include <TH2.h>
-#include "TSystem.h"
-#include <TStyle.h>
-#include "TString.h"
-#include "TF1.h"
-#include "TF2.h"
-#include "TFile.h"
-#include "TNtuple.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TEventList.h"
-#include "TMath.h"
-#include  "TKey.h"
-#include  <iostream>
-#include  <TString.h>
-#include  <TSystem.h>
-#include  <TDatime.h>
-#include  <TVector3.h>
-#include  <TLorentzVector.h>
-#include  <TPaveLabel.h>
-#include  <TArrow.h>
-#include  "TBufferFile.h"
-#include  "TEntryList.h"
-#include "TProofOutputFile.h"
-#include <TH2.h>
-#include <TStyle.h>
-#include "TF1.h"
-#include "TFile.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TEventList.h"
-#include "TMath.h"
-#include  <iostream>
-#include  <TString.h>
-#include  <TDatime.h>
-#include  <TVector3.h>
-#include  <TLorentzVector.h>
-#include  <TPaveLabel.h>
-#include  <TBufferFile.h>
-#include  <TArrow.h>
-#include  <math.h>
-#include <TH2.h>
-#include <TStyle.h>
-#include "TF1.h"
-#include "TFile.h"
-#include "TNtuple.h"
-#include "TCanvas.h"
-#include "TLine.h"
-#include "TEventList.h"
-#include "TMath.h"
-#include  <iostream>
-#include  <TString.h>
-#include  <TSystem.h>
-#include  <TDatime.h>
-#include  <TVector3.h>
-#include  <TLorentzVector.h>
-#include  <TPaveLabel.h>
-#include  <TArrow.h>
-#include  <math.h>
-#include "TProofOutputFile.h"
-
-#include "TApplication.h"
-#include "math.h"
-#include "TH1F.h"
-#include "TH1D.h"
-#include "TH2F.h"
-#include "TF2.h"
-#include "TF1.h"
-#include "TFile.h"
-#include "TEllipse.h"
-#include "TCanvas.h"
-#include "TArrow.h"
-#include "TLorentzVector.h"
-#include "TStyle.h"
-#include "TDSet.h"
-#include "TMap.h"
-#include "TLegend.h"
-#include "TPaveLabel.h"
-#include "TEntryList.h"
-#include "TPaveText.h"
-#include "TROOT.h"
-#include "TTree.h"
-#include "TLatex.h"
-#include "TObjArray.h"
-#include "TObjString.h"
-#include "TChain.h"
-#include "TSystem.h"
-#include "TString.h"
-#include "TProof.h"
-#include "TEnv.h"
-#include <TF1.h>
-#include <TROOT.h>
-#include <TSystem.h>
-#include <TH1F.h>
-#include <TFile.h>
-#include <TVirtualFitter.h>
-#include <TError.h>
-#include <TGraphAsymmErrors.h>
-#include <TCanvas.h>
-#include <TMath.h>
-#include <vector>
-#include <cmath>
 #include <cassert>
-
+#include <cmath>
+#include <iostream>
+#include <iostream>
+#include <math.h>
+#include <TApplication.h>
+#include <TArrow.h>
+#include <TBufferFile.h>
+#include <TCanvas.h>
+#include <TChain.h>
+#include <TDatime.h>
+#include <TDSet.h>
+#include <TEllipse.h>
+#include <TEntryList.h>
+#include <TEnv.h>
+#include <TEventList.h>
+#include <TF1.h>
+#include <TF2.h>
+#include <TFile.h>
+#include <TH1D.h>
+#include <TH1F.h>
+#include <TH2F.h>
+#include <TKey.h>
+#include <TLine.h>
+#include <TLorentzVector.h>
+#include <TMap.h>
+#include <TMath.h>
+#include <TNtuple.h>
+#include <TObjArray.h>
+#include <TObjString.h>
+#include <TProof.h>
+#include <TProofOutputFile.h>
+#include <TROOT.h>
+#include <TString.h>
+#include <TStyle.h>
+#include <TSystem.h>
+#include <TTree.h>
+#include <TVector3.h>
+#include <vector>
 #endif
 
 
@@ -136,7 +71,7 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     TProof* p;
 
     p=TProof::Open(connection_string.Data()
-                   ,"workers=1"
+               //    ,"workers=1"
                   );
     //    p=TProof::Open("",0,0,0
     //,"workers=1"
@@ -149,18 +84,25 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     p->AddEnvVar("Proof.Sandbox",gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname"))) ;
     p->AddInput(new TNamed("PROOF_OUTPUTFILE_LOCATION", "LOCAL"));
     gSystem->ChangeDirectory("./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME);
+    
+    FILE* FF;
+    FF=fopen((std::string(NAME)+"FilesList.h").c_str(),"w");
+    
     parsed = (nows(new TString(DATA)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)
         if  ( (TString(((TObjString *)parsed->At(i))->GetString()).Contains("dcap://")) || (TString(((TObjString *)parsed->At(i))->GetString()).Contains("http://"))|| (TString(((TObjString *)parsed->At(i))->GetString()).Contains("https://")))
-            chainTD->Add(((TObjString *)parsed->At(i))->GetString());
+            { chainTD->Add(((TObjString *)parsed->At(i))->GetString()); fprintf(FF,"%s\n",((TObjString *)parsed->At(i))->GetString().Data());}
         else
             {
                 TObjArray * parsed2;
                 parsed2 = (gSystem->GetFromPipe(TString("readlink -f ")+((TObjString *)parsed->At(i))->GetString())).Tokenize(" ");
                 for (int i2 = 0; i2 <parsed2->GetLast()+1; i2++)
-                    chainTD->Add(((TObjString *)parsed2->At(i2))->GetString());
+                    {chainTD->Add(((TObjString *)parsed2->At(i2))->GetString());fprintf(FF,"%s\n",((TObjString *)parsed2->At(i2))->GetString().Data());}
 
             }
+            
+      fclose(FF);      
+            
     if (FILEGEN.Length()!=0)
         {
             TChain *chainG = new TChain(CHAIN);
@@ -169,17 +111,14 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             //        chainG->MakeSelector("TAutomaticSelector");
         }
     else
-
-
         {
             chainTD->MakeSelector(NAME.Data());
             //  chainTD->MakeSelector("TAutomaticSelector");
         }
 
-
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#include \"TUserProofData.h\"' %s.h",NAME.Data()));
     gSystem->GetFromPipe(Form("sed -i 's@public TSelector@public TSelector, public TUserProofData@g' %s.h",NAME.Data()));
-
+    gSystem->GetFromPipe("sed -i \"/Bool_t "+NAME+"::Notify()/,/}/d\" "+NAME+".h");
 
     parsed = (nows(new TString(FILES)))->Tokenize(" ");
     for (i = 0; i <parsed->GetLast()+1; i++)
@@ -214,8 +153,6 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
     p->UploadPackage("./PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/"+NAME+".par");
     p->EnablePackage(NAME);
     p->ShowEnabledPackages() ;
-
-
     if (EVENTLIST.Length()!=0   )
         {
             TFile f(EVENTLIST);
@@ -224,8 +161,6 @@ void runProof(TString NAME,TString FILES,TString DATA,TString DEFINES,
             f.Close();
             chainTD->SetEntryList(elist);
         }
-
-
     chainTD->Process(NAME,"SYN",NUMBER);
     gSystem->ChangeDirectory("../");
 

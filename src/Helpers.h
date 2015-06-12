@@ -150,7 +150,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     replace_all(senergy,"GeV","");
     int energy=atoi(senergy.c_str());
 
-    printf("Prefix %s,  %i\n", senergy.c_str(),energy);
+    printf("Prefix %s,  %i, prefix='%s'\n", senergy.c_str(),energy,prefix.c_str());
 
 
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
@@ -847,11 +847,12 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
     bool PASSED=false;
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
+//    printf("Hprf :%s\n",H_prefix.c_str());
     int j;
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
-            //printf("%f\n",tfj->_thrusts[0]);
+
             A->fHMap[H_prefix+"1-T"]->Fill(1-tfj->_thrusts[0],weight);
             A->fHMap[H_prefix+"T"]->Fill(tfj->_thrusts[0],weight);
 
@@ -862,21 +863,16 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
 
             A->fHMap[H_prefix+"A"]->Fill(tfj->_lambdas[1][0]*3 / 2.0,weight);
             A->fHMap[H_prefix+"S"]->Fill(tfj->_lambdas[1][0]*3 / 2.0+tfj->_lambdas[1][1]*3 / 2.0,weight);
-//3.0 / 2.0 * (lambda2() + lambda3());
             A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[0][0]*tfj->_lambdas[0][1]+tfj->_lambdas[0][1]*tfj->_lambdas[0][2]+tfj->_lambdas[0][2]*tfj->_lambdas[0][0]),weight);
             A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight);
-
 
             A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
             A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);
             A->fHMap[H_prefix+"BT"]->Fill(tfj->fB[1]+tfj->fB[0],weight);
 
-//printf("%f %f\n",tfj->fM[0],A->fAI.fE);
-            A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/A->fAI.fE,weight);
-            A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/A->fAI.fE,weight);
-
-            A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/A->fAI.fE,2),weight);
-
+            A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/A->fE,weight);
+            A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/A->fE,weight);
+            A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/A->fE,2),weight);
 
 
             std::vector<double> ycuts;

@@ -9,12 +9,50 @@
 /*
 ClassImp(TFastJet)
 */
-TFastJet::TFastJet() : _regparam(2.0) {}
+TFastJet::TFastJet() : _regparam(2.0) {
+	
+	            
+            _thrusts.push_back(1.0);
+            _thrusts.push_back(0.0);
+            _thrusts.push_back(0.0);
+            _thrustAxes.push_back( TVector3(0,0,0));
+            _thrustAxes.push_back( TVector3(0,0,0));
+                        _thrustAxes.push_back( TVector3(0,0,0));
+                        
+            	 _lambdas[0].push_back(0);
+	 _lambdas[0].push_back(0);
+	 _lambdas[0].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _sphAxes[0].push_back(TVector3(0,0,0));
+	 _sphAxes[1].push_back(TVector3(0,0,0));
+            
+	
+	}
 
 fastjet::ClusterSequence* TFastJet::GetClusterSequence() {return fClusterSequence;};
 
 TFastJet::TFastJet( const std::vector<TParticle>& vtp ) : fClusterSequence(0), fSISPlugin(0), _regparam(2)
 {
+	
+	_thrusts.push_back(1.0);
+            _thrusts.push_back(0.0);
+            _thrusts.push_back(0.0);
+            _thrustAxes.push_back( TVector3(0,0,0));
+            _thrustAxes.push_back( TVector3(0,0,0));
+                        _thrustAxes.push_back( TVector3(0,0,0));
+                        
+              	 _lambdas[0].push_back(0);
+	 _lambdas[0].push_back(0);
+	 _lambdas[0].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _sphAxes[0].push_back(TVector3(0,0,0));
+	 _sphAxes[1].push_back(TVector3(0,0,0));
+          
+	
     fPJets= new std::vector<fastjet::PseudoJet>();
     std::vector<fastjet::PseudoJet> particles;
     for( UInt_t i= 0; i < vtp.size(); i++ )
@@ -48,6 +86,22 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                     std::map<std::string,double> R,
                     const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
 {
+	
+	        _thrusts.push_back(1.0);
+            _thrusts.push_back(0.0);
+            _thrusts.push_back(0.0);
+            _thrustAxes.push_back( TVector3(0,0,0));
+            _thrustAxes.push_back( TVector3(0,0,0));
+            _thrustAxes.push_back( TVector3(0,0,0));
+	 _lambdas[0].push_back(0);
+	 _lambdas[0].push_back(0);
+	 _lambdas[0].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _lambdas[1].push_back(0);
+	 _sphAxes[0].push_back(TVector3(0,0,0));
+	 _sphAxes[1].push_back(TVector3(0,0,0));
+	
     if (!FindAlgorithm(jetalg)) printf("Warning: Unknown algorithm  %s!",jetalg.c_str());
     fPJets= new std::vector<fastjet::PseudoJet>();
     std::vector<fastjet::PseudoJet> particles;
@@ -396,7 +450,7 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
 
     std::reverse(_sphAxes[where].begin(),_sphAxes[where].end());
     std::reverse(_lambdas[where].begin(),_lambdas[where].end());
-    printf("%f          %f %f %f\n",_regparam,EVa[0],EVa[1],EVa[2]);
+ //   printf("%f          %f %f %f\n",_regparam,EVa[0],EVa[1],EVa[2]);
 
 
 
@@ -531,6 +585,10 @@ void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3&
 // Do the full calculation
 void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
 {
+	            _thrusts.clear();
+            _thrustAxes.clear();
+
+	
     // Make a std::vector of the three-momenta in the final state
     double momentumSum(0.0);
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
@@ -627,6 +685,9 @@ void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
             _thrusts.push_back(-1.0);
             _thrustAxes.push_back(TVector3(0,0,0));
         }
+
+
+
 
 }
 

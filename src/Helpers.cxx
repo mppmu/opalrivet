@@ -210,52 +210,5 @@ int  Match(int run, TAnalysisInfo& Z, TH1F* H)
     for (int i=0; i<MAX_RUNS; i++) if ((Z.fRunsBegin[i]<run)&& (run<Z.fRunsEnd[i])) return i;
     return -1;
 }
-/*
-double  Thrust(std::vector<fastjet::PseudoJet> A,  TVector3& taxis)
-{
-
-    double t;
-    std::vector<TVector3> jetstlv;//= new std::vector<TVector3>();
-    fastjet::PseudoJet pj;
-    double momsum=0;
-    for( UInt_t i= 0; i < A.size(); i++ )
-        {
-            pj= A[i];
-            TVector3 tlv( pj.px(), pj.py(), pj.pz());
-            jetstlv.push_back( tlv );
-            momsum+=tlv.Mag();
-        }
-
-    TFastJet::_calcT(jetstlv,t,taxis);
-    t=1-t/momsum;
-    return t;
-}
-
-*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

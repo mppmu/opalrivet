@@ -40,7 +40,7 @@ dirs:
 	mkdir -p obj
 	mkdir -p tmp
 	
-data_%:  bin/$(ARCH)/runProof 
+output/opal_%.root:  bin/$(ARCH)/runProof 
 	bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 pics: bin/$(ARCH)/plots
@@ -53,7 +53,7 @@ pics: bin/$(ARCH)/plots
 
 
 	
-mc_%: 	bin/$(ARCH)/opalrivet$(GEN)
+output/$(GEN)_%.root: 	bin/$(ARCH)/opalrivet$(GEN)
 		mkdir -p run
 		
 		cp share/Runpythia8.dat run		
@@ -133,4 +133,11 @@ bin/$(ARCH)/plots: src/plots.cxx
 		mkdir -p ../bin/$(ARCH)
 		$(CXX) -g -I. -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --libs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof -I./Code src/plots.cxx  src/TAdvancedGraph.cxx src/Helpers.cxx  -o ./bin/$(ARCH)/plots
 
+
+
+
+
+bin/$(ARCH)/makeDB: src/makeDB.cxx
+		mkdir -p ../bin/$(ARCH)
+		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  -o ./bin/$(ARCH)/makeDB
 

@@ -7,10 +7,19 @@
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
+	/*
+	TFile* TDB=new TFile("./opalrivetdata/wow.root","r");
+	TCanvas* C= new TCanvas("OK");
+	TH1F * q=  (TH1F*)TDB->Get("dd");
+	q->Draw();
+	C->SaveAs("1.pdf");
+	TDB->Close();
+	*/
     TAnalysisInfo fAI=ANALYSISINFO;
+    fE=fAI.fE;
 	fGenerator="opal";
 		char a[20];
-		sprintf(a,"%i",(int)(fAI.fE + 0.5));
+		sprintf(a,"%i",(int)(fE + 0.5));
 		fEnergyString=std::string(a);
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
@@ -42,7 +51,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-    if (gentry%500!=1) return kFALSE;
+    //if (gentry%500!=1) return kFALSE;
 	//return true;
     int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
     if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
@@ -74,10 +83,11 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );           
+          //  puts(datatypes.at(j).c_str());
             for (std::vector<std::string>::iterator it=fAlgorithms.begin();it!=fAlgorithms.end();it++)    
          {
          TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
-		 MyAnalysis(this, tfj,weight,*it,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),it->c_str(),fAI.fE));
+		 MyAnalysis(this, tfj,weight,*it,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),it->c_str(),fE));
 		 } 
         }
     fHMap["weight"]->Fill(fAI.fTypes[II],weight);
@@ -99,11 +109,11 @@ void opalrivetdata::Terminate()
 {
    // return;
     TAnalysisInfo fAI=ANALYSISINFO;
+    fE=fAI.fE;
 	fGenerator="opal";
 		char a[20];
-		sprintf(a,"%i",(int)(fAI.fE + 0.5));
+		sprintf(a,"%i",(int)(fE + 0.5));
 		fEnergyString=std::string(a);
-   
     TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "UPDATE");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
@@ -156,4 +166,60 @@ void opalrivetdata::Terminate()
     
     type_fFile->Close();
 }
-//Bool_t opalrivetdata::Notify() {return kTRUE;}
+Bool_t opalrivetdata::Notify() {
+	
+	
+	std::string currentfile=std::string(fChain->GetCurrentFile()->GetName());
+	
+	
+	//printf("file     ---- %s\n",currentfile.c_str());
+	
+	
+	//TObjArray*  allfiles=fChain->GetListOfFiles();
+	
+	
+	
+	TH1F* total=0;
+	TH1F * thisfilehisto=0;	
+	TFile* TDB=new TFile("./opalrivetdata/DB.root","r");
+	char* line=NULL;
+	size_t len=0;
+	FILE* TL=fopen("./opalrivetdata/opalrivetdataFilesList.h","r");
+	gDirectory->ls();
+	TDB->ls();
+	if (TL) while (getline(&line,&len,TL)!=-1)
+	{
+    std::string q=std::string(line);
+    q = q.substr(0, q.find_last_not_of("\n \t")+1);
+	TH1F * temp=0;
+	TKey* a=TDB->GetKey((q+"_RUNHIST").c_str());
+	if (a) temp=(TH1F*)(a->ReadObjectAny(TH1F::Class()));else printf("I dont know this key:%s!\n",q.c_str());
+	if (!temp) printf("I dont know this file:%s!\n",q.c_str()); else
+	if (total) total->Add(temp); else  total=new TH1F(*temp);} 
+    else puts("No file list");
+	fclose(TL);
+	TKey* a=TDB->GetKey((currentfile+"_RUNHIST").c_str());
+	if (a) thisfilehisto=(TH1F*)(a->ReadObjectAny(TH1F::Class()));
+	else printf("I dont know this key:%s!\n",currentfile.c_str());
+	if (thisfilehisto) printf("I know this file!\n");
+	
+	
+	TDB->Close();
+
+/*
+    if (fAI.fTypes[II]/10==2)
+        {
+            double datalumi=0;
+            double eventscs=0;
+            for (int i=0; i<MAX_RUNS; i++)
+                {
+                    if (fAI.fNames[i]=="") continue;
+                    if (fAI.fTypes[i]/10==0) datalumi+=fAI.fLumis[i];//total cs of data
+                    if (fAI.fTypes[i]==fAI.fTypes[II]) eventscs+=fAI.fSigmas[i]*fAI.fEvents[i]; // cs of the given process
+                }
+            weight=datalumi/eventscs;
+
+        }
+        */	
+	
+	return kTRUE;}

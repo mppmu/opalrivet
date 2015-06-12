@@ -16,6 +16,7 @@ public:
     JADE_OPAL_2000_S4300807a() :  Analysis("JADE_OPAL_2000_S4300807a") {		}
     double fTotalWeight;
     double fTotal;
+    double fE;
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
     TFile* fFile;
@@ -26,12 +27,11 @@ public:
   void init()
     {    
 		char a[20];
-		sprintf(a,"%i",(int)(sqrtS()/GeV + 0.5));
+		fE=sqrtS()/GeV;
+		sprintf(a,"%i",(int)(fE + 0.5));
 		fEnergyString=std::string(a);
 		fGenerator = std::string(GENERATOR);
-		TAnalysisInfo t=ANALYSISINFO;
-		fAI=t;
-		fAI.fE=sqrtS()/GeV;
+
         std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
 		tokenize(ALGORITHMS,":",fAlgorithms);
     fFile= new TFile( (fGenerator+"_"+fEnergyString+".root").c_str(),"recreate");    

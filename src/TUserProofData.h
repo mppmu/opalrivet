@@ -22,6 +22,7 @@ public :
     std::map<std::string,TH1D*> fHMap;
     TProofOutputFile *fProofFile;
     TFile *fFile;
+    double fE;
     TUserProofData();
     ~TUserProofData();
 
