@@ -76,11 +76,26 @@ typedef struct TAnalysisInfo_
 }  TAnalysisInfo;
 
 
+typedef struct TSampleInfo_
+{
+    float fE;
+    char      fName[5000];
+    char      fType[5000];
+    char      fFiles[5000];
+    int          fEvents;
+    int          fRunsBegin;
+    int          fRunsEnd;
+    float       fSigma;
+    float       fLuminocity;
+
+}  TSampleInfo;
+
 //http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
 void tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens);
+std::vector<std::string> return_tokenize(const std::string& str, const std::string& delimiters );
 void replace_all(std::string& str, const std::string& from, const std::string& to);
 
-void set_my_style();
+#ifndef SIMPLE_HELPERS_ONLY
 
 
 #include  "fastjet/ClusterSequence.hh"
@@ -1011,3 +1026,4 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     return vtlv;
 }
 
+#endif

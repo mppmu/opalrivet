@@ -120,14 +120,14 @@ bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
 	$(CXX)  -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
 
-bin/$(ARCH)/runProof: src/runProof.cxx
+bin/$(ARCH)/runProof: src/runProof.cxx  src/Helpers.cxx src/Helpers.h
 		mkdir -p ../bin/$(ARCH)
-		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  -o ./bin/$(ARCH)/runProof
+		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  -o ./bin/$(ARCH)/runProof
 
 
-bin/$(ARCH)/makeDB: src/makeDB.cxx
+bin/$(ARCH)/makeDB: src/makeDB.cxx  src/Helpers.cxx src/Helpers.h
 		mkdir -p ../bin/$(ARCH)
-		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  -o ./bin/$(ARCH)/makeDB
+		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx  -o ./bin/$(ARCH)/makeDB
 
 
 
