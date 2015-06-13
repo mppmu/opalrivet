@@ -7,6 +7,7 @@
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
+	/*
 	FILE* TL=fopen("./opalrivetdata/opalrivetdataFilesList.h","r");
 	if (TL) while (getline(&line,&len,TL)!=-1)
 	{
@@ -17,7 +18,7 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     fclose(TL);
     
     
-    
+    */
 
 
     TAnalysisInfo fAI=ANALYSISINFO;

@@ -63,12 +63,13 @@ LOCAL_OPAL_136.NAME:    opalrivetdata
 LOCAL_OPAL_136.CHAIN:   h10
 LOCAL_OPAL_136.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
 LOCAL_OPAL_136.DATA:    /scratch/andriish/opal/ntuple_root/qcd/da136_95_200.root /scratch/andriish/opal/ntuple_root/qcd/da136_97_200.root  /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root /scratch/andriish/opal/ntuple_root/qcd/mc12163_2_200.root 
-LOCAL_OPAL_136.FILES:   DB.root src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
-LOCAL_OPAL_136.DEFINES: \'-DALGORITHMS=\"durham\"\' \'-DANALYSISINFO={136.0\,kLEP2\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"}\,{0\,0\,10}\,{6800\,6800\,12135}\,{9000\,9000\,13137}\,{0.0\,0.0\,278.8}\,{2.56\,2.36\,0.0}\,{-1\,-1\,-1}}\'
+LOCAL_OPAL_136.FILES:   gen/DB.root src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_136.DEFINES: \'-DALGORITHMS=\"durham\"\' \'-DANALYSISINFO={136.0\,\"kLEP2\"\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"}\,{0\,0\,10}\,{6800\,6800\,12135}\,{9000\,9000\,13137}\,{0.0\,0.0\,278.8}\,{2.56\,2.36\,0.0}\,{-1\,-1\,-1}}\'
 LOCAL_OPAL_136.NUMBER:  1000000000
 
 DCAP_OPAL_136:
 DCAP_OPAL_136.NAME:    opalrivetdata
+
 
 DCAP_OPAL_136.CHAIN:   h10
 DCAP_OPAL_136.FILEGEN: gsidcap://grid-srm.rzg.mpg.de:22128/pnfs/rzg.mpg.de/data/opal/ntuple_root/qcd/mc12163_1_200.root

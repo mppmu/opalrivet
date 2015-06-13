@@ -73,7 +73,6 @@ typedef struct TAnalysisInfo_
     double       fSigmas[MAX_RUNS];
     double       fLumis[MAX_RUNS];
     int          fEvents[MAX_RUNS];
-    std::string  fFiles[MAX_RUNS];
 }  TAnalysisInfo;
 
 
