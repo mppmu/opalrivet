@@ -8,16 +8,31 @@ void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::Se
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
 	/*
-	FILE* TL=fopen("./opalrivetdata/opalrivetdataFilesList.h","r");
-	if (TL) while (getline(&line,&len,TL)!=-1)
-	{
-    std::string q=std::string(line);
-    q = q.substr(0, q.find_last_not_of("\n \t")+1);
 
-    }
-    fclose(TL);
-    
-    
+std::vector<std::string> S=return_tokenize(SAMPLES, ":");
+std::set<std::string> DATA;
+std::set<std::string> MCSI;
+std::set<std::string> MCBG;
+for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
+	{
+	if (fM[*it]=="DATA") DATA->insert(*it);
+	if (fM[*it]=="MCSI") MCSI->insert(*it);
+	* if (fM[*it]=="MCBG") MCBG->insert(*it);
+	
+}
+for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
+{
+ 
+ 
+ 
+}
+
+
+	TFile* TDB=new TFile("./opalrivetdata/DB.root","r");
+	TSampleInfo R;
+	TTree* T=TDB->
+
+
     */
 
 

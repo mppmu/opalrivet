@@ -39,8 +39,6 @@ EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf)\
 				Cuts.$(ObjSuf) Helpers.$(ObjSuf)\
 								TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf)
-#				TAutomaticSelector.$(ObjSuf) TAutomaticSelectorDict.$(ObjSuf)\
-
 
 ROOTMAP       =  lib$(TARGET).rootmap
                  
@@ -136,10 +134,6 @@ TAdvancedGraphDict.$(SrcSuf2): TAdvancedGraph.h TAdvancedGraphLinkDef.h
 TAutomaticSelectorDict.$(SrcSuf2): TAutomaticSelector.h TAutomaticSelectorLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c  $^
-
-
-
-
 
 
 $(TARGET).$(ObjSuf): $(TARGET).h 
