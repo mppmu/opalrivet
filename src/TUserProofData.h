@@ -11,6 +11,7 @@ class TH1D;
 class TAdvancedGraph;
 class TGraphAsymmErrors;
 class TFile;
+class TSampleInfo;
 class TUserProofData
 {
 public :
@@ -21,6 +22,7 @@ public :
     std::map<std::string,TAdvancedGraph*> fGMap;
     std::map<std::string,TH1D*> fHMap;
     TProofOutputFile *fProofFile;
+    TSampleInfo *fSampleInfo;
     TFile *fFile;
     double fE;
     TUserProofData();

@@ -1,4 +1,5 @@
 #include "Helpers.h"
+#include "TSampleInfo.h"
 void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int> fMI,std::map<std::string,float> fMF)
 {
     TChain* chainTD = new TChain(fMS["CHAIN"].c_str());
@@ -19,23 +20,49 @@ void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int>
     p->AddEnvVar("Davix.UseOldClient","yes");
     p->AddEnvVar("Proof.Sandbox",gSystem->GetFromPipe("readlink -f ./")+"/.proof_"+TString(gSystem->GetFromPipe("hostname"))) ;
     p->AddInput(new TNamed("PROOF_OUTPUTFILE_LOCATION", "LOCAL"));
+    TFile* TDB=new TFile(fMS["DB"].c_str(),"r");
     gSystem->ChangeDirectory("./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/"+fMS["NAME"]);
 
-    FILE* FF;
-    FF=fopen((fMS["NAME"]+"FilesList.h").c_str(),"w");
+    //FILE* FF;
+    //FF=fopen((fMS["NAME"]+"FilesList.h").c_str(),"w");
     pp= return_tokenize(fMS["DATA"]," ");
 
     for (std::vector<std::string>::iterator it=pp.begin(); it!=pp.end(); it++)
         if (it->find("://")!=std::string::npos)
-            {chainTD->Add(it->c_str()); fprintf(FF,"%s\n",it->c_str());}
+            {
+                chainTD->Add(it->c_str());
+                //fprintf(FF,"%s\n",it->c_str());
+            }
         else
             {
 
                 std::string it2=std::string(gSystem->GetFromPipe((std::string("readlink -f ")+*it).c_str()).Data());
                 chainTD->Add(it2.c_str());
-                fprintf(FF,"%s\n",it2.c_str());
+                //fprintf(FF,"%s\n",it2.c_str());
             }
-    fclose(FF);
+
+    if (!TDB) printf("NO DB\n");
+    else
+        {
+            pp= return_tokenize(fMS["SAMPLES"],":");
+            for (std::vector<std::string>::iterator it=pp.begin(); it!=pp.end(); it++)
+                {
+                    TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
+                    if (!R) printf("No such sample %s\n",it->c_str());
+                    else
+                        {
+                            std::vector<std::string> qq=return_tokenize(R->fFiles," ");
+                            for (std::vector<std::string>::iterator it2=qq.begin(); it2!=qq.end(); it2++)
+                                {
+                                    chainTD->Add((fMS["PREFIX"]+*it2).c_str());
+                                    printf("%s\n",(fMS["PREFIX"]+*it2).c_str());
+                                }
+                        }
+
+                }
+            TDB->Close();
+        }
+
     if (fMS["FILEGEN"].length()!=0)
         {
             TChain *chainG = new TChain(fMS["CHAIN"].c_str());
@@ -59,6 +86,7 @@ void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int>
     gSystem->ListLibraries();\ngEnv->SetValue(\"Davix.UseOldClient\",\"yes\");\ngSystem->Exec(\"ldd lib'"+fMS["NAME"]+"'.so\");\ngSystem->Exec(\"pwd\");\ngSystem->Exec(\"ls -lah\");\ngSystem->Exec(\"echo $LD_LIBRARY_PATH\"); \nint q=gSystem->Load(\"lib'"+fMS["NAME"]+"'\"); gSystem->ListLibraries();\n if (q == -1) return -1;\nreturn 0;\n}\n'  >> PROOF-INF/SETUP.C").c_str());
 
     pp= return_tokenize(fMS["DEFINES"]," ");
+    //pp.push_back("'-DSAMPLES=\""+fMS["SAMPLES"]+"\"'");
     for (std::vector<std::string>::iterator it=pp.begin(); it!=pp.end(); it++)
         gSystem->GetFromPipe((std::string("sed -i '/TARGET =/aCXXFLAGS+='")+*it+" Makefile").c_str());
     gSystem->ChangeDirectory("../");
@@ -113,6 +141,11 @@ int main(int argc ,char** argv)
     fMS.insert(std::pair<std::string,std::string>("EVENTLIST",e_config->GetValue(CONF+".EVENTLIST","")));
     fMS.insert(std::pair<std::string,std::string>("CHAIN",    e_config->GetValue(CONF+".CHAIN","orange")));
     fMS.insert(std::pair<std::string,std::string>("CLASSES",  e_config->GetValue(CONF+".CLASSES"," ")));
+
+    fMS.insert(std::pair<std::string,std::string>("SAMPLES",e_config->GetValue(CONF+".SAMPLES","")));
+    fMS.insert(std::pair<std::string,std::string>("PREFIX",e_config->GetValue(CONF+".PREFIX","")));
+    fMS.insert(std::pair<std::string,std::string>("DB",e_config->GetValue(CONF+".PREFIX","./gen/DB.root")));
+
     if (argc>2)      fMS.insert(std::pair<std::string,std::string>("OPTION",  std::string(argv[2])));
     runProof(fMS,fMI,fMF);
 }

@@ -42,7 +42,7 @@ dirs:
 	mkdir -p gen
 	mkdir -p run
 	
-output/opal_%.root:  bin/$(ARCH)/runProof 
+output/opal_%.root:  bin/$(ARCH)/runProof  src/opalrivetdata.C gen/DB.root
 	bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
@@ -84,7 +84,7 @@ run/Makefile: share/Makefile.run
 
 
 beauty:
-		astyle -n --keep-one-line-blocks --style=gnu    ./*/*.h   ./*/*.cxx ./*/.C ./*/*.hh
+		astyle -n --keep-one-line-blocks --style=gnu    ./*/*.h   ./*/*.cxx ./*/*.C ./*/*.hh
 
 bin/$(ARCH)/opalrivet$(GEN):
 	rm bin/$(ARCH)/opalrivet$(GEN)
@@ -120,20 +120,30 @@ bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
 	$(CXX)  -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
 
-bin/$(ARCH)/runProof: src/runProof.cxx  src/Helpers.cxx src/Helpers.h
+bin/$(ARCH)/runProof: src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
 		mkdir -p ../bin/$(ARCH)
-		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  -o ./bin/$(ARCH)/runProof
+		$(CXX) -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
 
 
-bin/$(ARCH)/makeDB: src/makeDB.cxx  src/Helpers.cxx src/Helpers.h
+bin/$(ARCH)/makeDB: src/makeDB.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx src/TSampleInfo.h
 		mkdir -p ../bin/$(ARCH)
-		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx  -o ./bin/$(ARCH)/makeDB
+		$(CXX) -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
+
+.PHONY: gen/TSampleInfoLinkDef.h
+gen/TSampleInfoLinkDef.h:
+	@rm -f gen/TSampleInfoLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> gen/TSampleInfoLinkDef.h
+	@echo  "#pragma link C++ class "TSampleInfo"+;"   >> gen/TSampleInfoLinkDef.h
+	@echo  "#endif"      >> gen/TSampleInfoLinkDef.h
 
 
 
+gen/TSampleInfoDict.cxx: src/TSampleInfo.h gen/TSampleInfoLinkDef.h
+	echo "Generating dictionary $@..."
+	rootcint -f $@ -c  $^
 
 
-bin/$(ARCH)/makeDB: src/makeDB.cxx
-		mkdir -p ../bin/$(ARCH)
-		$(CXX)  -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  -o ./bin/$(ARCH)/makeDB
 
+gen/DB.root: bin/$(ARCH)/makeDB
+	bin/$(ARCH)/makeDB  gen/DB.root /scratch/andriish/opal/ntuple_root/qcd/
+	

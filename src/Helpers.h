@@ -43,7 +43,7 @@
 #include <TCanvas.h>
 #include <TMultiGraph.h>
 #include <TMath.h>
-
+#include "TSampleInfo.h"
 #endif
 
 #include <vector>
@@ -76,19 +76,7 @@ typedef struct TAnalysisInfo_
 }  TAnalysisInfo;
 
 
-typedef struct TSampleInfo_
-{
-    float fE;
-    char      fName[5000];
-    char      fType[5000];
-    char      fFiles[5000];
-    int          fEvents;
-    int          fRunsBegin;
-    int          fRunsEnd;
-    float       fSigma;
-    float       fLuminocity;
 
-}  TSampleInfo;
 
 //http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
 void tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens);
@@ -605,16 +593,16 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 
 
 template <class EXA>
-void BookHistograms(EXA * A,TAnalysisInfo B, std::string Iprefix="")
+void BookHistograms(EXA * A,TSampleInfo B, std::string Iprefix="")
 {
     std::set<std::string> foo;
-    if (B.fAT==std::string("kLEP1")||B.fAT==std::string("kLEP2")) { OPALObs(A,foo,Iprefix); return;}
-    if (B.fAT==std::string("kJADE"))           {JADEObs(A,foo,Iprefix); return;}
-    printf("UNKNOWN FILL OPTION %s\n",B.fAT.c_str());
+    if (B.fPeriod==std::string("kLEP1")||B.fPeriod==std::string("kLEP2")) { OPALObs(A,foo,Iprefix); return;}
+    if (B.fPeriod==std::string("kJADE"))           {JADEObs(A,foo,Iprefix); return;}
+    printf("UNKNOWN FILL OPTION %s\n",B.fPeriod.c_str());
 }
 
-void Count(TChain* C, TAnalysisInfo& A);
-int  Match(int run, TAnalysisInfo& Z, TH1F* H);
+void Count(TChain* C, TSampleInfo& A);
+int  Match(int run, TSampleInfo& Z, TH1F* H);
 #ifndef USE_RIVET
 template <class EXA> Float_t costt(EXA* A) { return A->Tvectc[2]; }
 template <class EXA> Float_t tdmt(EXA* A) { return A->Tdmt; }

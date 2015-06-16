@@ -38,7 +38,8 @@ EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf)\
 				Cuts.$(ObjSuf) Helpers.$(ObjSuf)\
-								TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf)
+								TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf) \
+								TSampleInfo.$(ObjSuf) TSampleInfoDict.$(ObjSuf)
 
 ROOTMAP       =  lib$(TARGET).rootmap
                  
@@ -75,7 +76,7 @@ clean:
 nice: 
 	astyle -n --keep-one-line-blocks --style=gnu  ./*cxx ./*h ./*C
 
-.PHONY: TFastJetLinkDef.h TAutomaticSelectorLinkDef.h TAdvancedGraphLinkDef.h $(TARGET)LinkDef.h
+.PHONY: TFastJetLinkDef.h TSampleInfoLinkDef.h TAdvancedGraphLinkDef.h $(TARGET)LinkDef.h
 
 $(TARGET)LinkDef.h:
 	@rm -f $(TARGET)LinkDef.h
@@ -84,11 +85,11 @@ $(TARGET)LinkDef.h:
 	@echo  "#endif                ">> $(TARGET)LinkDef.h
 
 
-TAutomaticSelectorLinkDef.h:
-	@rm -f TAutomaticSelectorLinkDef.h
-	@echo  "#ifdef __MAKECINT__"   >> TAutomaticSelectorLinkDef.h
-	@echo  "#pragma link C++ class TAutomaticSelector+;"   >> TAutomaticSelectorLinkDef.h
-	@echo  "#endif                ">> TAutomaticSelectorLinkDef.h
+TSampleInfoLinkDef.h:
+	@rm -f TSampleInfoLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> TSampleInfoLinkDef.h
+	@echo  "#pragma link C++ class TSampleInfo+;"   >> TSampleInfoLinkDef.h
+	@echo  "#endif                ">> TSampleInfoLinkDef.h
 
 
 TUserProofDataLinkDef.h:
@@ -131,7 +132,7 @@ TAdvancedGraphDict.$(SrcSuf2): TAdvancedGraph.h TAdvancedGraphLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c  $^
 
-TAutomaticSelectorDict.$(SrcSuf2): TAutomaticSelector.h TAutomaticSelectorLinkDef.h
+TSampleInfoDict.$(SrcSuf): TSampleInfo.h TSampleInfoLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c  $^
 
@@ -150,8 +151,6 @@ $(TARGET)Dict.$(SrcSuf): $(TARGET).h   $(TARGET)LinkDef.h
 .$(SrcSuf2).$(ObjSuf):
 	$(CXX) $(CXXFLAGS)   -c $<
 
-TAutomaticSelector.$(ObjSuf): TAutomaticSelector.C TAutomaticSelector.h
-	$(CXX) $(CXXFLAGS) -DTAutomaticSelector_cxx  -c $< TAutomaticSelector.C
 
 
 .$(SrcSuf3).$(ObjSuf):

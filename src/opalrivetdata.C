@@ -1,60 +1,66 @@
 #define opalrivetdata_cxx
 #include  "opalrivetdata.h"
 #include  "TFastJet.h"
+#include  "TSampleInfo.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
 
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
-	/*
+    fE=-1;//fAI.fE;
+    TFile* TDB=new TFile("./opalrivetdata/DB.root","update");
+    std::vector<std::string> S=return_tokenize(SAMPLES, ":");
+    double data=0;
+    double mcbg=0;
+    for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
+        {
+            TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
+            if (!R) printf("No such sample\n");
+            else
+                {
+                    fSampleInfo=new TSampleInfo(*R);
+                    fSampleInfo->SetName("sampleinfo");
+                    if (fE<0) fE=R->fE;
+                    else { if (std::abs(fE-R->fE)>1.0) printf("Different energy:\n");}
+                }
+        }
 
-std::vector<std::string> S=return_tokenize(SAMPLES, ":");
-std::set<std::string> DATA;
-std::set<std::string> MCSI;
-std::set<std::string> MCBG;
-for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
-	{
-	if (fM[*it]=="DATA") DATA->insert(*it);
-	if (fM[*it]=="MCSI") MCSI->insert(*it);
-	* if (fM[*it]=="MCBG") MCBG->insert(*it);
-	
-}
-for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
-{
- 
- 
- 
-}
-
-
-	TFile* TDB=new TFile("./opalrivetdata/DB.root","r");
-	TSampleInfo R;
-	TTree* T=TDB->
-
-
-    */
-
-
-    TAnalysisInfo fAI=ANALYSISINFO;
-    fE=fAI.fE;
-	fGenerator="opal";
-		char a[20];
-		sprintf(a,"%i",(int)(fE + 0.5));
-		fEnergyString=std::string(a);
+    for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
+        {
+            TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
+            if (!R) printf("No such sample\n");
+            else
+                {
+                    if (R->fType=="DATA") {data+=R->fLuminocity;}
+                    if (R->fType=="MCBG") {mcbg+=R->fSigma*R->fEvents; }
+                }
+        }
+    for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
+        {
+            TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
+            if (R->fType=="MCBG") R->fWeight=data/mcbg;
+            else R->fWeight=1.0;
+            R->Write();
+        }
+    TDB->Close();
+//fSampleInfo->Print();
+    fOutput->Add(fSampleInfo);
+    fGenerator="opal";
+    char a[20];
+    sprintf(a,"%i",(int)(fE + 0.5));
+    fEnergyString=std::string(a);
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
     fProofFile = new TProofOutputFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
-    
-    	//return ;
-    
 
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
-    for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++) BookHistograms(this,fAI,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fAI.fE));
+    for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++)
+            BookHistograms(this,*fSampleInfo,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fE));
     fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
     for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
     for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
@@ -66,75 +72,65 @@ for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
 }
 Bool_t opalrivetdata::Process(Long64_t gentry)
 {
-
-    TAnalysisInfo fAI=ANALYSISINFO; // We put it here because we do not want just another type/class for ROOT and therefore cannot make it a member
     Bool_t PASSED=kFALSE;
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-    //if (gentry%500!=1) return kFALSE;
-	//return true;
-    int II=Match(Irun,fAI,(TH1F*)fInput->FindObject("RUNHIST"));
-    if (II==-1) printf("Something wrong, run not found: %i\n",Irun);
-    if (II>-1) if (fAI.fTypes[II]<0) return kFALSE;
-    float weight=1.0;
-    fHMap["weight_before_selection"]->Fill(fAI.fTypes[II],weight);
-    if (fAI.fTypes[II]/10==2)
-        {
-            double datalumi=0;
-            double eventscs=0;
-            for (int i=0; i<MAX_RUNS; i++)
-                {
-                    if (fAI.fNames[i]=="") continue;
-                    if (fAI.fTypes[i]/10==0) datalumi+=fAI.fLumis[i];//total cs of data
-                    if (fAI.fTypes[i]==fAI.fTypes[II]) eventscs+=fAI.fSigmas[i]*fAI.fEvents[i]; // cs of the given process
-                }
-            weight=datalumi/eventscs;
+    fSampleInfo->Print();
+    if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
+    if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
+    if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
+    if (gentry%50!=1) return kFALSE;
 
-        }//assume one process=1 file
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-    if (fAI.fAT==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
-    if (fAI.fAT==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
+    if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
-    if (fAI.fTypes[II]==0)    { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
-    if (fAI.fTypes[II]/10==1) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); }
-    if (fAI.fTypes[II]/10==2) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
+    if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
+    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); }
+    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
 
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
-            std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );           
-          //  puts(datatypes.at(j).c_str());
-            for (std::vector<std::string>::iterator it=fAlgorithms.begin();it!=fAlgorithms.end();it++)    
-         {
-         TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
-		 MyAnalysis(this, tfj,weight,*it,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),it->c_str(),fE));
-		 } 
+            std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
+            for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
+                {
+                    TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
+                    MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),it->c_str(),fE));
+                }
         }
-    fHMap["weight"]->Fill(fAI.fTypes[II],weight);
+
+
+
+    if (fSampleInfo->fType==std::string("DATA")) fHMap["weight"]->Fill(0.0,fSampleInfo->fWeight);
+    if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight"]->Fill(11.0,fSampleInfo->fWeight);
+    if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight"]->Fill(21.0,fSampleInfo->fWeight);
     return kTRUE;
 }
 void opalrivetdata::SlaveTerminate()
 {
-	//return;
     TDirectory *savedir = gDirectory;
     fFile->cd();
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Sumw2();  H_it->second->Write(); H_it->second->SetDirectory(0);      }
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) {  G_it->second->Write();}
     fProofFile->Print();
     fOutput->Add(fProofFile);
+    fOutput->Add(fSampleInfo);
     gDirectory = savedir;
     fFile->Close();
 }
 void opalrivetdata::Terminate()
 {
-   // return;
-    TAnalysisInfo fAI=ANALYSISINFO;
-    fE=fAI.fE;
-	fGenerator="opal";
-		char a[20];
-		sprintf(a,"%i",(int)(fE + 0.5));
-		fEnergyString=std::string(a);
+    TSampleInfo *out = (TSampleInfo *) fOutput->FindObject("sampleinfo");
+    if (out) out->Print();
+    else puts("ffffffff\n");
+    fE=out->fE;
+    fGenerator="opal";
+    char a[20];
+    sprintf(a,"%i",(int)(fE + 0.5));
+    fEnergyString=std::string(a);
+    printf("opening ./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str());
     TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "UPDATE");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
@@ -145,11 +141,8 @@ void opalrivetdata::Terminate()
             if ( obj->IsA()->InheritsFrom( "TH1"    ) ) fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj)   );
             if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
         }
-    // Scale later ? for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) if ((H_it->first.find("JETR")!=std::string::npos) &&(H_it->first.find("data_")!=std::string::npos))  H_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));  //data
-     int number_of_events=fHMap["weight"]->GetBinContent(1);  //all data
-     for (int i=20; i<30; i++)   number_of_events-=(fHMap["weight"]->GetBinContent(i)); //subtract number of MC BG events
-    
-    
+    int number_of_events=fHMap["weight"]->GetBinContent(1);  //all data
+    for (int i=20; i<30; i++)   number_of_events-=(fHMap["weight"]->GetBinContent(i)); //subtract number of MC BG events
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             if (H_it->first.find("H_acceptancesignal_")!=std::string::npos)
@@ -158,7 +151,7 @@ void opalrivetdata::Terminate()
                     H_it->second->Add(fHMap[std::string("H_mcsignal_")+name]);
                     H_it->second->Divide(fHMap[std::string("H_truesignal_")+name]);
                     fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name],fHMap[std::string("H_mcbackgr_")+name],1.0,-1.0);
-                    fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);              
+                    fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
                     fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
                 }
             if (H_it->first.find("H_acceptancebackgr_")!=std::string::npos)
@@ -169,85 +162,44 @@ void opalrivetdata::Terminate()
                 }
         }
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) { H_it->second->Write(0,TObject::kWriteDelete); H_it->second->SetDirectory(0);}
-     
-     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
-     if ((G_it->first.find("JETR")!=std::string::npos) &&(G_it->first.find("data_")!=std::string::npos))  G_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));
-    
+
+    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
+        if ((G_it->first.find("JETR")!=std::string::npos) &&(G_it->first.find("data_")!=std::string::npos))  G_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));
+
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
         if (G_it->first.find("G_acceptancesignal_")!=std::string::npos)
-        {
-        std::string name=G_it->first.substr(std::string("G_acceptancesignal_").length());
-        G_it->second->Add(NULL,fGMap[std::string("G_mcsignal_")+name]);
-        G_it->second->Divide(fGMap[std::string("G_mcsignal_")+name],fGMap[std::string("G_truesignal_")+name]);
-        fGMap[std::string("G_corrected_")+name]->Add(fGMap[std::string("G_data_")+name],fGMap[std::string("G_mcbackgr_")+name],1,-1);
-        fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
-        fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
-        }
+            {
+                std::string name=G_it->first.substr(std::string("G_acceptancesignal_").length());
+                G_it->second->Add(NULL,fGMap[std::string("G_mcsignal_")+name]);
+                G_it->second->Divide(fGMap[std::string("G_mcsignal_")+name],fGMap[std::string("G_truesignal_")+name]);
+                fGMap[std::string("G_corrected_")+name]->Add(fGMap[std::string("G_data_")+name],fGMap[std::string("G_mcbackgr_")+name],1,-1);
+                fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
+                fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
+            }
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
-    
+
     type_fFile->Close();
 }
-Bool_t opalrivetdata::Notify() {
-	
-	
-	std::string currentfile=std::string(fChain->GetCurrentFile()->GetName());
-	
-	
-	//printf("file     ---- %s\n",currentfile.c_str());
-	
-	
-	//TObjArray*  allfiles=fChain->GetListOfFiles();
-	
-	
-	
-	TH1F* total=0;
-	TH1F * thisfilehisto=0;	
-	TFile* TDB=new TFile("./opalrivetdata/DB.root","r");
-	char* line=NULL;
-	size_t len=0;
-	FILE* TL=fopen("./opalrivetdata/opalrivetdataFilesList.h","r");
-
-	if (TL) while (getline(&line,&len,TL)!=-1)
-	{
-    std::string q=std::string(line);
-    q = q.substr(0, q.find_last_not_of("\n \t")+1);
-
-
-    }
-/*
-	if (TL) while (getline(&line,&len,TL)!=-1)
-	{
-    std::string q=std::string(line);
-    q = q.substr(0, q.find_last_not_of("\n \t")+1);
-	TH1F * temp=0;
-	TKey* a=TDB->GetKey((q+"_RUNHIST").c_str());
-	if (a) temp=(TH1F*)(a->ReadObjectAny(TH1F::Class()));else printf("I dont know this key:%s!\n",q.c_str());
-	if (!temp) printf("I dont know this file:%s!\n",q.c_str()); else
-	if (total) total->Add(temp); else  total=new TH1F(*temp);} 
-    else puts("No file list");
-	fclose(TL);
-	TKey* a=TDB->GetKey((currentfile+"_RUNHIST").c_str());
-	if (a) thisfilehisto=(TH1F*)(a->ReadObjectAny(TH1F::Class()));
-	else printf("I dont know this key:%s!\n",currentfile.c_str());
-	if (thisfilehisto) printf("I know this file!\n");
-	*/
-	
-	TDB->Close();
-
-/*
-    if (fAI.fTypes[II]/10==2)
+Bool_t opalrivetdata::Notify()
+{
+    TString currentfile=gSystem->BaseName(fChain->GetCurrentFile()->GetName());
+    TFile* theDB=new TFile("./opalrivetdata/DB.root","r");
+    TMap* filetosamplemap=(TMap*)theDB->Get("mymap");
+    if (!filetosamplemap) printf("No map found!\n");
+    else filetosamplemap->Print();
+    TObjString* samplename=(TObjString* )((*filetosamplemap)(currentfile.Data()));
+    if (!samplename) printf("No samplename found!\n");
+    else
         {
-            double datalumi=0;
-            double eventscs=0;
-            for (int i=0; i<MAX_RUNS; i++)
+            printf("samplename=%s\n",samplename->GetString().Data());
+            TSampleInfo* sample=(TSampleInfo*)theDB->Get(samplename->GetString());
+            if (!sample) printf("No sample found!\n");
+            else
                 {
-                    if (fAI.fNames[i]=="") continue;
-                    if (fAI.fTypes[i]/10==0) datalumi+=fAI.fLumis[i];//total cs of data
-                    if (fAI.fTypes[i]==fAI.fTypes[II]) eventscs+=fAI.fSigmas[i]*fAI.fEvents[i]; // cs of the given process
+                    //  printf("%f\n",sample->fWeight);//Here we set the weight
+                    fSampleInfo=new TSampleInfo(*sample);
                 }
-            weight=datalumi/eventscs;
-
         }
-        */	
-	
-	return kTRUE;}
+    theDB->Close();
+    return kTRUE;
+}

@@ -1,10 +1,10 @@
 #include "Helpers.h"
-
-void FillInfo(TSampleInfo& A,TMap* filestosamples,std::string prefix)
+#include "TSampleInfo.h"
+void FillInfo(TSampleInfo* A,TMap* filestosamples,std::string prefix)
 {
 
     std::vector<std::string> a;
-    tokenize(A.fFiles," ",a);
+    tokenize(A->fFiles," ",a);
     TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
     for (std::vector<std::string>::iterator it=a.begin(); it!=a.end(); it++)
         {
@@ -15,15 +15,15 @@ void FillInfo(TSampleInfo& A,TMap* filestosamples,std::string prefix)
             TOTAL->Add(RUNHIST);
             // RUNHIST->SetName((*it+"_RUNHIST").c_str());
             //  RUNHIST->Write();
-            filestosamples->Add(new TObjString(it->c_str()),new TObjString(A.fName));
+            filestosamples->Add(new TObjString(it->c_str()),new TObjString(A->GetName()));
         }
-    A.fRunsBegin=0;
-    A.fRunsEnd=20000-2;
+    A->fRunsBegin=0;
+    A->fRunsEnd=20000-2;
 
 
-    while (TOTAL->GetBinContent(A.fRunsBegin)<0.5) A.fRunsBegin++;
-    while (TOTAL->GetBinContent(A.fRunsEnd)<0.5) A.fRunsEnd--;
-    A.fEvents=TOTAL->GetEntries();
+    while (TOTAL->GetBinContent(A->fRunsBegin)<0.5) A->fRunsBegin++;
+    while (TOTAL->GetBinContent(A->fRunsEnd)<0.5) A->fRunsEnd--;
+    A->fEvents=TOTAL->GetEntries();
     TOTAL->Delete();
 }
 
@@ -38,31 +38,22 @@ int main(int argc ,char** argv)
 
 
     TFile* F= new TFile(argv[1],"recreate");
+
+    std::vector<TSampleInfo*>AIStruct;
+
+    AIStruct.push_back(new TSampleInfo(136.0,"136_DATA_1","DATA","kLEP2","da136_95_200.root",-1,-1,-1,2.56,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(136.0,"136_DATA_2","DATA","kLEP2","da136_97_200.root",-1,-1,-1,2.36,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(136.0,"136_MCSI_1","MCSI","kLEP2","mc12163_1_200.root mc12163_2_200.root",-1,-1,-1,0.0,278.8,0.0));
+
     std::string prefix=std::string(argv[2]);
-    TSampleInfo   AIStruct;
     TMap* db= new TMap();
-    TTree* ntuple = new TTree("exampleEventsNtuple","Selected variables from the ExampleEvents objects");
-    ntuple->Branch("ALL",&AIStruct,"fE/F:fName[5000]/C:fType[5000]/C:fFiles[5000]/C:fEvents/I:fRunsBegin/I:fRunsEnd/I:fSigma/F:fLuminocity/F");
-
-    TSampleInfo OPAL_136_DATA_1= {136.0,"136_DATA_1","kLEP2","da136_95_200.root",-1,-1,-1,2.56,0,0};
-    AIStruct=OPAL_136_DATA_1;
-    FillInfo(AIStruct,db,prefix);
-    ntuple->Fill();
-
-    TSampleInfo OPAL_136_DATA_2= {136.0,"136_DATA_2","kLEP2","da136_97_200.root",-1,-1,-1,2.36,0,0};
-    AIStruct=OPAL_136_DATA_2;
-    FillInfo(AIStruct,db,prefix);
-    ntuple->Fill();
-
-    TSampleInfo OPAL_136_MCSI_1= {136.0,"136_MCSI_1","kLEP2","mc12163_1_200.root mc12163_2_200.root",-1,-1,-1,0.0,278.8};
-    AIStruct=OPAL_136_MCSI_1;
-    FillInfo(AIStruct,db,prefix);
-    ntuple->Fill();
-
-//ANALYSISINFO={136.0\,\"kLEP2\"\,{\"DATA\"\,\"DATA\"\,\"MCSIGNALPYTHIA\"}\,{0\,0\,10}\,{6800\,6800\,12135}\,{9000\,9000\,13137}\,{0.0\,0.0\,278.8}\,{2.56\,2.36\,0.0}\,{-1\,-1\,-1}}\'
-
+    for (std::vector<TSampleInfo*>::iterator it= AIStruct.begin(); it!=AIStruct.end(); it++)
+        {
+            FillInfo(*it,db,prefix);
+            (*it)->Write();
+        }
     db->Write("mymap",1);
-    ntuple->Write();
+//    ntuple->Write();
     F->Close();
     return 0;
 }

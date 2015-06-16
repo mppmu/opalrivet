@@ -27,6 +27,10 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		cp ../src/TAdvancedGraph.cxx ./src
 		cp ../src/TAdvancedGraph.h ./inc	
 
+		cp ../src/TSampleInfo.cxx ./src
+		cp ../src/TSampleInfo.h ./inc	
+
+
 
 		cp ../src/Cuts.h ./inc
 		cp ../src/Cuts.cxx ./src
@@ -59,8 +63,20 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 
 
 
+		@rm -f TSampleInfoLinkDef.h
+		@echo  "#ifdef __MAKECINT__"   >> TSampleInfoLinkDef.h
+		@echo  "#pragma link C++ class TSampleInfo+;"   >> TSampleInfoLinkDef.h
+		@echo  "#endif                ">> TSampleInfoLinkDef.h
+		@rootcint -f src/TSampleInfoDict.cxx -c  ./inc/TSampleInfo.h TSampleInfoLinkDef.h
+
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TSampleInfoDict.cxx -o obj/TSampleInfoDict.o
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TSampleInfo.cxx -o obj/TSampleInfo.o
+		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TSampleInfo.o obj/TSampleInfoDict.o -o lib/libTSampleInfo.so
+
+
+
 		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall\
-		   -DUSE_RIVET -std=c++0x -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph '-DGENERATOR=\"$(GEN)\"'  \
+		   -DUSE_RIVET -std=c++0x -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph -lTSampleInfo '-DGENERATOR=\"$(GEN)\"'  \
 			-DMC  -'DALGORITHMS=\"durham\"' -'DANALYSISINFO={0.0\,\"kLEP1\"\,{\"DATA\"\,\"DATA\"}\,{0\,0}\,{0\,0}\,{0\,0}\,{0.0\,0.0}\,{0.0\,0.0}\,{0\,0}}'
 #define MC
 #define ALGORITHMS "kt:antikt:siscone:cambridge:durham"
