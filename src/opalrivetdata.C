@@ -47,12 +47,10 @@ void opalrivetdata::SlaveBegin(TTree * tree)
 //fSampleInfo->Print();
     fOutput->Add(fSampleInfo);
     fGenerator="opal";
-    char a[20];
-    sprintf(a,"%i",(int)(fE + 0.5));
-    fEnergyString=std::string(a);
+
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
-    fProofFile = new TProofOutputFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "M");
+    fProofFile = new TProofOutputFile(Form("./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str()), "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
@@ -60,7 +58,7 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++)
-            BookHistograms(this,*fSampleInfo,Form("%s_%s_%2.0fGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fE));
+            BookHistograms(this,*fSampleInfo,Form("%s_%s_%sGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fSampleInfo->fEnergyString.c_str()));
     fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
     for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
     for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
@@ -97,7 +95,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
             for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                 {
                     TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
-                    MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%2.0fGeV_",datatypes.at(j).c_str(),it->c_str(),fE));
+                    MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                 }
         }
 
@@ -125,13 +123,11 @@ void opalrivetdata::Terminate()
     TSampleInfo *out = (TSampleInfo *) fOutput->FindObject("sampleinfo");
     if (out) out->Print();
     else puts("ffffffff\n");
-    fE=out->fE;
+    fSampleInfo=out;
     fGenerator="opal";
-    char a[20];
-    sprintf(a,"%i",(int)(fE + 0.5));
-    fEnergyString=std::string(a);
-    printf("opening ./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str());
-    TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fEnergyString.c_str()), "UPDATE");
+
+    printf("opening ./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str());
+    TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str()), "UPDATE");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
     TKey *key;

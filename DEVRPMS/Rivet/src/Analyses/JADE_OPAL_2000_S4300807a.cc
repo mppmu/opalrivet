@@ -20,25 +20,20 @@ public:
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
     TFile* fFile;
-    std::string fEnergyString;
+ //   std::string fEnergyString;
     std::string fGenerator;
     std::vector<std::string> fAlgorithms;
-    TAnalysisInfo fAI;
+    TSampleInfo* fSampleInfo;
   void init()
     {    
-		TAnalysisInfo t=ANALYSISINFO ;
-		fAI=t;
-		char a[20];
-		fE=sqrtS()/GeV;
-		sprintf(a,"%i",(int)(fE + 0.5));
-		fEnergyString=std::string(a);
+		fSampleInfo=new TSampleInfo(sqrtS()/GeV,GENERATOR,"MCSI","kLEP2","",0,0,0.0,0.0,0.0,0.0); 
 		fGenerator = std::string(GENERATOR);
 
         std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);
 		tokenize(ALGORITHMS,":",fAlgorithms);
-    fFile= new TFile( (fGenerator+"_"+fEnergyString+".root").c_str(),"recreate");    
+    fFile= new TFile( (fGenerator+"_"+fSampleInfo->fEnergyString+".root").c_str(),"recreate");    
     for (std::vector<std::string>::iterator it=fAlgorithms.begin();it!=fAlgorithms.end();it++)    
-    BookHistograms(this,fAI,fGenerator+"_"+*it+"_"+fEnergyString+"GeV_");
+    BookHistograms(this,* fSampleInfo,fGenerator+"_"+*it+"_"+fSampleInfo->fEnergyString+"GeV_");
     fTotalWeight=0;
     const FinalState fs;
     addProjection(fs, "FS");
@@ -55,7 +50,7 @@ public:
 		 Rivet::Particles particles = (applyProjection<FinalState>(e, "VFS")).particles();
 		 std::vector<TLorentzVector>  vtlv = GetMC2(&particles);
          TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
-		 MyAnalysis(this, tfj,e.weight(),*it,fGenerator+"_"+*it+"_"+fEnergyString+"GeV_");
+		 MyAnalysis(this, tfj,e.weight(),*it,fGenerator+"_"+*it+"_"+fSampleInfo->fEnergyString+"GeV_");
 		 } 
     }
     void finalize()    {

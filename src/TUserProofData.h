@@ -16,7 +16,7 @@ class TUserProofData
 {
 public :
     std::string fGenerator;
-    std::string fEnergyString;
+//    std::string fEnergyString;
     std::vector<std::string> fDataType;
     std::vector<std::string> fAlgorithms;
     std::map<std::string,TAdvancedGraph*> fGMap;
