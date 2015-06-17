@@ -71,16 +71,4 @@ void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s,
     A[t]->SetName(t.c_str());
     //gDirectory->Append(A[t]);
 }
-void Count(TChain* C, TAnalysisInfo& A)
-{
-    for (int i=0; i<MAX_RUNS; i++) if (A.fNames[i]!="") A.fEvents[i]= C->Draw("Irun",Form("(%i<Irun)&&(Irun<%i)",A.fRunsBegin[i],A.fRunsEnd[i]));
-}
-
-int  Match(int run, TAnalysisInfo& Z, TH1F* H)
-{
-    for (int i=0; i<MAX_RUNS; i++)
-        Z.fEvents[i]= H->Integral(Z.fRunsBegin[i],Z.fRunsEnd[i]);
-    for (int i=0; i<MAX_RUNS; i++) if ((Z.fRunsBegin[i]<run)&& (run<Z.fRunsEnd[i])) return i;
-    return -1;
-}
 #endif

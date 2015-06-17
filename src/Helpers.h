@@ -61,21 +61,6 @@
 static const Int_t nt_maxtrk= 501;
 static const Int_t nt_maxp= 50;
 static const Int_t nt_maxh= 2004;
-#define MAX_RUNS   20
-typedef struct TAnalysisInfo_
-{
-    double fE;
-    std::string fAT;
-    std::string  fNames[MAX_RUNS];
-    int          fTypes[MAX_RUNS];
-    int          fRunsBegin[MAX_RUNS];
-    int          fRunsEnd[MAX_RUNS];
-    double       fSigmas[MAX_RUNS];
-    double       fLumis[MAX_RUNS];
-    int          fEvents[MAX_RUNS];
-}  TAnalysisInfo;
-
-
 
 
 //http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
