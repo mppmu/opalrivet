@@ -21,8 +21,6 @@ void opalrivetdata::SlaveBegin(TTree * tree)
                 {
                     fSampleInfo=new TSampleInfo(*R);
                     fSampleInfo->SetName("sampleinfo");
-                    if (fE<0) fE=R->fE;
-                    else { if (std::abs(fE-R->fE)>1.0) printf("Different energy:\n");}
                 }
         }
 
@@ -44,7 +42,6 @@ void opalrivetdata::SlaveBegin(TTree * tree)
             R->Write();
         }
     TDB->Close();
-//fSampleInfo->Print();
     fOutput->Add(fSampleInfo);
     fGenerator="opal";
 
@@ -74,11 +71,10 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-    fSampleInfo->Print();
     if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
-    if (gentry%50!=1) return kFALSE;
+    //if (gentry%50!=1) return kFALSE;
 
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
@@ -114,18 +110,16 @@ void opalrivetdata::SlaveTerminate()
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) {  G_it->second->Write();}
     fProofFile->Print();
     fOutput->Add(fProofFile);
-    fOutput->Add(fSampleInfo);
+    //fOutput->Add(fSampleInfo);
     gDirectory = savedir;
     fFile->Close();
 }
 void opalrivetdata::Terminate()
 {
     TSampleInfo *out = (TSampleInfo *) fOutput->FindObject("sampleinfo");
-    if (out) out->Print();
-    else puts("ffffffff\n");
+    if (!out)  printf("No TSampleInfo\n");
     fSampleInfo=out;
     fGenerator="opal";
-
     printf("opening ./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str());
     TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str()), "UPDATE");
     type_fFile->cd();
@@ -190,11 +184,7 @@ Bool_t opalrivetdata::Notify()
             printf("samplename=%s\n",samplename->GetString().Data());
             TSampleInfo* sample=(TSampleInfo*)theDB->Get(samplename->GetString());
             if (!sample) printf("No sample found!\n");
-            else
-                {
-                    //  printf("%f\n",sample->fWeight);//Here we set the weight
-                    fSampleInfo=new TSampleInfo(*sample);
-                }
+            else fSampleInfo=new TSampleInfo(*sample);
         }
     theDB->Close();
     return kTRUE;

@@ -26,7 +26,7 @@ public:
     TSampleInfo* fSampleInfo;
   void init()
     {    
-		fSampleInfo=new TSampleInfo(sqrtS()/GeV,GENERATOR,"MCSI","kLEP2","",0,0,0.0,0.0,0.0,0.0); 
+		fSampleInfo=new TSampleInfo(double(sqrtS()/GeV),GENERATOR,"MCSI","kLEP2","",0,0,0.0,0.0,0.0,0.0); 
 		fGenerator = std::string(GENERATOR);
 
         std::transform(fGenerator.begin(), fGenerator.end(),fGenerator.begin(), ::tolower);

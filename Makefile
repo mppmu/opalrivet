@@ -12,12 +12,6 @@ ARCH          =   $(shell uname -m)
 CXX?=g++
 
 
-
-#all: dirs mc_91	 data_91 
-
-#all: dirs mc_189	 data_189  
-
-
 all: output/opal_136.root output/pythia8_136.root
 
 include Makefile.software
@@ -41,20 +35,42 @@ dirs:
 	mkdir -p tmp
 	mkdir -p gen
 	mkdir -p run
-	
-output/opal_%.root:  bin/$(ARCH)/runProof  src/opalrivetdata.C gen/DB.root
-	bin/$(ARCH)/runProof  LOCAL_OPAL_$*
+
+.PHONY: gen/TSampleInfoLinkDef.h
+gen/TSampleInfoLinkDef.h:
+	@rm -f gen/TSampleInfoLinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> gen/TSampleInfoLinkDef.h
+	@echo  "#pragma link C++ class "TSampleInfo"+;"   >> gen/TSampleInfoLinkDef.h
+	@echo  "#endif"      >> gen/TSampleInfoLinkDef.h
+
+
+
+gen/TSampleInfoDict.cxx: src/TSampleInfo.h gen/TSampleInfoLinkDef.h
+	echo "Generating dictionary $@..."
+	rootcint -f $@ -c  $^
+
 
 	
-output/$(GEN)_%.root: dirs	bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat run/Makefile
+SOURCES=src/Helpers.cxx src/Helpers.h \
+	src/Cuts.cxx src/Cuts.h \
+	src/TSampleInfo.cxx src/TSampleInfo.h \
+	src/TFastJet.cxx  src/TFastJet.h  \
+	src/TAdvancedGraph.cxx src/TAdvancedGraph.h \
+	src/TUserProofData.cxx src/TUserProofDataDict.cxx
+	
 
+	
+output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
+		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
+
+	
+output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
 	
-output/$(GEN)_%.root: 	bin/$(ARCH)/opalrivet$(GEN)
-		mkdir -p run
-		
+run/Runpythia8.dat: 	bin/$(ARCH)/opalrivet$(GEN)
+		mkdir -p run		
 		cp share/Runpythia8.dat run		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
 
@@ -128,19 +144,6 @@ bin/$(ARCH)/runProof: src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampl
 bin/$(ARCH)/makeDB: src/makeDB.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx src/TSampleInfo.h
 		mkdir -p ../bin/$(ARCH)
 		$(CXX) -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
-
-.PHONY: gen/TSampleInfoLinkDef.h
-gen/TSampleInfoLinkDef.h:
-	@rm -f gen/TSampleInfoLinkDef.h
-	@echo  "#ifdef __MAKECINT__"   >> gen/TSampleInfoLinkDef.h
-	@echo  "#pragma link C++ class "TSampleInfo"+;"   >> gen/TSampleInfoLinkDef.h
-	@echo  "#endif"      >> gen/TSampleInfoLinkDef.h
-
-
-
-gen/TSampleInfoDict.cxx: src/TSampleInfo.h gen/TSampleInfoLinkDef.h
-	echo "Generating dictionary $@..."
-	rootcint -f $@ -c  $^
 
 
 
