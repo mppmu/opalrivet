@@ -50,13 +50,20 @@ gen/TSampleInfoDict.cxx: src/TSampleInfo.h gen/TSampleInfoLinkDef.h
 	rootcint -f $@ -c  $^
 
 
+
+gen/TUserProofDataDict.cxx: src/TUserProofData.h gen/TUserProofDataLinkDef.h
+	echo "Generating dictionary $@..."
+	rootcint -f $@ -c  $^
+
+
+
 	
 SOURCES=src/Helpers.cxx src/Helpers.h \
 	src/Cuts.cxx src/Cuts.h \
 	src/TSampleInfo.cxx src/TSampleInfo.h \
 	src/TFastJet.cxx  src/TFastJet.h  \
 	src/TAdvancedGraph.cxx src/TAdvancedGraph.h \
-	src/TUserProofData.cxx src/TUserProofDataDict.cxx
+	src/TUserProofData.cxx
 	
 
 	
@@ -141,12 +148,12 @@ bin/$(ARCH)/runProof: src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampl
 		$(CXX) -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
 
 
-bin/$(ARCH)/makeDB: src/makeDB.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx src/TSampleInfo.h
+bin/$(ARCH)/makeDB: src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 		mkdir -p ../bin/$(ARCH)
 		$(CXX) -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
 
 
 
-gen/DB.root: bin/$(ARCH)/makeDB
+gen/DB.root: bin/$(ARCH)/makeDB $(SOURCES)
 	bin/$(ARCH)/makeDB  gen/DB.root /scratch/andriish/opal/ntuple_root/qcd/
 	

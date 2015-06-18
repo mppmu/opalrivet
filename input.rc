@@ -16,9 +16,9 @@ LOCAL_OPAL_192:
 LOCAL_OPAL_192.NAME:    opalrivetdata
 LOCAL_OPAL_192.CHAIN:   h10
 LOCAL_OPAL_192.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
-LOCAL_OPAL_192.SAMPLES: 192_DATA_1:192_DATA_2:192_MCSI_1
+LOCAL_OPAL_192.SAMPLES: 192_DATA_1:192_PYTHIA:192_HERWIG_1:192_GRC4F_1:192_GRC4F_2:192_GRC4F_3:192_GRC4F_4
 LOCAL_OPAL_192.DB:      gen/DB.root
 LOCAL_OPAL_192.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_192.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
-LOCAL_OPAL_192.DEFINES: \'-DSAMPLES=\"192_DATA_1:192_DATA_2:192_MCSI_1\"\' \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_192.DEFINES: \'-DSAMPLES=\"192_DATA_1:192_PYTHIA:192_HERWIG_1:192_GRC4F_1:192_GRC4F_2:192_GRC4F_3:192_GRC4F_4\"\' \'-DALGORITHMS=\"durham\"\'
 LOCAL_OPAL_192.NUMBER:  1000000000
