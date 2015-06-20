@@ -1,4 +1,3 @@
-//#include "fastjet/internal/base.hh"
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"
@@ -279,92 +278,6 @@ inline int intpow(int a, int b)
     return r;
 
 }
-/*
-// Do the general case thrust calculation
-void TFastJet::_calcT(const std::vector<TVector3>& momenta)
-{
-    // This function implements the iterative algorithm as described in the
-    // Pythia manual. We take eight (four) different starting vectors
-    // constructed from the four (three) leading particles to make sure that
-    // we don't find a local maximum.
-    std::vector<TVector3> p = momenta;
-    assert(p.size() >= 3);
-    unsigned int n = 3;
-    std::vector<TVector3> tvec;
-    std::vector<double> tval;
-    //  std::sort(p.begin(), p.end(), mod2Cmp);
-    for (int i = 0 ; i < intpow(2, n-1); ++i)
-        {
-            // Create an initial vector from the leading four jets
-            TVector3 foo(0,0,0);
-            int sign = i;
-            for (unsigned int k = 0 ; k < n ; ++k)
-                {
-                    (sign % 2) == 1 ? foo += p[k] : foo -= p[k];
-                    sign /= 2;
-                }
-            //foo=foo.Unit();
-            foo.SetMag(1.0);
-            // Iterate
-            double diff=999.;
-            TVector3 foobar(0,0,0);
-            while (diff>1e-5)
-                {
-                    foobar=TVector3 (0,0,0);
-                    for (unsigned int k=0 ; k<p.size() ; k++)
-                        foo.Dot(p[k])>0 ? foobar+=p[k] : foobar-=p[k];
-                    TVector3 foobar_unit(foobar);
-                    foobar_unit.SetMag(1.0);
-                    diff=(foo-foobar_unit).Mag();
-                    foo=foobar_unit;
-                }
-
-            // Calculate the thrust value for the vector we found
-           double t=0.;
-            for (unsigned int k=0 ; k<p.size() ; k++)
-                t+=fabs(foo.Dot(p[k]));
-
-
-            // Store everything
-            tval.push_back(t);
-            tvec.push_back(foo);
-        }
-
-    // Pick the solution with the largest thrust
-    _thrusts[0]=0.;
-    for (unsigned int i=0 ; i<tvec.size() ; i++)
-        if (tval[i]>_thrusts[0])
-            {
-                _thrusts[0]=tval[i];
-                fThrustAxis=tvec[i];
-            }
-            if (fThrustAxis[2]<0) fThrustAxis[2]=-fThrustAxis[2];
-
-    double totalMomentum = 0.0;
-      for (std::vector<TVector3>::const_iterator p3=momenta.begin();p3!=momenta.end();p3++)
-      totalMomentum += p3->Mag();
-
-_thrusts[0]=1-_thrusts[0]/totalMomentum;
-}
-
-
-/*
-    ///@{ Thrust scalar accessors
-    /// The thrust scalar, \f$ T \f$, (maximum thrust).
-    double thrust() const { return _thrusts[0]; }
-    /// The thrust major scalar, \f$ M \f$, (thrust along thrust major axis).
-    double thrustMajor() const { return _thrusts[1]; }
-    /// The thrust minor scalar, \f$ m \f$, (thrust along thrust minor axis).
-    double thrustMinor() const { return _thrusts[2]; }
-    /// The oblateness, \f$ O = M - m \f$ .
-    double oblateness() const { return _thrusts[1] - _thrusts[2]; }
-    ///@}
-
-*/
-
-
-
-
 
 
 
