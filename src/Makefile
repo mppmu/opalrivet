@@ -32,8 +32,8 @@ SOFLAGS             =  -g -shared
 FASTJET_LIBDIR=$(shell $(FASTJET-CONFIG) --libs |  tr ' ' '\n' | grep '\-L' | sed 's@-L@@g')
 
 
-LDFLAGS+=-g  -lgfortran  -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
-CXXFLAGS+=-g -std=c++0x -Wall -Wextra  -Wno-unused-variable  -I.  -fPIC  $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags) 
+LDFLAGS+= -pipe -g  -lgfortran  -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
+CXXFLAGS+= -pipe -g -std=c++0x -Wall -Wextra  -Wno-unused-variable  -I.  -fPIC  $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags) 
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf)\
