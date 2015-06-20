@@ -73,7 +73,7 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 
 #include  "fastjet/ClusterSequence.hh"
 #include  "fastjet/PseudoJet.hh"
-#include "Rivet/Rivet.hh"
+//#include "Rivet/Rivet.hh"
 #include "Cuts.h"
 #include "TFastJet.h"
 #include "TAdvancedGraph.h"

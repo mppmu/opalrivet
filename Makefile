@@ -66,8 +66,9 @@ SOURCES=src/Helpers.cxx src/Helpers.h \
 	src/TUserProofData.cxx
 	
 
-	
-output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
+
+
+output/opal_%.root:   dirs $(SOURCES)   bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
@@ -155,5 +156,5 @@ bin/$(ARCH)/makeDB: src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 
 
 gen/DB.root: bin/$(ARCH)/makeDB $(SOURCES)
-	bin/$(ARCH)/makeDB  gen/DB.root /scratch/andriish/opal/ntuple_root/qcd/
+	bin/$(ARCH)/makeDB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
 	

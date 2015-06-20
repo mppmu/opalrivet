@@ -60,10 +60,13 @@ $(ROOTMAP): $(TARGET)LinkDef.h
 	libGraf.so libHist.so libNet.so  libRIO.so libMathCore.so libCore libPyROOT.so \
 	libGX11.so libGui.so libGX11TTF libProof.so  libProofPlayer.so libSessionViewer.so \
 	$(FASTJET_LIBDIR)/libfastjettools.so $(FASTJET_LIBDIR)/libfastjet.so \
-	$(FASTJET_LIBDIR)/libfastjetplugins.so $(FASTJET_LIBDIR)/libsiscone.so \
-	$(FASTJET_LIBDIR)/libsiscone_spherical.so -c $^	
+	$(FASTJET_LIBDIR)/libsiscone.so \
+	$(FASTJET_LIBDIR)/libsiscone_spherical.so \
+	$(FASTJET_LIBDIR)/libfastjetplugins.so 	 -c $^	
 	@echo "Done"
 
+#	$(FASTJET_LIBDIR)/libsiscone.so \
+#	$(FASTJET_LIBDIR)/libsiscone_spherical.so 
 
 
 $(EVENTSO):     $(EVENTO)
