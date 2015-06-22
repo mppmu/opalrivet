@@ -10,11 +10,12 @@ Source0:	http://home.thep.lu.se/~torbjorn/pythia8/pythia8205.tgz
 Patch0:		%{name}-fix-soname.patch
 Patch1:		%{name}-hepmc-version.patch
 Patch2:		%{name}-xmldir.patch
+Prefix: /usr
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	lhapdf-devel
-BuildRequires:	HepMC-devel
-BuildRequires:	dos2unix
+#BuildRequires:	lhapdf-devel
+#BuildRequires:	HepMC-devel
+#BuildRequires:	dos2unix
 Requires:	%{name}-data = %{version}-%{release}
 
 %description

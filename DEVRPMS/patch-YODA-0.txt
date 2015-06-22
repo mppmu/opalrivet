@@ -1,6 +1,6 @@
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/Makefile.am ./include/YODA/Makefile.am
---- ./include/YODA/Makefile.am	2015-05-20 15:08:18.901370723 +0200
-+++ ./include/YODA/Makefile.am	2015-05-20 15:08:19.805396185 +0200
+--- ./include/YODA/Makefile.am	2015-06-22 11:53:36.049919642 +0200
++++ ./include/YODA/Makefile.am	2015-06-22 11:53:36.929944527 +0200
 @@ -16,7 +16,11 @@
      ScatterND.h PointND.h ErrorND.h \
      Writer.h WriterAIDA.h WriterFLAT.h WriterYODA.h \
@@ -16,7 +16,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/Makefile.am 
  	WriterMethods.icc \
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h ./include/YODA/ReaderROOT.h
 --- ./include/YODA/ReaderROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ReaderROOT.h	2015-05-20 15:08:19.805396185 +0200
++++ ./include/YODA/ReaderROOT.h	2015-06-22 11:53:36.933944641 +0200
 @@ -0,0 +1,75 @@
 +// -*- C++ -*-
 +//
@@ -94,8 +94,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ReaderROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./include/YODA/ROOTCnv.h
---- ./include/YODA/ROOTCnv.h	2015-05-20 15:08:18.889370385 +0200
-+++ ./include/YODA/ROOTCnv.h	2015-05-20 15:08:19.801396072 +0200
+--- ./include/YODA/ROOTCnv.h	2015-06-22 11:53:36.041919415 +0200
++++ ./include/YODA/ROOTCnv.h	2015-06-22 11:53:36.929944527 +0200
 @@ -1,7 +1,7 @@
  // -*- C++ -*-
  //
@@ -279,7 +279,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTCnv.h ./
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.h ./include/YODA/ROOTConvert.h
 --- ./include/YODA/ROOTConvert.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/ROOTConvert.h	2015-05-20 15:08:19.805396185 +0200
++++ ./include/YODA/ROOTConvert.h	2015-06-22 11:53:36.937944755 +0200
 @@ -0,0 +1,36 @@
 +// AV 2014
 +#ifndef YODA_ROOTConvert_h
@@ -319,7 +319,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/ROOTConvert.
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h ./include/YODA/WriterROOT.h
 --- ./include/YODA/WriterROOT.h	1970-01-01 01:00:00.000000000 +0100
-+++ ./include/YODA/WriterROOT.h	2015-05-20 15:08:19.801396072 +0200
++++ ./include/YODA/WriterROOT.h	2015-06-22 11:53:36.929944527 +0200
 @@ -0,0 +1,72 @@
 +// -*- C++ -*-
 +//
@@ -394,8 +394,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./include/YODA/WriterROOT.h
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/Makefile.am ./pyext/Makefile.am
---- ./pyext/Makefile.am	2015-05-20 15:08:19.725393932 +0200
-+++ ./pyext/Makefile.am	2015-05-20 15:08:19.809396298 +0200
+--- ./pyext/Makefile.am	2015-06-22 11:53:36.849942265 +0200
++++ ./pyext/Makefile.am	2015-06-22 11:53:36.937944755 +0200
 @@ -4,7 +4,7 @@
  PYEXT_ENV = CC="$(CC)" CXX="$(CXX)" CXXFLAGS="$(PYEXT_CXXFLAGS)" ARCHFLAGS=""
  
@@ -406,8 +406,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/Makefile.am ./pyext
  
  ## Always force setup.py, it's not good at guessing what needs to rebuild
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.pxd ./pyext/yoda/declarations.pxd
---- ./pyext/yoda/declarations.pxd	2015-05-20 15:08:19.777395398 +0200
-+++ ./pyext/yoda/declarations.pxd	2015-05-20 15:08:19.813396412 +0200
+--- ./pyext/yoda/declarations.pxd	2015-06-22 11:53:36.905943849 +0200
++++ ./pyext/yoda/declarations.pxd	2015-06-22 11:53:36.945944981 +0200
 @@ -359,8 +359,8 @@
  
          #We're fine as long as we don't try to instantiate these from Python
@@ -493,7 +493,31 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
          void reset()
  
          # Accessors
-@@ -864,8 +863,6 @@
+@@ -582,8 +581,13 @@
+ cdef extern from "YODA/AnalysisObject.h" namespace "YODA":
+     cdef cppclass AnalysisObject:
+         # Constructors
+-        AnalysisObject(string type, string path, string title) except +yodaerr
+-        AnalysisObject(string type, string path, AnalysisObject ao, string title) except +yodaerr
++        AnalysisObject(string type,
++                       string path,
++                       string title) except +yodaerr
++        AnalysisObject(string type,
++                       string path,
++                       AnalysisObject ao,
++                       string title) except +yodaerr
+         AnalysisObject()
+         #AnalysisObject* newclone() except +yodaerr
+ 
+@@ -604,7 +608,6 @@
+         void setTitle(string title) except +yodaerr
+         string path() except +yodaerr
+         void setPath(string title) except +yodaerr
+-        string name() except +yodaerr
+ # }}} AnalysisObject
+ 
+ 
+@@ -860,8 +863,6 @@
          void fillBin(size_t i, double y, double weight) except +yodaerr
  
          void scaleW(double s) except +yodaerr
@@ -502,25 +526,74 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
          void mergeBins(size_t, size_t) except +yodaerr
          void rebin(int n) except +yodaerr
  
-@@ -910,7 +907,7 @@
+@@ -874,10 +875,10 @@
+ 
+         size_t numBins() except +yodaerr
+ 
+-        vector[ProfileBin1D] bins() #except +yodaerr
++        vector[ProfileBin1D] bins()
+         int binIndexAt(double x) except +yodaerr
+-        const ProfileBin1D& bin(size_t ix) #except +yodaerr
+-        const ProfileBin1D& binAt(double x) #except +yodaerr
++        ProfileBin1D bin(size_t ix) except +yodaerr
++        ProfileBin1D binAt(double x) except +yodaerr
+ 
+         # The trick here is to treat these not as references.
+         # I suppose when you think about it, it makes sense
+@@ -906,7 +907,7 @@
      Profile1D* Profile1D_div_Profile1D "cython_div" (Profile1D*, Profile1D*)
  
  cdef extern from "YODA/Scatter2D.h" namespace "YODA":
--    Scatter2D mkScatter_Profile1D "YODA::mkScatter" (const Profile1D&, bool) except +yodaerr
+-    Scatter2D mkScatter_Profile1D "YODA::mkScatter" (const Profile1D&, bool, bool) except +yodaerr
 +    Scatter2D mkScatter_Profile1D "YODA::mkScatter" (const Profile1D&) except +yodaerr
  
  #}}} Profile1D
  
-@@ -995,7 +992,7 @@
+@@ -954,8 +955,8 @@
+ 
+         vector[ProfileBin2D]& bins() #except +yodaerr
+         int binIndexAt(double x, double y) except +yodaerr
+-        const ProfileBin2D& bin(size_t ix) #except +yodaerr
+-        const ProfileBin2D& binAt(double x, y) #except +yodaerr
++        ProfileBin2D& bin(size_t ix) #except +yodaerr
++        ProfileBin2D& binAt(double x, y) #except +yodaerr
+ 
+         void addBin(const pair[double, double]&, const pair[double, double]&) except +yodaerr
+         void addBins(const vector[double]&, const vector[double]&) except +yodaerr
+@@ -991,7 +992,7 @@
      Profile2D* Profile2D_div_Profile2D "cython_div" (Profile2D*, Profile2D*)
  
  cdef extern from "YODA/Scatter3D.h" namespace "YODA":
--    Scatter3D mkScatter_Profile2D "YODA::mkScatter" (const Profile2D&, bool) except +yodaerr
+-    Scatter3D mkScatter_Profile2D "YODA::mkScatter" (const Profile2D&, bool, bool) except +yodaerr
 +    Scatter3D mkScatter_Profile2D "YODA::mkScatter" (const Profile2D&) except +yodaerr
  
  #}}} Profile2D
  
-@@ -1091,7 +1088,7 @@
+@@ -1043,8 +1044,8 @@
+ 
+         vector[HistoBin1D]& bins()
+         int binIndexAt(double x) except +yodaerr
+-        const HistoBin1D& bin(size_t ix)
+-        const HistoBin1D& binAt(double x) except +yodaerr
++        HistoBin1D& bin(size_t ix)
++        HistoBin1D binAt(double x) except +yodaerr
+ 
+         # TODO: Some Cython mapping problem?
+         Dbn1D& totalDbn()
+@@ -1053,10 +1054,8 @@
+ 
+         # Whole histo data
+         double integral(bool)
+-        double integralTo(int, bool)
+-        double integralRange(int, int)
+-        double numEntries(bool)
+-        double effNumEntries(bool)
++        double numEntries() # @todo Add bool arg
++        double effNumEntries() # @todo Add bool arg
+         double sumW(bool)
+         double sumW2(bool)
+         double xMean(bool)
+@@ -1089,7 +1088,7 @@
      Histo1D* Histo1D_div_Histo1D "cython_div" (Histo1D*, Histo1D*)
  
  cdef extern from "YODA/Scatter2D.h" namespace "YODA":
@@ -529,16 +602,21 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
  
  #}}} Histo1D
  
-@@ -1138,7 +1135,7 @@
+@@ -1136,10 +1135,10 @@
          size_t numBinsX() except +yodaerr
          size_t numBinsY() except +yodaerr
  
 -        vector[HistoBin2D]& bins() #except +yodaerr
 +        vector[HistoBin1D]& bins() #except +yodaerr
          int binIndexAt(double x, double y) except +yodaerr
-         HistoBin2D& bin(size_t ix) #except +yodaerr
-         HistoBin2D& binAt(double x, double y) #except +yodaerr
-@@ -1191,7 +1188,7 @@
+-        const HistoBin2D& bin(size_t ix) #except +yodaerr
+-        const HistoBin2D& binAt(double x, double y) #except +yodaerr
++        HistoBin2D& bin(size_t ix) #except +yodaerr
++        HistoBin2D& binAt(double x, double y) #except +yodaerr
+ 
+         void addBin(const pair[double, double]&, const pair[double, double]&)
+         void addBins(const vector[HistoBin2D]&)
+@@ -1189,7 +1188,7 @@
      Histo2D* Histo2D_div_Histo2D "cython_div" (Histo2D*, Histo2D*)
  
  cdef extern from "YODA/Scatter3D.h" namespace "YODA":
@@ -547,7 +625,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
  
  # Histo2D }}}
  
-@@ -1220,6 +1217,9 @@
+@@ -1218,6 +1217,9 @@
  cdef extern from "YODA/ReaderFLAT.h" namespace "YODA":
      Reader& ReaderFLAT_create "YODA::ReaderFLAT::create" ()
  
@@ -558,8 +636,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/declarations.p
      Reader& ReaderAIDA_create "YODA::ReaderAIDA::create" ()
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./pyext/yoda/Makefile.am
---- ./pyext/yoda/Makefile.am	2015-05-20 15:08:19.729394045 +0200
-+++ ./pyext/yoda/Makefile.am	2015-05-20 15:08:19.809396298 +0200
+--- ./pyext/yoda/Makefile.am	2015-06-22 11:53:36.853942378 +0200
++++ ./pyext/yoda/Makefile.am	2015-06-22 11:53:36.941944868 +0200
 @@ -4,7 +4,6 @@
      errors.cpp errors.hh \
      pyroot_helpers.hh merge.hh \
@@ -568,7 +646,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
      script_helpers.py
  
  CYTHON_SRC = \
-@@ -41,14 +40,20 @@
+@@ -41,43 +40,53 @@
      include/Scatter2D.pyx \
      include/Scatter3D.pyx
  
@@ -576,63 +654,129 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/Makefile.am ./
  EXTRA_DIST += \
      $(CYTHON_SRC) \
      mktemplates \
-     core.cpp core.h util.cpp
+-    core.cpp core.h util.cpp \
+-    rootcompat.cpp \
+-    .made_pyx_templates
+-
+-
+-if WITH_CYTHON
+-
+-core.cpp core.h: $(CYTHON_SRC) .made_pyx_templates
+-	cython $(srcdir)/core.pyx --cplus -I $(builddir) -I $(builddir)/include -o $@
++    core.cpp core.h util.cpp
  
+-util.cpp: util.pxd util.pyx .made_pyx_templates
+-	cython $(srcdir)/util.pyx --cplus -I $(builddir) -I $(builddir)/include -o $@
 +if ENABLE_ROOT
 +  CXXFLAGS += $(ROOT_CXXFLAGS) -Wno-long-long 
 +endif
-+
  
- if WITH_CYTHON
--core.cpp core.h: $(CYTHON_SRC) .made_pyx_templates
+-rootcompat.cpp: util.pxd rootcompat.pxd rootcompat.pyx .made_pyx_templates
+-	cython $(srcdir)/rootcompat.pyx --cplus -I $(builddir) -I $(builddir)/include -o $@
+ 
++if WITH_CYTHON
 +core.cpp core.h: $(CYTHON_SRC)
 +	./mktemplates
- 	cython core.pyx --cplus
++	cython core.pyx --cplus
  else
+-
  core.cpp core.h: $(CYTHON_SRC)
-@@ -57,7 +62,8 @@
+ 	@echo "Not (re)generating core.cpp since Cython is not installed"
++endif
++
  
- 
- if WITH_CYTHON
--util.cpp: util.pxd util.pyx .made_pyx_templates
++if WITH_CYTHON
 +util.cpp: util.pxd util.pyx
 +	./mktemplates
- 	cython util.pyx --cplus
- else
++	cython util.pyx --cplus
++else
  util.cpp: util.pxd util.pyx
-@@ -72,7 +78,8 @@
- 	@true
+ 	@echo "Not (re)generating util.cpp since Cython is not installed"
++endif
++
++
++## Always include rootcompat.cpp in the dist... only developers should be building dist tarballs
++EXTRA_DIST += rootcompat.cpp
++
++all-local: core.cpp util.cpp rootcompat.cpp
++	@true
  
- if WITH_CYTHON
--rootcompat.cpp: util.pxd rootcompat.pxd rootcompat.pyx .made_pyx_templates
++if WITH_CYTHON
 +rootcompat.cpp: util.pxd rootcompat.pxd rootcompat.pyx
 +	./mktemplates
- 	cython rootcompat.pyx --cplus
- else
++	cython rootcompat.pyx --cplus
++else
  rootcompat.cpp: util.pxd rootcompat.pxd rootcompat.pyx
-@@ -80,10 +87,6 @@
+ 	@echo "Not (re)generating rootcompat.cpp since Cython is not installed"
+-
  endif
  
  
 -## Make text-substitution .pyx files from templates -- should only run once
 -.made_pyx_templates: include/Bin1D_DBN.pyx include/Bin2D_DBN.pyx include/Axis1D_BIN1D_DBN.pyx include/Axis2D_BIN2D_DBN.pyx
--	./mktemplates
+-	$(srcdir)/mktemplates $^
 -	touch $@
  
  
  ## fixes for out-of-source builds, especially "make distcheck"
-@@ -109,4 +112,4 @@
+@@ -103,4 +112,4 @@
  	rm -f $<
  
  distclean-local:
 -	rm -f core.cpp core.h util.cpp rootcompat.cpp include/generated/* .made_pyx_templates
 +	rm -f core.cpp core.h util.cpp rootcompat.cpp include/generated/*
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./pyext/yoda/mktemplates
---- ./pyext/yoda/mktemplates	2015-05-20 15:08:19.781395510 +0200
-+++ ./pyext/yoda/mktemplates	2015-05-20 15:08:19.817396524 +0200
-@@ -52,8 +52,9 @@
+--- ./pyext/yoda/mktemplates	2015-06-22 11:53:36.909943962 +0200
++++ ./pyext/yoda/mktemplates	2015-06-22 11:53:36.945944981 +0200
+@@ -11,7 +11,7 @@
+ from string import Template
+ from itertools import izip
+ from os.path import join
+-import os, sys
++import os
+ import errno
+ 
+ def product(*args, **kwds):
+@@ -24,8 +24,7 @@
+     for prod in result:
+         yield tuple(prod)
+ 
+-GENERATED_HEADER = Template(
+-"""\
++GENERATED_HEADER = Template("""
+ #################################################
+ #############       WARNING      ################
+ #################################################
+@@ -33,18 +32,17 @@
+ # Any changes you make here will get overridden.
+ # Instead, make your changes in ${filename}.pyx
+ #################################################
+-""")
+ 
+-def make_templates(full_filename, *args, **kwargs):
+-    individuals = args or [dict(izip(kwargs, line)) 
+-                           for line in product(*kwargs.itervalues())]
++""".lstrip())
+ 
++def make_templates(filename, *args, **kwargs):
++    individuals = args or [dict(izip(kwargs, line)) for line in product(*kwargs.itervalues())]
++
++    full_filename = join("include", filename + '.pyx')
+     f = open(full_filename)
+     template = Template(f.read())
+     f.close()
+ 
+-    filename = os.path.basename(full_filename)[:-4]
+-
+     plain_name = filename
+     for i in individuals[0]:
+         plain_name = plain_name.replace(i, '')
+@@ -52,10 +50,11 @@
+     #print plain_name
+ 
      try:
-         os.mkdir("include/generated")
+-        os.makedirs("include/generated")
++        os.mkdir("include/generated")
      except OSError as exc: # Python >2.5
 -        if exc.errno != errno.EEXIST or not os.path.isdir("include/generated"):
 -            raise
@@ -642,9 +786,29 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/mktemplates ./
  
      includes = []
      for a in individuals:
+@@ -79,13 +78,10 @@
+ 
+ ##############
+ 
+-# fragile, depends on Makefile.am order
+-bin1d_dbn, bin2d_dbn, axis1d_bin1d_dbn, axis2d_bin2d_dbn = sys.argv[1:]
+-
+ ## Make instantiations of Cython mapping templates for axes with different DBN types
+-make_templates(bin1d_dbn, DBN=('Dbn1D', 'Dbn2D'))
+-make_templates(bin2d_dbn, DBN=('Dbn2D', 'Dbn3D'))
+-make_templates(axis1d_bin1d_dbn, dict(DBN='Dbn1D', BIN1D='HistoBin1D'))
+-make_templates(axis1d_bin1d_dbn, dict(DBN='Dbn2D', BIN1D='ProfileBin1D'))
+-make_templates(axis2d_bin2d_dbn, dict(DBN='Dbn2D', BIN2D='HistoBin2D'))
+-make_templates(axis2d_bin2d_dbn, dict(DBN='Dbn3D', BIN2D='ProfileBin2D'))
++make_templates('Bin1D_DBN', DBN=('Dbn1D', 'Dbn2D'))
++make_templates('Bin2D_DBN', DBN=('Dbn2D', 'Dbn3D'))
++make_templates('Axis1D_BIN1D_DBN', dict(DBN='Dbn1D', BIN1D='HistoBin1D'))
++make_templates('Axis1D_BIN1D_DBN', dict(DBN='Dbn2D', BIN1D='ProfileBin1D'))
++make_templates('Axis2D_BIN2D_DBN', dict(DBN='Dbn2D', BIN2D='HistoBin2D'))
++make_templates('Axis2D_BIN2D_DBN', dict(DBN='Dbn3D', BIN2D='ProfileBin2D'))
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pxd ./pyext/yoda/rootcompat.pxd
---- ./pyext/yoda/rootcompat.pxd	2015-05-20 15:08:19.781395510 +0200
-+++ ./pyext/yoda/rootcompat.pxd	2015-05-20 15:08:19.813396412 +0200
+--- ./pyext/yoda/rootcompat.pxd	2015-06-22 11:53:36.909943962 +0200
++++ ./pyext/yoda/rootcompat.pxd	2015-06-22 11:53:36.945944981 +0200
 @@ -28,8 +28,8 @@
  cdef extern from "pyroot_helpers.hh":
      cpython.PyObject* root_to_py_owned(TObject* root_obj)
@@ -660,8 +824,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pxd
 +#    TProfile toTProfile(Profile1D)
 +#    TGraphAsymmErrors toTGraph(Scatter2D)
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pyx ./pyext/yoda/rootcompat.pyx
---- ./pyext/yoda/rootcompat.pyx	2015-05-20 15:08:19.777395398 +0200
-+++ ./pyext/yoda/rootcompat.pyx	2015-05-20 15:08:19.813396412 +0200
+--- ./pyext/yoda/rootcompat.pyx	2015-06-22 11:53:36.905943849 +0200
++++ ./pyext/yoda/rootcompat.pyx	2015-06-22 11:53:36.941944868 +0200
 @@ -24,26 +24,27 @@
  
      cdef void *ptr = yoda_obj.ptr()
@@ -708,8 +872,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./pyext/yoda/rootcompat.pyx
 +#    return ROOT.TGraphAsymmErrors(
 +#        root_to_py(new c.TGraphAsymmErrors(c.toTGraph(deref(s2d)))))
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Makefile.am
---- ./src/Makefile.am	2015-05-20 15:08:18.985373089 +0200
-+++ ./src/Makefile.am	2015-05-20 15:08:19.821396636 +0200
+--- ./src/Makefile.am	2015-06-22 11:53:36.145922357 +0200
++++ ./src/Makefile.am	2015-06-22 11:53:36.953945207 +0200
 @@ -27,3 +27,13 @@
  libYODA_la_LDFLAGS = -avoid-version
  libYODA_la_LIBADD = tinyxml/libtinyxml.la
@@ -725,8 +889,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Makefile.am ./src/Mak
 +
 +endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reader.cc
---- ./src/Reader.cc	2015-05-20 15:08:18.981372976 +0200
-+++ ./src/Reader.cc	2015-05-20 15:08:19.817396524 +0200
+--- ./src/Reader.cc	2015-06-22 11:53:36.141922244 +0200
++++ ./src/Reader.cc	2015-06-22 11:53:36.949945094 +0200
 @@ -1,10 +1,13 @@
  // -*- C++ -*-
  //
@@ -754,7 +918,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Reader.cc ./src/Reade
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/ReaderROOT.cc
 --- ./src/ReaderROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ReaderROOT.cc	2015-05-20 15:08:19.821396636 +0200
++++ ./src/ReaderROOT.cc	2015-06-22 11:53:36.949945094 +0200
 @@ -0,0 +1,85 @@
 +// -*- C++ -*-
 +//
@@ -843,7 +1007,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ReaderROOT.cc ./src/R
 +}
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/ROOTConvert.cc
 --- ./src/ROOTConvert.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/ROOTConvert.cc	2015-05-20 15:08:19.821396636 +0200
++++ ./src/ROOTConvert.cc	2015-06-22 11:53:36.953945207 +0200
 @@ -0,0 +1,233 @@
 +// -*- C++ -*-
 +//
@@ -1079,8 +1243,8 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/ROOTConvert.cc ./src/
 +
 +#endif
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Writer.cc
---- ./src/Writer.cc	2015-05-20 15:08:19.017373990 +0200
-+++ ./src/Writer.cc	2015-05-20 15:08:19.825396749 +0200
+--- ./src/Writer.cc	2015-06-22 11:53:36.177923261 +0200
++++ ./src/Writer.cc	2015-06-22 11:53:36.957945320 +0200
 @@ -1,12 +1,15 @@
  // -*- C++ -*-
  //
@@ -1112,7 +1276,7 @@ diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/Writer.cc ./src/Write
  
 diff -Naur -x '*svn*' -x '*Makefile.in*' -x 'acloc*' ./src/WriterROOT.cc ./src/WriterROOT.cc
 --- ./src/WriterROOT.cc	1970-01-01 01:00:00.000000000 +0100
-+++ ./src/WriterROOT.cc	2015-05-20 15:08:19.825396749 +0200
++++ ./src/WriterROOT.cc	2015-06-22 11:53:36.957945320 +0200
 @@ -0,0 +1,69 @@
 +// -*- C++ -*-
 +//

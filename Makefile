@@ -1,6 +1,6 @@
 #export X509_USER_PROXY=$(pwd)/k5-ca-proxy.pem
 #GEN=sherpa
-#GEN=herwi$(CXX) -pipe 
+#GEN=herwig++
 #GEN=pythia8
 
 #GEN=evtgen
@@ -10,9 +10,10 @@ GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
 CXX?=g++
+include Makefile.syst
 
-
-all: output/opal_136.root output/pythia8_136.root
+all:	 output/opal_136.root output/$(GEN)_136.root \
+		 output/opal_192.root output/$(GEN)_192.root
 
 include Makefile.software
 include Makefile.convert
@@ -42,9 +43,9 @@ gen/%LinkDef.h: dirs
 	@echo  "#pragma link C++ class "$*"+;"   >> gen/$*LinkDef.h
 	@echo  "#endif"      >> gen/$*LinkDef.h
 
-gen/%Dict.cxx: dirs src/$*.h gen/$*LinkDef.h
+gen/%Dict.cxx: dirs src/%.h gen/%LinkDef.h
 	echo "Generating dictionary $@..."
-	rootcint -f $@ -c  $^
+	rootcint -f $@ -c  src/$*.h gen/$*LinkDef.h
 
 
 

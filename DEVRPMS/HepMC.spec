@@ -11,6 +11,7 @@ Patch0:		%{name}-fix-typo-hierachy-hierarchy.patch
 Patch1:		%{name}-examples-makefile.patch
 Patch2:		%{name}-examples-hwaend.patch
 Patch3:		%{name}-linking.patch
+Prefix: /usr
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

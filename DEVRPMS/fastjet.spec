@@ -6,14 +6,15 @@
 
 
 Name:           fastjet
-Version:        3.0.2
+Version:        3.1.2
 Release:        1
 License:        GPLv3
 Url:		http://www.fastjet.fr
 Source0:	http://www.fastjet.fr/repo/%{name}-%{version}.tar.gz
 Group:		Sciences/Physics
+Prefix: /usr
 Summary:        Fast implementation of several recombination jet algorithms
-BuildRequires:	gcc-gfortran gcc-c++
+#BuildRequires:	gcc-gfortran gcc-c++
 
 %description
 A software package for jet finding in pp and e+e- collisions.
@@ -116,8 +117,9 @@ find $RPM_BUILD_ROOT -type f -name '*.la' -exec rm -f {} \;
 %{_libdir}/libsiscone.so
 %{_libdir}/libsiscone_spherical.so
 %{_libdir}/libfastjetplugins.so
-%{_includedir}/*.h
+#%{_includedir}/*.h
 %{_includedir}/siscone/*.h
+%{_includedir}/siscone/spherical/*.h
 %{_includedir}/fastjet/*.h
 %{_includedir}/fastjet/*.hh
 %{_includedir}/fastjet/tools/*.hh

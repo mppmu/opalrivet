@@ -13,15 +13,13 @@ Url:		http://www.YODA.fr
 Source0:	http://www.hepforge.org/archive/yoda/%{name}-%{version}.tar.gz
 Patch0:     patch-YODA-0.txt
 Group:		Sciences/Physics
+Prefix: /usr
 Summary:        Fast implementation of several recombination jet algorithms
-BuildRequires:	Cython gcc-c++
+#BuildRequires:	 /usr/bin/g++ /usr/bin/Cython
 
 
 %description
-A software package for jet finding in pp and e+e- collisions.
-It includes fast native implementations of many sequential 
-recombination clustering algorithms, plugins for access 
-to a range of cone jet finders and tools for advanced jet manipulation. 
+Junk software inspired by NIH syndrom, needed for Rivet.
 
 %package -n     bazlib
 Summary:        Libraries for %{name}
@@ -31,22 +29,17 @@ Provides:       %{name} = %{version}-%{release}
 
 
 %description -n     bazlib
-A software package for jet finding in pp and e+e- collisions.
-It includes fast native implementations of many sequential 
-recombination clustering algorithms, plugins for access 
-to a range of cone jet finders and tools for advanced jet manipulation. 
-
+Junk software inspired by NIH syndrom, needed for Rivet.
 
 %package  devel
 Summary:        Libraries and headers for %{name}
 Group:          Development/C
-#Requires:       %{libname} = %{version}
 Provides:       %{name}-devel = %{version}-%{release}
 
 %description devel
 %{libnamedev} contains the libraries and header files needed to
 develop programs which make use of %{name}.
-The library documentation is available on header files.
+
 
 
 
@@ -59,17 +52,11 @@ automake -a
 %patch0 -p0
 
 %build
-#touch INSTALL depcomp
-#./configure --prefix=$(pwd)/tmp/usr --libdir=$(pwd)/tmp/usr/%_lib --enable-root
-%configure --enable-root 
-make -k
-# %{?_smp_mflags}
+%configure --disable-pyext
+make
 
 %install
-make install  DESTDIR=$(pwd)/tmp
-
-mkdir -p $RPM_BUILD_ROOT/usr
-cp -r $(pwd)/tmp/usr                              $RPM_BUILD_ROOT
+make install  DESTDIR=$RPM_BUILD_ROOT
 
 %files 
 %doc AUTHORS README COPYING
