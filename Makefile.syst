@@ -1,2 +1,2 @@
-CXX=g++-4.4
+#CXX=g++-4.4
 MNT=/mnt

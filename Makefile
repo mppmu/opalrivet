@@ -64,35 +64,35 @@ output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrive
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
-output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
-		make -C run GEN=$(GEN)
+output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
+		make -C run GEN=$(GEN) ENERGY=$*
 		mv run/*.root ./output
 
 	
-run/Runpythia8.dat: 	bin/$(ARCH)/opalrivet$(GEN)
+run/Runpythia8.dat_%: 	bin/$(ARCH)/opalrivet$(GEN)
 		mkdir -p run		
-		cp share/Runpythia8.dat run		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat
+		cp share/Runpythia8.dat run/Runpythia8.dat_$*		
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat_$*
 
-run/Runpythia8_nohad.dat: share/Runpythia8_nohad.dat
-		cp share/Runpythia8_nohad.dat run		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat
+run/Runpythia8_nohad.dat_%: share/Runpythia8_nohad.dat
+		cp share/Runpythia8_nohad.dat run/Runpythia8_nohad.dat_$*
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat_$*
 
-run/Runpythia8_evtgen.dat: share/Runpythia8_evtgen.dat
-		cp share/Runpythia8_evtgen.dat run		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_evtgen.dat
+run/Runpythia8_evtgen.dat_%: share/Runpythia8_evtgen.dat
+		cp share/Runpythia8_evtgen.dat run/Runpythia8_evtgen.dat_$*		
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_evtgen.dat_$*
 
 
-run/Runsherpa.dat: share/Runsherpa.dat
-		cp share/Runsherpa.dat run
-		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat
-		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat
+run/Runsherpa.dat_%: share/Runsherpa.dat
+		cp share/Runsherpa.dat run/Runsherpa.dat_$*
+		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat_$*
+		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat_$*
 
-run/Runherwig++.dat: share/Runherwig++.dat
-		cp share/Runherwig++.dat run
-		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat
+run/Runherwig++.dat_%: share/Runherwig++.dat
+		cp share/Runherwig++.dat run/Runherwig++.dat_$*
+		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat_$*
 		
-run/Runevtgen.dat: share/Runevtgen.dat		
+run/Runevtgen.dat_%: share/Runevtgen.dat		
 		cp share/Runevtgen.dat run
 		
 run/Makefile: share/Makefile.run		

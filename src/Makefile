@@ -23,10 +23,10 @@ SrcSuf3        = fpp
 
 
 FC                  =  $(shell  $(ROOT-CONFIG) --f77)
-CXX                 = g++-4.4
-# $(shell  $(ROOT-CONFIG) --cxx)
-LD                  =  g++-4.4
-#$(shell  $(ROOT-CONFIG) --ld)
+#CXX                 = g++-4.4
+CXX                 =  $(shell  $(ROOT-CONFIG) --cxx)
+#LD                  =  g++-4.4
+LD                  = $(shell  $(ROOT-CONFIG) --ld)
 LDFLAGS             =  -g -O0 -shared   $(shell  $(ROOT-CONFIG) --ldflags)
 SOFLAGS             =  -g -shared 
 FASTJET_LIBDIR=$(shell $(FASTJET-CONFIG) --libs |  tr ' ' '\n' | grep '\-L' | sed 's@-L@@g')
@@ -68,18 +68,15 @@ $(EVENTSO):     $(EVENTO)
 		$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(OutPutOpt) $@ $(EXPLLINKLIBS)  -Wl,--no-as-needed
 
 clean:   
-		@rm -f $(PROGRAMS) $(EVENTSO) $(EVENTLIB) *Dict.* *.def *.exp \
+		rm -f $(PROGRAMS) $(EVENTSO) $(EVENTLIB) *Dict.* *.def *.exp \
 		   *.so *.lib *.dll *.d *.log .def so_locations
 
-.PHONY: TFastJetLinkDef.h TSampleInfoLinkDef.h TAdvancedGraphLinkDef.h $(TARGET)LinkDef.h
 
-
-%LinkDef.h: dirs
-	@rm -f $*LinkDef.h
-	@echo  "#ifdef __MAKECINT__"   >> $*LinkDef.h
-	@echo  "#pragma link C++ class "$*"+;"   >> $*LinkDef.h
-	@echo  "#endif"      >> $*LinkDef.h
-
+%LinkDef.h: 
+	rm -f $*LinkDef.h
+	echo  "#ifdef __MAKECINT__"   >> $*LinkDef.h
+	echo  "#pragma link C++ class "$*"+;"   >> $*LinkDef.h
+	echo  "#endif"      >> $*LinkDef.h
 
 %Dict.cxx:  %.h %LinkDef.h
 	echo "Generating dictionary $@..."
@@ -88,8 +85,8 @@ clean:
 
 
 .$(SrcSuf)Dict.$(SrcSuf): .$(SrcSuf).h .$(SrcSuf)LinkDef.h
-	@echo "Generating dictionary $@..."
-	@rootcint -f $@ -c  $^
+	echo "Generating dictionary $@..."
+	rootcint -f $@ -c  $^
 
 $(TARGET).$(ObjSuf): $(TARGET).h 
 

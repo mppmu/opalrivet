@@ -10,8 +10,8 @@ all: dirs plots ref/$(NAME).yoda
 src/Rivet$(NAME).cc: ../DEVRPMS/Rivet/src/Analyses/$(NAME).cc
 		cp ../DEVRPMS/Rivet/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
 
-Run.dat: Run$(GEN).dat
-	cp Run$(GEN).dat  Run.dat_tmp 
+Run.dat: Run$(GEN).dat_$(ENERGY)
+	cp Run$(GEN).dat_$(ENERGY)  Run.dat_tmp 
 	rm -rf ./*.dat
 	mv Run.dat_tmp  Run.dat 
 
@@ -39,14 +39,6 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 	
 		rm -f  gen/LinkDef.h
 		
-#		echo "#ifdef __MAKECINT__" >> gen/LinkDef.h
-#		echo "#pragma link C++ class TFastJet+;" >> gen/LinkDef.h
-#		echo "#endif" >> gen/LinkDef.h
-#		rootcint -f gen/TFastJetDict.cxx -c -p inc/TFastJet.h   ./gen/LinkDef.h
-#		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
-#		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc gen/TFastJetDict.cxx -o obj/TFastJetDict.o	
-#		g++ -fPIC -shared $(shell root-config --ldflags --libs )  obj/TFastJetDict.o obj/TFastJet.o  -o lib/libTFastJet.so
-
 		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
 		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TFastJet.o  -o lib/libTFastJet.so
 
@@ -78,12 +70,7 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall\
 		   -DUSE_RIVET -std=c++0x -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph -lTSampleInfo '-DGENERATOR=\"$(GEN)\"'  \
 			  -'DALGORITHMS=\"durham\"' 
-#define MC
-#define ALGORITHMS "kt:antikt:siscone:cambridge:durham"
-#define ALGORITHMS "durham"
-#define ANALYSISTYPE kLEP1
 
-		# -DUSE_ANTIKT
 
 
 

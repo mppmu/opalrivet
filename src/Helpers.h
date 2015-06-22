@@ -752,6 +752,7 @@ void GetMt(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack 
 
 
 #ifdef USE_RIVET
+#include "Rivet/Rivet.hh"
 template <class EXA>
 void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
 {
