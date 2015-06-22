@@ -4,7 +4,7 @@
 // Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
 //
 
-#include "YODA/ReaderROOT.h"
+#include "ReaderROOT.h"
 #include "YODA/Utils/StringUtils.h"
 #include "YODA/Exceptions.h"
 #include <iostream>

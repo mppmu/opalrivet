@@ -63,6 +63,12 @@ SOURCES=src/Helpers.cxx         src/Helpers.h \
 output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
+
+output/manip_%.root:   dirs $(SOURCES)    bin/$(ARCH)/select 
+		bin/$(ARCH)/select output/manip_$*.root share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root
+		#$(shell find share/TC/2012-4-27antiktQ/R0.7/*.root )
+
+
 	
 output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
 		make -C run GEN=$(GEN) ENERGY=$*
@@ -145,6 +151,23 @@ bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 
 
 
+bin/$(ARCH)/select: dirs src/convert/select.cxx gen/TSampleInfoDict.cxx $(SOURCES) gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx
+		$(CXX) -pipe  -I. -I./src -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/convert/select.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/select
+
+
+
 gen/DB.root: bin/$(ARCH)/makeDB $(SOURCES)
 	bin/$(ARCH)/makeDB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
 	
+
+
+
+bin/$(ARCH)/yodaconvert: src/convert/yodaconvert.cxx  src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc
+	g++ -std=gnu++0x $(shell root-config --cflags --libs)  $(shell yoda-config  --libs) -I. -I./src/convert -I./inc src/convert/ROOTConvert.cc src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/yodaconvert.cxx    -o bin/$(ARCH)/yodaconvert
+
+
+
+
+bin/$(ARCH)/cut_and_transform: src/convert/cut_and_transform.cxx  src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc
+	g++ -std=gnu++0x $(shell root-config --cflags --libs)  $(shell yoda-config  --libs) -I. -I./src/convert -I./inc src/convert/ROOTConvert.cc src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/cut_and_transform.cxx    -o bin/$(ARCH)/cut_and_transform
+

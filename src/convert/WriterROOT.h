@@ -8,7 +8,7 @@
 
 #include "YODA/AnalysisObject.h"
 #include "YODA/Writer.h"
-#include "YODA/ROOTConvert.h"
+#include "ROOTConvert.h"
 #include <vector>
 #include <string>
 #include <ostream>

@@ -6,7 +6,7 @@
 #ifndef YODA_ROOTCnv_h
 #define YODA_ROOTCnv_h
 
-#include "YODA/ROOTConvert.h"
+#include "ROOTConvert.h"
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
 #include "YODA/Histo1D.h"

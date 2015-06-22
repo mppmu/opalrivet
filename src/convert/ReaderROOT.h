@@ -8,7 +8,7 @@
 
 #include "YODA/AnalysisObject.h"
 #include "YODA/Reader.h"
-#include "YODA/ROOTConvert.h"
+#include "ROOTConvert.h"
 #include <YODA/Scatter2D.h>
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix_operator.hpp>

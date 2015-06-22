@@ -106,19 +106,7 @@ binrpm_%: srcrpm_%
 		rpmbuild -D '%_topdir '$(_TOPDIR) --rebuild $(_TOPDIR)/SRPMS/$**
 
 
-
-YODApatch: src_YODA
-	rm -rf DEVRPMS/YODA-$(YODA_VERS)
-	rm -rf DEVRPMS/YODA-$(YODA_VERS)_orig	
-	tar -zxf  DEVRPMS/YODA-$(YODA_VERS).tar.gz -C DEVRPMS
-	cp -r DEVRPMS/YODA-$(YODA_VERS) DEVRPMS/YODA-$(YODA_VERS)_orig	
-	rm -rf patch-YODA-*.txt
-	cp -R DEVRPMS/YODA/* DEVRPMS/YODA-$(YODA_VERS)/
-	diff -Naur -x *svn* -x  *Makefile.in* -x acloc* DEVRPMS/YODA-$(YODA_VERS)_orig DEVRPMS/YODA-$(YODA_VERS)   > DEVRPMS/patch-YODA-0.txt  || exit 0
-	sed -i 's@DEVRPMS/YODA-'$(YODA_VERS)'_orig/@./@g' DEVRPMS/patch-YODA-0.txt
-	sed -i 's@DEVRPMS/YODA-'$(YODA_VERS)'/@./@g'      DEVRPMS/patch-YODA-0.txt
-
-srcrpm_YODA: src_YODA YODApatch
+srcrpm_YODA: src_YODA
 	cp   DEVRPMS/YODA*.tar.gz $(_TOPDIR)/SOURCES/
 	cp DEVRPMS/patch-YODA-*.txt $(_TOPDIR)/SOURCES/
 	rpmbuild -D '%_topdir '$(_TOPDIR) -bs DEVRPMS/YODA.spec

@@ -3,13 +3,13 @@
 // This file is part of YODA -- Yet more Objects for Data Analysis
 // Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
 //
-#include "YODA/WriterROOT.h"
+#include "WriterROOT.h"
 
 #include "YODA/Histo1D.h"
 #include "YODA/Histo2D.h"
 #include "YODA/Profile1D.h"
 #include "YODA/Scatter2D.h"
-#include "YODA/ROOTConvert.h"
+#include "ROOTConvert.h"
 #include <iostream>
 #include <iomanip>
 

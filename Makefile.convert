@@ -1,7 +1,7 @@
-
+ 
 
 toyoda:  bin/$(ARCH)/yodaconvert
-		for a in $(shell find TC/2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do \
+		for a in $(shell find share/TC/2012-4-27antiktQ | grep rzhist  | grep -v '.svn' ); do \
 		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
 		./bin/$(ARCH)/yodaconvert  root2yoda   $$( echo $$a| sed 's@rzhist@root@g') $$( echo $$a| sed 's@rzhist@yoda@g');\
 		done
