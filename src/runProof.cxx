@@ -22,23 +22,18 @@ void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int>
     p->AddInput(new TNamed("PROOF_OUTPUTFILE_LOCATION", "LOCAL"));
     TFile* TDB=new TFile(fMS["DB"].c_str(),"r");
     gSystem->ChangeDirectory("./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/"+fMS["NAME"]);
-
-    //FILE* FF;
-    //FF=fopen((fMS["NAME"]+"FilesList.h").c_str(),"w");
     pp= return_tokenize(fMS["DATA"]," ");
 
     for (std::vector<std::string>::iterator it=pp.begin(); it!=pp.end(); it++)
         if (it->find("://")!=std::string::npos)
             {
                 chainTD->Add(it->c_str());
-                //fprintf(FF,"%s\n",it->c_str());
             }
         else
             {
 
                 std::string it2=std::string(gSystem->GetFromPipe((std::string("readlink -f ")+*it).c_str()).Data());
                 chainTD->Add(it2.c_str());
-                //fprintf(FF,"%s\n",it2.c_str());
             }
 
     if (!TDB) printf("NO DB\n");
@@ -86,9 +81,12 @@ void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int>
     gSystem->ListLibraries();\ngEnv->SetValue(\"Davix.UseOldClient\",\"yes\");\ngSystem->Exec(\"ldd lib'"+fMS["NAME"]+"'.so\");\ngSystem->Exec(\"pwd\");\ngSystem->Exec(\"ls -lah\");\ngSystem->Exec(\"echo $LD_LIBRARY_PATH\"); \nint q=gSystem->Load(\"lib'"+fMS["NAME"]+"'\"); gSystem->ListLibraries();\n if (q == -1) return -1;\nreturn 0;\n}\n'  >> PROOF-INF/SETUP.C").c_str());
 
     pp= return_tokenize(fMS["DEFINES"]," ");
-    //pp.push_back("'-DSAMPLES=\""+fMS["SAMPLES"]+"\"'");
+    pp.push_back("\\'-DSAMPLES=\\\""+fMS["SAMPLES"]+"\\\"\\'");
     for (std::vector<std::string>::iterator it=pp.begin(); it!=pp.end(); it++)
-        gSystem->GetFromPipe((std::string("sed -i '/TARGET =/aCXXFLAGS+='")+*it+" Makefile").c_str());
+        {
+            //puts(it->c_str());
+            gSystem->GetFromPipe((std::string("sed -i '/TARGET =/aCXXFLAGS+='")+*it+" Makefile").c_str());
+        }
     gSystem->ChangeDirectory("../");
     gSystem->GetFromPipe((std::string("tar zcvf ")+fMS["NAME"]+".tar.gz  "+fMS["NAME"]).c_str()) ;
     gSystem->GetFromPipe(TString(std::string("cp ")+fMS["NAME"]+".tar.gz ../PAR_")+TString(gSystem->GetFromPipe("hostname"))+"/"+fMS["NAME"]+".par");

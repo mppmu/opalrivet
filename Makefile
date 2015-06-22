@@ -36,39 +36,30 @@ dirs:
 	mkdir -p gen
 	mkdir -p run
 
-.PHONY: gen/TSampleInfoLinkDef.h
-gen/TSampleInfoLinkDef.h:
-	@rm -f gen/TSampleInfoLinkDef.h
-	@echo  "#ifdef __MAKECINT__"   >> gen/TSampleInfoLinkDef.h
-	@echo  "#pragma link C++ class "TSampleInfo"+;"   >> gen/TSampleInfoLinkDef.h
-	@echo  "#endif"      >> gen/TSampleInfoLinkDef.h
+gen/%LinkDef.h: dirs
+	@rm -f gen/$*LinkDef.h
+	@echo  "#ifdef __MAKECINT__"   >> gen/$*LinkDef.h
+	@echo  "#pragma link C++ class "$*"+;"   >> gen/$*LinkDef.h
+	@echo  "#endif"      >> gen/$*LinkDef.h
 
-
-
-gen/TSampleInfoDict.cxx: src/TSampleInfo.h gen/TSampleInfoLinkDef.h
-	echo "Generating dictionary $@..."
-	rootcint -f $@ -c  $^
-
-
-
-gen/TUserProofDataDict.cxx: src/TUserProofData.h gen/TUserProofDataLinkDef.h
+gen/%Dict.cxx: dirs src/$*.h gen/$*LinkDef.h
 	echo "Generating dictionary $@..."
 	rootcint -f $@ -c  $^
 
 
 
 	
-SOURCES=src/Helpers.cxx src/Helpers.h \
-	src/Cuts.cxx src/Cuts.h \
-	src/TSampleInfo.cxx src/TSampleInfo.h \
-	src/TFastJet.cxx  src/TFastJet.h  \
-	src/TAdvancedGraph.cxx src/TAdvancedGraph.h \
-	src/TUserProofData.cxx
+SOURCES=src/Helpers.cxx         src/Helpers.h \
+		src/Cuts.cxx            src/Cuts.h \
+		src/TSampleInfo.cxx     src/TSampleInfo.h \
+		src/TFastJet.cxx        src/TFastJet.h  \
+		src/TAdvancedGraph.cxx  src/TAdvancedGraph.h \
+		src/TUserProofData.cxx 	src/TUserProofData.h
 	
 
 
 
-output/opal_%.root:   dirs $(SOURCES)   bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
+output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
@@ -144,13 +135,11 @@ bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
 	$(CXX) -pipe   -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen  
 
 
-bin/$(ARCH)/runProof: src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
-		mkdir -p ../bin/$(ARCH)
+bin/$(ARCH)/runProof: dirs src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
 		$(CXX) -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
 
 
-bin/$(ARCH)/makeDB: src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
-		mkdir -p ../bin/$(ARCH)
+bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 		$(CXX) -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
 
 

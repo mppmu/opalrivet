@@ -73,7 +73,6 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 
 #include  "fastjet/ClusterSequence.hh"
 #include  "fastjet/PseudoJet.hh"
-//#include "Rivet/Rivet.hh"
 #include "Cuts.h"
 #include "TFastJet.h"
 #include "TAdvancedGraph.h"
@@ -586,8 +585,6 @@ void BookHistograms(EXA * A,TSampleInfo B, std::string Iprefix="")
     printf("UNKNOWN FILL OPTION %s\n",B.fPeriod.c_str());
 }
 
-void Count(TChain* C, TSampleInfo& A);
-int  Match(int run, TSampleInfo& Z, TH1F* H);
 #ifndef USE_RIVET
 template <class EXA> Float_t costt(EXA* A) { return A->Tvectc[2]; }
 template <class EXA> Float_t tdmt(EXA* A) { return A->Tdmt; }

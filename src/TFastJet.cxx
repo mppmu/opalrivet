@@ -8,10 +8,12 @@
 /*
 ClassImp(TFastJet)
 */
-TFastJet::TFastJet() : _regparam(2.0)
+TFastJet::TFastJet()
 {
 
-
+    fClusterSequence=0;
+    fSISPlugin=0;
+    _regparam=2.0;
 
 
     _thrusts.push_back(1.0);
@@ -35,8 +37,11 @@ TFastJet::TFastJet() : _regparam(2.0)
 
 fastjet::ClusterSequence* TFastJet::GetClusterSequence() {return fClusterSequence;};
 
-TFastJet::TFastJet( const std::vector<TParticle>& vtp ) : fClusterSequence(0), fSISPlugin(0), _regparam(2)
+TFastJet::TFastJet( const std::vector<TParticle>& vtp )
 {
+    fClusterSequence=0;
+    fSISPlugin=0;
+    _regparam=2.0;
 
     _thrusts.push_back(1.0);
     _thrusts.push_back(0.0);
@@ -154,7 +159,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
             jetdef= fastjet::JetDefinition(fastjet::cambridge_algorithm, R["R"]);
             break;
 
-        //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
+            //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
         default:
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R["R"] );
             break;

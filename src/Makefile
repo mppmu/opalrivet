@@ -25,8 +25,10 @@ SrcSuf3        = fpp
 
 
 FC                  =  $(shell  $(ROOT-CONFIG) --f77)
-CXX                 =  $(shell  $(ROOT-CONFIG) --cxx)
-LD                  =  $(shell  $(ROOT-CONFIG) --ld)
+CXX                 = g++-4.4
+# $(shell  $(ROOT-CONFIG) --cxx)
+LD                  =  g++-4.4
+#$(shell  $(ROOT-CONFIG) --ld)
 LDFLAGS             =  -g -O0 -shared   $(shell  $(ROOT-CONFIG) --ldflags)
 SOFLAGS             =  -g -shared 
 FASTJET_LIBDIR=$(shell $(FASTJET-CONFIG) --libs |  tr ' ' '\n' | grep '\-L' | sed 's@-L@@g')
@@ -59,10 +61,9 @@ $(ROOTMAP): $(TARGET)LinkDef.h
 	libTree.so libPhysics.so libThread.so libMatrix.so libTree.so  libGpad.so libGraf3d.so \
 	libGraf.so libHist.so libNet.so  libRIO.so libMathCore.so libCore libPyROOT.so \
 	libGX11.so libGui.so libGX11TTF libProof.so  libProofPlayer.so libSessionViewer.so \
-	$(FASTJET_LIBDIR)/libfastjettools.so $(FASTJET_LIBDIR)/libfastjet.so \
-	$(FASTJET_LIBDIR)/libsiscone.so \
+	$(FASTJET_LIBDIR)/libsiscone.so $(FASTJET_LIBDIR)/libfastjetplugins.so \
 	$(FASTJET_LIBDIR)/libsiscone_spherical.so \
-	$(FASTJET_LIBDIR)/libfastjetplugins.so 	 -c $^	
+	$(FASTJET_LIBDIR)/libfastjettools.so $(FASTJET_LIBDIR)/libfastjet.so   -c $^	
 	@echo "Done"
 
 #	$(FASTJET_LIBDIR)/libsiscone.so \
