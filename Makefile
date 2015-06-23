@@ -10,11 +10,13 @@ GEN?=pythia8
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
 CXX?=g++
+
 include Makefile.syst
+#all:	 output/opal_136.root output/$(GEN)_136.root \
+#		 output/opal_192.root output/$(GEN)_192.root \
+all2:	output/opal_207.root output/$(GEN)_207.root output/manip_207.root
 
-all:	 output/opal_136.root output/$(GEN)_136.root \
-		 output/opal_192.root output/$(GEN)_192.root
-
+#include Makefile.syst
 include Makefile.software
 include Makefile.convert
 
@@ -64,9 +66,34 @@ output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrive
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 
-output/manip_%.root:   dirs $(SOURCES)    bin/$(ARCH)/select 
-		bin/$(ARCH)/select output/manip_$*.root share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root
-		#$(shell find share/TC/2012-4-27antiktQ/R0.7/*.root )
+
+#share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root share/TC/2012-4-27kt/output_200_207_manip.root share/TC/2012-4-27kt/output_200_9196_manip.root:	
+#	h2root share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root share/TC/2012-4-27kt/output_200_207_manip.root share/TC/2012-4-27kt/output_200_9196_manip.root
+
+
+share/TC/2012-4-27%.root: share/TC/2012-4-27%.rzhist
+	h2root share/TC/2012-4-27$*.rzhist share/TC/2012-4-27$*.root
+
+#output/manip_%.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root share/TC/2012-4-27kt/output_200_207_manip.root share/TC/2012-4-27kt/output_200_9196_manip.root
+#		bin/$(ARCH)/select output/manip_$*.root \
+#		share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root\
+#		share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root\		
+#		share/TC/2012-4-27kt/output_200_207_manip.root\
+#		share/TC/2012-4-27kt/output_200_9196_manip.root		
+#		#$(shell find share/TC/2012-4-27antiktQ/R0.7/*.root )
+
+
+output/manip_9196.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root  share/TC/2012-4-27kt/output_200_9196_manip.root
+		bin/$(ARCH)/select tmp/manip_9196_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root
+		bin/$(ARCH)/select tmp/manip_9196_kt.root kt share/TC/2012-4-27kt/output_200_9196_manip.root		
+		hadd -f output/manip_9196.root tmp/manip_9196_kt.root tmp/manip_9196_antikt.root
+
+output/manip_207.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root  share/TC/2012-4-27kt/output_200_207_manip.root
+		bin/$(ARCH)/select tmp/manip_207_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root
+		bin/$(ARCH)/select tmp/manip_207_kt.root kt share/TC/2012-4-27kt/output_200_207_manip.root		
+		hadd -f output/manip_207.root tmp/manip_207_kt.root tmp/manip_207_antikt.root
+		
+
 
 
 	
