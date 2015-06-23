@@ -74,8 +74,8 @@ output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrive
 share/TC/2012-4-27%.root: share/TC/2012-4-27%.rzhist
 	h2root share/TC/2012-4-27$*.rzhist share/TC/2012-4-27$*.root
 
-#output/manip_%.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root share/TC/2012-4-27kt/output_200_207_manip.root share/TC/2012-4-27kt/output_200_9196_manip.root
-#		bin/$(ARCH)/select output/manip_$*.root \
+#output/manip_%.root:   dirs $(SOURCES)    bin/$(ARCH)/create_manip  share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root share/TC/2012-4-27kt/output_200_207_manip.root share/TC/2012-4-27kt/output_200_9196_manip.root
+#		bin/$(ARCH)/create_manip output/manip_$*.root \
 #		share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root\
 #		share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root\		
 #		share/TC/2012-4-27kt/output_200_207_manip.root\
@@ -83,14 +83,14 @@ share/TC/2012-4-27%.root: share/TC/2012-4-27%.rzhist
 #		#$(shell find share/TC/2012-4-27antiktQ/R0.7/*.root )
 
 
-output/manip_9196.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root  share/TC/2012-4-27kt/output_200_9196_manip.root
-		bin/$(ARCH)/select tmp/manip_9196_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root
-		bin/$(ARCH)/select tmp/manip_9196_kt.root kt share/TC/2012-4-27kt/output_200_9196_manip.root		
+output/manip_9196.root:   dirs $(SOURCES)    bin/$(ARCH)/create_manip  share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root  share/TC/2012-4-27kt/output_200_9196_manip.root
+		bin/$(ARCH)/create_manip tmp/manip_9196_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_9196_manip.root
+		bin/$(ARCH)/create_manip tmp/manip_9196_kt.root kt share/TC/2012-4-27kt/output_200_9196_manip.root		
 		hadd -f output/manip_9196.root tmp/manip_9196_kt.root tmp/manip_9196_antikt.root
 
-output/manip_207.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root  share/TC/2012-4-27kt/output_200_207_manip.root
-		bin/$(ARCH)/select tmp/manip_207_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root
-		bin/$(ARCH)/select tmp/manip_207_kt.root kt share/TC/2012-4-27kt/output_200_207_manip.root		
+output/manip_207.root:   dirs $(SOURCES)    bin/$(ARCH)/create_manip  share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root  share/TC/2012-4-27kt/output_200_207_manip.root
+		bin/$(ARCH)/create_manip tmp/manip_207_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_207_manip.root
+		bin/$(ARCH)/create_manip tmp/manip_207_kt.root kt share/TC/2012-4-27kt/output_200_207_manip.root		
 		hadd -f output/manip_207.root tmp/manip_207_kt.root tmp/manip_207_antikt.root
 		
 
@@ -179,8 +179,13 @@ bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 
 
 
-bin/$(ARCH)/select: dirs src/convert/select.cxx gen/TSampleInfoDict.cxx $(SOURCES) gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx
-		$(CXX) -pipe  -I. -I./src -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/convert/select.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/select
+bin/$(ARCH)/create_manip: dirs src/convert/create_manip.cxx gen/TSampleInfoDict.cxx $(SOURCES) gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx
+		$(CXX) -pipe  -I. -I./src -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/convert/create_manip.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_manip
+
+
+
+bin/$(ARCH)/create_old: dirs src/convert/create_old.cxx gen/TSampleInfoDict.cxx $(SOURCES) gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc
+		$(CXX) -pipe  -I. -I./src -g -DSIMPLE_HELPERS_ONLY $(shell  yoda-config  --libs --cflags  ) $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/convert/create_old.cxx src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_old
 
 
 
