@@ -159,7 +159,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
             jetdef= fastjet::JetDefinition(fastjet::cambridge_algorithm, R["R"]);
             break;
 
-            //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
+        //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
         default:
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R["R"] );
             break;

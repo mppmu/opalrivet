@@ -81,22 +81,22 @@ int main(int argc ,char** argv)
 
 
 
-/*
-#NT_VERSION 200
-#207 GeV						
-#Generator	Process	Runno	Sigma	Lumi	Part	filestem
-#                       			(pb)	(1/pb)		
-#Data		ALL	0	0	137.14	0	da2000
-#PYTHIA       	(Z/g)*	11352	79.38	0.000	15	mc11352
-#HERWIG   	(Z/g)*	5179	79.38	0.000	4	mc5179
-#*HERWIG   	(Z/g)*	11984	79.38	0.000	4	mc11984
-#*ist ARIADNE 4						
-#*GRC4F	        llqq	10781	9.417	0.000	2	mc10781
-#*GRC4F		qqqq	10782	8.97	0.000	3	mc10782
-#GRC4F		eeqq	11212	38.11	0.000	1	mc11212
-#GRC4F		llll+llqq+qqqq	10788	21.87	0.000	4	mc10788
-#*ist Koralw 			
-*/
+    /*
+    #NT_VERSION 200
+    #207 GeV
+    #Generator	Process	Runno	Sigma	Lumi	Part	filestem
+    #                       			(pb)	(1/pb)
+    #Data		ALL	0	0	137.14	0	da2000
+    #PYTHIA       	(Z/g)*	11352	79.38	0.000	15	mc11352
+    #HERWIG   	(Z/g)*	5179	79.38	0.000	4	mc5179
+    #*HERWIG   	(Z/g)*	11984	79.38	0.000	4	mc11984
+    #*ist ARIADNE 4
+    #*GRC4F	        llqq	10781	9.417	0.000	2	mc10781
+    #*GRC4F		qqqq	10782	8.97	0.000	3	mc10782
+    #GRC4F		eeqq	11212	38.11	0.000	1	mc11212
+    #GRC4F		llll+llqq+qqqq	10788	21.87	0.000	4	mc10788
+    #*ist Koralw
+    */
 
     AIStruct.push_back(new TSampleInfo(207.0,"207_DATA_1",  "DATA","kLEP2","da2000_200.root",  -1,-1,-1,137.14,  0.0,0.0));
     AIStruct.push_back(new TSampleInfo(207.0,"207_PYTHIA",  "MCSI","kLEP2","mc11352_1_200.root mc11352_2_200.root mc11352_3_200.root mc11352_4_200.root  mc11352_5_200.root \

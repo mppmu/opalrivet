@@ -12,9 +12,6 @@ int main(int argc, char** argv)
 	
 	    std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
-
-//for (int i=2;i<argc;i++)
-//{	
 TFile* type_fFile= new TFile(argv[3], "READ");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
@@ -28,7 +25,6 @@ TFile* type_fFile= new TFile(argv[3], "READ");
         }
 
 type_fFile->Close();
-//}
 
 
 
@@ -65,22 +61,10 @@ for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end()
 		replace_all(name,"0018","JETR5");
 		replace_all(name,"0019","JETR6");
 		replace_all(name,"0020","ML");
-		replace_all(name,"0021","BN");
-/*
-		replace_all(name,"0022","jetr2");
-		replace_all(name,"0023","jetr3");
-		replace_all(name,"0024","jetr4");
-		replace_all(name,"0025","jetr5");
-		replace_all(name,"0026","jetr6");
-*/
-
-												
+		replace_all(name,"0021","BN");											
 		H_it->second->SetName(name.c_str());
 		
 	}
-	//else fHMap.erase(H_it);
-//if (==)	
-	
 }	
 fFile->cd();
 
