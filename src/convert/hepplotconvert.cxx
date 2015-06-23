@@ -1,4 +1,24 @@
-/* AV 2014 */
+/*
+ * hepplotconvert.cxx
+ *
+ * Copyright 2014,2015 Andrii Verbytskyi <andriish@mppmu.mpg.de>
+ * Max-Planck Institut für Physik
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 #include "YODA/WriterYODA.h"
 #include "YODA/ReaderYODA.h"
 #include "YODA/WriterFLAT.h"
@@ -15,9 +35,7 @@
 
 using namespace std;
 using namespace YODA;
-enum formats {yoda, flat, aida
-              , root
-             };
+enum formats {yoda, flat, aida, root };
 int main(int argc, char** argv)
 {
     if (argc<3)
@@ -28,13 +46,12 @@ int main(int argc, char** argv)
 	Supported modes are: yoda2flat yoda2aida flat2yoda flat2aida aida2flat aida2yoda root2flat root2aida root2yoda.\n",argv[0],argv[0]);
             exit(1);
         }
-    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida }
-        , { "root", formats::root }
-    };
+    const  std::map<std::string,formats> format_map = { { "yoda", formats::yoda }, { "flat", formats::flat }, { "aida", formats::aida } , { "root", formats::root }};
     std::vector<std::pair <std::string,std::string> > convert_list;
     std::pair<std::string,std::string> convert_formats;
     std::string mode(argv[1]);
-    int i,j=0;
+    unsigned int i,j=0;
+    int k;
     for (i=0; i<mode.size(); i++)
         if (mode[i]!='2')
             {
@@ -53,9 +70,9 @@ int main(int argc, char** argv)
                 { printf("The conversion mode=%s doesn't match extensions of %s %s files\n",argv[1],argv[2],argv[3]); exit(1);}
         }
     else
-        for (i=2; i<argc; i++)
+        for (k=2; k<argc; k++)
             {
-                convert_list.push_back(std::pair<std::string,std::string>(std::string(argv[i]),std::string(argv[i])));
+                convert_list.push_back(std::pair<std::string,std::string>(std::string(argv[k]),std::string(argv[k])));
                 if (convert_list.back().first.substr(convert_list.back().first.find_last_of(".") + 1) == convert_formats.first)
                     convert_list.back().second.replace(convert_list.back().second.find_last_of(".") + 1,convert_formats.first.size(), convert_formats.second);
                 else

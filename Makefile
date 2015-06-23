@@ -94,7 +94,8 @@ output/manip_207.root:   dirs $(SOURCES)    bin/$(ARCH)/select  share/TC/2012-4-
 		hadd -f output/manip_207.root tmp/manip_207_kt.root tmp/manip_207_antikt.root
 		
 
-
+#output/old_189.root:
+#d16-x01-y01
 
 	
 output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
@@ -189,8 +190,8 @@ gen/DB.root: bin/$(ARCH)/makeDB $(SOURCES)
 
 
 
-bin/$(ARCH)/yodaconvert: src/convert/yodaconvert.cxx  src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc
-	g++ -std=gnu++0x $(shell root-config --cflags --libs)  $(shell yoda-config  --libs) -I. -I./src/convert -I./inc src/convert/ROOTConvert.cc src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/yodaconvert.cxx    -o bin/$(ARCH)/yodaconvert
+bin/$(ARCH)/hepplotconvert: src/convert/hepplotconvert.cxx  src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc
+	g++ -std=gnu++0x $(shell root-config --cflags --libs)  $(shell yoda-config  --libs) -I. -I./src/convert -I./inc src/convert/ROOTConvert.cc src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/hepplotconvert.cxx    -o bin/$(ARCH)/hepplotconvert
 
 
 

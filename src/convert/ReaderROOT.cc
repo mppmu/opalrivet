@@ -1,21 +1,28 @@
-// -*- C++ -*-
-//
-// This file is part of YODA -- Yet more Objects for Data Analysis
-// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
-//
-
+/*
+ * ReaderROOT.cc
+ *
+ * Copyright 2014,2015 Andrii Verbytskyi <andriish@mppmu.mpg.de>
+ * Max-Planck Institut für Physik
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 #include "ReaderROOT.h"
-#include "YODA/Utils/StringUtils.h"
-#include "YODA/Exceptions.h"
-#include <iostream>
-
-
-
 using namespace std;
-
 namespace YODA
 {
-
 void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
 {
     std::string streama=_filename; //Ugly trick;
@@ -33,7 +40,7 @@ void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
     TKey* key ;
     TObject* obj ;
 
-    while ( key = (TKey*)next() )
+    while ((key = (TKey*)next() ))
         {
             obj = key->ReadObj() ;
             int type=-1;
@@ -45,7 +52,7 @@ void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
             if (strcmp(obj->IsA()->GetName(),"TGraph")==0)type=31;
             if (strcmp(obj->IsA()->GetName(),"TGraphErrors")==0) type=32;
             if (strcmp(obj->IsA()->GetName(),"TGraphAsymmErrors")==0)type=33;
-            if (type==-1)  printf("Object %s  has unsupported type %s and will not be converted\n",obj->GetName(),obj->IsA()->GetName()) ;
+            if (type==-1)  printf("<E> Object %s  has unsupported type %s and will not be converted\n",obj->GetName(),obj->IsA()->GetName()) ;
             if (type==0)
                 {
                     TProfile* P= (TProfile*)(obj);
@@ -71,7 +78,7 @@ void ReaderROOT::_readDoc(std::istream& stream, vector<AnalysisObject*>& aos)
                             aos.push_back(dps);
                         }
                 }
-            if (type==2)   printf("<W> Object %s has unsupported type TH2\n",obj->GetName()) ;
+            if (type==2)   printf("<W> Object %s has unsupported type TH2 and will not be converted\n",obj->GetName()) ;
             if (type==31||type==32||type==33)
                 {
                     TGraphAsymmErrors* G=(TGraphAsymmErrors*)obj;

@@ -1,13 +1,13 @@
  
 
-toyoda:  bin/$(ARCH)/yodaconvert
+toyoda:  bin/$(ARCH)/hepplotconvert
 		for a in $(shell find share/TC/2012-4-27antiktQ/R0.7  share/TC/2012-4-27kt | grep rzhist  | grep -v '.svn' ); do \
 		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
-		./bin/$(ARCH)/yodaconvert  root2yoda   $$( echo $$a| sed 's@rzhist@root@g') $$( echo $$a| sed 's@rzhist@yoda@g');\
+		./bin/$(ARCH)/hepplotconvert  root2yoda   $$( echo $$a| sed 's@rzhist@root@g') $$( echo $$a| sed 's@rzhist@yoda@g');\
 		done
 
 
-convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
+convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/hepplotconvert
 		rm -rf newdata.yoda
 # to have yoda files run
 #	
@@ -110,7 +110,7 @@ convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 
 	cat DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda.in > DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	cat newdata.yoda >> DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
-	bin/$(ARCH)/yodaconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807a.root
+	bin/$(ARCH)/hepplotconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807a.root
 
 
 

@@ -1,30 +1,28 @@
-// -*- C++ -*-
-//
-// This file is part of YODA -- Yet more Objects for Data Analysis
-// Copyright (C) 2008-2013 The YODA collaboration (see AUTHORS for details)
-//
-#ifndef YODA_ROOTCnv_h
-#define YODA_ROOTCnv_h
-
+/*
+ * ROOTConvert.cc
+ *
+ * Copyright 2014,2015 Andrii Verbytskyi <andriish@mppmu.mpg.de>
+ * Max-Planck Institut für Physik
+ * Part of the code was taken from YODA
+ * YODA -- Yet more Objects for Data Analysis
+ * Copyright (C) 2008-2013 The YODA collaboration 
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ */
 #include "ROOTConvert.h"
-#include "YODA/Histo1D.h"
-#include "YODA/Histo2D.h"
-#include "YODA/Histo1D.h"
-#include "YODA/Profile1D.h"
-#include "YODA/Scatter2D.h"
-
-#include "TH1.h"
-#include "TH2.h"
-#include "TProfile.h"
-#include "TGraphAsymmErrors.h"
-#include "TVectorF.h"
-#include "TFile.h"
-#include "TList.h"
-#include "TKey.h"
-#include "TClass.h"
-#include "TH1F.h"
-#include <string>
-
 namespace YODA
 {
 
@@ -36,7 +34,7 @@ Histo1D* TH1toHisto1D(const TH1* th1, std::string fname)
     double sumWtot=0, sumW2tot=0;
     for (int i = 0; i <= th1->GetNbinsX()+1; ++i)
         {
-            Dbn1D dbn(static_cast<unsigned long>(th1->GetBinContent(i)), th1->GetBinContent(i), sumw2s->GetAt(i) 
+            Dbn1D dbn(static_cast<unsigned long>(th1->GetBinContent(i)), th1->GetBinContent(i), sumw2s->GetAt(i)
                       , 0, 0);
             //th1->GetBinContent(i)*th1->GetBinCenter(i), th1->GetBinContent(i)*sqr(th1->GetBinCenter(i)));
             if (i == 0) dbn_uflow = dbn;
@@ -79,15 +77,16 @@ Scatter2D* TH1toScatter2D(const TH1* th1, std::string fname)
 Profile1D*         TProfiletoProfile1D(const TProfile* p, std::string fname)
 {
 
-
+/* This doesn't work*/
+   printf("TProfile to Profile1D conversion is not supported\n");
     Profile1D* rtn = new Profile1D(std::string("/")+fname+std::string("/")+p->GetName());
     for (int i = 1; i <= p->GetNbinsX(); ++i)
         {
-            const double x = p->GetBinCenter(i);
-            const double exminus = x - p->GetBinLowEdge(i);
-            const double explus = p->GetBinLowEdge(i+1) - x;
-            const double width = exminus + explus;
-//FIXME      rtn->addPoint(x, p->GetBinContent(i)/width, exminus, explus,  p->GetBinErrorLow(i)/width, p->GetBinErrorUp(i)/width);
+//            const double x = p->GetBinCenter(i);
+//            const double exminus = x - p->GetBinLowEdge(i);
+//            const double explus = p->GetBinLowEdge(i+1) - x;
+//            const double width = exminus + explus;
+//      rtn->addPoint(x, p->GetBinContent(i)/width, exminus, explus,  p->GetBinErrorLow(i)/width, p->GetBinErrorUp(i)/width);
         }
     rtn->setAnnotation("XLabel", p->GetXaxis()->GetTitle());
     rtn->setAnnotation("YLabel", p->GetYaxis()->GetTitle());
@@ -122,7 +121,6 @@ Scatter2D* TGraphtoScatter2D(const TGraph* g, std::string fname)
 
 TH1D* Histo1DtoTH1D(const Histo1D* h)
 {
-    // Work out bin edges first
     std::vector<double> edges;
     edges.reserve(h->numBins()+1);
     edges.push_back(h->bin(0).xMin());
@@ -132,10 +130,9 @@ TH1D* Histo1DtoTH1D(const Histo1D* h)
             if (!fuzzyEquals(edges.back(), b.xMin())) edges.push_back(b.xMin());
             if (!fuzzyEquals(edges.back(), b.xMax())) edges.push_back(b.xMax());
         }
-    // Book ROOT histogram
     TH1D* rtn= new TH1D(h->path().c_str(), h->title().c_str(), edges.size()-1, &edges[0]);
     rtn->Sumw2();
-    TArrayD* sumw2s = new TArrayD(*(rtn->GetSumw2()));
+//    TArrayD* sumw2s = new TArrayD(*(rtn->GetSumw2()));
     for (int i = 1; i <= rtn->GetNbinsX(); ++i)
         {
             try
@@ -174,14 +171,12 @@ TProfile* Profile1DtoTProfile(const Profile1D* p)
     // Book ROOT histogram
     TProfile *rtn =new TProfile(p->path().c_str(), p->title().c_str(), edges.size()-1, &edges[0]);
     rtn->Sumw2();
-    TArrayD* sumw2s = new TArrayD(*(rtn->GetSumw2()));
+//    TArrayD* sumw2s = new TArrayD(*(rtn->GetSumw2()));
     for (int i = 1; i <= rtn->GetNbinsX(); ++i)
         {
             try
                 {
                     const ProfileBin1D& b = p->binAt(rtn->GetBinCenter(i)); // throws if in a gap
-                    /// @todo This part is probably wrong -- also need to do something with GetW,
-                    ///   GetW2, GetB, GetB2, and/or GetBinSumw2? ROOT docs are 100% useless...
                     rtn->SetBinContent(i, b.sumW());
                     //FIXME  sumw2s[i] = b.sumW2();
                 }
@@ -224,10 +219,4 @@ TGraphAsymmErrors* Scatter2DtoTGraphAsymmErrors(const Scatter2D* s)
     if (s->hasAnnotation("YLabel")) rtn->GetYaxis()->SetTitle(s->annotation("YLabel").c_str());
     return rtn;
 }
-
-//@}
-
-
 }
-
-#endif
