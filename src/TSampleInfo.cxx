@@ -8,7 +8,7 @@ TSampleInfo::TSampleInfo() {}
 TSampleInfo::~TSampleInfo() {}
 
 TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* pr,const char* files,int ev,int rb,int re,
-                         double sig,double lum ,double w)
+                         double lum,double sig ,double w)
 {
     //fName=name;
     SetName(name);
@@ -33,7 +33,7 @@ TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* 
 void TSampleInfo::Print()
 {
 
-    printf("%f %s %s %s  %i %i %i %f %f %f\n",
+    printf("%f fPeriod=%s %s %s  %i %i %i fSigma=%f fLuminocity=%f fWeight=%f\n",
 
            fE,
            //  std::string fName;

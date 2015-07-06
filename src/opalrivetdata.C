@@ -31,7 +31,8 @@ void opalrivetdata::SlaveBegin(TTree * tree)
             else
                 {
                     if (R->fType=="DATA") {data+=R->fLuminocity;}
-                    if (R->fType=="MCBG") {mcbg+=R->fSigma*R->fEvents; }
+                    if (R->fType=="MCBG") {mcbg+=R->fSigma*R->fEvents; /*printf("R->fSigma*R->fEvents  %f %f\n",R->fSigma,R->fEvents);*/}
+                    //R->Print();
                 }
         }
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
@@ -74,7 +75,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
-    //if (gentry%50!=1) return kFALSE;
+    if (gentry%50!=1) return kFALSE;
 
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
@@ -117,11 +118,13 @@ void opalrivetdata::SlaveTerminate()
 void opalrivetdata::Terminate()
 {
     TSampleInfo *out = (TSampleInfo *) fOutput->FindObject("sampleinfo");
-    if (!out)  printf("No TSampleInfo\n");
-    fSampleInfo=out;
+    if (!out)  { printf("No TSampleInfo\n"); fSampleInfo=new TSampleInfo();}
+    else
+        fSampleInfo=out;
     fGenerator="opal";
     printf("opening ./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str());
     TFile* type_fFile= new TFile(Form("./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str()), "UPDATE");
+    if (!type_fFile) {printf(" No such file\n"); return;}
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
     TKey *key;

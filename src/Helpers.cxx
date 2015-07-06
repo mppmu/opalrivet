@@ -57,7 +57,12 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[])
 {
     A.insert(std::pair<std::string,TH1D*>( t,new TH1D(t.c_str(),t.c_str(),s,a)));
-    for (int b = 0; b < A[t]->GetNbinsX(); b++) A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b));
+    for (int b = 0; b < A[t]->GetNbinsX(); b++)
+        {
+            A[t]->GetXaxis()->SetBinLabel(b+1,Form("%i",b));
+            A[t]->SetBinContent(b,0);
+
+        }
     //A[t]->SetBinErrorOption( TH1::EBinErrorOpt::kPoisson);
 }
 

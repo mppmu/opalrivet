@@ -11,10 +11,15 @@ NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
 CXX?=g++
 
+#allz: output/opal_207.root output/$(GEN)_207.root output/manip_207.root
+
+output/plots_%GeV.root: bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
+	bin/$(ARCH)/plots output/opal_$*.root output/$(GEN)_$*.root
+
+
 include Makefile.syst
 #all:	 output/opal_136.root output/$(GEN)_136.root \
 #		 output/opal_192.root output/$(GEN)_192.root \
-all2:	output/opal_207.root output/$(GEN)_207.root output/manip_207.root
 
 #include Makefile.syst
 include Makefile.software
@@ -203,4 +208,12 @@ bin/$(ARCH)/hepplotconvert: src/convert/hepplotconvert.cxx  src/convert/WriterRO
 
 bin/$(ARCH)/cut_and_transform: src/convert/cut_and_transform.cxx  src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/ROOTConvert.cc
 	g++ -std=gnu++0x $(shell root-config --cflags --libs)  $(shell yoda-config  --libs) -I. -I./src/convert -I./inc src/convert/ROOTConvert.cc src/convert/WriterROOT.cc src/convert/ReaderROOT.cc src/convert/cut_and_transform.cxx    -o bin/$(ARCH)/cut_and_transform
+
+
+
+
+bin/$(ARCH)/plots: dirs src/plots/plots.cxx gen/TSampleInfoDict.cxx $(SOURCES) gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx
+		$(CXX) -pipe  -I. -I./src -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/plots/plots.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
+
+
 
