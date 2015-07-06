@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	  //TApplication* theApp = new TApplication("App", &argc, argv);
 	    std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
-for (int i=1;i<argc;i++)
+for (int i=2;i<argc;i++)
 {
 TFile* type_fFile= new TFile(argv[i], "READ");
     type_fFile->cd();
@@ -32,12 +32,18 @@ type_fFile->Close();
 
 
 
-std::string algorithm="durham";
+std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
 std::vector<std::string> generators=return_tokenize("corrected:pythia8",":");
-std::string energy="207GeV";
+std::string energy=std::string(argv[1])+"GeV";
 std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6",":");
 
-TCanvas* C=new TCanvas(algorithm.c_str());
+TFile* F= new TFile(("output/plots_"+energy+".root").c_str(),"RECREATE");
+F->cd();
+
+for (std::vector<std::string>::iterator algorithm=algorithms.begin();algorithm!=algorithms.end();algorithm++)
+{
+
+TCanvas* C=new TCanvas(algorithm->c_str());
 C->Divide(sqrt(quantities.size())+1,sqrt(quantities.size())+1);
 int ican=1;
 gStyle->SetOptStat(0);
@@ -53,7 +59,7 @@ std::string option="";
 for (std::vector<std::string>::iterator generator=generators.begin();generator!=generators.end();generator++)
 {
 	
-std::string name=	"H_"+*generator+"_"+algorithm+"_"+energy+"_"+*quantity;
+std::string name=	"H_"+*generator+"_"+*algorithm+"_"+energy+"_"+*quantity;
 if (fHMap.find(name)!=fHMap.end()) 
 {
 fHMap[name]->SetTitle(";;Fraction");	
@@ -77,19 +83,9 @@ L->Draw();
 
 }
 
-C->SaveAs(("output/plots_"+energy+".root").c_str());
-C->SaveAs(("output/plots_"+energy+".pdf").c_str());
-
-
-printf("%i\n",fHMap.size());
-for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
-{
-	std::string name(H_it->first);
-	//puts(name.c_str());
-	if ((name.find("h986")!=std::string::npos)||(name.find("h186")!=std::string::npos))
-	{ 
-		
-	}
-}	
-//theApp->Run();
+C->Write();
+//SaveAs(("output/plots_"+energy+".root").c_str());
+//C->SaveAs(("output/plots_"+energy+".pdf").c_str());
+}
+F->Close();
 }

@@ -14,7 +14,7 @@ CXX?=g++
 #allz: output/opal_207.root output/$(GEN)_207.root output/manip_207.root
 
 output/plots_%GeV.root: bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
-	bin/$(ARCH)/plots output/opal_$*.root output/$(GEN)_$*.root
+	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
 
 
 include Makefile.syst

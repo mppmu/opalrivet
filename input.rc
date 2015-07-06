@@ -6,7 +6,6 @@ LOCAL_OPAL_136.SAMPLES: 136_DATA_1:136_DATA_2:136_MCSI_1
 LOCAL_OPAL_136.DB:      gen/DB.root
 LOCAL_OPAL_136.PREFIX:  /mnt/scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_136.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
-LOCAL_OPAL_136.DEFINES:  \'-DALGORITHMS=\"durham:kt:antikt\"\'
 LOCAL_OPAL_136.NUMBER:  1000000000
 
 
@@ -20,7 +19,6 @@ LOCAL_OPAL_192.SAMPLES: 192_DATA_1:192_PYTHIA:192_HERWIG_1:192_GRC4F_3:192_GRC4F
 LOCAL_OPAL_192.DB:      gen/DB.root
 LOCAL_OPAL_192.PREFIX:  /mnt/scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_192.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
-LOCAL_OPAL_192.DEFINES:  \'-DALGORITHMS=\"durham:kt:antikt\"\'
 LOCAL_OPAL_192.NUMBER:  1000000000
 
 
@@ -33,5 +31,4 @@ LOCAL_OPAL_207.SAMPLES: 207_DATA_1:207_PYTHIA:207_GRC4F_3:207_GRC4F_4
 LOCAL_OPAL_207.DB:      gen/DB.root
 LOCAL_OPAL_207.PREFIX:  /mnt/scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_207.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
-LOCAL_OPAL_207.DEFINES:  \'-DALGORITHMS=\"durham:kt:antikt\"\'
 LOCAL_OPAL_207.NUMBER:  1000000000
