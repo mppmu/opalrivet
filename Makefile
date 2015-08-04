@@ -28,6 +28,7 @@ localsystem: dirs src_Rivet
 
 
 dirs:
+	mkdir -p $(_TOPDIR)
 	mkdir -p $(_TOPDIR)/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 	mkdir -p ./bin/$(ARCH)
 	mkdir -p ./obj/$(ARCH)

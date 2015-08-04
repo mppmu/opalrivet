@@ -140,7 +140,7 @@ Rivetpatch: src_Rivet
 	rm -rf patch-Rivet-*.txt
 	cp -R DEVRPMS/Rivet/* DEVRPMS/Rivet-$(RIVET_VERS)/
 	
-	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/include/Rivet/Tools/RivetPaths.hh  DEVRPMS/Rivet-$(RIVET_VERS)/include/Rivet/Tools/RivetPaths.hh > DEVRPMS/patch-Rivet-0.txt || exit 0
+	diff -Naur                                    DEVRPMS/Rivet-$(RIVET_VERS)_orig/include/Rivet/Tools/RivetBoost.hh  DEVRPMS/Rivet-$(RIVET_VERS)/include/Rivet/Tools/RivetBoost.hh > DEVRPMS/patch-Rivet-0.txt || exit 0
 	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)_orig@.@g' DEVRPMS/patch-Rivet-*.txt
 	sed -i 's@DEVRPMS/Rivet-$(RIVET_VERS)@.@g'      DEVRPMS/patch-Rivet-*.txt
 
