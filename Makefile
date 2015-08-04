@@ -65,7 +65,8 @@ output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrive
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
-output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
+output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat  run/Makefile 
+#DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
 		make -C run GEN=$(GEN)
 		mv run/*.root ./output
 
