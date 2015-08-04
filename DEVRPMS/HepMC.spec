@@ -13,6 +13,7 @@ Patch2:		%{name}-examples-hwaend.patch
 Patch3:		%{name}-linking.patch
 Prefix: /usr
 
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
