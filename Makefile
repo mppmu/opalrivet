@@ -13,13 +13,13 @@ CXX?=g++
 include Makefile.syst
 
 all:	 		 output/opal_130.root output/$(GEN)_130.root \
-                 output/opal_136.root output/$(GEN)_136.root \
-                 output/opal_161.root output/$(GEN)_161.root \
-                 output/opal_172.root output/$(GEN)_172.root \
-                 output/opal_183.root output/$(GEN)_183.root \                 
-                 output/opal_189.root output/$(GEN)_189.root \                 
-                 output/opal_192.root output/$(GEN)_192.root \                 
-		         output/opal_196.root output/$(GEN)_196.root
+					output/opal_136.root output/$(GEN)_136.root \
+					output/opal_161.root output/$(GEN)_161.root \
+					output/opal_172.root output/$(GEN)_172.root \
+					output/opal_183.root output/$(GEN)_183.root \                 
+					output/opal_189.root output/$(GEN)_189.root \                 
+					output/opal_192.root output/$(GEN)_192.root \                 
+					output/opal_196.root output/$(GEN)_196.root
 
 include Makefile.software
 include Makefile.convert
