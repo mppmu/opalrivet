@@ -91,7 +91,7 @@ make install  DESTDIR=$RPM_BUILD_ROOT
 %{_bindir}/rivet-mkhtml
 %{_bindir}/rivet
 
-/usr/lib/python2.7/site-packages/*
+/usr/%_lib/python2.7/site-packages/*
 /usr/%_lib/*.so
 /usr/%_lib/*.la
 /usr/%_lib/*/*.pc
