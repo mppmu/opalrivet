@@ -1,8 +1,21 @@
+LOCAL_OPAL_130:
+LOCAL_OPAL_130.NAME:    opalrivetdata
+LOCAL_OPAL_130.CHAIN:   h10
+LOCAL_OPAL_130.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_130.SAMPLES: 130_DATA_1:130_DATA_2:130_PYTHIA_1
+LOCAL_OPAL_130.DB:      gen/DB.root
+LOCAL_OPAL_130.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_130.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_130.DEFINES:  \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_130.NUMBER:  1000000000
+
+
+
 LOCAL_OPAL_136:
 LOCAL_OPAL_136.NAME:    opalrivetdata
 LOCAL_OPAL_136.CHAIN:   h10
 LOCAL_OPAL_136.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
-LOCAL_OPAL_136.SAMPLES: 136_DATA_1:136_DATA_2:136_MCSI_1
+LOCAL_OPAL_136.SAMPLES: 136_DATA_1:136_DATA_2:136_PYTHIA_1
 LOCAL_OPAL_136.DB:      gen/DB.root
 LOCAL_OPAL_136.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_136.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
@@ -12,14 +25,84 @@ LOCAL_OPAL_136.NUMBER:  1000000000
 
 
 
+LOCAL_OPAL_161:
+LOCAL_OPAL_161.NAME:    opalrivetdata
+LOCAL_OPAL_161.CHAIN:   h10
+LOCAL_OPAL_161.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_161.SAMPLES: 161_DATA_1:161_PYTHIA_1:161_GRC4F_1:161_GRC4F_2:161_GRC4F_3
+LOCAL_OPAL_161.DB:      gen/DB.root
+LOCAL_OPAL_161.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_161.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_161.DEFINES:  \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_161.NUMBER:  1000000000
+
+
+
+LOCAL_OPAL_172:
+LOCAL_OPAL_172.NAME:    opalrivetdata
+LOCAL_OPAL_172.CHAIN:   h10
+LOCAL_OPAL_172.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_172.SAMPLES: 172_DATA_1:172_PYTHIA_1:172_GRC4F_1:172_GRC4F_2:172_GRC4F_3
+LOCAL_OPAL_172.DB:      gen/DB.root
+LOCAL_OPAL_172.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_172.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_172.DEFINES:  \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_172.NUMBER:  1000000000
+
+
+
+
+
+LOCAL_OPAL_183:
+LOCAL_OPAL_183.NAME:    opalrivetdata
+LOCAL_OPAL_183.CHAIN:   h10
+LOCAL_OPAL_183.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_183.SAMPLES: 183_DATA_1:183_PYTHIA_1:183_GRC4F_1:183_GRC4F_2:183_GRC4F_3
+LOCAL_OPAL_183.DB:      gen/DB.root
+LOCAL_OPAL_183.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_183.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_183.DEFINES:  \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_183.NUMBER:  1000000000
+
+
+
+LOCAL_OPAL_189:
+LOCAL_OPAL_189.NAME:    opalrivetdata
+LOCAL_OPAL_189.CHAIN:   h10
+LOCAL_OPAL_189.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_189.SAMPLES: 189_DATA_1:189_PYTHIA_1:189_PYTHIA_2:189_GRC4F_1:189_GRC4F_2:189_GRC4F_3
+LOCAL_OPAL_189.DB:      gen/DB.root
+LOCAL_OPAL_189.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_189.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_189.DEFINES:  \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_189.NUMBER:  1000000000
+
+
+
 
 LOCAL_OPAL_192:
 LOCAL_OPAL_192.NAME:    opalrivetdata
 LOCAL_OPAL_192.CHAIN:   h10
 LOCAL_OPAL_192.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
-LOCAL_OPAL_192.SAMPLES: 192_DATA_1:192_PYTHIA:192_HERWIG_1:192_GRC4F_1:192_GRC4F_2:192_GRC4F_3:192_GRC4F_4
+LOCAL_OPAL_192.SAMPLES: 192_DATA_1:192_PYTHIA_1:192_PYTHIA_2:192_GRC4F_1:192_GRC4F_2:192_GRC4F_3:192_GRC4F_4:192_GRC4F_5
 LOCAL_OPAL_192.DB:      gen/DB.root
 LOCAL_OPAL_192.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_192.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_192.DEFINES:  \'-DALGORITHMS=\"durham\"\'
 LOCAL_OPAL_192.NUMBER:  1000000000
+
+
+
+
+
+
+LOCAL_OPAL_196:
+LOCAL_OPAL_196.NAME:    opalrivetdata
+LOCAL_OPAL_196.CHAIN:   h10
+LOCAL_OPAL_196.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_196.SAMPLES: 196_DATA_1:196_PYTHIA_1:196_PYTHIA_2:196_GRC4F_1:196_GRC4F_2:196_GRC4F_3:196_GRC4F_4:196_GRC4F_5
+LOCAL_OPAL_196.DB:      gen/DB.root
+LOCAL_OPAL_196.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_196.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_196.DEFINES:  \'-DALGORITHMS=\"durham\"\'
+LOCAL_OPAL_196.NUMBER:  1000000000

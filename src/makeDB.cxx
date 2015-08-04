@@ -37,10 +37,173 @@ int main(int argc ,char** argv)
     TFile* F= new TFile(argv[1],"recreate");
 
     std::vector<TSampleInfo*>AIStruct;
+/*
+#FIX RUNS
+# NT_VERSION 200
 
-    AIStruct.push_back(new TSampleInfo(136.0,"136_DATA_1","DATA","kLEP2","da136_95_200.root",-1,-1,-1,2.56,0.0,0.0));
-    AIStruct.push_back(new TSampleInfo(136.0,"136_DATA_2","DATA","kLEP2","da136_97_200.root",-1,-1,-1,2.36,0.0,0.0));
-    AIStruct.push_back(new TSampleInfo(136.0,"136_MCSI_1","MCSI","kLEP2","mc12163_1_200.root mc12163_2_200.root",-1,-1,-1,0.0,278.8,0.0));
+#Generator       Process   Runno    Sigma    Lumi  Part    File
+
+#130 GeV
+
+#Data            ALL         130        0   2.70     0    da130_95
+#Data            ALL         130        0   2.61     0    da130_97
+#PYTHIA          (Z/g)*    12162    335.9   0.0      2    mc12162
+#HERWIG          (Z/g)*    11925    334.9   0.0      2    mc11925
+*/
+
+
+
+
+    AIStruct.push_back(new TSampleInfo(130.0,"130_DATA_1",  "DATA","kLEP2","da130_95_200.root",-1,-1,-1,2.70,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(130.0,"130_DATA_2",  "DATA","kLEP2","da130_97_200.root",-1,-1,-1,2.61,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(130.0,"130_PYTHIA_1","MCSI","kLEP2","mc12162_1_200.root mc12162_2_200.root",-1,-1,-1,0.0,335.9,0.0));
+    AIStruct.push_back(new TSampleInfo(130.0,"130_HERWIG_1","MCSI","kLEP2","mc11925_1_200.root mc11925_2_200.root",-1,-1,-1,0.0,334.9,0.0));
+
+
+
+
+
+
+/*
+#NT_VERSION 200
+#
+#    Generator       Process   Runno    Sigma    Lumi  Part    File
+#
+#    136 GeV
+#
+#    Data            ALL         136        0    2.59    0    da136_95
+#    Data            ALL         136        0    3.36    0    da136_97
+#    PYTHIA          (Z/g)*    12163    278.8      0.0   2    mc12163
+#    HERWIG          (Z/g)*    11926    278.5      0.0   2    mc11926
+#
+
+*/
+
+
+    AIStruct.push_back(new TSampleInfo(136.0,"136_DATA_1",  "DATA","kLEP2","da136_95_200.root",-1,-1,-1,2.56,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(136.0,"136_DATA_2",  "DATA","kLEP2","da136_97_200.root",-1,-1,-1,2.36,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(136.0,"136_PYTHIA_1","MCSI","kLEP2","mc12163_1_200.root mc12163_2_200.root",-1,-1,-1,0.0,278.8,0.0));
+    AIStruct.push_back(new TSampleInfo(136.0,"136_HERWIG_1","MCSI","kLEP2","mc11926_1_200.root mc11926_2_200.root",-1,-1,-1,0.0,278.5,0.0));
+
+
+/*
+#
+#    Generator       Process   Runno    Sigma    Lumi  Part    File
+#
+#    161 GeV
+#
+#    Data            ALL         161        0    10.06   0    da161
+#    PYTHIA          (Z/g)*    12164    156.2     0.0    4    mc12164
+#    HERWIG          (Z/g)*    11927    155.6     0.0    5    mc11927
+#    GRC4F           llqq       4513    2.648     0.0    1    mc4513
+#    GRC4F           qqqq       4544    2.064     0.0    1    mc4544
+#    GRC4F           eeqq       4741    5.161     0.0    1    mc4741
+#
+*/
+
+
+
+    AIStruct.push_back(new TSampleInfo(161.0,"161_DATA_1",  "DATA","kLEP2","da161_200.root",  -1,-1,-1,10.06,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(161.0,"161_PYTHIA_1",  "MCSI","kLEP2","mc12164_1_200.root mc12164_2_200.root mc12164_3_200.root mc12164_4_200.root",-1,-1,-1,  0.0,156.2,0.0));
+    AIStruct.push_back(new TSampleInfo(161.0,"161_HERWIG_1","MCSI","kLEP2","mc11927_1_200.root mc11927_2_200.root mc11927_3_200.root mc11927_4_200.root mc11927_5_200.root",    -1,-1,-1,  0.0,155.6,0.0));
+
+    AIStruct.push_back(new TSampleInfo(161.0,"161_GRC4F_1","MCBG","kLEP2","mc4513_1_200.root",    -1,-1,-1,  0.0,2.648,0.0));
+    AIStruct.push_back(new TSampleInfo(161.0,"161_GRC4F_2","MCBG","kLEP2","mc4544_1_200.root",    -1,-1,-1,  0.0,2.064,0.0));
+    AIStruct.push_back(new TSampleInfo(161.0,"161_GRC4F_3","MCBG","kLEP2","mc4741_1_200.root",    -1,-1,-1,  0.0,5.161,0.0));
+
+/*
+#NT_VERSION 200
+#
+#    Generator       Process   Runno    Sigma    Lumi  Part    File
+#
+#    172 GeV
+#
+#    Data            ALL         172        0     10.38   0    da172
+#    PYTHIA          (Z/g)*    12165    128.6      0.0    4    mc12165
+#    HERWIG          (Z/g)*    11928    128.3      0.0    5    mc11928
+#    GRC4F           llqq       4743    6.284      0.0    1    mc4743
+#    GRC4F           qqqq       4744    6.061      0.0    1    mc4744
+#    GRC4F           eeqq       4745    4.730      0.0    1    mc4745
+#
+
+########################
+#    PYTHIA          (Z/g)*    12165    128.6      0.0    4    mc12165
+#    HERWIG          (Z/g)*    11928    128.3      0.0    5    mc11928
+#    GRC4F           llqq       4743    6.284      0.0    1    mc4743
+#    GRC4F           qqqq       4744    6.061      0.0    1    mc4744
+#    GRC4F           eeqq       4745    4.730      0.0    1    mc4745
+
+*/
+
+    AIStruct.push_back(new TSampleInfo(172.0,"172_DATA_1",  "DATA","kLEP2","da172_200.root",  -1,-1,-1,10.06,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(172.0,"172_PYTHIA_1","MCSI","kLEP2","mc12165_1_200.root mc12165_2_200.root mc12165_3_200.root mc12165_4_200.root",-1,-1,-1,  0.0,128.6,0.0));
+    AIStruct.push_back(new TSampleInfo(172.0,"172_HERWIG_1","MCSI","kLEP2","mc11928_1_200.root mc11928_2_200.root mc11928_3_200.root mc11928_4_200.root mc11928_5_200.root",    -1,-1,-1,  0.0,128.3,0.0));
+
+    AIStruct.push_back(new TSampleInfo(172.0,"172_GRC4F_1", "MCBG","kLEP2","mc4743_1_200.root",    -1,-1,-1,  0.0,6.284,0.0));
+    AIStruct.push_back(new TSampleInfo(172.0,"172_GRC4F_2", "MCBG","kLEP2","mc4744_1_200.root",    -1,-1,-1,  0.0,6.061,0.0));
+    AIStruct.push_back(new TSampleInfo(172.0,"172_GRC4F_3", "MCBG","kLEP2","mc4745_1_200.root",    -1,-1,-1,  0.0,4.730,0.0));
+
+
+/*
+#NT_VERSION 200
+#
+#    Generator       Process   Runno    Sigma    Lumi  Part    File
+#
+#    183 GeV
+#
+#    Data            ALL         183        0     57.72   0    da183
+#    PYTHIA          (Z/g)*    11341    109.0      0.0    4    mc11341
+#    HERWIG          (Z/g)*     5168    109.0      0.0    5    mc5168  ->AV _5_ does not exist!
+#    GRC4F           llqq       8056    8.113      0.0    2    mc8056
+#    GRC4F           qqqq       7051    7.862      0.0    3    mc7051
+#    GRC4F           eeqq       7055    26.74      0.0    1    mc7055
+
+*/
+
+    AIStruct.push_back(new TSampleInfo(183.0,"183_DATA_1",  "DATA","kLEP2","da183_200.root",  -1,-1,-1,57.72,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(183.0,"183_PYTHIA_1","MCSI","kLEP2","mc11341_1_200.root mc11341_2_200.root mc11341_3_200.root mc11341_4_200.root",-1,-1,-1,  0.0,109.0,0.0));
+    AIStruct.push_back(new TSampleInfo(183.0,"183_HERWIG_1","MCSI","kLEP2","mc11928_1_200.root mc11928_2_200.root mc11928_3_200.root mc11928_4_200.root",    -1,-1,-1,  0.0,109.0,0.0));
+
+    AIStruct.push_back(new TSampleInfo(183.0,"183_GRC4F_1", "MCBG","kLEP2","mc8056_1_200.root mc8056_2_200.root",    -1,-1,-1,  0.0,8.113,0.0));
+    AIStruct.push_back(new TSampleInfo(183.0,"183_GRC4F_2", "MCBG","kLEP2","mc7051_1_200.root mc7051_2_200.root mc7051_3_200.root",    -1,-1,-1,  0.0,7.862,0.0));
+    AIStruct.push_back(new TSampleInfo(183.0,"183_GRC4F_3", "MCBG","kLEP2","mc7055_1_200.root",    -1,-1,-1,  0.0,26.74,0.0));
+
+/*
+#NT_VERSION 200						
+#189 GeV						
+#Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#                       		(pb)	(1/pb)		
+#Data    	ALL     189	        0	185.2	0	da189
+#PYTHIA		(Z/g)*	11342	99.36	0.000	10	mc11342
+#PYTHIA		(Z/g)*	11343	8.574	0.000	10	mc11343
+#HERWIG		(Z/g)*	5169	99.36	0.000	10	mc5169
+#*HERWIG		(Z/g)*	11981	99.36	0.000	4	mc11981
+#*ist ARIADNE 4!						
+#*GRC4F	        llqq	8055	8.679	0.000	2	mc8055
+#*GRC4F		qqqq	7846	8.418	0.000	3	mc7846
+#GRC4F		eeqq	7849	25.52	0.000	1	mc7849
+#GRC4F		llqq	8637	8.679	0.000	2	mc8637
+#*ist KoralW !						
+#GRC4F		qqqq	8636	8.418	0.000	2	mc8636
+#*ist KoralW !	
+*/
+
+
+
+    AIStruct.push_back(new TSampleInfo(189.0,"189_DATA_1",  "DATA","kLEP2","da189_200.root",  -1,-1,-1,185.2,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_PYTHIA_1","MCSI","kLEP2","mc11342_1_200.root mc11342_2_200.root mc11342_3_200.root mc11342_4_200.root mc11342_5_200.root mc11342_6_200.root mc11342_7_200.root mc11342_8_200.root mc11342_9_200.root mc11342_10_200.root",-1,-1,-1,  0.0,99.36,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_PYTHIA_2","MCSI","kLEP2","mc11343_1_200.root mc11343_2_200.root mc11343_3_200.root mc11343_4_200.rootmc11343_5_200.root mc11343_6_200.root mc11343_7_200.root mc11343_8_200.root mc11343_9_200.root mc11343_10_200.root ",    -1,-1,-1,  0.0,8.574,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_HERWIG_1","MCSI","kLEP2","mc5169_1_200.root mc5169_2_200.root mc5169_3_200.root mc5169_4_200.root mc5169_5_200.root mc5169_6_200.root mc5169_7_200.root mc5169_8_200.root mc5169_9_200.root mc5169_10_200.root",    -1,-1,-1,  0.0,99.36,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_HERWIG_2","MCSI","kLEP2","mc11981_1_200.root mc11981_2_200.root mc11981_3_200.root mc11981_4_200.root",    -1,-1,-1,  0.0,99.36,0.0));
+
+    AIStruct.push_back(new TSampleInfo(189.0,"189_GRC4F_1","MCBG","kLEP2","mc8055_1_200.root mc8055_2_200.root",    -1,-1,-1,  0.0,8.679,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_GRC4F_2","MCBG","kLEP2","mc7846_1_200.root mc7846_2_200.root mc7846_3_200.root",    -1,-1,-1,  0.0,8.418,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_GRC4F_3","MCBG","kLEP2","mc7849_1_200.root",    -1,-1,-1,  0.0,25.52,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_GRC4F_4","MCBG","kLEP2","mc8637_1_200.root mc8637_2_200.root",    -1,-1,-1,  0.0,8.679,0.0));
+    AIStruct.push_back(new TSampleInfo(189.0,"189_GRC4F_5","MCBG","kLEP2","mc8636_1_200.root mc8636_2_200.root",    -1,-1,-1,  0.0,8.418,0.0));
+
+
+
 
 
 
@@ -67,7 +230,7 @@ int main(int argc ,char** argv)
     */
 
     AIStruct.push_back(new TSampleInfo(192.0,"192_DATA_1",  "DATA","kLEP2","da1999_200.root",  -1,-1,-1,29.53,  0.0,0.0));
-    AIStruct.push_back(new TSampleInfo(192.0,"192_PYTHIA",  "MCSI","kLEP2","mc11344_1_200.root mc11344_2_200.root mc11344_3_200.root mc11344_4_200.root",-1,-1,-1,  0.0,94.84,0.0));
+    AIStruct.push_back(new TSampleInfo(192.0,"192_PYTHIA_1",  "MCSI","kLEP2","mc11344_1_200.root mc11344_2_200.root mc11344_3_200.root mc11344_4_200.root",-1,-1,-1,  0.0,94.84,0.0));
     AIStruct.push_back(new TSampleInfo(192.0,"192_HERWIG_1","MCSI","kLEP2","mc5171_1_200.root mc5171_2_200.root mc5171_3_200.root mc5171_4_200.root",    -1,-1,-1,  0.0,94.84,0.0));
     AIStruct.push_back(new TSampleInfo(192.0,"192_HERWIG_2","MCSI","kLEP2","mc11986_1_200.root mc11986_2_200.root mc11986_3_200.root mc11986_4_200.root",    -1,-1,-1,  0.0,94.84,0.0));
 
@@ -76,6 +239,43 @@ int main(int argc ,char** argv)
     AIStruct.push_back(new TSampleInfo(192.0,"192_GRC4F_3","MCBG","kLEP2","mc9277_1_200.root",    -1,-1,-1,  0.0,41.43,0.0));
     AIStruct.push_back(new TSampleInfo(192.0,"192_GRC4F_4","MCBG","kLEP2","mc9205_1_200.root mc9205_2_200.root",    -1,-1,-1,  0.0,8.997,0.0));
     AIStruct.push_back(new TSampleInfo(192.0,"192_GRC4F_5","MCBG","kLEP2","mc9204_1_200.root mc9204_2_200.root",    -1,-1,-1,  0.0,8.741,0.0));
+
+
+/*
+#NT_VERSION 200						
+#196 GeV						
+#Generator	Process	Runno	Sigma	Lumi	Part	filestem
+#                       			(pb)	(1/pb)		
+#Data     	ALL       196	0	76.67	0	da1999
+#PYTHIA		(Z/g)* 	11345	90.09	0.000	8	mc11345 
+#HERWIG		(Z/g)*	5172	90.09	0.000	5	mc5172  
+#*HERWIG		(Z/g)*	11987	90.09	0.000	4	mc11987 
+#*ist ARIADNE     4!						
+#*GRC4F		 llqq	9096	9.14	0.000	2	mc9096  
+#*GRC4F		 qqqq	9097	8.816	0.000	3	mc9097  
+#GRC4F		 eeqq	9280	40.5	0.000	1	mc9280  
+#GRC4F		 llqq	9202	9.18	0.000	2	mc9202  
+#*ist KoralW! 						
+#GRC4F		 qqqq	9201	8.921	0.000	2	mc9201  
+#*ist KoralW! 	
+*/
+
+
+
+    AIStruct.push_back(new TSampleInfo(196.0,"196_DATA_1",  "DATA","kLEP2","da1999_200.root",  -1,-1,-1,76.67,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_PYTHIA_1",  "MCSI","kLEP2","mc11345_1_200.root mc11345_2_200.root mc11345_3_200.root mc11345_4_200.root",-1,-1,-1,  0.0,90.09,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_HERWIG_1","MCSI","kLEP2","mc5172_1_200.root mc5172_2_200.root mc5172_3_200.root mc5172_4_200.root",    -1,-1,-1,  0.0,90.09,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_HERWIG_2","MCSI","kLEP2","mc11987_1_200.root mc11987_2_200.root mc11987_3_200.root mc11987_4_200.root",    -1,-1,-1,  0.0,90.09,0.0));
+
+    AIStruct.push_back(new TSampleInfo(196.0,"196_GRC4F_1","MCBG","kLEP2","mc9096_1_200.root mc9096_2_200.root",    -1,-1,-1,  0.0,9.140,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_GRC4F_2","MCBG","kLEP2","mc9097_1_200.root mc9097_2_200.root mc9097_3_200.root",    -1,-1,-1,  0.0,8.816,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_GRC4F_3","MCBG","kLEP2","mc9280_1_200.root",    -1,-1,-1,  0.0,40.50,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_GRC4F_4","MCBG","kLEP2","mc9202_1_200.root mc9202_2_200.root",    -1,-1,-1,  0.0,9.18,0.0));
+    AIStruct.push_back(new TSampleInfo(196.0,"196_GRC4F_5","MCBG","kLEP2","mc9201_1_200.root mc9201_2_200.root",    -1,-1,-1,  0.0,8.921,0.0));
+
+
+
+
 
 
 
