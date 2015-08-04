@@ -6,12 +6,12 @@
 
 
 Name:           Rivet
-Version: 2.2.1
-Release:        1
+Version: 2.3.0
+Release:        1%{?dist}
 License:        GPLv3
 Url:		    http://rivet.hepforge.org/
 Source0:	    http://www.hepforge.org/archive/rivet/%{name}-%{version}.tar.gz
-#Patch0:         patch-Rivet-0.txt
+Patch0:         patch-Rivet-0.txt
 #Patch1:         patch-Rivet-1.txt
 Group:		    Sciences/Physics
 Prefix: /usr
@@ -43,6 +43,7 @@ development, validation, and tuning, as well as a convenient infrastructure for
  to and development of future theory models. 
 
 
+
 %package  devel
 Summary:        Libraries and headers for %{name}
 Group:          Development/C
@@ -59,7 +60,7 @@ The library documentation is available on header files.
 
 %prep
 %setup -q
-#%patch0 -p0
+%patch0 -p0
 #%patch0 -p1
 
 %build

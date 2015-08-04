@@ -3,16 +3,19 @@
 %define libnamedev  YODA-devel
 %define develnamestatic  YODA-static-devel
 
+
+
 Name:           YODA
-Version: 1.3.1
-Release:        1
+Version: 1.4.0
+Release:        1%{?dist}
 License:        GPLv3
 Url:		http://www.YODA.fr
 Source0:	http://www.hepforge.org/archive/yoda/%{name}-%{version}.tar.gz
+#Patch0:     patch-YODA-0.txt
 Group:		Sciences/Physics
 Prefix: /usr
 Summary:        Fast implementation of several recombination jet algorithms
-BuildRequires:	 /usr/bin/g++ /usr/bin/Cython
+#BuildRequires:	 /usr/bin/g++ /usr/bin/Cython
 
 
 %description
@@ -37,8 +40,17 @@ Provides:       %{name}-devel = %{version}-%{release}
 %{libnamedev} contains the libraries and header files needed to
 develop programs which make use of %{name}.
 
+
+
+
+
 %prep
 %setup -q
+######SVN
+autoreconf -i
+automake -a
+#######
+#%patch0 -p0
 
 %build
 %configure --disable-pyext
@@ -51,10 +63,12 @@ make install  DESTDIR=$RPM_BUILD_ROOT
 %doc AUTHORS README COPYING
 
 %files -n %{libname}
-/usr/%_lib/*
-/usr/*
+/usr/%_lib/lib*
+/usr/%_lib/pkgconfig/*.pc
+/usr/share/YODA/*
+/usr/src/debug/YODA-%{version}/*
 
-/usr/bin/*
+/usr/bin/yoda-config
 
 %files -n %{libnamedev}
 
@@ -65,6 +79,7 @@ make install  DESTDIR=$RPM_BUILD_ROOT
 
 
 %changelog
-* Mon Jun 22 2015 Andrii Verbytskyi <andrii.verbytskyi@desy.de> 1.3.1-1
+* Fri Jan 20 2012 FAKEAlexander Khrukin <akhrukin@mandriva.org> 3.0.2-1
++ Revision: 763348
 - imported package YODA
 
