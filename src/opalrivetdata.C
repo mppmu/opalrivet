@@ -72,10 +72,12 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
+    if (this->Ebeam<fSampleInfo->fE-1.0) continue;
+    if (this->Ebeam>fSampleInfo->fE+1.0) continue;
     if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
-    if (gentry%50!=1) return kFALSE;
+//    if (gentry%50!=1) return kFALSE;
 
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
