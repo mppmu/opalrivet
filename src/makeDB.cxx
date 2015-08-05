@@ -1,8 +1,9 @@
 #include "Helpers.h"
+#include "Cuts.h"
 #include "TSampleInfo.h"
 void FillInfo(TSampleInfo* A,TMap* filestosamples,std::string prefix)
 {
-
+  A->Print();
     std::vector<std::string> a;
     tokenize(A->fFiles," ",a);
     TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
@@ -10,20 +11,22 @@ void FillInfo(TSampleInfo* A,TMap* filestosamples,std::string prefix)
         {
             TChain* C= new TChain("h10");
             C->Add((prefix+*it).c_str());
-            C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",A->fE-1.0,A->fE+1.0));
+            C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fE-ENERGYTOLERANCE),0.5*(A->fE+ENERGYTOLERANCE)));
             TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
             TOTAL->Add(RUNHIST);
             // RUNHIST->SetName((*it+"_RUNHIST").c_str());
             //  RUNHIST->Write();
-            filestosamples->Add(new TObjString(it->c_str()),new TObjString(A->GetName()));
+            filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
         }
     A->fRunsBegin=0;
     A->fRunsEnd=20000-2;
 
 
-    while (TOTAL->GetBinContent(A->fRunsBegin)<0.5) A->fRunsBegin++;
-    while (TOTAL->GetBinContent(A->fRunsEnd)<0.5) A->fRunsEnd--;
+    while (TOTAL->GetBinContent(A->fRunsBegin)<0.5&&A->fRunsEnd>=A->fRunsBegin) A->fRunsBegin++;
+    while (TOTAL->GetBinContent(A->fRunsEnd)<0.5&&A->fRunsEnd>=A->fRunsBegin) A->fRunsEnd--;
+    if (A->fRunsEnd<A->fRunsBegin) puts("Wrong run numbers of energy");
     A->fEvents=TOTAL->GetEntries();
+    A->Print();
     TOTAL->Delete();
 }
 
@@ -162,7 +165,7 @@ int main(int argc ,char** argv)
 
     AIStruct.push_back(new TSampleInfo(183.0,"183_DATA_1",  "DATA","kLEP2","da183_200.root",  -1,-1,-1,57.72,  0.0,0.0));
     AIStruct.push_back(new TSampleInfo(183.0,"183_PYTHIA_1","MCSI","kLEP2","mc11341_1_200.root mc11341_2_200.root mc11341_3_200.root mc11341_4_200.root",-1,-1,-1,  0.0,109.0,0.0));
-    AIStruct.push_back(new TSampleInfo(183.0,"183_HERWIG_1","MCSI","kLEP2","mc11928_1_200.root mc11928_2_200.root mc11928_3_200.root mc11928_4_200.root",    -1,-1,-1,  0.0,109.0,0.0));
+    AIStruct.push_back(new TSampleInfo(183.0,"183_HERWIG_1","MCSI","kLEP2","mc5168_1_200.root mc5168_2_200.root mc5168_3_200.root mc5168_4_200.root",    -1,-1,-1,  0.0,109.0,0.0));
 
     AIStruct.push_back(new TSampleInfo(183.0,"183_GRC4F_1", "MCBG","kLEP2","mc8056_1_200.root mc8056_2_200.root",    -1,-1,-1,  0.0,8.113,0.0));
     AIStruct.push_back(new TSampleInfo(183.0,"183_GRC4F_2", "MCBG","kLEP2","mc7051_1_200.root mc7051_2_200.root mc7051_3_200.root",    -1,-1,-1,  0.0,7.862,0.0));

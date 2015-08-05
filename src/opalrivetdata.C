@@ -4,11 +4,11 @@
 #include  "TSampleInfo.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
-
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
     fE=-1;//fAI.fE;
+    fEnergyString="NONE";
     TFile* TDB=new TFile("./opalrivetdata/DB.root","update");
     std::vector<std::string> S=return_tokenize(SAMPLES, ":");
     double data=0;
@@ -16,18 +16,19 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
-            if (!R) printf("No such sample\n");
+            if (!R) printf("No such sample %s\n",it->c_str());
             else
                 {
                     fSampleInfo=new TSampleInfo(*R);
                     fSampleInfo->SetName("sampleinfo");
+                    fEnergyString=fSampleInfo->fEnergyString;
                 }
         }
 
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
-            if (!R) printf("No such sample\n");
+            if (!R) printf("No such sample %s\n",it->c_str());
             else
                 {
                     if (R->fType=="DATA") {data+=R->fLuminocity;}
@@ -42,6 +43,17 @@ void opalrivetdata::SlaveBegin(TTree * tree)
             else R->fWeight=1.0;
             R->Write();
         }
+        
+        /*
+        std::set<std::string> list;
+        TIter next(TDB->GetListOfKeys());
+    TKey *key;
+    while ((key = (TKey*)next())) list.insert(std::string(key->GetName()));
+    for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++) list.erase(*it);        
+    for (std::set<std::string>::iterator it=list.begin(); it!=list.end(); it++) {puts(it->c_str());TDB->cd(); TDB->Delete(Form("%s;*",it->c_str()));}    
+        */
+        
+        
     TDB->Close();
     fOutput->Add(fSampleInfo);
     fGenerator="opal";
@@ -72,8 +84,8 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-    if (this->Ebeam<fSampleInfo->fE-1.0) continue;
-    if (this->Ebeam>fSampleInfo->fE+1.0) continue;
+    if (2*this->Ebeam<fSampleInfo->fE-ENERGYTOLERANCE) return kFALSE;
+    if (2*this->Ebeam>fSampleInfo->fE+ENERGYTOLERANCE) return kFALSE;
     if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
@@ -182,7 +194,7 @@ Bool_t opalrivetdata::Notify()
     TMap* filetosamplemap=(TMap*)theDB->Get("mymap");
     if (!filetosamplemap) printf("No map found!\n");
     else filetosamplemap->Print();
-    TObjString* samplename=(TObjString* )((*filetosamplemap)(currentfile.Data()));
+    TObjString* samplename=(TObjString* )((*filetosamplemap)(Form("%s_%s",currentfile.Data(),fEnergyString.c_str())));
     if (!samplename) printf("No samplename found!\n");
     else
         {

@@ -24,6 +24,7 @@ public :
     TSampleInfo *fSampleInfo;
     TFile *fFile;
     double fE;
+        std::string fEnergyString;
     TUserProofData();
     ~TUserProofData();
 
