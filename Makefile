@@ -16,8 +16,8 @@ all:	 		    output/$(GEN)_91.root \
 					output/opal_9196.root \
 					output/opal_9197.root \
 					output/opal_9198.root \
-					output/opal_9199.root \										
-					output/opal_9100.root \					
+					output/opal_9199.root \
+					output/opal_9100.root \
 					output/opal_130.root output/$(GEN)_130.root \
 					output/opal_136.root output/$(GEN)_136.root \
 					output/opal_161.root output/$(GEN)_161.root \
