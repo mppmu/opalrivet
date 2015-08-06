@@ -33,7 +33,7 @@ FASTJET_LIBDIR=$(shell $(FASTJET-CONFIG) --libs |  tr ' ' '\n' | grep '\-L' | se
 
 
 LDFLAGS+= -pipe -g  -lgfortran  -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
-CXXFLAGS+= -pipe -g -std=c++0x -Wall -Wextra  -Wno-unused-variable  -I.  -fPIC  $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags) 
+CXXFLAGS+= -pipe -g -std=c++0x -Wall -Wextra  -Wno-unused-variable -Wno-unused-parameter -Wno-delete-non-virtual-dtor -I.  -fPIC  $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags) 
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				Cuts.$(ObjSuf) Helpers.$(ObjSuf) \
 				TFastJet.$(ObjSuf)  \
