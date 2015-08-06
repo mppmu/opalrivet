@@ -92,9 +92,9 @@ void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int>
     gSystem->GetFromPipe(TString(std::string("cp ")+fMS["NAME"]+".tar.gz ../PAR_")+TString(gSystem->GetFromPipe("hostname"))+"/"+fMS["NAME"]+".par");
     gSystem->ChangeDirectory("../");
     /******************/
-    chainTD->Draw("Irun>>RUNHIST(20000,0.0,20000.0)");
-    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
-    p->AddInput(RUNHIST);
+//    chainTD->Draw("Irun>>RUNHIST(20000,0.0,20000.0)");
+//    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
+//    p->AddInput(RUNHIST);
     /******************/
     chainTD->SetProof();
     gSystem->SetAclicMode(TSystem::kDebug);

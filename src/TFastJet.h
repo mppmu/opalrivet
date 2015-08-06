@@ -29,7 +29,7 @@ class TFastJet
 public:
 
     TFastJet();
-    TFastJet( const std::vector<TParticle>& );
+    //TFastJet( const std::vector<TParticle>& );
     TFastJet( const std::vector<TLorentzVector>&, std::string jetalg,std::map<std::string,double> R, const std::vector<int>* vindx= 0 );
     virtual ~TFastJet();
 

@@ -36,7 +36,7 @@ fEvis=-1;
 }
 
 fastjet::ClusterSequence* TFastJet::GetClusterSequence() {return fClusterSequence;};
-
+/*
 TFastJet::TFastJet( const std::vector<TParticle>& vtp )
 {
 	fEvis=-1;
@@ -75,7 +75,7 @@ TFastJet::TFastJet( const std::vector<TParticle>& vtp )
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
     return;
 }
-
+*/
 bool TFastJet::FindAlgorithm(std::string jetalg)
 {
     fJetAlgString= std::string(jetalg);
