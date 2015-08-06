@@ -56,7 +56,7 @@ public:
 
     double fB[2];
     double fM[2];
-
+    double fEvis;
     /// Eigenvalues.
     std::vector<double> _lambdas[5];
 

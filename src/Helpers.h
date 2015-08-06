@@ -819,16 +819,16 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
 
             A->fHMap[H_prefix+"A"]->Fill(tfj->_lambdas[1][0]*3 / 2.0,weight);
             A->fHMap[H_prefix+"S"]->Fill(tfj->_lambdas[1][0]*3 / 2.0+tfj->_lambdas[1][1]*3 / 2.0,weight);
-            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[0][0]*tfj->_lambdas[0][1]+tfj->_lambdas[0][1]*tfj->_lambdas[0][2]+tfj->_lambdas[0][2]*tfj->_lambdas[0][0]),weight);
-            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight);
+            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[1][0]*tfj->_lambdas[1][1]+tfj->_lambdas[1][1]*tfj->_lambdas[1][2]+tfj->_lambdas[1][2]*tfj->_lambdas[1][0]),weight);
+            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[1][0]*tfj->_lambdas[1][1]*tfj->_lambdas[1][2],weight);
 
             A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
             A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);
             A->fHMap[H_prefix+"BT"]->Fill(tfj->fB[1]+tfj->fB[0],weight);
 
-            A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/A->fE,weight);
-            A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/A->fE,weight);
-            A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/A->fE,2),weight);
+            A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
+            A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
+            A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
 
 
             std::vector<double> ycuts;
@@ -838,7 +838,7 @@ template <class EXA> bool Analysis_type1(EXA* A, TFastJet* tfj,  float weight,in
             ycuts.push_back(0.0);
             //for ( j=0; j<5; j++)             bounds.push_back(std::pair<double,double>(ycuts.at(j),ycuts.at(j+1)));
 
-            A->fHMap[H_prefix+"D2"]->Fill(ycuts[0],weight);
+            A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
 
             if (filly)  for ( j=0; j<4; j++) {/*  local_f_h_y_jet_algorithm[j]->fill(ycuts.at(j+1), weight); //FIXME */}
             for ( j=0; j<5; j++)

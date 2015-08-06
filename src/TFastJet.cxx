@@ -10,7 +10,7 @@ ClassImp(TFastJet)
 */
 TFastJet::TFastJet()
 {
-
+fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
     _regparam=2.0;
@@ -39,6 +39,7 @@ fastjet::ClusterSequence* TFastJet::GetClusterSequence() {return fClusterSequenc
 
 TFastJet::TFastJet( const std::vector<TParticle>& vtp )
 {
+	fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
     _regparam=2.0;
@@ -92,7 +93,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                     std::string jetalg,
                     std::map<std::string,double> R,
                     const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
-{
+{fEvis=-1;
 
     _thrusts.push_back(1.0);
     _thrusts.push_back(0.0);
@@ -205,6 +206,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
 
 TFastJet::~TFastJet()
 {
+	
     if( fClusterSequence ) delete fClusterSequence;
     if( fPJets ) delete fPJets;
 }
@@ -404,7 +406,7 @@ void TFastJet::_calcB(const std::vector<TVector3>& fsmomenta)
         {
             double sprod=p3->Dot(_thrustAxes[0]);
             double vprod=(p3->Cross(_thrustAxes[0])).Mag();
-
+            fEvis+=sqrt(p3->Mag()*p3->Mag()+0.139*0.139);
 
 
             if (sprod>0)
