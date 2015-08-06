@@ -40,16 +40,13 @@ F->cd();
 
 for (std::vector<std::string>::iterator algorithm=algorithms.begin();algorithm!=algorithms.end();algorithm++)
 {
-/*
-TCanvas* CG=new TCanvas((*algorithm+"G").c_str(),algorithm->c_str(),2*1024,2*768);
-CG->Divide(sqrt(quantities.size())+1,sqrt(quantities.size())+1);
-*/
+
 
 TCanvas* CH=new TCanvas((*algorithm+"H").c_str(),algorithm->c_str(),2*1024,2*768);
 CH->Divide(sqrt(quantities.size())+1,sqrt(quantities.size())+1);
 
 int icanH=1;
-int icanG=1;
+
 gStyle->SetOptStat(0);
 for (std::vector<std::string>::iterator quantity=quantities.begin();quantity!=quantities.end();quantity++)
 {
@@ -130,11 +127,59 @@ CH->Write();
 CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_H.pdf").c_str());
 CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_H.png").c_str());
 
-/*
+
+
+TCanvas* CG=new TCanvas((*algorithm+"G").c_str(),algorithm->c_str(),2*1024,2*768);
+CG->Divide(sqrt(quantities.size())+1,sqrt(quantities.size())+1);
+
+int icanG=1;
+gStyle->SetOptStat(0);
+
+for (std::vector<std::string>::iterator quantity=quantities.begin();quantity!=quantities.end();quantity++)
+{
+int color=0;
+std::string option="";
+Color_t usecolors[4]={kBlue,kRed,kGreen,kYellow};
+
+CG->cd(icanG);
+gPad->SetLogx();
+icanG++;
+
+
+
+TLegend* LG= new TLegend(0.75,0.7,0.95,0.9);
+color=0;
+for (std::vector<std::string>::iterator generator=generators.begin();generator!=generators.end();generator++)
+{
+std::string name=	"G_"+*generator+"_"+*algorithm+"_"+energy+"_"+*quantity;
+if (fGMap.find(name)!=fGMap.end()) 
+{
+fGMap[name]->SetTitle(";;Fraction");	
+fGMap[name]->Draw(option.c_str());
+fGMap[name]->Draw("APLSAME");
+
+    fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+    fGMap[name]->GetYaxis()->SetRangeUser(0,1.25);
+	fGMap[name]->SetLineColor(usecolors[color%4]);
+	fGMap[name]->SetMarkerStyle(kFullCircle);
+	fGMap[name]->SetMarkerSize(1.1);
+	fGMap[name]->SetMarkerColor(usecolors[color%4]);
+
+LG->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");
+option="same";
+}
+else puts("Not Found");
+color++;
+}
+LG->Draw();
+
+}
+
+
 CG->Write();
 CG->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_G.pdf").c_str());
 CG->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_G.png").c_str());
-*/
+
 
 
 }
