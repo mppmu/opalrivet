@@ -19,6 +19,7 @@ class ClusterSequence;
 class SISConePlugin;
 class PseudoJet;
 class JadePlugin;
+class EECambridgePlugin;
 //class JetDefinition::Plugin;
 
 }
@@ -73,6 +74,7 @@ public:
     fastjet::ClusterSequence* fClusterSequence;
     fastjet::SISConePlugin* fSISPlugin;
     fastjet::JadePlugin*  fJadePlugin;
+    fastjet::EECambridgePlugin*  fEECambridgePlugin;
     std::vector<fastjet::PseudoJet>* fPJets;
     std::string fJetAlgString;
     int fJetAlg; //This should be enum, but fastjet has a bug which amkes it imposible to use with root.

@@ -46,6 +46,12 @@ std::map<std::string,std::map<std::string,double> > InitCuts()
     B5.insert(std::pair<std::string,double>("OVERLAP_THRESHOLD",0.75));
     A.insert(std::pair<std::string,std::map<std::string,double> >("siscone",B5));
 
+
+    std::map<std::string,double> B6;
+    B6.insert(std::pair<std::string,double>("YMIN",1e-10));
+    A.insert(std::pair<std::string,std::map<std::string,double> >("cambridge",B6));
+
+
     return A;
 
 }

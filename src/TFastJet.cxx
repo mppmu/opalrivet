@@ -3,7 +3,7 @@
 #include "fastjet/JetDefinition.hh"
 #include "fastjet/SISConePlugin.hh"
 #include "fastjet/JadePlugin.hh"
-#include "fastjet/JadePlugin.hh"
+#include "fastjet/EECambridgePlugin.hh"
 #include "TFastJet.h"
 /*
 ClassImp(TFastJet)
@@ -83,7 +83,7 @@ bool TFastJet::FindAlgorithm(std::string jetalg)
     if (fJetAlgString==std::string("cambridge")) { fJetAlg=fastjet::cambridge_algorithm; return true;}
     if (fJetAlgString==std::string("antikt"))    { fJetAlg=fastjet::antikt_algorithm; return true;}
     if (fJetAlgString==std::string("genkt"))     { fJetAlg=fastjet::genkt_algorithm; return true;}
-    if (fJetAlgString==std::string("siscone")||fJetAlgString==std::string("jade"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
+    if (fJetAlgString==std::string("siscone")||fJetAlgString==std::string("jade")||fJetAlgString==std::string("eecambridge"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
     if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))      { fJetAlg=fastjet::ee_kt_algorithm; return true;}
 
     return false;
@@ -134,6 +134,16 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
 
                     ok=1;
                 }
+
+            if ( fJetAlgString == "eecambridge" )
+                {
+                    fEECambridgePlugin= new fastjet::EECambridgePlugin( R["YMIN"]);
+                    jetdef= fastjet::JetDefinition( fEECambridgePlugin );
+
+                    ok=1;
+                }
+
+
 
             if ( fJetAlgString == "jade" )
                 {

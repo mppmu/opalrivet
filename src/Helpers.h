@@ -827,13 +827,14 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
-
-            if (algo=="durham")
+puts("DEBUG");
+            if (algo=="durham"||algo=="jade"||algo=="eecambridge")
             {
             std::vector<double> ycuts;
             ycuts.push_back(1.0);
-            for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
+            for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2            
             ycuts.push_back(0.0);
+            for ( j=0; j<5; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
             A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
             for ( j=0; j<5; j++)
                 {
@@ -849,18 +850,18 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                             }
                 }
             }
-            if (algo=="kt")
+
+            
+            if (algo=="cambridge")
             {
-				
-                    for (int k=0; k<7; k++)
-                    {
-                    for (int q=0; q<5; q++)
-                        {
+				/*
                             std::vector<fastjet::PseudoJet> fdjets = tfj->GetClusterSequence()->inclusive_jets();
                             int fdjet=0;
                             //FIXME?
                             double E_min =0.077/2.0*sqrt(tfj->GetClusterSequence()->Q2());
                             for (  unsigned  int i = 0; i < fdjets.size(); i++) 	       if ( fdjets[i].E() > E_min )    fdjet++;
+                    for (int q=0; q<5; q++)
+                    {
                             if (fdjet==q+2) A->fHMap[H_prefix+Form("JETR%i",q+2)]->AddBinContent(k+1,weight);
                             if (fdjet==q+2)
                                 {
@@ -870,12 +871,38 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                                     ye=A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(k);
                                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(k,x,0,y+weight,sqrt(ye*ye+weight*weight));
                                 }
-                        }
-                	}			
+                        
+				     }
+				
+            */
+		}
+            if (algo=="kt")
+            {
+				
+
+/*                    
+
+                            std::vector<fastjet::PseudoJet> fdjets = tfj->GetClusterSequence()->inclusive_jets();
+                            int fdjet=0;
+                            //FIXME?
+                            double E_min =0.077/2.0*sqrt(tfj->GetClusterSequence()->Q2());
+                            for (  unsigned  int i = 0; i < fdjets.size(); i++) 	       if ( fdjets[i].E() > E_min )    fdjet++;
+                    for (int q=0; q<5; q++)
+                    {
+                            if (fdjet==q+2) A->fHMap[H_prefix+Form("JETR%i",q+2)]->AddBinContent(k+1,weight);
+                            if (fdjet==q+2)
+                                {
+                                    Double_t y,ye;
+                                    Double_t x;//,xe;
+                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(k,x,y);
+                                    ye=A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(k);
+                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(k,x,0,y+weight,sqrt(ye*ye+weight*weight));
+                                }
+                        
+				     }
 				
 				
-				
-				
+	*/			
 				
 			}
 			if (algo=="antikt")
