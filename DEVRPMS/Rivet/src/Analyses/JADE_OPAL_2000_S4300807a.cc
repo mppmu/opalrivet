@@ -59,10 +59,16 @@ public:
     std::map<std::string,TH1D*>::iterator H_it;
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) 
      
-    { H_it->second->Sumw2(); if (H_it->first.find("JETR")!=std::string::npos)H_it->second->Scale(1.0/fTotalWeight);  H_it->second->Write(); }
+    { H_it->second->Sumw2(); 
+		//if (H_it->first.find("JETR")!=std::string::npos)
+		H_it->second->Scale(1.0/fTotalWeight);  
+		H_it->second->Write(); }
     std::map<std::string,TAdvancedGraph*>::iterator G_it;
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
-	{ if (G_it->first.find("JETR")!=std::string::npos) G_it->second->Scale(1.0/fTotalWeight);	G_it->second->Write();}
+	{ 
+		//if (G_it->first.find("JETR")!=std::string::npos) 
+		G_it->second->Scale(1.0/fTotalWeight);	
+		G_it->second->Write();}
 	    gDirectory = savedir;
     fFile->Close();  
      }

@@ -200,3 +200,15 @@ bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 gen/DB.root: bin/$(ARCH)/makeDB $(SOURCES)
 	bin/$(ARCH)/makeDB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
 	
+
+
+
+
+bin/$(ARCH)/plots: dirs src/plots/plots.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/plots/plots.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
+
+
+
+
+output/plots_%GeV.root: bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
+	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
