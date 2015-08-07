@@ -4,6 +4,9 @@
 #include  "TSampleInfo.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
+#ifndef YEARSUFFIX
+#define YEARSUFFIX ""
+#endif
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
@@ -60,7 +63,7 @@ void opalrivetdata::SlaveBegin(TTree * tree)
 
     TBufferFile::SetGlobalWriteParam(4999);
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
-    fProofFile = new TProofOutputFile(Form("./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str()), "M");
+    fProofFile = new TProofOutputFile(Form("./output/%s_%s%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),YEARSUFFIX), "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();

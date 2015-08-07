@@ -7,6 +7,7 @@ LOCAL_OPAL_9196.DB:      gen/DB.root
 LOCAL_OPAL_9196.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_9196.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_9196.NUMBER:  1000000000
+LOCAL_OPAL_9196.DEFINES: \'-DYEARSUFFIX=\"96\"\'
 
 
 LOCAL_OPAL_9197:
@@ -18,7 +19,7 @@ LOCAL_OPAL_9197.DB:      gen/DB.root
 LOCAL_OPAL_9197.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_9197.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_9197.NUMBER:  1000000000
-
+LOCAL_OPAL_9197.DEFINES: \'-DYEARSUFFIX=\"97\"\'
 
 
 
@@ -33,7 +34,7 @@ LOCAL_OPAL_9198.DB:      gen/DB.root
 LOCAL_OPAL_9198.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_9198.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_9198.NUMBER:  1000000000
-
+LOCAL_OPAL_9198.DEFINES: \'-DYEARSUFFIX=\"98\"\'
 
 
 
@@ -46,7 +47,7 @@ LOCAL_OPAL_9199.DB:      gen/DB.root
 LOCAL_OPAL_9199.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_9199.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_9199.NUMBER:  1000000000
-
+LOCAL_OPAL_9199.DEFINES: \'-DYEARSUFFIX=\"99\"\'
 
 
 
@@ -59,7 +60,7 @@ LOCAL_OPAL_9100.DB:      gen/DB.root
 LOCAL_OPAL_9100.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_9100.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_9100.NUMBER:  1000000000
-
+LOCAL_OPAL_9100.DEFINES: \'-DYEARSUFFIX=\"00\"\'
 
 
 
