@@ -827,14 +827,14 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
-puts("DEBUG");
-            if (algo=="durham"||algo=="jade"||algo=="eecambridge")
+//puts("DEBUG");
+            if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="siscone")
             {
             std::vector<double> ycuts;
             ycuts.push_back(1.0);
             for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2            
             ycuts.push_back(0.0);
-            for ( j=0; j<5; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
+  //          for ( j=0; j<5; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
             A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
             for ( j=0; j<5; j++)
                 {
@@ -852,7 +852,7 @@ puts("DEBUG");
             }
 
             
-            if (algo=="cambridge")
+            if (algo=="cambridge"||algo=="antikt"||algo=="kt")
             {
 				
             int q=0;
@@ -879,65 +879,8 @@ puts("DEBUG");
 				
             
 		}
-            if (algo=="kt")
-            {
-				
 
-/*                    
-
-                            std::vector<fastjet::PseudoJet> fdjets = tfj->GetClusterSequence()->inclusive_jets();
-                            int fdjet=0;
-                            //FIXME?
-                            double E_min =0.077/2.0*sqrt(tfj->GetClusterSequence()->Q2());
-                            for (  unsigned  int i = 0; i < fdjets.size(); i++) 	       if ( fdjets[i].E() > E_min )    fdjet++;
-                    for (int q=0; q<5; q++)
-                    {
-                            if (fdjet==q+2) A->fHMap[H_prefix+Form("JETR%i",q+2)]->AddBinContent(k+1,weight);
-                            if (fdjet==q+2)
-                                {
-                                    Double_t y,ye;
-                                    Double_t x;//,xe;
-                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(k,x,y);
-                                    ye=A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(k);
-                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(k,x,0,y+weight,sqrt(ye*ye+weight*weight));
-                                }
-                        
-				     }
-				
-				
-	*/			
-				
-			}
-			if (algo=="antikt")
-			{
-				
-				            for (int q=0; q<5; q++)
-                {
-                    for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
-                        {
-                            std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
-                            Double_t x,y;
-                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
-                            int fdjet=0;
-
-                            double  E_min = x*sqrt(tfj->GetClusterSequence()->Q2());
-
-                            for (  unsigned  int i = 0; i < fdjets.size(); i++) 	     {  if ( fdjets[i].E() > E_min )    fdjet++;   /* printf("%i %f %f %f\n",fdjet, x, E_min,  fdjets[i].E()); */ }
-                            if (fdjet==q+2)
-                                {
-                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
-                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
-                                }
-                        }
-                }
-				
-				
-			}		
-            
-            
-                
-                
-                
+                            
         }
     return PASSED;
 }

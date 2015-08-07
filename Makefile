@@ -82,6 +82,7 @@ dirs:
 	mkdir -p $(_TOPDIR)/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 	mkdir -p ./bin/$(ARCH)
 	mkdir -p ./obj/$(ARCH)
+	mkdir -p ./lib/$(ARCH)
 	mkdir -p output
 	mkdir -p obj
 	mkdir -p tmp
@@ -197,7 +198,7 @@ bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 
 
 
-gen/DB.root: bin/$(ARCH)/makeDB $(SOURCES)
+gen/DB.root: dirs bin/$(ARCH)/makeDB $(SOURCES)
 	bin/$(ARCH)/makeDB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
 	
 
@@ -208,7 +209,19 @@ bin/$(ARCH)/plots: dirs src/plots/plots.cxx src/Helpers.cxx src/Helpers.h gen/TA
 		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/plots/plots.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
 
 
+lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+	$(CXX) -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopalrivet.so
 
+.rootrc: lib/$(ARCH)/libopalrivet.so
+	echo Unix.*.Root.DynamicPath:  .:./lib/$(ARCH):$(shell root-config --libdir) > .rootrc
+	echo Rint.Logon: ./rootlogon.C >> .rootrc
+	echo 'rootlogon(){ gROOT->ProcessLine(".L ./lib/'$(ARCH)'/libopalrivet.so");}' >./rootlogon.C
 
-output/plots_%GeV.root: bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
+output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
+	#we need so somewhere
 	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
+	
+	
+	
+	
+	

@@ -111,7 +111,7 @@ void TAdvancedGraph::Scale(double k)
             Double_t x,y;
             this->GetPoint(i,x,y);
             this->SetPoint(i,x,y*k);
-            this->SetPointError(i,this->GetErrorXlow(i),this->GetErrorXhigh(i),this->GetErrorYlow(i),this->GetErrorYhigh(i));
+            this->SetPointError(i,this->GetErrorXlow(i),this->GetErrorXhigh(i),k*this->GetErrorYlow(i),k*this->GetErrorYhigh(i));
         }
 }
 

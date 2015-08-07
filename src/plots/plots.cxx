@@ -25,14 +25,11 @@ TFile* type_fFile= new TFile(argv[i], "READ");
             if ( obj->IsA()->InheritsFrom( "TGraph" ) ) { fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   ); 
 				}
         }
-
 type_fFile->Close();
 }
-
-
 std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
 std::vector<std::string> generators=return_tokenize("corrected:pythia8",":");
-std::string energy=std::string(argv[1])+"GeV";
+std::string energy=std::string(argv[1]);
 std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
 
 TFile* F= new TFile(("output/plots_"+energy+".root").c_str(),"RECREATE");
@@ -51,7 +48,8 @@ gStyle->SetOptStat(0);
 for (std::vector<std::string>::iterator quantity=quantities.begin();quantity!=quantities.end();quantity++)
 {
 int color=0;
-std::string option="";
+std::string hoption="";
+std::string goption="APLE";
 Color_t usecolors[4]={kBlue,kRed,kGreen,kYellow};
 
 
@@ -62,13 +60,18 @@ icanH++;
 
 TLegend* LH= new TLegend(0.75,0.7,0.95,0.9);
 color=0;
+
+if ((*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
+(quantity->find("JETR")==std::string::npos))
+
+{
 for (std::vector<std::string>::iterator generator=generators.begin();generator!=generators.end();generator++)
 {
-std::string name=	"H_"+*generator+"_"+*algorithm+"_"+energy+"_"+*quantity;
+std::string name=	"H_"+*generator+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
 if (fHMap.find(name)!=fHMap.end()) 
 {
 fHMap[name]->SetTitle(";;Fraction");	
-fHMap[name]->Draw(option.c_str());
+fHMap[name]->Draw(hoption.c_str());
 fHMap[name]->Draw("ASAME");
 
     fHMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
@@ -79,31 +82,24 @@ fHMap[name]->Draw("ASAME");
 	fHMap[name]->SetMarkerColor(usecolors[color%4]);
 
 LH->AddEntry(fHMap[name],(*quantity+" "+*generator).c_str(),"AP");
-option="same";
+hoption="same";
 }
 else puts("Not Found");
 color++;
 }
-LH->Draw();
+}
 
-/*
-CG->cd(icanG);
-gPad->SetLogx();
-icanG++;
+if ((*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
+(quantity->find("JETR")!=std::string::npos))
+{
 
-
-
-TLegend* LG= new TLegend(0.75,0.7,0.95,0.9);
-color=0;
 for (std::vector<std::string>::iterator generator=generators.begin();generator!=generators.end();generator++)
 {
-std::string name=	"G_"+*generator+"_"+*algorithm+"_"+energy+"_"+*quantity;
+std::string name=	"G_"+*generator+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
 if (fGMap.find(name)!=fGMap.end()) 
 {
 fGMap[name]->SetTitle(";;Fraction");	
-fGMap[name]->Draw(option.c_str());
-fGMap[name]->Draw("ASAME");
-
+fGMap[name]->Draw(goption.c_str());
     fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
     fGMap[name]->GetYaxis()->SetRangeUser(0,1.25);
 	fGMap[name]->SetLineColor(usecolors[color%4]);
@@ -112,76 +108,17 @@ fGMap[name]->Draw("ASAME");
 	fGMap[name]->SetMarkerColor(usecolors[color%4]);
 
 LH->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");
-option="same";
+goption="PLESAME";///ROOT
 }
 else puts("Not Found");
 color++;
 }
-LG->Draw();
-*/
-
-
 }
-
+LH->Draw();
+}
 CH->Write();
-CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_H.pdf").c_str());
-CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_H.png").c_str());
-
-
-
-TCanvas* CG=new TCanvas((*algorithm+"G").c_str(),algorithm->c_str(),2*1024,2*768);
-CG->Divide(sqrt(quantities.size())+1,sqrt(quantities.size())+1);
-
-int icanG=1;
-gStyle->SetOptStat(0);
-
-for (std::vector<std::string>::iterator quantity=quantities.begin();quantity!=quantities.end();quantity++)
-{
-int color=0;
-std::string option="";
-Color_t usecolors[4]={kBlue,kRed,kGreen,kYellow};
-
-CG->cd(icanG);
-gPad->SetLogx();
-icanG++;
-
-
-
-TLegend* LG= new TLegend(0.75,0.7,0.95,0.9);
-color=0;
-for (std::vector<std::string>::iterator generator=generators.begin();generator!=generators.end();generator++)
-{
-std::string name=	"G_"+*generator+"_"+*algorithm+"_"+energy+"_"+*quantity;
-if (fGMap.find(name)!=fGMap.end()) 
-{
-fGMap[name]->SetTitle(";;Fraction");	
-fGMap[name]->Draw(option.c_str());
-fGMap[name]->Draw("APLSAME");
-
-    fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-    fGMap[name]->GetYaxis()->SetRangeUser(0,1.25);
-	fGMap[name]->SetLineColor(usecolors[color%4]);
-	fGMap[name]->SetMarkerStyle(kFullCircle);
-	fGMap[name]->SetMarkerSize(1.1);
-	fGMap[name]->SetMarkerColor(usecolors[color%4]);
-
-LG->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");
-option="same";
-}
-else puts("Not Found");
-color++;
-}
-LG->Draw();
-
-}
-
-
-CG->Write();
-CG->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_G.pdf").c_str());
-CG->SaveAs(("output/plots_"+energy+"_"+*algorithm+"_G.png").c_str());
-
-
-
+CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".pdf").c_str());
+CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".png").c_str());
 }
 F->Close();
 }
