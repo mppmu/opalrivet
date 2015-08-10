@@ -115,5 +115,3 @@ convert:  dirs  bin/$(ARCH)/cut_and_transform bin/$(ARCH)/yodaconvert
 
 
 
-
-

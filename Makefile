@@ -205,8 +205,20 @@ gen/DB.root: dirs bin/$(ARCH)/makeDB $(SOURCES)
 
 
 
-bin/$(ARCH)/plots: dirs src/plots/plots.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
-		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/plots/plots.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
+bin/$(ARCH)/plots: dirs src//plots.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//plots.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
+
+
+
+bin/$(ARCH)/create_manip: dirs src//create_manip.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_manip.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_manip
+
+
+
+bin/$(ARCH)/create_old: dirs src//create_old.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_old.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_old
+
+
 
 
 lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
@@ -221,7 +233,48 @@ output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/
 	#we need so somewhere
 	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
 	
+
+
+bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
+		$(CXX) -pipe  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
+
 	
-	
+output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
+	bin/$(ARCH)/hepplotconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
+
+
+output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root
+	#cp output/JADE_OPAL_2000_S4300807.root output/old_$*.root
+	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
+
+toroot:
+		for a in $(shell find share/TC/2012-4-27antiktQ/R0.7 | grep rzhist  | grep -v '.svn' ); do \
+		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
+		done
+		for a in $(shell find share/TC/2012-4-27inclKt | grep rzhist  | grep -v '.svn' ); do \
+		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
+		done
+		for a in $(shell find share/TC/2012-4-27kt | grep rzhist  | grep -v '.svn' ); do \
+		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
+		done
+
+		for a in $(shell find share/TC/2012-4-27SISCone/ee_siscone_etabins0.7.npass2 | grep rzhist  | grep -v '.svn' ); do \
+		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
+		done
+
+
+
+
+output/manip_%.root: dirs bin/$(ARCH)/create_manip
+#toroot
+		bin/$(ARCH)/create_manip   tmp/manip_$*_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_$*_manip.root 
+		bin/$(ARCH)/create_manip   tmp/manip_$*_kt.root         kt share/TC/2012-4-27kt/output_200_$*.root 
+		bin/$(ARCH)/create_manip   tmp/manip_$*_inclkt.root inclkt share/TC/2012-4-27inclKt/output_200_$*.root 
+		bin/$(ARCH)/create_manip   tmp/manip_$*_siscone.root siscone share/TC/2012-4-27SISCone/ee_siscone_etabins0.7.npass2/output_200_$*_manip.root 
+		hadd -f output/manip_$*.root tmp/manip_$*_antikt.root tmp/manip_$*_kt.root tmp/manip_$*_inclkt.root tmp/manip_$*_siscone.root
+
+
+
+
 	
 	
