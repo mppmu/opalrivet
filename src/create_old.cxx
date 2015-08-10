@@ -114,10 +114,17 @@ for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=f
 		replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]  ,i+1),Form("_jade_%dGeV_JETR%d",  energies[j],i+2));
 	    replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
 	    }
-puts(name.c_str());
+
+
+
+
+
+//puts(name.c_str());
 		G_it->second->SetName(("G_"+name).c_str());
+		G_it->second->Scale(0.01);
 		fHMap.insert(std::pair<std::string,TH1D*> (std::string("H_")+name, G_it->second->ToTH1D(std::string("H_")+name,0)));
-		fHMap[std::string("H_")+name]->Scale(0.01);
+		
+		//fHMap[std::string("H_")+name]->Scale(0.01);
 }	
 
 

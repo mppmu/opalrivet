@@ -28,11 +28,10 @@ TFile* type_fFile= new TFile(argv[i], "READ");
 type_fFile->Close();
 }
 std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
-std::vector<std::string> generators=return_tokenize("corrected:pythia8:manipdata:olddata",":");
+std::vector<std::string> generators=return_tokenize("corrected:pythia8:manipdata:olddata:herwig++",":");
 std::string energy=std::string(argv[1]);
-std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6",":");
-//:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
-
+std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
+//",":");
 
 TFile* F= new TFile(("output/plots_"+energy+".root").c_str(),"RECREATE");
 F->cd();
@@ -52,7 +51,7 @@ for (std::vector<std::string>::iterator quantity=quantities.begin();quantity!=qu
 int color=0;
 std::string hoption="";
 std::string goption="APLE";
-Color_t usecolors[4]={kBlue,kRed,kGreen,kYellow};
+Color_t usecolors[5]={kBlue,kRed,kGreen,kYellow,kBlack};
 
 
 CH->cd(icanH);
@@ -60,10 +59,10 @@ gPad->SetLogx();
 icanH++;
 
 
-TLegend* LH= new TLegend(0.75,0.7,0.95,0.9);
+TLegend* LH= new TLegend(0.75,0.68,0.95,0.9);
 color=0;
 
-if ((*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
+if (//(*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
 (quantity->find("JETR")==std::string::npos))
 
 {
@@ -77,7 +76,7 @@ fHMap[name]->Draw(hoption.c_str());
 fHMap[name]->Draw("ASAME");
 
     fHMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-    fHMap[name]->GetYaxis()->SetRangeUser(0,1.25);
+    fHMap[name]->GetYaxis()->SetRangeUser(0,1.35);
 	fHMap[name]->SetLineColor(usecolors[color%4]);
 	fHMap[name]->SetMarkerStyle(kFullCircle);
 	fHMap[name]->SetMarkerSize(1.1);
@@ -91,7 +90,7 @@ color++;
 }
 }
 
-if ((*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
+if (//(*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
 (quantity->find("JETR")!=std::string::npos))
 {
 
@@ -103,11 +102,11 @@ if (fGMap.find(name)!=fGMap.end())
 fGMap[name]->SetTitle(";;Fraction");	
 fGMap[name]->Draw(goption.c_str());
     fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-    fGMap[name]->GetYaxis()->SetRangeUser(0,1.25);
-	fGMap[name]->SetLineColor(usecolors[color%4]);
+    fGMap[name]->GetYaxis()->SetRangeUser(0,1.35);
+	fGMap[name]->SetLineColor(usecolors[color%5]);
 	fGMap[name]->SetMarkerStyle(kFullCircle);
 	fGMap[name]->SetMarkerSize(1.1);
-	fGMap[name]->SetMarkerColor(usecolors[color%4]);
+	fGMap[name]->SetMarkerColor(usecolors[color%5]);
 
 LH->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");
 goption="PLESAME";///ROOT

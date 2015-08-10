@@ -16,7 +16,7 @@ Source0:	  http://www.hepforge.org/archive/herwig/%{name}-%{version}.tar.bz2
 Patch0:         patch-Herwig++-0.txt
 Group:		  Sciences/Physics
 Url:	      http://projects.hepforge.org/herwig/
-BuildRequires: gcc-c++  /usr/bin/g77 gsl-devel
+BuildRequires: gcc-c++   gsl-devel
 #BuildRequires: ThePEG-devel
 
 

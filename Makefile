@@ -142,7 +142,7 @@ run/Runsherpa.dat_%: share/Runsherpa.dat
 
 run/Runherwig++.dat_%: share/Runherwig++.dat
 		cp share/Runherwig++.dat run/Runherwig++.dat_$*
-		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat_$*
+		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat_$*
 		
 run/Runevtgen.dat_%: share/Runevtgen.dat		
 		cp share/Runevtgen.dat run/Runevtgen.dat_$*
@@ -155,46 +155,46 @@ beauty:
 		astyle -n --keep-one-line-blocks --style=gnu    ./*/*.h   ./*/*.cxx ./*/*.C ./*/*.hh
 
 bin/$(ARCH)/opalrivet$(GEN):
-	rm bin/$(ARCH)/opalrivet$(GEN)
+	rm -f bin/$(ARCH)/opalrivet$(GEN)
 	touch bin/$(ARCH)/opalrivet$(GEN)
 
 
 obj/$(ARCH)/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cxx
-	$(CXX) -pipe  -c src/opalrivetpythia8.cxx -o obj/$(ARCH)/opalrivetpythia8.o 
+	$(CXX) -fdiagnostics-color=never   -pipe  -c src/opalrivetpythia8.cxx -o obj/$(ARCH)/opalrivetpythia8.o 
 	
 	
 	
 	
 bin/$(ARCH)/opalrivetpythia8:  dirs obj/$(ARCH)/opalrivetpythia8.o
-	$(CXX) -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L/lib64
+	$(CXX) -fdiagnostics-color=never   -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L/lib64
 
 bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/$(ARCH)/opalrivetpythia8.o
-	$(CXX) -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  -L/lib64
+	$(CXX) -fdiagnostics-color=never   -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  -L/lib64
 
 
 
 obj/$(ARCH)/opalrivetpythia8_evtgen.o:  dirs src/opalrivetpythia8_evtgen.cxx
-	$(CXX) -pipe  -c src/opalrivetpythia8_evtgen.cxx -o obj/$(ARCH)/opalrivetpythia8_evtgen.o -L/lib64 
+	$(CXX) -fdiagnostics-color=never   -pipe  -c src/opalrivetpythia8_evtgen.cxx -o obj/$(ARCH)/opalrivetpythia8_evtgen.o -L/lib64 
 	
 
 bin/$(ARCH)/opalrivetpythia8_evtgen:  dirs obj/$(ARCH)/opalrivetpythia8_evtgen.o
-	$(CXX) -pipe  -lpythia8 -lHepMC  -lEvtGenExternal  obj/$(ARCH)/opalrivetpythia8_evtgen.o -o ./bin/$(ARCH)/opalrivetpythia8_evtgen -L/lib64
+	$(CXX) -fdiagnostics-color=never   -pipe  -lpythia8 -lHepMC  -lEvtGenExternal  obj/$(ARCH)/opalrivetpythia8_evtgen.o -o ./bin/$(ARCH)/opalrivetpythia8_evtgen -L/lib64
 
 
 
 obj/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
-	$(CXX) -pipe  $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/$(ARCH)/opalrivetevtgen.o
+	$(CXX) -fdiagnostics-color=never   -pipe  $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/$(ARCH)/opalrivetevtgen.o
 		
 bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
-	$(CXX) -pipe   -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen   -L/lib64
+	$(CXX) -fdiagnostics-color=never   -pipe   -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen   -L/lib64
 
 
 bin/$(ARCH)/runProof: dirs src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
-		$(CXX) -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
 
 
 bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
-		$(CXX) -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
 
 
 
@@ -206,23 +206,23 @@ gen/DB.root: dirs bin/$(ARCH)/makeDB $(SOURCES)
 
 
 bin/$(ARCH)/plots: dirs src//plots.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
-		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//plots.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//plots.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/plots
 
 
 
 bin/$(ARCH)/create_manip: dirs src//create_manip.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
-		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_manip.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_manip
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_manip.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_manip
 
 
 
 bin/$(ARCH)/create_old: dirs src//create_old.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
-		$(CXX) -pipe  -I. -fdiagnostics-color=never  -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_old.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_old
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -fdiagnostics-color=never  -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_old.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_old
 
 
 
 
 lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
-	$(CXX) -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopalrivet.so
+	$(CXX) -fdiagnostics-color=never   -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopalrivet.so
 
 .rootrc: lib/$(ARCH)/libopalrivet.so
 	echo Unix.*.Root.DynamicPath:  .:./lib/$(ARCH):$(shell root-config --libdir) > .rootrc
@@ -241,15 +241,14 @@ output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/
 
 
 bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
-		$(CXX) -pipe  -fdiagnostics-color=never  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
+		$(CXX) -fdiagnostics-color=never   -pipe  -fdiagnostics-color=never  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
 
 	
 output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	bin/$(ARCH)/hepplotconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
 
 
-output/old_%.root: dirs bin/$(ARCH)/create_old 
-#output/JADE_OPAL_2000_S4300807.root
+output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root
 	#cp output/JADE_OPAL_2000_S4300807.root output/old_$*.root
 	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
 

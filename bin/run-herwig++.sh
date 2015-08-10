@@ -5,7 +5,7 @@ mv Run.dat Run.in
 Herwig++ read Run.in 
 rm -f Run.hepmc
 ln -s fifo.hepmc.hepmc2g Run.hepmc
-Herwig++ run Run.run   -N 50000 
+Herwig++ run Run.run   -N 5000 
 
 
 
