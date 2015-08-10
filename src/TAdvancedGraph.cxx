@@ -3,6 +3,7 @@
 #include "TAdvancedGraph.h"
 //#include "TIter.h"
 #include "TCollection.h"
+#include "TH1D.h"
 #include <algorithm>
 ClassImp(TAdvancedGraph)
 
@@ -29,7 +30,52 @@ int TAdvancedGraph::Merge(TCollection *hlist)
 }
 
 
+TH1D* TAdvancedGraph::ToTH1D(std::string n,int l)
+{
+	int N=this->GetN();
+double* xx=(double*)malloc((N+1)*sizeof(double));
+    double Ax,Bx,Ay,By;
+                            double x,y,yel,yeh,xel,xeh;
+for (int i = 0; i < this->GetN() ; ++i) 
+{
+	this->GetPoint(i,Ax,Ay);  
+	
+                         yel=this->GetErrorYlow(i);
+                         yeh=this->GetErrorYhigh(i);	
+                         xel=this->GetErrorXlow(i);
+                         xeh=this->GetErrorXhigh(i);	
+	
+	if (l<0) xx[i]=Ax-xel;
+	if (l==0) xx[i]=Ax;
+	if (l>0) xx[i]=Ax+xeh;
+	}
+	if (l<0) xx[N]=Ax-xel;
+	if (l==0) xx[N]=Ax;
+	if (l>0) xx[N]=Ax+xeh;
 
+
+TH1D* H= new TH1D(n.c_str(),n.c_str(),N,xx);
+
+
+for (int i = 0; i < this->GetN() ; ++i) 
+{
+	this->GetPoint(i,Ax,Ay);  
+	
+                         yel=this->GetErrorYlow(i);
+                         yeh=this->GetErrorYhigh(i);	
+                         xel=this->GetErrorXlow(i);
+                         xeh=this->GetErrorXhigh(i);	
+	
+	
+
+H->SetBinContent(i+1,Ay);	
+H->SetBinError(i+1,yel);
+	}
+
+return H;
+	
+	
+}	
 
 
 Bool_t TAdvancedGraph::Add( TAdvancedGraph* A, TAdvancedGraph* B, Double_t cA , Double_t cB )

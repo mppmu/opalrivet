@@ -38,8 +38,8 @@ for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end()
 	if ((name.find("h986")!=std::string::npos)||(name.find("h186")!=std::string::npos))
 	{ 
 		
-		replace_all(name,"h986","H_manip_data_"+std::string(argv[2])+"_207GeV_");
-		replace_all(name,"h186","H_manip_data_"+std::string(argv[2])+"_94GeV_");
+		replace_all(name,"h986","H_manipdata_"+std::string(argv[2])+"_207GeV_");
+		replace_all(name,"h186","H_manipdata_"+std::string(argv[2])+"_94GeV_");
 		replace_all(name,"0000","1-T");
 		replace_all(name,"0001","T-Min");
 		replace_all(name,"0002","T-Maj");
@@ -70,7 +70,7 @@ fFile->cd();
 
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it) 
-    if (std::string(H_it->second->GetName()).find("H_manip_data_")!=std::string::npos) 
+    if (std::string(H_it->second->GetName()).find("H_manipdata_")!=std::string::npos) 
     {H_it->second->SetDirectory(fFile); H_it->second->Write(0,TObject::kWriteDelete); }
     
 printf("%i\n",fHMap.size());

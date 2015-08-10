@@ -9,7 +9,7 @@ GEN?=pythia8
 
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
-CXX?=g++
+CXX?=g++ -fdiagnostics-color=never 
 include Makefile.syst
 
 all:	 		    output/$(GEN)_91.root \
@@ -216,7 +216,7 @@ bin/$(ARCH)/create_manip: dirs src//create_manip.cxx src/Helpers.cxx src/Helpers
 
 
 bin/$(ARCH)/create_old: dirs src//create_old.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
-		$(CXX) -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_old.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_old
+		$(CXX) -pipe  -I. -fdiagnostics-color=never  -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_old.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_old
 
 
 
@@ -229,21 +229,27 @@ lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedG
 	echo Rint.Logon: ./rootlogon.C >> .rootrc
 	echo 'rootlogon(){ gROOT->ProcessLine(".L ./lib/'$(ARCH)'/libopalrivet.so");}' >./rootlogon.C
 
-output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
+#output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
 	#we need so somewhere
-	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
+#	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
 	
+
+output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root output/manip_%.root output/old_%.root
+	#we need so somewhere
+	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root output/manip_$*.root output/old_$*.root
+
 
 
 bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
-		$(CXX) -pipe  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
+		$(CXX) -pipe  -fdiagnostics-color=never  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
 
 	
 output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	bin/$(ARCH)/hepplotconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
 
 
-output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root
+output/old_%.root: dirs bin/$(ARCH)/create_old 
+#output/JADE_OPAL_2000_S4300807.root
 	#cp output/JADE_OPAL_2000_S4300807.root output/old_$*.root
 	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
 
