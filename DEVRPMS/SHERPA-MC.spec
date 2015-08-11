@@ -6,7 +6,7 @@
 
 
 Name:           SHERPA-MC
-Version:        2.1.0
+Version:        2.1.1
 Release:        1
 License:        GPLv3
 Url:		    https://sherpa.hepforge.org

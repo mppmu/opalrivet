@@ -137,8 +137,8 @@ run/Runpythia8_evtgen.dat_%: share/Runpythia8_evtgen.dat
 
 run/Runsherpa.dat_%: share/Runsherpa.dat
 		cp share/Runsherpa.dat run/Runsherpa.dat_$*
-		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$*';@g' run/Runsherpa.dat_$*
-		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$*';@g' run/Runsherpa.dat_$*
+		sed -i 's@.*BEAM_ENERGY_1.*@BEAM_ENERGY_1 = '$(shell echo  0.5*$* | bc -qi | tail -n 1)';@g' run/Runsherpa.dat_$*
+		sed -i 's@.*BEAM_ENERGY_2.*@BEAM_ENERGY_2 = '$(shell echo  0.5*$* | bc -qi | tail -n 1)';@g' run/Runsherpa.dat_$*
 
 run/Runherwig++.dat_%: share/Runherwig++.dat
 		cp share/Runherwig++.dat run/Runherwig++.dat_$*
