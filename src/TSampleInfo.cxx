@@ -2,12 +2,13 @@
 #define TSAMPLEINFO_CXX
 #include "TSampleInfo.h"
 #include "TCollection.h"
+#include "Helpers.h"
 #include <algorithm>
 ClassImp(TSampleInfo)
 TSampleInfo::TSampleInfo() {}
 TSampleInfo::~TSampleInfo() {}
 
-TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* pr,const char* files,int ev,int rb,int re,
+TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                          double lum,double sig ,double w)
 {
     //fName=name;
@@ -23,6 +24,7 @@ TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* 
     fLuminocity=lum;
     fWeight=w;
     char a[20];
+    fProcesses=return_tokenize(std::string(procs),":");
 
     sprintf(a,"%i",(int)(fE + 0.5));
 

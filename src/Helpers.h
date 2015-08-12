@@ -883,19 +883,25 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             ycuts.push_back(1.0);
             for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2            
             ycuts.push_back(0.0);
-  //          for ( j=0; j<5; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
+            for ( j=0; j<6; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
+            
+            //for ( j=0; j<6; j++)  printf("%s %f\n","OLD",A->Yddmt[j]);
             A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
             for ( j=0; j<5; j++)
                 {
                     for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
                         A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
                     for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
-                        if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
+                        //if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
                             {
                                 double x,y;
+                          
                                 A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
+                          if (x>ycuts.at(j+1)&&x<ycuts.at(j))
+                          {
                                 A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
                                 A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYlow()[i],2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYhigh()[i],2)+weight*weight));
+                           }
                             }
                 }
             }

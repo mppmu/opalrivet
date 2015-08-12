@@ -16,12 +16,15 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     std::vector<std::string> S=return_tokenize(SAMPLES, ":");
     double data=0;
     double mcbg=0;
+    std::map<std::string,double> proclumi;
+    std::map<std::string,double> procevt;
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
             if (!R) printf("No such sample %s\n",it->c_str());
             else
                 {
+					for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++) { proclumi.insert(std::pair<std::string,double>(*p,0.0));	procevt.insert(std::pair<std::string,double>(*p,0.0));				}
                     fSampleInfo=new TSampleInfo(*R);
                     fSampleInfo->SetName("sampleinfo");
                     fEnergyString=fSampleInfo->fEnergyString;
@@ -34,15 +37,30 @@ void opalrivetdata::SlaveBegin(TTree * tree)
             if (!R) printf("No such sample %s\n",it->c_str());
             else
                 {
-                    if (R->fType=="DATA") {data+=R->fLuminocity;}
-                    if (R->fType=="MCBG") {mcbg+=R->fSigma*R->fEvents; /*printf("R->fSigma*R->fEvents  %f %f\n",R->fSigma,R->fEvents);*/}
+                    if (R->fType=="DATA") {
+						//for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++)
+						{ proclumi["ALL"]+=R->fLuminocity;   procevt["ALL"]+=R->fEvents;} 
+						/*data+=R->fLuminocity;*/}
+                    if (R->fType=="MCBG") {for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++)
+						{ proclumi[*p]+=R->fSigma*R->fEvents; procevt[*p]+=R->fEvents; }
+						
+						/*mcbg+=R->fSigma*R->fEvents;*. /*printf("R->fSigma*R->fEvents  %f %f\n",R->fSigma,R->fEvents);*/}
                     //R->Print();
                 }
         }
+        
+        for (std::map<std::string,double>::iterator p=proclumi.begin(); p!=proclumi.end();p++)
+        printf("NAME SUM %s %f\n",p->first.c_str(),p->second);
+
+        for (std::map<std::string,double>::iterator p=procevt.begin(); p!=procevt.end();p++)
+        printf("NAME SUM %s %f\n",p->first.c_str(),p->second);
+
+        
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
-            if (R->fType=="MCBG") R->fWeight=data/mcbg;
+            if (R->fProcesses.size()>1) printf("WARNING: MANY PROCESSES IN ONE FILE");
+            if (R->fType=="MCBG") R->fWeight=proclumi["ALL"]/proclumi[R->fProcesses[0]]/(procevt["ALL"]/procevt[R->fProcesses[0]]);
             else R->fWeight=1.0;
             R->Write();
         }
@@ -92,11 +110,16 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
     if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
+
+printf("%s %f\n",fSampleInfo->GetName(),fSampleInfo->fWeight);
 //    if (gentry%50!=1) return kFALSE;
 
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
+    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    if (fSampleInfo->fType==std::string("MCBG")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
+    if (fSampleInfo->fType==std::string("MCSI")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
@@ -178,6 +201,7 @@ void opalrivetdata::Terminate()
 //        G_it->second->Scale(1.0/fHMap["weight"]->GetBinContent(1));
 
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
+    {
         if (G_it->first.find("G_acceptancesignal_")!=std::string::npos)
             {
                 std::string name=G_it->first.substr(std::string("G_acceptancesignal_").length());
@@ -187,6 +211,13 @@ void opalrivetdata::Terminate()
                 fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
                 fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
             }
+                 if (G_it->first.find("G_acceptancebackgr_")!=std::string::npos)
+                {
+                    std::string name=G_it->first.substr(std::string("G_acceptancebackgr_").length());
+                    G_it->second->Add(NULL,fGMap[std::string("G_mcbackgr_")+name]);
+                    G_it->second->Divide(fGMap[std::string("G_mcbackgr_")+name],fGMap[std::string("G_truebackgr_")+name]);
+                }
+			}
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
 
     type_fFile->Close();
