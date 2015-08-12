@@ -117,7 +117,10 @@ printf("%s %f\n",fSampleInfo->GetName(),fSampleInfo->fWeight);
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
     if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
+    
+    //?
     if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    
     if (fSampleInfo->fType==std::string("MCBG")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
     if (fSampleInfo->fType==std::string("MCSI")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
     std::vector<std::string> datatypes;
