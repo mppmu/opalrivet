@@ -103,6 +103,7 @@ if (fGMap.find(name)!=fGMap.end())
 fGMap[name]->SetTitle(";;Fraction");	
 fGMap[name]->Draw(goption.c_str());
     fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+    if (*algorithm=="siscone") fGMap[name]->GetXaxis()->SetRangeUser(1.0,300);
     fGMap[name]->GetYaxis()->SetRangeUser(0,1.35);
 	fGMap[name]->SetLineColor(usecolors[color%5]);
 	fGMap[name]->SetMarkerStyle(kFullCircle);
