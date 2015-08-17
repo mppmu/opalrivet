@@ -328,10 +328,11 @@ int main(int argc ,char** argv)
 #*GRC4F		llqq	11213	9.39	0.000	3	mc11213
 #*GRC4F		qqqq	11214	8.967	0.000	3	mc11214
 #GRC4F		eeqq	11218	38.34	0.000	1	mc11218
-#GRC4F		llqq+llqq+qqqq	11202	21.88	0.000	4	mc11202
+#GRC4F		llll+llqq+qqqq	11202	21.88	0.000	4	mc11202
+//CORRECTED llqq->llll
 #*ist Koralw ver\\	
 */
-
+//#GRC4F		llqq+llqq+qqqq+ww	11202	21.88	0.000	4	mc11202
 
 
     AIStruct.push_back(new TSampleInfo(205.0,"205_DATA_1",  "DATA","ALL","kLEP2","da2000_200.root",  -1,-1,-1,81.96,  0.0,0.0));

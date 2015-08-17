@@ -6,6 +6,7 @@
 #pragma link C++ class JADEQCDNtupProj;
 #pragma link C++ class Ntuple;
 #pragma link C++ class NtupleReader;
+#pragma link C++ class NewNtupleReader;
 #pragma link C++ class NtupProj;
 #pragma link C++ class Observable;
 #pragma link C++ class OPALLEP1QCDNtupProj;

@@ -35,6 +35,8 @@ CXXFLAGS+=-I. -Wextra   -Wall -I./include -fPIC -shared  -Wextra  -Wall  $(shell
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 FFLAGS+=-fPIC
 
+
+
 EVENTO        =  obj/$(TARGET)Dict.$(ObjSuf)\
 		obj/ftnclose.$(ObjSuf)\
 		obj/GlobalsUtil.$(ObjSuf)\
@@ -158,6 +160,7 @@ gen/$(TARGET)Dict.$(SrcSuf): \
 		include/TFastJet.h\
 		include/NtupProj.h\
 		include/Ntuple.h\
+		include/NewNtupleReader.h\
 		include/NtupleReader.h\
 		include/OPALLEP1QCDNtupProj.h\
 		include/JADEObservable.h\

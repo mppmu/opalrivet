@@ -40,7 +40,7 @@ bool isLEP1( int cms ) {
 NtupProj* create_NtupProj( string version, int cms ) {
   NtupProj* cur_ntuple= 0;
   if( version == "107j" || version == "200j" ) {
-    cur_ntuple= new JADEQCDNtup	Proj();
+    cur_ntuple= new JADEQCDNtupProj();
   }
   else if( version == "200" ) {
     if( isLEP1( cms ) ) {

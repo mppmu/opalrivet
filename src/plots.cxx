@@ -30,9 +30,8 @@ type_fFile->Close();
 std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
 std::vector<std::string> generators=return_tokenize("corrected:olddata:manipdata:pythia8:herwig++:sherpa",":");
 std::string energy=std::string(argv[1]);
-std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6",":");
-//1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
-
+std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
+//",":");
 
 TFile* F= new TFile(("output/plots_"+energy+".root").c_str(),"RECREATE");
 F->cd();

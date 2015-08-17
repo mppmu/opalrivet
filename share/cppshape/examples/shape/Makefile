@@ -32,8 +32,8 @@ SOFLAGS             =  -g
 
 LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook 
 #-lminicern
-LDFLAGS+=-L../../lib -lshape -lshapePAW $(shell $(CERNLIB) packlib )
-CXXFLAGS+=-I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags ) $(shell $(ROOT-CONFIG) --cflags)
+LDFLAGS+=-lgfortran -lgcc_s -L../../lib -lshape -lshapePAW $(shell $(CERNLIB) packlib )
+CXXFLAGS+= -fdiagnostics-color=never -I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags ) $(shell $(ROOT-CONFIG) --cflags)
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 
 
