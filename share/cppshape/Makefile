@@ -11,10 +11,11 @@ TARGET = shape
 TARGETPAW = shapePAW
 
 
-ROOT-CONFIG   =     root-config
-CLHEP-CONFIG  =     clhep-config
-FASTJET-CONFIG = fastjet-config
-CERNLIB = cernlib
+ROOT-CONFIG   =      /opt/i686/usr/bin/root-config
+CLHEP-CONFIG  =      /opt/i686/usr/bin/clhep-config
+FASTJET-CONFIG =  /opt/i686/usr/bin/fastjet-config
+CERNLIB = /opt/i686/usr/bin/cernlib
+ROOTCINT= /opt/i686/usr/bin/rootcint
 
 ObjSuf        = o
 DllSuf        = so
@@ -24,14 +25,14 @@ SrcSuf2        = cpp
 SrcSuf3        = f
 
 
-FC                  =  $(shell  $(ROOT-CONFIG) --f77)
-CXX                 =  $(shell  $(ROOT-CONFIG) --cxx)
-LD                  =  $(shell  $(ROOT-CONFIG) --ld)
-LDFLAGS             =  -g -O0 -shared   $(shell  $(ROOT-CONFIG) --ldflags)
-SOFLAGS             =  -g -shared 
+FC                  =  $(shell  $(ROOT-CONFIG) --f77) -m32 #bug
+CXX                 =  $(shell  $(ROOT-CONFIG) --cxx)  -m32
+LD                  =  $(shell  $(ROOT-CONFIG) --ld)  -m32
+LDFLAGS             =  -g -O0    $(shell  $(ROOT-CONFIG) --ldflags | sed 's@m64@m32@' )
+SOFLAGS             =  -g   -m32
 
-LDFLAGS+=-lgfortran -lgcc_s -fPIC $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook 
-CXXFLAGS+=-I. -Wextra   -Wall -I./include -fPIC -shared  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags ) $(shell $(ROOT-CONFIG) --cflags)
+LDFLAGS+=-lgfortran -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs)   $(shell $(CERNLIB) packlib -Wl,--no-as-needed | sed 's@-Wl,-static@@g' )
+CXXFLAGS+=-fdiagnostics-color=never   $(shell $(CERNLIB) packlib -Wl,--no-as-needed | sed 's@-Wl,-static@@g' )   -I. -Wextra   -Wall -I./include -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags | sed 's@m64@m32@') $(shell $(ROOT-CONFIG) --cflags  | sed 's@m64@m32@')
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 FFLAGS+=-fPIC
 
@@ -68,11 +69,13 @@ EVENTOPAW =	obj/$(TARGETPAW)Dict.$(ObjSuf)\
 				  
                  
 EVENTSO       = lib/lib$(TARGET).$(DllSuf)
+EVENTA      =   lib/lib$(TARGET).a
 EVENTLIB      = $(EVENTSO)
 OBJS          = $(EVENTO) 
 
 
 EVENTSOPAW       = lib/lib$(TARGETPAW).$(DllSuf)
+EVENTAPAW      =   lib/lib$(TARGETPAW).a
 EVENTLIBPAW      = $(EVENTSOPAW)
 OBJSPAW          = $(EVENTOPAW)
 
@@ -86,8 +89,10 @@ ROOTMAPPAW       =  lib/lib$(TARGETPAW).rootmap
 .SUFFIXES: .$(SrcSuf) .$(SrcSuf2) .$(SrcSuf3) .$(ObjSuf) .$(DllSuf)
 
 
+
 all:   dirs         $(EVENTLIB)  $(EVENTLIBPAW) $(ROOTMAP) $(ROOTMAPPAW)
 
+alla:  dirs         $(EVENTA)  $(EVENTAPAW) 
 
 dirs:
 	mkdir -p lib obj gen bin
@@ -121,6 +126,14 @@ $(EVENTSO):     $(EVENTO)
 
 $(EVENTSOPAW):     $(EVENTOPAW)
 		$(LD) $(SOFLAGS) $(LDFLAGS)  -L./lib -l$(TARGET) $^ $(OutPutOpt) $@ $(EXPLLINKLIBS)
+
+
+
+$(EVENTA):     $(EVENTO)
+		ar cr $@ $^   $(EXPLLINKLIBS)
+
+$(EVENTAPAW):     $(EVENTOPAW) 
+		ar cr $@ $^   $(EXPLLINKLIBS)
 
 
 
@@ -168,7 +181,7 @@ gen/$(TARGET)Dict.$(SrcSuf): \
 		include/GlobalsUtil.h\
 		include/$(TARGET)LinkDef.h
 	@echo "Generating dictionary $@..."
-	@rootcint -f $@ -c  $^
+	$(ROOTCINT) -f $@ -c  $^
 
 
 
@@ -178,8 +191,8 @@ gen/$(TARGETPAW)Dict.$(SrcSuf): \
 		include/Hismanip.h\
 		include/Histogram.h\
 		include/$(TARGETPAW)LinkDef.h
-	@echo "Generating dictionary $@..."
-	@rootcint -f $@ -c  $^
+	echo "Generating dictionary $@..."
+	$(ROOTCINT) -f $@ -c  $^
 
 
 

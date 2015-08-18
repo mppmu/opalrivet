@@ -7,6 +7,13 @@
 #ifndef YEARSUFFIX
 #define YEARSUFFIX ""
 #endif
+void FillWithLabel(TH1D* H,std::string l,double weight)
+{
+for (int i=0;i<H->GetNbinsX();i++) if (std::string(H->GetXaxis()->GetBinLabel(i))==l) H->Fill(H->GetBinCenter(i),weight);	
+}	
+
+
+
 void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {	TBufferFile::SetGlobalWriteParam(4999);}
 void opalrivetdata::SlaveBegin(TTree * tree)
 {
@@ -14,17 +21,18 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     fEnergyString="NONE";
     TFile* TDB=new TFile("./opalrivetdata/DB.root","update");
     std::vector<std::string> S=return_tokenize(SAMPLES, ":");
-    double data=0;
-    double mcbg=0;
-    std::map<std::string,double> proclumi;
-    std::map<std::string,double> procevt;
+//    double data=0;
+//    double mcbg=0;
+    std::map<std::string,std::pair<double,int> > proc;
+    //std::map<std::string,double> procevt;
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
             if (!R) printf("No such sample %s\n",it->c_str());
             else
                 {
-					for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++) { proclumi.insert(std::pair<std::string,double>(*p,0.0));	procevt.insert(std::pair<std::string,double>(*p,0.0));				}
+					for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++)  
+					proc.insert(std::pair<std::string,std::pair<double,int> >(R->fType+"_"+*p,std::pair<double,int>(0.0,0)));
                     fSampleInfo=new TSampleInfo(*R);
                     fSampleInfo->SetName("sampleinfo");
                     fEnergyString=fSampleInfo->fEnergyString;
@@ -39,28 +47,28 @@ void opalrivetdata::SlaveBegin(TTree * tree)
                 {
                     if (R->fType=="DATA") {
 						//for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++)
-						{ proclumi["ALL"]+=R->fLuminocity;   procevt["ALL"]+=R->fEvents;} 
+						{ proc["DATA_ALL"].first+=R->fLuminocity;   proc["DATA_ALL"].second+=R->fEvents;} 
 						/*data+=R->fLuminocity;*/}
                     if (R->fType=="MCBG") {for (std::vector<std::string>::iterator p=R->fProcesses.begin(); p!=R->fProcesses.end();p++)
-						{ proclumi[*p]+=R->fSigma*R->fEvents; procevt[*p]+=R->fEvents; }
+						{ proc[R->fType+"_"+*p].first+=R->fSigma*R->fEvents; proc[R->fType+"_"+*p].second+=R->fEvents; }
 						
-						/*mcbg+=R->fSigma*R->fEvents;*. /*printf("R->fSigma*R->fEvents  %f %f\n",R->fSigma,R->fEvents);*/}
+						/*mcbg+=R->fSigma*R->fEvents;*. printf("R->fSigma*R->fEvents  %f %f\n",R->fSigma,R->fEvents);*/}
                     //R->Print();
                 }
         }
-        
+ /*       
         for (std::map<std::string,double>::iterator p=proclumi.begin(); p!=proclumi.end();p++)
         printf("NAME SUM %s %f\n",p->first.c_str(),p->second);
 
         for (std::map<std::string,double>::iterator p=procevt.begin(); p!=procevt.end();p++)
         printf("NAME SUM %s %f\n",p->first.c_str(),p->second);
-
+*/
         
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
             if (R->fProcesses.size()>1) printf("WARNING: MANY PROCESSES IN ONE FILE");
-            if (R->fType=="MCBG") R->fWeight=proclumi["ALL"]/proclumi[R->fProcesses[0]]/(procevt["ALL"]/procevt[R->fProcesses[0]]);
+            if (R->fType=="MCBG") R->fWeight=proc["DATA_ALL"].first/proc[R->fType+"_"+R->fProcesses[0]].first/proc["DATA_ALL"].second*proc[R->fType+"_"+R->fProcesses[0]].second;
             else R->fWeight=1.0;
             R->Write();
         }
@@ -91,13 +99,13 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++)
             BookHistograms(this,*fSampleInfo,Form("%s_%s_%sGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fSampleInfo->fEnergyString.c_str()));
     fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
-    for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+ 1,"data");
-    for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
-    for (int i=0; i<10; i++) fHMap["weight"]->GetXaxis()->SetBinLabel(i+21,Form("mcbackgr,proc. %i",i));
     fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
-    for (int i=0; i<10; i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+ 1,"data");
-    for (int i=0; i<10; i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+11,Form("mcsignal,proc. %i",i));
-    for (int i=0; i<10; i++) fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(i+21,Form("mcbackgr,proc. %i",i));
+    int idata=0,imcsi=0,imcbg=0;
+    for (std::map<std::string,std::pair<double,int> >::iterator p=proc.begin(); p!=proc.end();p++){
+    if (p->first.find("DATA_")!=std::string::npos) {fHMap["weight"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str());  idata++;}
+    if (p->first.find("MCSI_")!=std::string::npos) {fHMap["weight"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str());fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str()); imcsi++;}
+    if (p->first.find("MCBG_")!=std::string::npos) {fHMap["weight"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str());fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); imcbg++;}
+      }
 }
 Bool_t opalrivetdata::Process(Long64_t gentry)
 {
@@ -107,19 +115,26 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     fChain->GetEntry(entry);
     if (2*this->Ebeam<fSampleInfo->fE-ENERGYTOLERANCE) return kFALSE;
     if (2*this->Ebeam>fSampleInfo->fE+ENERGYTOLERANCE) return kFALSE;
-    if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
-    if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
-    if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
+    FillWithLabel(fHMap["weight_before_selection"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
+    //if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
+    //if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
+    //if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight_before_selection"]->Fill(21.0,fSampleInfo->fWeight);
 
-printf("%s %f\n",fSampleInfo->GetName(),fSampleInfo->fWeight);
+//printf("%s %f\n",fSampleInfo->GetName(),fSampleInfo->fWeight);
 //    if (gentry%50!=1) return kFALSE;
 
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-    if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
-    if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
+    //if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    //if (fSampleInfo->fPeriod==std::string("kLEP1"))    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
     
-    //?
+    //?????????????????????????????/
     if (!LEP1Preselection(this,mycuts["data"])) return kFALSE;
+    if (!LEP1Selection(this,mycuts["data"]))    return kFALSE;
+    
+    
+    if( this->Ntkd02 < int(mycuts["data"]["Ntkd02"]) )  return kFALSE;
+    if( this->Tvectc[2]> mycuts["data"]["costt"] )  return kFALSE;
+    
     
     if (fSampleInfo->fType==std::string("MCBG")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
     if (fSampleInfo->fType==std::string("MCSI")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
@@ -140,10 +155,10 @@ printf("%s %f\n",fSampleInfo->GetName(),fSampleInfo->fWeight);
         }
 
 
-
-    if (fSampleInfo->fType==std::string("DATA")) fHMap["weight"]->Fill(0.0,fSampleInfo->fWeight);
-    if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight"]->Fill(11.0,fSampleInfo->fWeight);
-    if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight"]->Fill(21.0,fSampleInfo->fWeight);
+ FillWithLabel(fHMap["weight"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
+    //if (fSampleInfo->fType==std::string("DATA")) fHMap["weight"]->Fill(0.0,fSampleInfo->fWeight);
+    //if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight"]->Fill(11.0,fSampleInfo->fWeight);
+    //if (fSampleInfo->fType==std::string("MCBG")) fHMap["weight"]->Fill(21.0,fSampleInfo->fWeight);
     return kTRUE;
 }
 void opalrivetdata::SlaveTerminate()

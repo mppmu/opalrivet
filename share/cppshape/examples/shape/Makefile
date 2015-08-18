@@ -11,11 +11,12 @@ TARGET = shape2
 
 
 
-ROOT-CONFIG   =     root-config
-CLHEP-CONFIG  =     clhep-config
-FASTJET-CONFIG = fastjet-config
-CERNLIB = cernlib
-
+ROOT-CONFIG   =      /opt/i686/usr/bin/root-config
+CLHEP-CONFIG  =      /opt/i686/usr/bin/clhep-config
+FASTJET-CONFIG =  /opt/i686/usr/bin/fastjet-config
+CERNLIB = /opt/i686/usr/bin/cernlib
+ROOTCINT= /opt/i686/usr/bin/rootcint
+ #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 ObjSuf        = o
 DllSuf        = so
 OutPutOpt     = -o # keep whitespace after "-o"
@@ -24,16 +25,15 @@ SrcSuf2        = cpp
 SrcSuf3        = f
 
 
-FC                  =  $(shell  $(ROOT-CONFIG) --f77)
-CXX                 =  $(shell  $(ROOT-CONFIG) --cxx)
-LD                  =  $(shell  $(ROOT-CONFIG) --ld)
-LDFLAGS             =  -g -O0   
+FC                  =  $(shell  $(ROOT-CONFIG) --f77 | sed 's@m64@m32@') -m32 #bug
+CXX                 =  $(shell  $(ROOT-CONFIG) --cxx | sed 's@m64@m32@') -m32
+LD                  =  $(shell  $(ROOT-CONFIG) --ld | sed 's@m64@m32@')  -m32
+LDFLAGS             =  -g -O0    $(shell  $(ROOT-CONFIG) --ldflags | sed 's@m64@m32@') 
 SOFLAGS             =  -g 
 
-LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof -lHbook 
-#-lminicern
-LDFLAGS+=-lgfortran -lgcc_s -L../../lib -lshape -lshapePAW $(shell $(CERNLIB) packlib )
-CXXFLAGS+= -fdiagnostics-color=never -I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags ) $(shell $(ROOT-CONFIG) --cflags)
+LDFLAGS+=  $(shell $(ROOT-CONFIG) --libs) 
+LDFLAGS+=-lgfortran -lgcc_s  $(shell $(CERNLIB) packlib | sed 's@-Wl,-static@@g' )
+CXXFLAGS+= -fdiagnostics-color=never -I. -Wextra  -I../../include -Wall -I./include  -Wextra  -Wall  $(shell $(FASTJET-CONFIG) --cxxflags | sed 's@m64@m32@') $(shell $(ROOT-CONFIG) --cflags | sed 's@m64@m32@')
 CPPFLAGS+=$(shell $(FASTJET-CONFIG) --cxxflags )
 
 
@@ -72,13 +72,13 @@ gen/$(TARGET)Dict.$(SrcSuf): \
 	include/ntuple_108.hh\
 	include/$(TARGET)LinkDef.h
 	@echo "Generating dictionary $@..."
-	@rootcint  -f $@  -c  -I../../include  $^    
+	$(ROOTCINT)  -f $@  -c  -I../../include  $^    
 
 
 
 
 bin/$(TARGET): $(EVENTO)
-		$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(OutPutOpt) $@ $(EXPLLINKLIBS)
+		$(LD) $(SOFLAGS) $(LDFLAGS) $^    ../../lib/libshape.a ../../lib/libshapePAW.a $(shell $(FASTJET-CONFIG) --libs --shared=no --plugins=yes)  $(OutPutOpt) $@ $(EXPLLINKLIBS)
 
 
 
