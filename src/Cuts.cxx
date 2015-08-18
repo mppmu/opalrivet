@@ -14,12 +14,29 @@ std::map<std::string,std::map<std::string,double> > InitCuts()
     B0.insert(std::pair<std::string,double>("Icjst",3));
     B0.insert(std::pair<std::string,double>("Iebst",3));
     B0.insert(std::pair<std::string,double>("Itkmh",1));
-    B0.insert(std::pair<std::string,double>("Ntkd02",5));
+    B0.insert(std::pair<std::string,double>("Ntkd02",7));
     B0.insert(std::pair<std::string,double>("Inonr",1));
     B0.insert(std::pair<std::string,double>("costt",0.9));
+    B0.insert(std::pair<std::string,double>("wqqln",0.5));
+    B0.insert(std::pair<std::string,double>("wqqqq",0.25));
     A.insert(std::pair<std::string,std::map<std::string,double> >("data",B0));
 
+/*
 
+
+            const FReal spr_cut= 10.0;    // sprime reconstruction cut
+            const FReal costt_stand= 0.9; // standard cos_thrust
+            const FReal costt_var= 0.7;   // tight cos_thrust
+            const FReal wqqln_stand= 0.5;       // like Joost: standard wqqln
+            const FReal wqqln_hig  = 0.75;      //             tight wqqln cut
+            const FReal wqqln_low  = 0.25;      //             loose wqqln cut
+            const FReal wqqqq_stand= 0.25;      // like Joost: standard wqqqq
+            const FReal wqqqq_hig  = 0.4;       //             tight wqqqq cut
+            const FReal wqqqq_low  = 0.1;       //             loose wqqqq cut
+
+
+
+*/
 
     std::map<std::string,double> B1;
     B1.insert(std::pair<std::string,double>("R",0.7));

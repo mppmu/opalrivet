@@ -115,6 +115,9 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     fChain->GetEntry(entry);
     if (2*this->Ebeam<fSampleInfo->fE-ENERGYTOLERANCE) return kFALSE;
     if (2*this->Ebeam>fSampleInfo->fE+ENERGYTOLERANCE) return kFALSE;
+    if (fE-161<0.1) if (2*this->Ebeam < 160.0 || 2*this->Ebeam> 162.0 ) return kFALSE;
+    
+    
     FillWithLabel(fHMap["weight_before_selection"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     //if (fSampleInfo->fType==std::string("DATA")) fHMap["weight_before_selection"]->Fill(0.0,fSampleInfo->fWeight);
     //if (fSampleInfo->fType==std::string("MCSI")) fHMap["weight_before_selection"]->Fill(11.0,fSampleInfo->fWeight);
@@ -133,7 +136,33 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     
     
     if( this->Ntkd02 < int(mycuts["data"]["Ntkd02"]) )  return kFALSE;
-    if( this->Tvectc[2]> mycuts["data"]["costt"] )  return kFALSE;
+    if( this->Tvectc[2]> mycuts["data"]["costt"] )  return kFALSE;    
+    if( this->Lwqqqq>mycuts["data"]["wqqqq"] )  return kFALSE;
+    if( this->Lwqqln>mycuts["data"]["wqqln"] )  return kFALSE;
+    if( this->Itkmh!=1 )  return kFALSE;
+    
+    
+    if( this->Icjst!=3 )  return kFALSE;
+    if( this->Iebst!=3 )  return kFALSE;    
+                //
+//            if(  ntuple.icjst() != 3  ||
+  //                  ntuple.iebst() != 3     
+    
+    //if( this->Inonr!=1 )  return kFALSE;
+    
+    double sprime_new, sprime_old;
+            sprime_old= sqrt(fabs(this->Pspri[3]*this->Pspri[3]-
+                                  this->Pspri[0]*this->Pspri[0]-
+                                  this->Pspri[1]*this->Pspri[1]-
+                                  this->Pspri[2]*this->Pspri[2]));
+            // taking the abs is a quick and dirty hack concerning only very few neg. values
+            sprime_new= sqrt(fabs(this->Pspr[3]*this->Pspr[3]-
+                                  this->Pspr[0]*this->Pspr[0]-
+                                  this->Pspr[1]*this->Pspr[1]-
+                                  this->Pspr[2]*this->Pspr[2]));
+     if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-sprime_new >= 10.0 )return kFALSE;
+         if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-sprime_new >= 1.0 )return kFALSE;
+         if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-sprime_new >= 1.0 )return kFALSE;
     
     
     if (fSampleInfo->fType==std::string("MCBG")) if (MCNonRad(this,mycuts["data"]))     return kFALSE;
