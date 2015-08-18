@@ -115,7 +115,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     fChain->GetEntry(entry);
     if (2*this->Ebeam<fSampleInfo->fE-ENERGYTOLERANCE) return kFALSE;
     if (2*this->Ebeam>fSampleInfo->fE+ENERGYTOLERANCE) return kFALSE;
-    if (fE-161<0.1) if (2*this->Ebeam < 160.0 || 2*this->Ebeam> 162.0 ) return kFALSE;
+    if (std:abs(fE-161)<0.1) if (2*this->Ebeam < 160.0 || 2*this->Ebeam> 162.0 ) return kFALSE;
     
     
     FillWithLabel(fHMap["weight_before_selection"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
