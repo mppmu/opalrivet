@@ -14,7 +14,7 @@ public:
     Bool_t Add( TAdvancedGraph* h,  TAdvancedGraph* h2, Double_t c1 = 1, Double_t c2 = 1);
     void Divide(TAdvancedGraph* A,  TAdvancedGraph* B);
     void Scale(double k);
-  TH1D* ToTH1D(std::string n,int l);
+    TH1D* ToTH1D(std::string n,int l);
     ClassDef(TAdvancedGraph,0)
 };
 #endif

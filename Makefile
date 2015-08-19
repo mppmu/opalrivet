@@ -281,5 +281,7 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 
 
 
+beauty:
+	astyle -n --keep-one-line-blocks --style=gnu  ./src/*cxx ./src/*C  ./src/*h
 	
 	

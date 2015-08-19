@@ -10,7 +10,7 @@ ClassImp(TFastJet)
 */
 TFastJet::TFastJet()
 {
-fEvis=-1;
+    fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
     _regparam=2.0;
@@ -93,7 +93,8 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                     std::string jetalg,
                     std::map<std::string,double> R,
                     const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
-{fEvis=-1;
+{
+    fEvis=-1;
 
     _thrusts.push_back(1.0);
     _thrusts.push_back(0.0);
@@ -216,7 +217,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
 
 TFastJet::~TFastJet()
 {
-	
+
     if( fClusterSequence ) delete fClusterSequence;
     if( fPJets ) delete fPJets;
 }

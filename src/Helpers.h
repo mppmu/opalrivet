@@ -206,201 +206,224 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     switch (energy)
         {
         case 91:
-    if (algorithm=="durham")
-    {
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
-1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
-0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
-0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316,
-0.3162278}));
+            if (algorithm=="durham")
+                {
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
+                                   1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
+                                   0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
+                                   0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316,
+                                   0.3162278
+                                                                          }));
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
-                           1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
-                           0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
-                           0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
-                                                                     }));
-
-
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
-                           1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
-                           0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
-                           0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
-                                                                     }));
-
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
-                           1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
-                           0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
-                           0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
-                                                                     }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
+                                   1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
+                                   0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
+                                   0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                                             }));
 
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
-                           1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
-                           0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
-                           0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316  }));
-        }
-        
-        if (algorithm=="jade")
-        {
-                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({  8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4, 
-    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018, 
-    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073, 
-    0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031, 
-    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1, 
-    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
-                                                                  }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
+                                   1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
+                                   0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
+                                   0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                                             }));
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4, 
-    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018, 
-    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073, 
-    0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031, 
-    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1, 
-    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
-                                                                     }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
+                                   1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
+                                   0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
+                                   0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                                             }));
 
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4, 
-    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018, 
-    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073, 
-    0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031, 
-    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1, 
-    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
-                                                                     }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
+                                   1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
+                                   0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
+                                   0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
+                                                                             }));
+                }
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4, 
-    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018, 
-    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073, 
-    0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031, 
-    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1, 
-    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26}));
+            if (algorithm=="jade")
+                {
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({  8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
+                                   4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
+                                   0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
+                                   0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031,
+                                   0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
+                                   0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
+                                                                          }));
 
-
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4, 
-    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018, 
-    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073, 
-    0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031, 
-    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1, 
-    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
-         
-         
-                                                           }));
-                                                                   }
-                                                                   
-         if (algorithm=="siscone")
-         {
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
-                                                         
-
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
+                                   4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
+                                   0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
+                                   0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031,
+                                   0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
+                                   0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
+                                                                             }));
 
 
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
+                                   4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
+                                   0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
+                                   0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031,
+                                   0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
+                                   0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
+                                                                             }));
 
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
+                                   4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
+                                   0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
+                                   0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031,
+                                   0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
+                                   0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
+                                                                             }));
 
 
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
-			 
-		  }                                                                   
-                                                                   
-                                                                   
-                                                                     
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
+                                   4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
+                                   0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
+                                   0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031,
+                                   0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
+                                   0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
+
+
+                                                                             }));
+                }
+
+            if (algorithm=="siscone")
+                {
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR3", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR4", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR5", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR6", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+                }
+
+
+
             break;
-        
+
 
 
         default: //133,161,172,183,189
 
-         if (algorithm=="durham")
-        {
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                           1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                            0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                  }));
+            if (algorithm=="durham")
+                {
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
+                                   1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
+                                   0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
+                                                                          }));
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                           1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                            0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                     }));
-
-
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                           1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                            0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                     }));
-
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                           1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                            0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                     }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
+                                   1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
+                                   0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
+                                                                             }));
 
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                           1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                            0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                     }));
-         }
-         
-         if (algorithm=="jade")
-         {
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({   6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
-    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05, 
-    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
-                                                                  }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
+                                   1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
+                                   0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
+                                                                             }));
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
-    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05, 
-    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
-                                                                     }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
+                                   1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
+                                   0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
+                                                                             }));
 
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
-    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05, 
-    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
-                                                                     }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
+                                   1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
+                                   0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
+                                                                             }));
+                }
 
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
-    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05, 
-    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
-                                                                     }));
+            if (algorithm=="jade")
+                {
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({   6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
+                                   0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05,
+                                   0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                                          }));
 
-
-            G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125, 
-    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05, 
-    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
-         
-         
-                                                           }));
-			 
-		  }	 
-         
-
-         if (algorithm=="siscone")
-         {
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
-                                                         
-
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
+                                   0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
+                                   0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                                             }));
 
 
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
+                                   0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
+                                   0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                                             }));
 
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
+                                   0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
+                                   0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+                                                                             }));
 
 
-			                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6", ARRAY_PROTECT({  
-									 2,6,10,14,18,22,25.5         }));
-			 
-		  }
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
+                                   0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
+                                   0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
+
+
+                                                                             }));
+
+                }
+
+
+            if (algorithm=="siscone")
+                {
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR3", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR4", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR5", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+
+                    G_INSERTER_DBL(A->fGMap,prefix+"JETR6", ARRAY_PROTECT(
+                    {
+                        2,6,10,14,18,22,25.5
+                    }));
+
+                }
 
 
 
@@ -927,90 +950,90 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
 //puts("DEBUG");
             if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="siscone")
-            {
-            std::vector<double> ycuts;
-            ycuts.push_back(1.0);
-            for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2            
-            ycuts.push_back(0.0);
-       //     for ( j=0; j<6; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
-            
-            //for ( j=0; j<6; j++)  printf("%s %f\n","OLD",A->Yddmt[j]);
-            A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
-            for ( j=0; j<5; j++)
                 {
-                    for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
-                        A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
-                    for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
-                        //if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
-                            {
-                                double x,y;
-                          
-                                A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
-                          if (x>ycuts.at(j+1)&&x<ycuts.at(j))
-                          {
-                                A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
-                                A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYlow()[i],2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYhigh()[i],2)+weight*weight));
-                           }
-                            }
-                }
-            }
-if (algo=="siscone")
-{
-            int q=0;
-                            std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
-double q2=1;//sqrt(tfj->GetClusterSequence()->Q2());
-            for (q=0; q<5; q++)
-                {
-                    for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
+                    std::vector<double> ycuts;
+                    ycuts.push_back(1.0);
+                    for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
+                    ycuts.push_back(0.0);
+                    //     for ( j=0; j<6; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
+
+                    //for ( j=0; j<6; j++)  printf("%s %f\n","OLD",A->Yddmt[j]);
+                    A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
+                    for ( j=0; j<5; j++)
                         {
-                            Double_t x,y;
-                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
-                            int fdjet=0;
-
-    for (  unsigned  int i = 0; i < fdjets.size(); i++) 	     {  if ( fdjets[i].E() > x*q2 )    fdjet++;   /* printf("%i %f %f %f\n",fdjet, x, E_min,  fdjets[i].E()); */ }
-                if (fdjet==q+2)
-                     {
-                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
-                     A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
-                     }
-                        }
-                }       
-            
-} 
-
-
-
-
-
-          if (algo=="cambridge"||algo=="antikt"||algo=="kt")
-            {
-				
-            int q=0;
-            for (q=0; q<5; q++)
-                {
-                    for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
-                        {
-                            std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
-                            Double_t x,y;
-                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
-                            int fdjet=0;
-
-                            double  E_min = x*sqrt(tfj->GetClusterSequence()->Q2());
-
-                            for (  unsigned  int i = 0; i < fdjets.size(); i++) 	     {  if ( fdjets[i].E() > E_min )    fdjet++;   /* printf("%i %f %f %f\n",fdjet, x, E_min,  fdjets[i].E()); */ }
-                            if (fdjet==q+2)
+                            for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
+                                A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
+                            for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
+                                //if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
                                 {
-                                A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
-                                A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
-                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
+                                    double x,y;
+
+                                    A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
+                                    if (x>ycuts.at(j+1)&&x<ycuts.at(j))
+                                        {
+                                            A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
+                                            A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYlow()[i],2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYhigh()[i],2)+weight*weight));
+                                        }
                                 }
                         }
                 }
-				
-            
-		}
+            if (algo=="siscone")
+                {
+                    int q=0;
+                    std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
+                    double q2=1;//sqrt(tfj->GetClusterSequence()->Q2());
+                    for (q=0; q<5; q++)
+                        {
+                            for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
+                                {
+                                    Double_t x,y;
+                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
+                                    int fdjet=0;
 
-                            
+                                    for (  unsigned  int i = 0; i < fdjets.size(); i++) 	     {  if ( fdjets[i].E() > x*q2 )    fdjet++;   /* printf("%i %f %f %f\n",fdjet, x, E_min,  fdjets[i].E()); */ }
+                                    if (fdjet==q+2)
+                                        {
+                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
+                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
+                                        }
+                                }
+                        }
+
+                }
+
+
+
+
+
+            if (algo=="cambridge"||algo=="antikt"||algo=="kt")
+                {
+
+                    int q=0;
+                    for (q=0; q<5; q++)
+                        {
+                            for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
+                                {
+                                    std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
+                                    Double_t x,y;
+                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
+                                    int fdjet=0;
+
+                                    double  E_min = x*sqrt(tfj->GetClusterSequence()->Q2());
+
+                                    for (  unsigned  int i = 0; i < fdjets.size(); i++) 	     {  if ( fdjets[i].E() > E_min )    fdjet++;   /* printf("%i %f %f %f\n",fdjet, x, E_min,  fdjets[i].E()); */ }
+                                    if (fdjet==q+2)
+                                        {
+                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
+                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
+                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
+                                        }
+                                }
+                        }
+
+
+                }
+
+
         }
     return PASSED;
 }
