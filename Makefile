@@ -66,7 +66,6 @@ alldata:			\
 
 
 include Makefile.software
-include Makefile.convert
 
 
 localsystem: dirs src_Rivet
@@ -279,9 +278,3 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 		hadd -f output/manip_$*.root tmp/manip_$*_antikt.root tmp/manip_$*_kt.root tmp/manip_$*_inclkt.root tmp/manip_$*_siscone.root
 
 
-
-
-beauty:
-	astyle -n --keep-one-line-blocks --style=gnu  ./src/*cxx ./src/*C  ./src/*h
-	
-	
