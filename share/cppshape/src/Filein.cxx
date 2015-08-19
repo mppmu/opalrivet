@@ -38,14 +38,25 @@ Filein::Filein()
 
 Filein::Filein( std::string filename )
 {
+	if (filename.length()!=0)
     _filein_name= filename;
+    
+    else
+    {
+    std::cout << "Filein::Filein: Give QCD admin file name:" << std::endl;
+    std::cin >> _filein_name;
+    std::cout << _filein_name << std::endl;
+		
+		
+	}	
+    
     init();
+    
 }
 
 
 void Filein::init()
 {
-
     // Open admin file:
     ifstream InputFile( _filein_name.c_str() );
     if( !InputFile )

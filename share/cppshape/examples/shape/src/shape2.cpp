@@ -101,19 +101,22 @@ Observable* create_Observable( string version ) {
 }
 
 // Fill histos from ntuple:
-void Ntproject( int idebug= 0 ) {
+void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 
   // Read path to ntuple files:
   cout << "Ntproject: Give path to ntuple files:" << endl;
-  string line;
+  //string line;
+  if (line.length()==0)
+  {
   cin >> line;
   cout << line << endl;
+}
   if( line.size() > 0 ) {
     base_ntfile_dir= line;
   }
 
   // Read admin file:
-  Filein qcdntuples;
+  Filein qcdntuples(adminfile);
   qcdntuples.print();
   cout << "Ntproject: Total nr. of files to project: " 
        << qcdntuples.nr_files() << endl;
@@ -477,8 +480,10 @@ void NtJADEanalyse( string filename ) {
 }
 
 
-int main( int narg, char* argv[] ) {
+int main( int argc, char* argv[] ) {
 
+if (argc<2)
+{
   char choice;
   do {
 
@@ -537,6 +542,71 @@ int main( int narg, char* argv[] ) {
     }
   } 
   while( choice != 'Q'  || choice != 'q' );
+
+}
+else
+{
+	
+	
+	  char choice=argv[1][0];
+    string location="";
+    string admin="";
+
+    string filename;
+    switch( choice ) {
+    case 'A':
+    case 'a':
+    if (argc>2) location=std::string(argv[2]);
+    if (argc>3) admin=std::string(argv[3]);
+
+      Ntproject(0,location,admin);
+      exit( 0 );
+      break;
+    case 'C':
+    case 'c':
+    if (argc>2) location=std::string(argv[2]);
+    if (argc>3) admin=std::string(argv[3]);
+
+      Ntproject( 1,location,admin );
+      exit( 0 );
+      break;
+    case 'P':
+    case 'p':
+      cout << "Input histo file name stem" << endl;
+      if (argc>2) filename=std::string(argv[2]);
+            cout << filename << endl;
+      Ntanalyse( filename );
+      exit( 0 );
+      break;
+    case 'L':
+    case 'l':
+      cout << "Input histo file name stem" << endl;
+      if (argc>2) filename=std::string(argv[2]);
+            cout << filename << endl;
+      NtLEP1analyse( filename );
+      exit( 0 );
+      break;
+    case 'J':
+    case 'j':
+      cout << "Input histo file name stem" << endl;
+            if (argc>2) filename=std::string(argv[2]);
+      cout << filename << endl;
+      NtJADEanalyse( filename );
+      
+      exit( 0 );
+      break;
+    case 'Q':
+    case 'q':
+      exit( 0 );
+    default:
+      cout << "Wrong input, try again" << endl;
+    }
+	
+	
+	
+}	
+
+
 
   return 0;
 

@@ -90,9 +90,11 @@ ROOTMAPPAW       =  lib/lib$(TARGETPAW).rootmap
 
 
 
+alla:  dirs         $(EVENTA)  $(EVENTAPAW) 
+
 all:   dirs         $(EVENTLIB)  $(EVENTLIBPAW) $(ROOTMAP) $(ROOTMAPPAW)
 
-alla:  dirs         $(EVENTA)  $(EVENTAPAW) 
+
 
 dirs:
 	mkdir -p lib obj gen bin
