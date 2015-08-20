@@ -90,7 +90,7 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[]);
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[]);
 
-
+void FillWithLabel(TH1D* H,std::string l,double weight);
 
 template <class EXA>
 void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
@@ -693,7 +693,6 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 
 
 }
-
 
 
 

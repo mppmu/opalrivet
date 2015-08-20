@@ -13,14 +13,40 @@ std::map<std::string,std::map<std::string,double> > InitCuts()
     std::map<std::string,double> B0;
     B0.insert(std::pair<std::string,double>("Icjst",3));
     B0.insert(std::pair<std::string,double>("Iebst",3));
-    B0.insert(std::pair<std::string,double>("Itkmh",1));
+    B0.insert(std::pair<std::string,double>("Il2mh",1));
     B0.insert(std::pair<std::string,double>("Ntkd02",7));
-    B0.insert(std::pair<std::string,double>("Inonr",1));
     B0.insert(std::pair<std::string,double>("costt",0.9));
     B0.insert(std::pair<std::string,double>("wqqln",0.5));
     B0.insert(std::pair<std::string,double>("wqqqq",0.25));
-    A.insert(std::pair<std::string,std::map<std::string,double> >("data",B0));
+    B0.insert(std::pair<std::string,double>("sprimedata",10.0));    
+    B0.insert(std::pair<std::string,double>("sprimemc",10.0));    
+    B0.insert(std::pair<std::string,double>("backgroundscale",1.0)); 
+    A.insert(std::pair<std::string,std::map<std::string,double> >("central",B0));
 
+
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("costtlow",B0));
+	A["costtlow"]["costtlow"]=0.7;
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("wqqlnhigh",B0));
+	A["wqqlnhigh"]["wqqln"]=0.75;
+    
+    A.insert(std::pair<std::string,std::map<std::string,double> >("wqqlnlow",B0));
+	A["wqqlnlow"]["wqqln"]=0.25;
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("wqqqqhigh",B0));
+	A["wqqqqhigh"]["wqqqq"]=0.4;
+    
+    A.insert(std::pair<std::string,std::map<std::string,double> >("wqqqqlow",B0));
+	A["wqqqqlow"]["wqqqq"]=0.10;
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("backgroundlow",B0));
+	A["backgroundlow"]["backgroundscale"]=0.95;
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("backgroundhigh",B0));
+	A["backgroundhigh"]["backgroundscale"]=1.05;
+
+    
     /*
 
 

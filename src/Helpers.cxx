@@ -52,7 +52,18 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
             start_pos += to.length(); // In case 'to' contains 'from', like replacing 'x' with 'yx'
         }
 }
+
+
+
+
 #ifndef SIMPLE_HELPERS_ONLY
+
+
+void FillWithLabel(TH1D* H,std::string l,double weight)
+{
+    for (int i=0; i<H->GetNbinsX(); i++) if (std::string(H->GetXaxis()->GetBinLabel(i))==l) H->Fill(H->GetBinCenter(i),weight);
+}
+
 
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[])
 {

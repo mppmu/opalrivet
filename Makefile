@@ -6,29 +6,29 @@
 #GEN=evtgen
 GEN?=pythia8
 #GEN=pythia8_evtgen
-
+CUTS?=central
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
 CXX?=g++ -fdiagnostics-color=never 
 include Makefile.syst
 
-all:	 		    output/$(GEN)_91.root \
-					output/opal_9196.root \
-					output/opal_9197.root \
-					output/opal_9198.root \
-					output/opal_9199.root \
-					output/opal_9100.root \
-					output/opal_130.root output/$(GEN)_130.root \
-					output/opal_136.root output/$(GEN)_136.root \
-					output/opal_161.root output/$(GEN)_161.root \
-					output/opal_172.root output/$(GEN)_172.root \
-					output/opal_183.root output/$(GEN)_183.root \
-					output/opal_189.root output/$(GEN)_189.root \
-					output/opal_192.root output/$(GEN)_192.root \
-					output/opal_196.root output/$(GEN)_196.root \
-					output/opal_202.root output/$(GEN)_202.root \
-					output/opal_205.root output/$(GEN)_205.root \
-					output/opal_207.root output/$(GEN)_207.root
+all:	 		    output/$(GEN)_91_$(CUTS).root \
+					output/opal_9196_$(CUTS).root \
+					output/opal_9197_$(CUTS).root \
+					output/opal_9198_$(CUTS).root \
+					output/opal_9199_$(CUTS).root \
+					output/opal_9100_$(CUTS).root \
+					output/opal_130_$(CUTS).root output/$(GEN)_130.root \
+					output/opal_136_$(CUTS).root output/$(GEN)_136.root \
+					output/opal_161_$(CUTS).root output/$(GEN)_161.root \
+					output/opal_172_$(CUTS).root output/$(GEN)_172.root \
+					output/opal_183_$(CUTS).root output/$(GEN)_183.root \
+					output/opal_189_$(CUTS).root output/$(GEN)_189.root \
+					output/opal_192_$(CUTS).root output/$(GEN)_192.root \
+					output/opal_196_$(CUTS).root output/$(GEN)_196.root \
+					output/opal_202_$(CUTS).root output/$(GEN)_202.root \
+					output/opal_205_$(CUTS).root output/$(GEN)_205.root \
+					output/opal_207_$(CUTS).root output/$(GEN)_207.root
 
 
 allmc:
@@ -46,22 +46,22 @@ allmc:
 					output/$(GEN)_207.root
 					
 alldata:			\
-					output/opal_9196.root \
-					output/opal_9197.root \
-					output/opal_9198.root \
-					output/opal_9199.root \
-					output/opal_9100.root \
-					output/opal_130.root \
-					output/opal_136.root \
-					output/opal_161.root \
-					output/opal_172.root \
-					output/opal_183.root \
-					output/opal_189.root \
-					output/opal_192.root \
-					output/opal_196.root \
-					output/opal_202.root \
-					output/opal_205.root \
-					output/opal_207.root
+					output/opal_9196_$(CUTS).root \
+					output/opal_9197_$(CUTS).root \
+					output/opal_9198_$(CUTS).root \
+					output/opal_9199_$(CUTS).root \
+					output/opal_9100_$(CUTS).root \
+					output/opal_130_$(CUTS).root \
+					output/opal_136_$(CUTS).root \
+					output/opal_161_$(CUTS).root \
+					output/opal_172_$(CUTS).root \
+					output/opal_183_$(CUTS).root \
+					output/opal_189_$(CUTS).root \
+					output/opal_192_$(CUTS).root \
+					output/opal_196_$(CUTS).root \
+					output/opal_202_$(CUTS).root \
+					output/opal_205_$(CUTS).root \
+					output/opal_207_$(CUTS).root
 
 
 
@@ -233,9 +233,9 @@ lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedG
 #	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
 	
 
-output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root output/manip_%.root output/old_%.root
+output/plots_%_$(CUTS).root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%_$(CUTS).root output/$(GEN)_%.root output/manip_%.root output/old_%.root
 	#we need so somewhere
-	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root output/manip_$*.root output/old_$*.root
+	bin/$(ARCH)/plots $* output/opal_$*_$(CUTS).root output/$(GEN)_$*.root output/manip_$*.root output/old_$*.root
 
 
 
