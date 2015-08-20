@@ -128,7 +128,7 @@ void opalrivetdata::Terminate()
     else        fSampleInfo=out;
     fGenerator="opal";
     printf("opening ./output/%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str());
-    TFile* type_fFile= new TFile(Form("./output/%s_%s%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),YEARSUFFIX), "UPDATE");
+    TFile* type_fFile= new TFile(Form("./output/%s_%s%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),YEARSUFFIX,CUTS), "UPDATE");
     if (!type_fFile) {printf("No such file\n"); return;}
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
