@@ -86,18 +86,24 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   return kFALSE;
     if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   return kFALSE;
 
-    if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M() > mycuts[CUTS]["sprimedata"] ) return kFALSE;
-    if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M() > mycuts[CUTS]["sprimemc"] )   return kFALSE;
-    if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M() > mycuts[CUTS]["sprimemc"] )   return kFALSE;
+	double SP;
+	if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
+    if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
+
+    if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) return kFALSE;
+    if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   return kFALSE;
+    if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   return kFALSE;
 
     if (fSampleInfo->fType==std::string("DATA")) printf("EVENT %i %i\n",Irun,Ievnt);
     if (fSampleInfo->fType==std::string("MCBG")) if (MCNonRad(this,mycuts[CUTS]))     return kFALSE;
     if (fSampleInfo->fType==std::string("MCSI")) if (MCNonRad(this,mycuts[CUTS]))     return kFALSE;
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
-    if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize("mt",":",options);   }
-    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize("mt:h",":",options); }
-    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize("mt:h",":",options); }
+    std::string objects="mt";
+    if (int(mycuts[CUTS]["objects"])==2) objects="tc";
+    if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
+    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
+    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );

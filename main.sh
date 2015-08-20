@@ -1,7 +1,7 @@
 chmod +x bin/*
 declare -a generators=( pythia8 herwig++ )
 declare -a energies=( 161 172 )
-declare -a cuts=( central wqqlnhigh wqqlnlow wqqqqhigh wqqqqlow backgroundlow backgroundhigh )
+declare -a cuts=( central wqqlnhigh wqqlnlow wqqqqhigh wqqqqlow backgroundlow backgroundhigh hrwg sprm mttotc )
 
 for energy in "${energies[@]}"
 do

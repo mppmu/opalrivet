@@ -110,6 +110,9 @@ LOCAL_OPAL_161.DEFINES: \'-DCUTS=\"central\"\'
 
 
 
+
+
+
 LOCAL_OPAL_161_central:
 LOCAL_OPAL_161_central.NAME:    opalrivetdata
 LOCAL_OPAL_161_central.CHAIN:   h10
@@ -120,6 +123,46 @@ LOCAL_OPAL_161_central.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
 LOCAL_OPAL_161_central.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
 LOCAL_OPAL_161_central.NUMBER:  1000000000
 LOCAL_OPAL_161_central.DEFINES: \'-DCUTS=\"central\"\'
+
+
+
+LOCAL_OPAL_161_mttotc:
+LOCAL_OPAL_161_mttotc.NAME:    opalrivetdata
+LOCAL_OPAL_161_mttotc.CHAIN:   h10
+LOCAL_OPAL_161_mttotc.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_161_mttotc.SAMPLES: 161_DATA_1:161_PYTHIA_1:161_GRC4F_1:161_GRC4F_2:161_GRC4F_3
+LOCAL_OPAL_161_mttotc.DB:      gen/DB.root
+LOCAL_OPAL_161_mttotc.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_161_mttotc.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_161_mttotc.NUMBER:  1000000000
+LOCAL_OPAL_161_mttotc.DEFINES: \'-DCUTS=\"mttotc\"\'
+
+
+
+LOCAL_OPAL_161_sprm:
+LOCAL_OPAL_161_sprm.NAME:    opalrivetdata
+LOCAL_OPAL_161_sprm.CHAIN:   h10
+LOCAL_OPAL_161_sprm.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_161_sprm.SAMPLES: 161_DATA_1:161_PYTHIA_1:161_GRC4F_1:161_GRC4F_2:161_GRC4F_3
+LOCAL_OPAL_161_sprm.DB:      gen/DB.root
+LOCAL_OPAL_161_sprm.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_161_sprm.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_161_sprm.NUMBER:  1000000000
+LOCAL_OPAL_161_sprm.DEFINES: \'-DCUTS=\"sprm\"\'
+
+
+
+LOCAL_OPAL_161_hrwg:
+LOCAL_OPAL_161_hrwg.NAME:    opalrivetdata
+LOCAL_OPAL_161_hrwg.CHAIN:   h10
+LOCAL_OPAL_161_hrwg.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_161_hrwg.SAMPLES: 161_DATA_1:161_HERWIG_1:161_GRC4F_1:161_GRC4F_2:161_GRC4F_3
+LOCAL_OPAL_161_hrwg.DB:      gen/DB.root
+LOCAL_OPAL_161_hrwg.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_161_hrwg.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalrivetdata.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/TFastJet.h src/TFastJet.cxx
+LOCAL_OPAL_161_hrwg.NUMBER:  1000000000
+LOCAL_OPAL_161_hrwg.DEFINES: \'-DCUTS=\"hrwg\"\'
+
 
 
 

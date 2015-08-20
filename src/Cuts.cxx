@@ -21,6 +21,8 @@ std::map<std::string,std::map<std::string,double> > InitCuts()
     B0.insert(std::pair<std::string,double>("sprimedata",10.0));    
     B0.insert(std::pair<std::string,double>("sprimemc",10.0));    
     B0.insert(std::pair<std::string,double>("backgroundscale",1.0)); 
+    B0.insert(std::pair<std::string,double>("objects",1.0)); 
+    B0.insert(std::pair<std::string,double>("sprimalgo",1.0)); 
     A.insert(std::pair<std::string,std::map<std::string,double> >("central",B0));
 
 
@@ -45,6 +47,14 @@ std::map<std::string,std::map<std::string,double> > InitCuts()
 
     A.insert(std::pair<std::string,std::map<std::string,double> >("backgroundhigh",B0));
 	A["backgroundhigh"]["backgroundscale"]=1.05;
+
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("mttotc",B0));
+	A["mttotc"]["objects"]=2.0;
+
+
+    A.insert(std::pair<std::string,std::map<std::string,double> >("sprm",B0));
+	A["sprm"]["sprimalgo"]=2.0;
 
     
     /*
