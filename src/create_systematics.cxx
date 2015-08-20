@@ -8,9 +8,10 @@
 #include "TFastJet.h"
 #include "TAdvancedGraph.h"
 
-TAdvancedGraph* GetSystematicsGraph(std::vector<TAdvancedGraph*> GG)
+TAdvancedGraph* GetSystematicsGraph(std::vector<TAdvancedGraph*> GG,std::string name)
 {
 	TAdvancedGraph* R= new TAdvancedGraph(GG[0]->GetN());
+	R->SetName(name.c_str());
 for (int i=0;i<GG[0]->GetN();i++)	
 {
 double x,y;
@@ -23,7 +24,9 @@ for (int j=1;j<GG.size();j++)
 double xj,yj;
 GG[j]->GetPoint(i,xj,yj);
 R->SetPointError(i,0,0,std::max(R->GetErrorYlow(i),y-yj),std::max(R->GetErrorYhigh(i),yj-y));
-printf("%f %f\n",R->GetErrorYlow(i),R->GetErrorYhigh(i));
+
+//R->SetPoint(i,xj,R->GetErrorYlow(i));
+//printf("%f %f\n",R->GetErrorYlow(i),R->GetErrorYhigh(i));
 }
 }	
 return R;
@@ -63,8 +66,8 @@ int main(int argc, char* argv[])
     std::map<std::string,std::map<std::string,TH1D*> > fHMaps;
     std::map<std::string,std::map<std::string,TAdvancedGraph*> > fGMaps;
 
-
-
+TFile* q=new TFile("q1.root","recreate");
+q->cd();
 
 
 for (int i=2; i<argc; i++)
@@ -78,6 +81,7 @@ fGMaps.insert(std::pair<std::string,std::map<std::string,TAdvancedGraph*> >(*it,
 }	
 
 
+
 for (int i=2; i<argc; i++)
 {
 if (std::string(argv[i])=="central") continue;
@@ -89,16 +93,26 @@ for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMaps["central"].begi
 std::vector<TAdvancedGraph*> GG;
 GG.push_back(G_it->second);
 for (std::vector<std::string>::iterator it=files.begin();it!=files.end();it++) GG.push_back(fGMaps[*it][G_it->first]);
-fGMaps[Form("systematicsN%i",i)][G_it->first]=GetSystematicsGraph(GG);
-printf("OK %i  %s\n",i,G_it->first.c_str());
-}
+fGMaps[Form("systematicsN%i",i)][G_it->first]=GetSystematicsGraph(GG,G_it->first);
+printf("%s, %f\n",G_it->first.c_str(),fGMaps[Form("systematicsN%i",i)][G_it->first]->Integral());
+//printf("OK %i  %s\n",i,G_it->first.c_str());
 }
 
 
-TCanvas * q= new TCanvas();
-q->cd();
-fGMaps["systematicsN3"]["G_data_durham_161GeV_1-T"]->Draw("APL");
-q->SaveAs("q.root");
+
+ for (std::map<std::string,TAdvancedGraph*>::iterator gG_it=fGMaps[Form("systematicsN%i",i)].begin(); gG_it!=fGMaps[Form("systematicsN%i",i)].end(); ++gG_it) {	q->cd(); printf("writtt %s\n",gG_it->first.c_str()); gG_it->second->Write();//0,TObject::kWriteDelete);
+	 }
+
+
+}
+
+
+q->Close();
+
+//TCanvas * qd= new TCanvas();
+//qd->cd();
+//fGMaps["systematicsN3"]["G_data_durham_161GeV_JETR6"]->Draw("APL");
+//qd->SaveAs("q.root");
 
 
 
