@@ -102,7 +102,7 @@ Observable* create_Observable( string version ) {
 
 // Fill histos from ntuple:
 void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
-
+   
   // Read path to ntuple files:
   cout << "Ntproject: Give path to ntuple files:" << endl;
   //string line;
@@ -182,6 +182,9 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 	
 	ievnt++;
 
+
+
+
 	// Print ntuple info on first event:
 	if( !printed_nt_info ) {
 	  printed_nt_info= true;
@@ -194,9 +197,14 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 
 	// Loop over all cuts:
 	if( cur_ntuple->preselect( *ntuple ) ) {
+		
+		if( cur_ntuple->selection( 0, *ntuple ) ) { printf("EVENT %i %i\n",ntuple->irun(),ntuple->ievnt());  }
+		
 	  for( size_t isel= 0; isel < v_cuts.size(); ++isel ) {
 	    if( cur_ntuple->selection( isel, *ntuple ) ) {
 	      hist.fill_data( isel, nt, *ntuple );
+	      
+	      
 
 
 	      if( !printed ) {

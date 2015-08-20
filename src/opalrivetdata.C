@@ -142,11 +142,15 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
 
 
     if( this->Ntkd02 < int(mycuts["data"]["Ntkd02"]) )  return kFALSE;
-    if( this->Tvectc[2]> mycuts["data"]["costt"] )  return kFALSE;
+    if( std::abs(this->Tvectc[2])> mycuts["data"]["costt"] )  return kFALSE;
     if( this->Lwqqqq>mycuts["data"]["wqqqq"] )  return kFALSE;
     if( this->Lwqqln>mycuts["data"]["wqqln"] )  return kFALSE;
-    if( this->Itkmh!=1 )  return kFALSE;
-
+    
+    //printf(" Istg1  ->%i<-\n",Istg1);
+    
+    
+//    if( this->Itkmh!=1 )  return kFALSE;
+if( this->Il2mh!=1)   return kFALSE;
 
     if( this->Icjst!=3 )  return kFALSE;
     if( this->Iebst!=3 )  return kFALSE;
@@ -167,6 +171,11 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
                           this->Pspr[1]*this->Pspr[1]-
                           this->Pspr[2]*this->Pspr[2]));
     if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-sprime_new >= 10.0 )return kFALSE;
+    if (fSampleInfo->fType==std::string("DATA")) 
+    {
+    printf("EVENT %i %i\n",Irun,Ievnt);
+    }
+    
     if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-sprime_new >= 1.0 )return kFALSE;
     if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-sprime_new >= 1.0 )return kFALSE;
 
@@ -294,3 +303,4 @@ Bool_t opalrivetdata::Notify()
     theDB->Close();
     return kTRUE;
 }
+// A->Draw("Tdtc","Ntkd02>6&&Lwqqln<0.5&&Lwqqqq<0.25&&TMath::Abs(Tvectc[2])<0.9&&Il2mh==1&&Icjst==3&&Iebst==3&&(2*Ebeam-TMath::Sqrt(TMath::Abs(Pspr[3]*Pspr[3]-Pspr[0]*Pspr[0]-Pspr[1]*Pspr[1]-Pspr[2]*Pspr[2])))<10.0&&(2*Ebeam>160.0&&2*Ebeam<162.0)")

@@ -278,3 +278,17 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 		hadd -f output/manip_$*.root tmp/manip_$*_antikt.root tmp/manip_$*_kt.root tmp/manip_$*_inclkt.root tmp/manip_$*_siscone.root
 
 
+
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
+oldshape:
+				make -C share/cppshape
+				make -C share/cppshape/examples/shape
+			    share/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  example161.txt
+
+
+
+
+
+
+
+
