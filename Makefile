@@ -87,6 +87,7 @@ dirs:
 	mkdir -p tmp
 	mkdir -p gen
 	mkdir -p run
+	mkdir -p subs_output
 
 gen/%LinkDef.h: dirs
 	@rm -f gen/$*LinkDef.h
@@ -197,7 +198,7 @@ bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
 
 
 
-gen/DB.root: dirs bin/$(ARCH)/makeDB $(SOURCES)
+gen/DB.root: dirs bin/$(ARCH)/makeDB
 	bin/$(ARCH)/makeDB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
 	
 
@@ -233,9 +234,9 @@ lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedG
 #	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
 	
 
-output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root output/manip_%.root output/old_%.root
+output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root output/shapemanip_%.root output/old_%.root
 	#we need so somewhere
-	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root output/manip_$*.root output/old_$*.root
+	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root output/shapemanip_$*.root output/old_$*.root
 
 
 
@@ -279,8 +280,20 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 
 
 
+output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root
+	mkdir -p subs_output
+	share/cppshape/examples/shape/bin/shape2 P output/shape_$* share/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+	h2root  subs_output/shape_$*_manip.rzhist
+	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_durham.root durham subs_output/shape_$*_manip.root
+	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_antikt.root antikt subs_output/shape_$*_manip.root
+	hadd -f output/shapemanip_$*.root tmp/shapemanip_$*_antikt.root tmp/shapemanip_$*_durham.root
+	
+#	h2root output/shape_$*_manip.rzhist
+
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 output/shape_%.root:
+				make -C share/cppshape clean
+				make -C share/cppshape/examples/shape clean
 				make -C share/cppshape
 				make -C share/cppshape/examples/shape
 			    rm -rf output_200_$*.rzhist

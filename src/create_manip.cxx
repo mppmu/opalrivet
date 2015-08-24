@@ -37,11 +37,61 @@ int main(int argc, char** argv)
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             std::string name(H_it->first);
-            if ((name.find("h986")!=std::string::npos)||(name.find("h186")!=std::string::npos))
+            if ((name.find("h986")!=std::string::npos)||(name.find("h186")!=std::string::npos)
+            ||(name.find("h1900")!=std::string::npos)
+            ||(name.find("h900")!=std::string::npos)
+            ||(name.find("h800")!=std::string::npos)
+            ||(name.find("h700")!=std::string::npos)
+            ||(name.find("h600")!=std::string::npos)
+            ||(name.find("h500")!=std::string::npos)
+            ||(name.find("h400")!=std::string::npos)
+            ||(name.find("h300")!=std::string::npos)
+            ||(name.find("h200")!=std::string::npos)
+            ||(name.find("h200")!=std::string::npos)///FIXME!
+            )
                 {
 
                     replace_all(name,"h986","H_manipdata_"+std::string(argv[2])+"_207GeV_");
+                    replace_all(name,"h1900","H_manipdata_"+std::string(argv[2])+"_205GeV_");
+                    replace_all(name,"h900","H_manipdata_"+std::string(argv[2])+"_202GeV_");
+                    replace_all(name,"h800","H_manipdata_"+std::string(argv[2])+"_196GeV_");
+                    replace_all(name,"h700","H_manipdata_"+std::string(argv[2])+"_192GeV_");
+                    replace_all(name,"h600","H_manipdata_"+std::string(argv[2])+"_189GeV_");
+                    replace_all(name,"h500","H_manipdata_"+std::string(argv[2])+"_183GeV_");
+                    replace_all(name,"h400","H_manipdata_"+std::string(argv[2])+"_172GeV_");
+                    replace_all(name,"h300","H_manipdata_"+std::string(argv[2])+"_161GeV_");
+                    replace_all(name,"h200","H_manipdata_"+std::string(argv[2])+"_136GeV_");
+                    replace_all(name,"h200","H_manipdata_"+std::string(argv[2])+"_130GeV_");
+                    
                     replace_all(name,"h186","H_manipdata_"+std::string(argv[2])+"_91GeV_");
+
+/*
+
+                    replace_all(name,"00000","1-T");
+                    replace_all(name,"00001","T-Min");
+                    replace_all(name,"00002","T-Maj");
+                    replace_all(name,"00003","A");
+                    replace_all(name,"00004","CP");
+                    replace_all(name,"00005","MH");
+                    replace_all(name,"00006","S");
+                    replace_all(name,"00007","O");
+                    replace_all(name,"00008","BT");
+                    replace_all(name,"00009","BW");
+                    replace_all(name,"00010","D2");
+                    replace_all(name,"00011","T");
+                    replace_all(name,"00012","MH2");
+                    replace_all(name,"00013","JTE0");
+                    replace_all(name,"00014","DP");
+                    replace_all(name,"00015","JETR2");
+                    replace_all(name,"00016","JETR3");
+                    replace_all(name,"00017","JETR4");
+                    replace_all(name,"00018","JETR5");
+                    replace_all(name,"00019","JETR6");
+                    replace_all(name,"00020","ML");
+                    replace_all(name,"00021","BN");
+*/
+
+
                     replace_all(name,"0000","1-T");
                     replace_all(name,"0001","T-Min");
                     replace_all(name,"0002","T-Maj");
@@ -64,8 +114,14 @@ int main(int argc, char** argv)
                     replace_all(name,"0019","JETR6");
                     replace_all(name,"0020","ML");
                     replace_all(name,"0021","BN");
+                    //if (name.find("JETR")==std::string::npos) H_it->second->Scale(0.01);
+                    
                     H_it->second->SetName(name.c_str());
-
+    std::string gname=name;
+    replace_all(gname,"H_","G_");
+    //std::map<std::string,TAdvancedGraph*> 
+    fGMap.insert(std::pair<std::string,TAdvancedGraph*>(gname,new TAdvancedGraph(H_it->second)));
+    fGMap[gname]->SetName(gname.c_str());
                 }
         }
     fFile->cd();

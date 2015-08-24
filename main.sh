@@ -1,8 +1,11 @@
 chmod +x bin/*
 export MAKE='make '
+export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 set -x
-declare -a generators=()#( pythia8 herwig++ )
-declare -a energies=( 130 136 161 172 183 189 192 196 202 205 207  )
+declare -a generators=()
+#( pythia8 herwig++ )
+ #130 136 161 172 183 189 192 196  202  207  
+declare -a energies=(205 )
 declare -a systematics=( central wqqlnhigh:wqqlnlow wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
 
@@ -28,7 +31,12 @@ bin/x86_64/create_systematics $energy "${systematics[@]}"
 
 
 $MAKE output/old_$energy".root"
-$MAKE output/shape_$energy".root"
-bin/x86_64/plots $energy output/opal_$energy".root" $(echo "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') output/old_$energy".root"
+#$MAKE output/shape_$energy".root"
+$MAKE output/shapemanip_$energy".root"
+bin/x86_64/plots $energy output/opal_$energy".root"  output/old_$energy".root"  output/shapemanip_$energy".root" $(echo "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 
 done
+
+
+
+

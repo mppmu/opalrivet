@@ -71,7 +71,10 @@ void Filein::init()
     while( getline( InputFile, inBuf ) )
         {
 
-            // Split line into tokens by whitespace:
+if (inBuf[0]=='*') {  printf("Commented line");  continue;}
+
+             // Split line into tokens by whitespace:
+
             std::istringstream line( inBuf );
             std::vector<std::string> tokens;
             std::string token;
@@ -97,8 +100,12 @@ void Filein::init()
             bool match= false;
             for( int igen= 0; igen < nr_of_generator; igen++ )
                 {
-                    if( tokens[0].find( list_generator[igen] ) != std::string::npos )
+                    
+                    // Obviously wrong line if( tokens[0].find( list_generator[igen] ) != std::string::npos )
+                        if (tokens[0]==std::string(list_generator[igen]))
                         {
+							
+							printf ("Found Gen: %s\n",tokens[0].c_str());
                             match= true;
                             break;
                         }

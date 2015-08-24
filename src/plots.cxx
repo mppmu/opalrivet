@@ -105,7 +105,8 @@ if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->
                         }
 
                     if (//(*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
-                        (quantity->find("JETR")!=std::string::npos))
+                        (quantity->find("JETR")!=std::string::npos)
+                        )
                         {
 
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)

@@ -4,7 +4,7 @@ Generator	Process	Runno	Sigma	Lumi	Part	filestem
                        		(pb)	(1/pb)		
 Data    	ALL     189	0	185.2	0	da189
 PYTHIA		(Z/g)*	11342	99.36	0.000	10	mc11342
-PYTHIA		(Z/g)*	11343	8.574	0.000	10	mc11343
+PYTHIA		(Z/g)*	11343	99.36	0.000	10	mc11343
 HERWIG		(Z/g)*	5169	99.36	0.000	10	mc5169
 *HERWIG		(Z/g)*	11981	99.36	0.000	4	mc11981
 *ist ARIADNE 4!						
