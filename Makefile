@@ -233,9 +233,9 @@ lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedG
 #	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
 	
 
-output/plots_%_$(CUTS).root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%_$(CUTS).root output/$(GEN)_%.root output/manip_%.root output/old_%.root
+output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root output/manip_%.root output/old_%.root
 	#we need so somewhere
-	bin/$(ARCH)/plots $* output/opal_$*_$(CUTS).root output/$(GEN)_$*.root output/manip_$*.root output/old_$*.root
+	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root output/manip_$*.root output/old_$*.root
 
 
 
@@ -280,11 +280,13 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
-oldshape:
+output/shape_%.root:
 				make -C share/cppshape
 				make -C share/cppshape/examples/shape
-			    share/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  example161.txt
-
+			    rm -rf output_200_$*.rzhist
+			    share/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  share/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+				mv  output_200_$*.rzhist output/shape_$*.rzhist
+				h2root output/shape_$*.rzhist
 
 
 

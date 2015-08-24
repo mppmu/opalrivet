@@ -75,16 +75,28 @@ int main(int argc, char* argv[])
                                         {
                                             fHMap[name]->SetTitle(";;Fraction");
                                             fHMap[name]->Draw(hoption.c_str());
+if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->Draw("E4SAME");
+	
+	
+	                                            fHMap[name+"_systematics"]->SetLineColor(usecolors[color%4]);
+                                      //      fHMap[name]->SetMarkerStyle(kFullCircle);
+                                            fHMap[name+"_systematics"]->SetMarkerSize(1.1);
+                                            fHMap[name+"_systematics"]->SetMarkerColor(usecolors[color%4]);
+	 fHMap[name+"_systematics"]->SetFillColor(usecolors[color%4]);
+	
+}
                                             fHMap[name]->Draw("ASAME");
 
                                             fHMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                            fHMap[name]->GetYaxis()->SetRangeUser(0,1.35);
+                                            fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
                                             fHMap[name]->SetLineColor(usecolors[color%4]);
                                             fHMap[name]->SetMarkerStyle(kFullCircle);
                                             fHMap[name]->SetMarkerSize(1.1);
                                             fHMap[name]->SetMarkerColor(usecolors[color%4]);
 
                                             LH->AddEntry(fHMap[name],(*quantity+" "+*generator).c_str(),"AP");
+                                            if (fHMap.find(name+"_systematics")!=fHMap.end())
+                                            LH->AddEntry(fHMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
                                             hoption="same";
                                         }
                                     else puts("Not Found");
@@ -103,15 +115,28 @@ int main(int argc, char* argv[])
                                         {
                                             fGMap[name]->SetTitle(";;Fraction");
                                             fGMap[name]->Draw(goption.c_str());
+                                            if (fGMap.find(name+"_systematics")!=fGMap.end()) {
+												     //fGMap[name+"_systematics"]->SetMarkerStyle(kFullCircle);
+												                                                 fGMap[name]->SetLineColor(usecolors[color%5]);
+												fGMap[name+"_systematics"]->SetMarkerSize(1.1);
+                                            fGMap[name+"_systematics"]->SetMarkerColor(usecolors[color%5]);
+                                            	 fGMap[name+"_systematics"]->SetFillColor(usecolors[color%5]);
+												
+												
+												 fGMap[name+"_systematics"]->Draw("SAMELP4");
+												
+											}
                                             fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
                                             if (*algorithm=="siscone") fGMap[name]->GetXaxis()->SetRangeUser(1.0,300);
-                                            fGMap[name]->GetYaxis()->SetRangeUser(0,1.35);
+                                            fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
                                             fGMap[name]->SetLineColor(usecolors[color%5]);
                                             fGMap[name]->SetMarkerStyle(kFullCircle);
                                             fGMap[name]->SetMarkerSize(1.1);
                                             fGMap[name]->SetMarkerColor(usecolors[color%5]);
 
                                             LH->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");
+                                            if (fGMap.find(name+"_systematics")!=fGMap.end())
+                                            LH->AddEntry(fGMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
                                             goption="PLESAME";///ROOT
                                         }
                                     else puts("Not Found");

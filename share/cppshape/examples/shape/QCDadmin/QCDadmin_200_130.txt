@@ -1,0 +1,10 @@
+ NT_VERSION 200
+
+Generator       Process   Runno    Sigma    Lumi  Part    File
+
+130 GeV
+
+Data            ALL         130        0   2.70     0    da130_95
+Data            ALL         130        0   2.61     0    da130_97
+PYTHIA          (Z/g)*    12162    335.9   0.0      2    mc12162
+HERWIG          (Z/g)*    11925    334.9   0.0      2    mc11925

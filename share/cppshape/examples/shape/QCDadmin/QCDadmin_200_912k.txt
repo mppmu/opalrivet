@@ -1,0 +1,9 @@
+	NT_VERSION 200						
+	9100 GeV						
+	Generator	Process	Runno	Sigma	Lumi	Part	filestem
+	                       		(pb)	(1/pb)		
+	Data 	        ALL	0	0	1	2	da91_2k
+	PYTHIA       	(Z/g)*	12139	1.00	0	4	mc12139
+        * JETSET 7.4
+	HERWIG   	(Z/g)*	12410	1.00	0	4	mc12410
+        * Herwig 6.2

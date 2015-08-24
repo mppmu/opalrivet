@@ -1,0 +1,16 @@
+NT_VERSION 200						
+196 GeV						
+Generator	Process	Runno	Sigma	Lumi	Part	filestem
+                       			(pb)	(1/pb)		
+Data     	ALL       196	0	76.67	0	da1999
+PYTHIA		(Z/g)* 	11345	90.09	0.000	8	mc11345 
+HERWIG		(Z/g)*	5172	90.09	0.000	5	mc5172  
+*HERWIG		(Z/g)*	11987	90.09	0.000	4	mc11987 
+*ist ARIADNE     4!						
+*GRC4F		 llqq	9096	9.14	0.000	2	mc9096  
+*GRC4F		 qqqq	9097	8.816	0.000	3	mc9097  
+GRC4F		 eeqq	9280	40.5	0.000	1	mc9280  
+GRC4F		 llqq	9202	9.18	0.000	2	mc9202  
+*ist KoralW! 						
+GRC4F		 qqqq	9201	8.921	0.000	2	mc9201  
+*ist KoralW! 						

@@ -1,0 +1,13 @@
+
+NT_VERSION 200
+
+    Generator       Process   Runno    Sigma    Lumi  Part    File
+
+    172 GeV
+
+    Data            ALL         172        0     10.38   0    da172
+    PYTHIA          (Z/g)*    12165    128.6      0.0    4    mc12165
+    HERWIG          (Z/g)*    11928    128.3      0.0    5    mc11928
+    GRC4F           llqq       4743    6.284      0.0    1    mc4743
+    GRC4F           qqqq       4744    6.061      0.0    1    mc4744
+    GRC4F           eeqq       4745    4.730      0.0    1    mc4745
