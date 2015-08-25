@@ -940,6 +940,8 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[1][0]*tfj->_lambdas[1][1]+tfj->_lambdas[1][1]*tfj->_lambdas[1][2]+tfj->_lambdas[1][2]*tfj->_lambdas[1][0]),weight);
             A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[1][0]*tfj->_lambdas[1][1]*tfj->_lambdas[1][2],weight);
 
+//A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight); //?
+
             A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
             A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);
             A->fHMap[H_prefix+"BT"]->Fill(tfj->fB[1]+tfj->fB[0],weight);

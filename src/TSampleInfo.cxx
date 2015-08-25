@@ -35,19 +35,18 @@ TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* 
 void TSampleInfo::Print()
 {
 
-    printf("%f fPeriod=%s %s %s  %i %i %i fSigma=%f fLuminocity=%f fWeight=%f\n",
+    printf("%6.2f fPeriod=%s %s %8d %8d %8d fSigma=%6.2f fLuminocity=%6.2f fWeight=%6.2f fFiles=%.200s\n",
 
            fE,
            //  std::string fName;
            fPeriod.c_str(),
            fType.c_str(),
-           fFiles.c_str(),
            fEvents,
            fRunsBegin,
            fRunsEnd,
            fSigma,
            fLuminocity,
-           fWeight);
+           fWeight, fFiles.c_str());
 
 }
 #endif

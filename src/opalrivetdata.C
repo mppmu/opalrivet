@@ -104,6 +104,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
     if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
+    printf("DP %f\n",Dpdmt);
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
@@ -157,7 +158,12 @@ void opalrivetdata::Terminate()
                     H_it->second->Divide(fHMap[std::string("H_truesignal_")+name]);
                     fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name],fHMap[std::string("H_mcbackgr_")+name],1.0,-mycuts[CUTS]["backgroundscale"]);
                     fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
+                    if   (H_it->first.find("JETR")!=std::string::npos) 
                     fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
+                    else
+                    if (std::abs(fHMap[std::string("H_corrected_")+name]->Integral())>0.0001)
+                    fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->Integral());
+                    
                 }
             if (H_it->first.find("H_acceptancebackgr_")!=std::string::npos)
                 {
@@ -176,7 +182,15 @@ void opalrivetdata::Terminate()
                     G_it->second->Divide(fGMap[std::string("G_mcsignal_")+name],fGMap[std::string("G_truesignal_")+name]);
                     fGMap[std::string("G_corrected_")+name]->Add(fGMap[std::string("G_data_")+name],fGMap[std::string("G_mcbackgr_")+name],1,-mycuts[CUTS]["backgroundscale"]);
                     fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
+                    
+                    if   (G_it->first.find("JETR")!=std::string::npos) 
                     fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
+                    else
+                   if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
+                    fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
+                    
+                    
+                    
                 }
             if (G_it->first.find("G_acceptancebackgr_")!=std::string::npos)
                 {

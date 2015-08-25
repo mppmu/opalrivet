@@ -72,7 +72,7 @@ TH1D* TAdvancedGraph::ToTH1D(std::string n,int l)
 
 
             H->SetBinContent(i+1,Ay);
-            H->SetBinError(i+1,yel);
+            H->SetBinError(i+1,0.5*std::abs(yel)+0.5*std::abs(yeh));
         }
 
     return H;

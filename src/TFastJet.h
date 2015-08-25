@@ -13,6 +13,8 @@
 #include "TMath.h"
 #include "TMatrixD.h"
 #include "TMatrixDEigen.h"
+#include "TMatrixDSym.h"
+#include "TMatrixDSymEigen.h"
 namespace fastjet
 {
 class ClusterSequence;

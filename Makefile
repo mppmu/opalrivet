@@ -284,9 +284,9 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root
 	mkdir -p subs_output
 	share/cppshape/examples/shape/bin/shape2 P output/shape_$* share/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
-	h2root  subs_output/shape_$*_manip.rzhist
-	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_durham.root durham subs_output/shape_$*_manip.root
-	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_antikt.root antikt subs_output/shape_$*_manip.root
+	h2root  output/shape_$*_manip.rzhist
+	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_durham.root durham output/shape_$*_manip.root
+	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_antikt.root antikt output/shape_$*_manip.root
 	hadd -f output/shapemanip_$*.root tmp/shapemanip_$*_antikt.root tmp/shapemanip_$*_durham.root
 	
 #	h2root output/shape_$*_manip.rzhist
@@ -310,3 +310,9 @@ bin/$(ARCH)/create_systematics: dirs src//create_systematics.cxx src/Helpers.cxx
 
 
 
+uclean:
+	rm -rf output/*
+	rm -rf subs_output/*	
+	rm -rf gen/*
+	rm -rf tmp/*
+	

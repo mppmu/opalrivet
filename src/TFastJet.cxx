@@ -324,10 +324,13 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
             // Build the (regulated) normalising factor.
-            totalMomentum += std::pow(p3->Mag(), _regparam);
+            //totalMomentum += std::pow(p3->Mag(), _regparam);
+
+totalMomentum += p3->Mag();
 
             // Build (regulated) quadratic momentum components.
-            const double regfactor = std::abs(std::pow(p3->Mag(), _regparam-2));
+            //const double regfactor = std::abs(std::pow(p3->Mag(), _regparam-2));
+            const double regfactor=1.0;
             //if (!fuzzyEquals(regfactor, 1.0)) {
             //  MSG_TRACE("Regfactor (r=" << _regparam << ") = " << regfactor);
             //}
@@ -348,7 +351,7 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
     //mMom=mMom*(1.0/totalMomentum);
 
     for (size_t i = 0; i < 3; ++i)
-        for (size_t j = 0; j < 3; ++j) mMom[i][j]=mMom[i][j]/totalMomentum;
+        for (size_t j = 0; j < 3; ++j) mMom[i][j]=mMom[i][j]/totalMomentum/totalMomentum;
     //MSG_DEBUG("Momentum tensor = " << "\n" << mMom);
 
     // Check that the matrix is symmetric.
@@ -364,7 +367,12 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
 
     // Diagonalize momentum matrix.
     //const EigenSystem<3> eigen3 = diagonalize(mMom);
-    TMatrixDEigen* eigen3=new TMatrixDEigen(mMom);
+    
+    TMatrixDSym SmMom(3);
+     for (size_t i = 0; i < 3; ++i)
+        for (size_t j = 0; j < 3; ++j) SmMom[i][j]=mMom[i][j];
+    
+    TMatrixDSymEigen* eigen3=new TMatrixDSymEigen(SmMom);
     //MSG_DEBUG("Diag momentum tensor = " << "\n" << eigen3.getDiagMatrix());
 
     // Reset and set eigenvalue/vector parameters.
@@ -373,7 +381,7 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
     //const EigenSystem<3>::EigenPairs epairs = eigen3.getEigenPairs();
     //assert(epairs.size() == 3);
 
-    TVectorD EVa=eigen3->GetEigenValuesRe();
+    TVectorD EVa=eigen3->GetEigenValues();
     TMatrixD EVe=eigen3->GetEigenVectors();
     for (size_t i = 0; i < 3; ++i)
         {
@@ -384,7 +392,7 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
 
     std::reverse(_sphAxes[where].begin(),_sphAxes[where].end());
     std::reverse(_lambdas[where].begin(),_lambdas[where].end());
-//   printf("%f          %f %f %f\n",_regparam,EVa[0],EVa[1],EVa[2]);
+   printf("%f          %f %f %f  DP  %f\n",_regparam,EVa[0],EVa[1],EVa[2],27*EVa[0]*EVa[1]*EVa[2]);
 
 
 
@@ -440,8 +448,8 @@ void TFastJet::_calcB(const std::vector<TVector3>& fsmomenta)
 
 
         }
-    b1/=totalMomentumb1;
-    b2/=totalMomentumb2;
+    b1/=(2*totalMomentumb1+2*totalMomentumb2);
+    b2/=(2*totalMomentumb1+2*totalMomentumb2);
 
     fB[0]=std::max(b1,b2);
     fB[1]=std::min(b1,b2);

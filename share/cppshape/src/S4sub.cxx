@@ -112,6 +112,8 @@ void S4sub::corr_s4data() {
   int iobs;
   for( int ihist= 0; ihist < nhist; ++ihist ) {
 
+      if (ihist%1000==0) printf("Debug: %i\n",ihist);
+
     // Decode histo ID:
     nh= idvect[ihist];
     iobs= nh%100;
@@ -140,6 +142,10 @@ void S4sub::corr_s4data() {
     }
 
   }
+
+
+    cout << "S4sub::corr_s4data: done" << endl;
+
 
 }
 

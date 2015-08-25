@@ -7,6 +7,24 @@
 #include "Cuts.h"
 #include "TFastJet.h"
 #include "TAdvancedGraph.h"
+
+void DivideByBinWidth(TH1D& H)
+{
+double y,ye,w;	
+for (int i=1; i<H.GetNbinsX();i++)
+{
+y=H.GetBinContent(i);
+ye=H.GetBinError(i);
+w=H.GetBinWidth(i);
+H.SetBinContent(i,y/w);
+H.SetBinError(i,ye/w);
+}	
+	
+}	
+
+
+
+
 int main(int argc, char* argv[])
 {
     //TApplication* theApp = new TApplication("App", &argc, argv);
@@ -73,6 +91,10 @@ int main(int argc, char* argv[])
                                     std::string name=	"H_"+*generator+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fHMap.find(name)!=fHMap.end())
                                         {
+											// if (name.find("manipdata")!=std::string::npos) fHMap[name]->Scale(0.01);
+                                            
+                                            if (name.find("manipdata")==std::string::npos) DivideByBinWidth(*fHMap[name]);
+                                            
                                             fHMap[name]->SetTitle(";;Fraction");
                                             fHMap[name]->Draw(hoption.c_str());
 if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->Draw("E4SAME");
@@ -88,7 +110,7 @@ if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->
                                             fHMap[name]->Draw("ASAME");
 
                                             fHMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                            fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
+                                            //fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
                                             fHMap[name]->SetLineColor(usecolors[color%4]);
                                             fHMap[name]->SetMarkerStyle(kFullCircle);
                                             fHMap[name]->SetMarkerSize(1.1);

@@ -37,30 +37,31 @@ int main(int argc, char** argv)
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             std::string name(H_it->first);
-            if ((name.find("h986")!=std::string::npos)||(name.find("h186")!=std::string::npos)
+            if ((name.find("h986")!=std::string::npos)
+            ||(name.find("h186")!=std::string::npos)
             ||(name.find("h1900")!=std::string::npos)
-            ||(name.find("h900")!=std::string::npos)
-            ||(name.find("h800")!=std::string::npos)
-            ||(name.find("h700")!=std::string::npos)
-            ||(name.find("h600")!=std::string::npos)
-            ||(name.find("h500")!=std::string::npos)
-            ||(name.find("h400")!=std::string::npos)
-            ||(name.find("h300")!=std::string::npos)
-            ||(name.find("h200")!=std::string::npos)
-            ||(name.find("h200")!=std::string::npos)///FIXME!
+            ||(name.find("h986")!=std::string::npos)
+            ||(name.find("h886")!=std::string::npos)
+            ||(name.find("h786")!=std::string::npos)
+            ||(name.find("h686")!=std::string::npos)
+            ||(name.find("h586")!=std::string::npos)
+            ||(name.find("h486")!=std::string::npos)
+            ||(name.find("h386")!=std::string::npos)
+            ||(name.find("h286")!=std::string::npos)
+            ||(name.find("h286")!=std::string::npos)///FIXME!
             )
                 {
 
-                    replace_all(name,"h986","H_manipdata_"+std::string(argv[2])+"_207GeV_");
-                    replace_all(name,"h1900","H_manipdata_"+std::string(argv[2])+"_205GeV_");
-                    replace_all(name,"h900","H_manipdata_"+std::string(argv[2])+"_202GeV_");
-                    replace_all(name,"h800","H_manipdata_"+std::string(argv[2])+"_196GeV_");
-                    replace_all(name,"h700","H_manipdata_"+std::string(argv[2])+"_192GeV_");
-                    replace_all(name,"h600","H_manipdata_"+std::string(argv[2])+"_189GeV_");
-                    replace_all(name,"h500","H_manipdata_"+std::string(argv[2])+"_183GeV_");
-                    replace_all(name,"h400","H_manipdata_"+std::string(argv[2])+"_172GeV_");
-                    replace_all(name,"h300","H_manipdata_"+std::string(argv[2])+"_161GeV_");
-                    replace_all(name,"h200","H_manipdata_"+std::string(argv[2])+"_136GeV_");
+                    replace_all(name,"h986","H_manipdata_"+std::string(argv[2])+"_205GeV_");
+                    //replace_all(name,"h1900","H_manipdata_"+std::string(argv[2])+"_205GeV_");
+                    //replace_all(name,"h9","H_manipdata_"+std::string(argv[2])+"_202GeV_");
+                    replace_all(name,"h886","H_manipdata_"+std::string(argv[2])+"_196GeV_");
+                    replace_all(name,"h786","H_manipdata_"+std::string(argv[2])+"_192GeV_");
+                    replace_all(name,"h686","H_manipdata_"+std::string(argv[2])+"_189GeV_");
+                    replace_all(name,"h586","H_manipdata_"+std::string(argv[2])+"_183GeV_");
+                    replace_all(name,"h486","H_manipdata_"+std::string(argv[2])+"_172GeV_");
+                    replace_all(name,"h386","H_manipdata_"+std::string(argv[2])+"_161GeV_");
+                    replace_all(name,"h286","H_manipdata_"+std::string(argv[2])+"_136GeV_");
                     replace_all(name,"h200","H_manipdata_"+std::string(argv[2])+"_130GeV_");
                     
                     replace_all(name,"h186","H_manipdata_"+std::string(argv[2])+"_91GeV_");
@@ -91,7 +92,7 @@ int main(int argc, char** argv)
                     replace_all(name,"00021","BN");
 */
 
-
+replace_all(name,"9999","admin");
                     replace_all(name,"0000","1-T");
                     replace_all(name,"0001","T-Min");
                     replace_all(name,"0002","T-Maj");
