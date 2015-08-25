@@ -221,9 +221,10 @@ bin/$(ARCH)/create_old: dirs src//create_old.cxx src/Helpers.cxx src/Helpers.h g
 
 
 
-lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  gen/TAdvancedGraphLinkDef.h
 	$(CXX) -fdiagnostics-color=never   -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopalrivet.so
-
+	rlibmap -f -o lib/$(ARCH)/libopalrivet.rootmap -l lib/$(ARCH)/libopalrivet.so  -c gen/TAdvancedGraphLinkDef.h
+	
 .rootrc: lib/$(ARCH)/libopalrivet.so
 	echo Unix.*.Root.DynamicPath:  .:./lib/$(ARCH):$(shell root-config --libdir) > .rootrc
 	echo Rint.Logon: ./rootlogon.C >> .rootrc
