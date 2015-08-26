@@ -38,18 +38,18 @@ int main(int argc, char** argv)
         {
             std::string name(H_it->first);
             if ((name.find("h986")!=std::string::npos)
-            ||(name.find("h186")!=std::string::npos)
-            ||(name.find("h1900")!=std::string::npos)
-            ||(name.find("h986")!=std::string::npos)
-            ||(name.find("h886")!=std::string::npos)
-            ||(name.find("h786")!=std::string::npos)
-            ||(name.find("h686")!=std::string::npos)
-            ||(name.find("h586")!=std::string::npos)
-            ||(name.find("h486")!=std::string::npos)
-            ||(name.find("h386")!=std::string::npos)
-            ||(name.find("h286")!=std::string::npos)
-            ||(name.find("h286")!=std::string::npos)///FIXME!
-            )
+                    ||(name.find("h186")!=std::string::npos)
+                    ||(name.find("h1900")!=std::string::npos)
+                    ||(name.find("h986")!=std::string::npos)
+                    ||(name.find("h886")!=std::string::npos)
+                    ||(name.find("h786")!=std::string::npos)
+                    ||(name.find("h686")!=std::string::npos)
+                    ||(name.find("h586")!=std::string::npos)
+                    ||(name.find("h486")!=std::string::npos)
+                    ||(name.find("h386")!=std::string::npos)
+                    ||(name.find("h286")!=std::string::npos)
+                    ||(name.find("h286")!=std::string::npos)///FIXME!
+               )
                 {
 
                     replace_all(name,"h986","H_manipdata_"+std::string(argv[2])+"_205GeV_");
@@ -63,36 +63,36 @@ int main(int argc, char** argv)
                     replace_all(name,"h386","H_manipdata_"+std::string(argv[2])+"_161GeV_");
                     replace_all(name,"h286","H_manipdata_"+std::string(argv[2])+"_136GeV_");
                     replace_all(name,"h200","H_manipdata_"+std::string(argv[2])+"_130GeV_");
-                    
+
                     replace_all(name,"h186","H_manipdata_"+std::string(argv[2])+"_91GeV_");
 
-/*
+                    /*
 
-                    replace_all(name,"00000","1-T");
-                    replace_all(name,"00001","T-Min");
-                    replace_all(name,"00002","T-Maj");
-                    replace_all(name,"00003","A");
-                    replace_all(name,"00004","CP");
-                    replace_all(name,"00005","MH");
-                    replace_all(name,"00006","S");
-                    replace_all(name,"00007","O");
-                    replace_all(name,"00008","BT");
-                    replace_all(name,"00009","BW");
-                    replace_all(name,"00010","D2");
-                    replace_all(name,"00011","T");
-                    replace_all(name,"00012","MH2");
-                    replace_all(name,"00013","JTE0");
-                    replace_all(name,"00014","DP");
-                    replace_all(name,"00015","JETR2");
-                    replace_all(name,"00016","JETR3");
-                    replace_all(name,"00017","JETR4");
-                    replace_all(name,"00018","JETR5");
-                    replace_all(name,"00019","JETR6");
-                    replace_all(name,"00020","ML");
-                    replace_all(name,"00021","BN");
-*/
+                                        replace_all(name,"00000","1-T");
+                                        replace_all(name,"00001","T-Min");
+                                        replace_all(name,"00002","T-Maj");
+                                        replace_all(name,"00003","A");
+                                        replace_all(name,"00004","CP");
+                                        replace_all(name,"00005","MH");
+                                        replace_all(name,"00006","S");
+                                        replace_all(name,"00007","O");
+                                        replace_all(name,"00008","BT");
+                                        replace_all(name,"00009","BW");
+                                        replace_all(name,"00010","D2");
+                                        replace_all(name,"00011","T");
+                                        replace_all(name,"00012","MH2");
+                                        replace_all(name,"00013","JTE0");
+                                        replace_all(name,"00014","DP");
+                                        replace_all(name,"00015","JETR2");
+                                        replace_all(name,"00016","JETR3");
+                                        replace_all(name,"00017","JETR4");
+                                        replace_all(name,"00018","JETR5");
+                                        replace_all(name,"00019","JETR6");
+                                        replace_all(name,"00020","ML");
+                                        replace_all(name,"00021","BN");
+                    */
 
-replace_all(name,"9999","admin");
+                    replace_all(name,"9999","admin");
                     replace_all(name,"0000","1-T");
                     replace_all(name,"0001","T-Min");
                     replace_all(name,"0002","T-Maj");
@@ -116,13 +116,13 @@ replace_all(name,"9999","admin");
                     replace_all(name,"0020","ML");
                     replace_all(name,"0021","BN");
                     //if (name.find("JETR")==std::string::npos) H_it->second->Scale(0.01);
-                    
+
                     H_it->second->SetName(name.c_str());
-    std::string gname=name;
-    replace_all(gname,"H_","G_");
-    //std::map<std::string,TAdvancedGraph*> 
-    fGMap.insert(std::pair<std::string,TAdvancedGraph*>(gname,new TAdvancedGraph(H_it->second)));
-    fGMap[gname]->SetName(gname.c_str());
+                    std::string gname=name;
+                    replace_all(gname,"H_","G_");
+                    //std::map<std::string,TAdvancedGraph*>
+                    fGMap.insert(std::pair<std::string,TAdvancedGraph*>(gname,new TAdvancedGraph(H_it->second)));
+                    fGMap[gname]->SetName(gname.c_str());
                 }
         }
     fFile->cd();

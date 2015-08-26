@@ -13,24 +13,24 @@ TFastJet::TFastJet()
     fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
-    _regparam=2.0;
+    fRegParameter=2.0;
 
 
-    _thrusts.push_back(1.0);
-    _thrusts.push_back(0.0);
-    _thrusts.push_back(0.0);
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _thrustAxes.push_back( TVector3(0,0,0));
+    fThrusts.push_back(1.0);
+    fThrusts.push_back(0.0);
+    fThrusts.push_back(0.0);
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fThrustAxes.push_back( TVector3(0,0,0));
 
-    _lambdas[0].push_back(0);
-    _lambdas[0].push_back(0);
-    _lambdas[0].push_back(0);
-    _lambdas[1].push_back(0);
-    _lambdas[1].push_back(0);
-    _lambdas[1].push_back(0);
-    _sphAxes[0].push_back(TVector3(0,0,0));
-    _sphAxes[1].push_back(TVector3(0,0,0));
+    fLambdas[0].push_back(0);
+    fLambdas[0].push_back(0);
+    fLambdas[0].push_back(0);
+    fLambdas[1].push_back(0);
+    fLambdas[1].push_back(0);
+    fLambdas[1].push_back(0);
+    fSphericityAxes[0].push_back(TVector3(0,0,0));
+    fSphericityAxes[1].push_back(TVector3(0,0,0));
 
 
 }
@@ -42,23 +42,23 @@ TFastJet::TFastJet( const std::vector<TParticle>& vtp )
 	fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
-    _regparam=2.0;
+    fRegParameter=2.0;
 
-    _thrusts.push_back(1.0);
-    _thrusts.push_back(0.0);
-    _thrusts.push_back(0.0);
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _thrustAxes.push_back( TVector3(0,0,0));
+    fThrusts.push_back(1.0);
+    fThrusts.push_back(0.0);
+    fThrusts.push_back(0.0);
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fThrustAxes.push_back( TVector3(0,0,0));
 
-    _lambdas[0].push_back(0);
-    _lambdas[0].push_back(0);
-    _lambdas[0].push_back(0);
-    _lambdas[1].push_back(0);
-    _lambdas[1].push_back(0);
-    _lambdas[1].push_back(0);
-    _sphAxes[0].push_back(TVector3(0,0,0));
-    _sphAxes[1].push_back(TVector3(0,0,0));
+    fLambdas[0].push_back(0);
+    fLambdas[0].push_back(0);
+    fLambdas[0].push_back(0);
+    fLambdas[1].push_back(0);
+    fLambdas[1].push_back(0);
+    fLambdas[1].push_back(0);
+    fSphericityAxes[0].push_back(TVector3(0,0,0));
+    fSphericityAxes[1].push_back(TVector3(0,0,0));
 
 
     fPJets= new std::vector<fastjet::PseudoJet>();
@@ -96,20 +96,20 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
 {
     fEvis=-1;
 
-    _thrusts.push_back(1.0);
-    _thrusts.push_back(0.0);
-    _thrusts.push_back(0.0);
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _thrustAxes.push_back( TVector3(0,0,0));
-    _lambdas[0].push_back(0);
-    _lambdas[0].push_back(0);
-    _lambdas[0].push_back(0);
-    _lambdas[1].push_back(0);
-    _lambdas[1].push_back(0);
-    _lambdas[1].push_back(0);
-    _sphAxes[0].push_back(TVector3(0,0,0));
-    _sphAxes[1].push_back(TVector3(0,0,0));
+    fThrusts.push_back(1.0);
+    fThrusts.push_back(0.0);
+    fThrusts.push_back(0.0);
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fThrustAxes.push_back( TVector3(0,0,0));
+    fLambdas[0].push_back(0);
+    fLambdas[0].push_back(0);
+    fLambdas[0].push_back(0);
+    fLambdas[1].push_back(0);
+    fLambdas[1].push_back(0);
+    fLambdas[1].push_back(0);
+    fSphericityAxes[0].push_back(TVector3(0,0,0));
+    fSphericityAxes[1].push_back(TVector3(0,0,0));
 
     if (!FindAlgorithm(jetalg)) printf("Warning: Unknown algorithm  %s!",jetalg.c_str());
     fPJets= new std::vector<fastjet::PseudoJet>();
@@ -193,19 +193,19 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
 //            momsum+=tlv.Mag();
         }
 
-    if (A.size()>2) _calcThrust(jetstlv);
-    //this->_thrusts[0]=1-t/momsum;
+    if (A.size()>2) CalculateThrust(jetstlv);
+    //this->fThrusts[0]=1-t/momsum;
 
 
-    //_regparam=2.0;
-    if (A.size()>2) _calcSphericity(jetstlv,100000);
+    //fRegParameter=2.0;
+    if (A.size()>2) CalculateSphericity(jetstlv,100000);
 
-    //_regparam=1.0;
-    //if (A.size()>2) _calcSphericity(jetstlv,0);
+    //fRegParameter=1.0;
+    //if (A.size()>2) CalculateSphericity(jetstlv,0);
 
 
-    if (A.size()>2) _calcB(jetstlv);
-    //this->_thrusts[0]=1-t/momsum;
+    if (A.size()>2) CalculateBroadening(jetstlv);
+    //this->fThrusts[0]=1-t/momsum;
 
 
 
@@ -300,9 +300,9 @@ inline int intpow(int a, int b)
 
 
 // Actually do the calculation
-void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where)
+void TFastJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int where)
 {
-    //MSG_DEBUG("Calculating sphericity with r = " << _regparam);
+    //MSG_DEBUG("Calculating sphericity with r = " << fRegParameter);
 
     // Return (with "safe nonsense" sphericity params) if there are no final state particles.
     if (fsmomenta.empty())
@@ -314,7 +314,7 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
 //printf("fsmomenta.size()==%i\n",fsmomenta.size());
     // Iterate over all the final state particles.
     TMatrixD mMom(3,3);
-TMatrixD mMom2(3,3);
+    TMatrixD mMom2(3,3);
     for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++) mMom[i][j]=0;
 
@@ -328,12 +328,12 @@ TMatrixD mMom2(3,3);
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
 
-totalMomentum += p3->Mag();
-totalMomentum2 += p3->Mag()*p3->Mag();
+            totalMomentum += p3->Mag();
+            totalMomentum2 += p3->Mag()*p3->Mag();
             double regfactor=1.0/p3->Mag();
-                        double regfactor2=1.0;
+            double regfactor2=1.0;
             //if (!fuzzyEquals(regfactor, 1.0)) {
-            //  MSG_TRACE("Regfactor (r=" << _regparam << ") = " << regfactor);
+            //  MSG_TRACE("Regfactor (r=" << fRegParameter << ") = " << regfactor);
             //}
 
 
@@ -348,32 +348,32 @@ totalMomentum2 += p3->Mag()*p3->Mag();
                         }
                 }
 
-        */
-        
-        mMom[0][0]+=regfactor *p3->x()*p3->x();
-        mMom[1][0]+=regfactor *p3->y()*p3->x();
-        mMom[2][0]+=regfactor *p3->z()*p3->x();
-        mMom[0][1]+=regfactor *p3->x()*p3->y();
-        mMom[1][1]+=regfactor *p3->y()*p3->y();
-        mMom[2][1]+=regfactor *p3->z()*p3->y();
-        mMom[0][2]+=regfactor *p3->x()*p3->z();
-        mMom[1][2]+=regfactor *p3->y()*p3->z();
-        mMom[2][2]+=regfactor *p3->z()*p3->z();
+            */
+
+            mMom[0][0]+=regfactor *p3->x()*p3->x();
+            mMom[1][0]+=regfactor *p3->y()*p3->x();
+            mMom[2][0]+=regfactor *p3->z()*p3->x();
+            mMom[0][1]+=regfactor *p3->x()*p3->y();
+            mMom[1][1]+=regfactor *p3->y()*p3->y();
+            mMom[2][1]+=regfactor *p3->z()*p3->y();
+            mMom[0][2]+=regfactor *p3->x()*p3->z();
+            mMom[1][2]+=regfactor *p3->y()*p3->z();
+            mMom[2][2]+=regfactor *p3->z()*p3->z();
 
 
-        mMom2[0][0]+=regfactor2 *p3->x()*p3->x();
-        mMom2[1][0]+=regfactor2 *p3->y()*p3->x();
-        mMom2[2][0]+=regfactor2 *p3->z()*p3->x();
-        mMom2[0][1]+=regfactor2 *p3->x()*p3->y();
-        mMom2[1][1]+=regfactor2 *p3->y()*p3->y();
-        mMom2[2][1]+=regfactor2 *p3->z()*p3->y();
-        mMom2[0][2]+=regfactor2 *p3->x()*p3->z();
-        mMom2[1][2]+=regfactor2 *p3->y()*p3->z();
-        mMom2[2][2]+=regfactor2 *p3->z()*p3->z();
+            mMom2[0][0]+=regfactor2 *p3->x()*p3->x();
+            mMom2[1][0]+=regfactor2 *p3->y()*p3->x();
+            mMom2[2][0]+=regfactor2 *p3->z()*p3->x();
+            mMom2[0][1]+=regfactor2 *p3->x()*p3->y();
+            mMom2[1][1]+=regfactor2 *p3->y()*p3->y();
+            mMom2[2][1]+=regfactor2 *p3->z()*p3->y();
+            mMom2[0][2]+=regfactor2 *p3->x()*p3->z();
+            mMom2[1][2]+=regfactor2 *p3->y()*p3->z();
+            mMom2[2][2]+=regfactor2 *p3->z()*p3->z();
 
 
-        
-        
+
+
         }
 
     // Normalise to total (regulated) momentum.
@@ -385,23 +385,23 @@ totalMomentum2 += p3->Mag()*p3->Mag();
     for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++) mMom2[i][j]=mMom2[i][j]/totalMomentum2;
 
-    
+
     TMatrixDSym SmMom(3);
-     for (size_t i = 0; i < 3; i++)
+    for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++) SmMom[i][j]=mMom[i][j];
-    
-        TMatrixDSym SmMom2(3);
-     for (size_t i = 0; i < 3; i++)
+
+    TMatrixDSym SmMom2(3);
+    for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++) SmMom2[i][j]=mMom2[i][j];
-    
+
     int w=0;
-    
+
     TMatrixDSymEigen* eigen3=new TMatrixDSymEigen(SmMom);
     TMatrixDSymEigen* eigen23=new TMatrixDSymEigen(SmMom2);
-    _lambdas[0].clear();
-    _sphAxes[0].clear();
-    _lambdas[1].clear();
-    _sphAxes[1].clear();
+    fLambdas[0].clear();
+    fSphericityAxes[0].clear();
+    fLambdas[1].clear();
+    fSphericityAxes[1].clear();
 
 
     TVectorD EVa=eigen3->GetEigenValues();
@@ -411,10 +411,10 @@ totalMomentum2 += p3->Mag()*p3->Mag();
 
     for (int i = 2; i>= 0; i--)
         {
-            _lambdas[0].push_back(EVa[i]);
-            _sphAxes[0].push_back(TVector3(EVe[i][0],EVe[i][1],EVe[i][2]));
-            _lambdas[1].push_back(EVa2[i]);
-            _sphAxes[1].push_back(TVector3(EVe2[i][0],EVe2[i][1],EVe2[i][2]));
+            fLambdas[0].push_back(EVa[i]);
+            fSphericityAxes[0].push_back(TVector3(EVe[i][0],EVe[i][1],EVe[i][2]));
+            fLambdas[1].push_back(EVa2[i]);
+            fSphericityAxes[1].push_back(TVector3(EVe2[i][0],EVe2[i][1],EVe2[i][2]));
 
 
         }
@@ -424,23 +424,23 @@ totalMomentum2 += p3->Mag()*p3->Mag();
 
 
 
-//    std::reverse(_sphAxes[0].begin(),_sphAxes[0].end());
-//    std::reverse(_lambdas[0].begin(),_lambdas[0].end());
-//    std::reverse(_sphAxes[1].begin(),_sphAxes[1].end());
-//    std::reverse(_lambdas[1].begin(),_lambdas[1].end());
+//    std::reverse(fSphericityAxes[0].begin(),fSphericityAxes[0].end());
+//    std::reverse(fLambdas[0].begin(),fLambdas[0].end());
+//    std::reverse(fSphericityAxes[1].begin(),fSphericityAxes[1].end());
+//    std::reverse(fLambdas[1].begin(),fLambdas[1].end());
 
 
- //   printf("%f %f %f  DP  %f %f\n",EVa[0],EVa[1],EVa[2],27*EVa[0]*EVa[1]*EVa[2],27*a);
-   printf("1:A S DP %f %f %f\n",3./2.*_lambdas[0][0],3./2.*_lambdas[0][0]+3./2.*_lambdas[0][1],27*_lambdas[0][0]*_lambdas[0][1]*_lambdas[0][2]);
- printf("2:A S DP %f %f %f\n",3./2.*_lambdas[1][0],3./2.*_lambdas[1][0]+3./2.*_lambdas[1][1],27*_lambdas[1][0]*_lambdas[1][2]*_lambdas[1][2]);
-//printf("sort  %f %f %f -->%f %f %f\n",EVa[0],EVa[1],EVa[2],_lambdas[0][0],_lambdas[0][1],_lambdas[0][2]);
-//printf("sort  %f %f %f -->%f %f %f\n",EVa2[0],EVa2[1],EVa2[2],_lambdas[1][0],_lambdas[1][1],_lambdas[1][2]);
+//   printf("%f %f %f  DP  %f %f\n",EVa[0],EVa[1],EVa[2],27*EVa[0]*EVa[1]*EVa[2],27*a);
+    printf("1:A S DP %f %f %f\n",3./2.*fLambdas[0][0],3./2.*fLambdas[0][0]+3./2.*fLambdas[0][1],27*fLambdas[0][0]*fLambdas[0][1]*fLambdas[0][2]);
+    printf("2:A S DP %f %f %f\n",3./2.*fLambdas[1][0],3./2.*fLambdas[1][0]+3./2.*fLambdas[1][1],27*fLambdas[1][0]*fLambdas[1][2]*fLambdas[1][2]);
+//printf("sort  %f %f %f -->%f %f %f\n",EVa[0],EVa[1],EVa[2],fLambdas[0][0],fLambdas[0][1],fLambdas[0][2]);
+//printf("sort  %f %f %f -->%f %f %f\n",EVa2[0],EVa2[1],EVa2[2],fLambdas[1][0],fLambdas[1][1],fLambdas[1][2]);
 }
 
 
 
 // Do the general case thrust calculation
-void TFastJet::_calcB(const std::vector<TVector3>& fsmomenta)
+void TFastJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
 {
     double b1=0,b2=0,ml=0,mh=0;
 
@@ -450,8 +450,8 @@ void TFastJet::_calcB(const std::vector<TVector3>& fsmomenta)
     TLorentzVector vH1(0,0,0,0),vH2(0,0,0,0);
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
-            double sprod=p3->Dot(_thrustAxes[0]);
-            double vprod=(p3->Cross(_thrustAxes[0])).Mag();
+            double sprod=p3->Dot(fThrustAxes[0]);
+            double vprod=(p3->Cross(fThrustAxes[0])).Mag();
             fEvis+=sqrt(p3->Mag()*p3->Mag()+0.139*0.139);
 
 
@@ -493,7 +493,7 @@ void TFastJet::_calcB(const std::vector<TVector3>& fsmomenta)
 
 
 // Do the general case thrust calculation
-void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis)
+void TFastJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis)
 {
     // This function implements the iterative algorithm as described in the
     // Pythia manual. We take eight (four) different starting std::vectors
@@ -552,10 +552,10 @@ void TFastJet::_calcT(const std::vector<TVector3>& momenta, double& t, TVector3&
 
 
 // Do the full calculation
-void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
+void TFastJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 {
-    _thrusts.clear();
-    _thrustAxes.clear();
+    fThrusts.clear();
+    fThrustAxes.clear();
 
 
     // Make a std::vector of the three-momenta in the final state
@@ -569,8 +569,8 @@ void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
 
 
     // Clear the caches
-    _thrusts.clear();
-    _thrustAxes.clear();
+    fThrusts.clear();
+    fThrustAxes.clear();
 
 
     // If there are fewer than 2 visible particles, we can't do much
@@ -578,8 +578,8 @@ void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
         {
             for (int i = 0; i < 3; ++i)
                 {
-                    _thrusts.push_back(-1);
-                    _thrustAxes.push_back(TVector3(0,0,0));
+                    fThrusts.push_back(-1);
+                    fThrustAxes.push_back(TVector3(0,0,0));
                 }
             return;
         }
@@ -589,19 +589,19 @@ void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
     if (fsmomenta.size() == 2)
         {
             TVector3 axis(0,0,0);
-            _thrusts.push_back(1.0);
-            _thrusts.push_back(0.0);
-            _thrusts.push_back(0.0);
+            fThrusts.push_back(1.0);
+            fThrusts.push_back(0.0);
+            fThrusts.push_back(0.0);
             axis = fsmomenta[0].Unit();
             if (axis.z() < 0) axis = -axis;
-            _thrustAxes.push_back(axis);
+            fThrustAxes.push_back(axis);
             /// @todo Improve this --- special directions bad...
             /// (a,b,c) _|_ 1/(a^2+b^2) (b,-a,0) etc., but which combination minimises error?
             if (axis.z() < 0.75)
-                _thrustAxes.push_back( (axis.Cross(TVector3(0,0,1))).Unit() );
+                fThrustAxes.push_back( (axis.Cross(TVector3(0,0,1))).Unit() );
             else
-                _thrustAxes.push_back( (axis.Cross(TVector3(0,1,0))).Unit() );
-            _thrustAxes.push_back( _thrustAxes[0].Cross(_thrustAxes[1]) );
+                fThrustAxes.push_back( (axis.Cross(TVector3(0,1,0))).Unit() );
+            fThrustAxes.push_back( fThrustAxes[0].Cross(fThrustAxes[1]) );
             return;
         }
 
@@ -612,14 +612,14 @@ void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
     double val = 0.;
 
     // Get thrust
-    _calcT(fsmomenta, val, axis);
+    CalculateT(fsmomenta, val, axis);
     //MSG_DEBUG("Mom sum = " << momentumSum);
-    _thrusts.push_back(val / momentumSum);
+    fThrusts.push_back(val / momentumSum);
     // Make sure that thrust always points along the +ve z-axis.
     if (axis.z() < 0) axis = -axis;
     axis = axis.Unit();
     //MSG_DEBUG("Axis = " << axis);
-    _thrustAxes.push_back(axis);
+    fThrustAxes.push_back(axis);
 
     // Get thrust major
     std::vector<TVector3> threeMomenta;
@@ -630,29 +630,29 @@ void TFastJet::_calcThrust(const std::vector<TVector3>& fsmomenta)
             const TVector3 vpar = v->Dot(axis.Unit()) * axis.Unit();
             threeMomenta.push_back(*v - vpar);
         }
-    _calcT(threeMomenta, val, axis);
-    _thrusts.push_back(val / momentumSum);
+    CalculateT(threeMomenta, val, axis);
+    fThrusts.push_back(val / momentumSum);
     if (axis.x() < 0) axis = -axis;
     axis = axis.Unit();
-    _thrustAxes.push_back(axis);
+    fThrustAxes.push_back(axis);
 
     // Get thrust minor
-    if (_thrustAxes[0].Dot(_thrustAxes[1]) < 1e-10)
+    if (fThrustAxes[0].Dot(fThrustAxes[1]) < 1e-10)
         {
-            axis = _thrustAxes[0].Cross(_thrustAxes[1]);
-            _thrustAxes.push_back(axis);
+            axis = fThrustAxes[0].Cross(fThrustAxes[1]);
+            fThrustAxes.push_back(axis);
             val = 0.0;
             //foreach (const TVector3& v, fsmomenta) {
             for (std::vector<TVector3>::const_iterator v=fsmomenta.begin(); v!=fsmomenta.end(); v++)
                 {
                     val += std::abs(v->Dot(axis));
                 }
-            _thrusts.push_back(val / momentumSum);
+            fThrusts.push_back(val / momentumSum);
         }
     else
         {
-            _thrusts.push_back(-1.0);
-            _thrustAxes.push_back(TVector3(0,0,0));
+            fThrusts.push_back(-1.0);
+            fThrustAxes.push_back(TVector3(0,0,0));
         }
 
 

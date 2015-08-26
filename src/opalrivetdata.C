@@ -47,7 +47,7 @@ void opalrivetdata::SlaveBegin(TTree * tree)
         }
     TDB->Close();
     fOutput->Add(fSampleInfo);
-    fGenerator="opal"; 
+    fGenerator="opal";
     TNamed *out = (TNamed *) fInput->FindObject("PROOF_OUTPUTFILE_LOCATION");
     fProofFile = new TProofOutputFile(Form("./output/%s_%s%s_%s.root",fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),YEARSUFFIX,CUTS), "M");
     TDirectory *savedir = gDirectory;
@@ -77,17 +77,17 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (std::abs(fE-161)<0.1) if (2*this->Ebeam < 160.0 || 2*this->Ebeam> 162.0 ) return kFALSE;
     FillWithLabel(fHMap["weight_before_selection"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-    
+
     if( this->Ntkd02 < int(mycuts[CUTS]["Ntkd02"]) )  return kFALSE;
     if( std::abs(this->Tvectc[2])> mycuts[CUTS]["costt"] )  return kFALSE;
     if( this->Lwqqqq>mycuts[CUTS]["wqqqq"] )  return kFALSE;
-    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  return kFALSE;    
+    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  return kFALSE;
     if( this->Il2mh!=int(mycuts[CUTS]["Il2mh"]))   return kFALSE;
     if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   return kFALSE;
     if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   return kFALSE;
 
-	double SP;
-	if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
+    double SP;
+    if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
     if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
 
     if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) return kFALSE;
@@ -107,11 +107,11 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     printf("Tuple:A S DP %f %f %f\n",Admt,Sdmt,Dpdmt);
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
-			printf("%s %s\n", datatypes[j].c_str(),options[j].c_str());
+            printf("%s %s\n", datatypes[j].c_str(),options[j].c_str());
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
             for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                 {
-					printf("%s \n", it->c_str());
+                    printf("%s \n", it->c_str());
                     TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
                     MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                 }
@@ -148,8 +148,8 @@ void opalrivetdata::Terminate()
             if ( obj->IsA()->InheritsFrom( "TH1"    ) ) fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj)   );
             if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
         }
-    std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();    
-        
+    std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
+
     double number_of_events=fHMap["weight"]->GetBinContent(1)-fHMap["weight"]->Integral(20,30)*mycuts[CUTS]["backgroundscale"];
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
@@ -160,12 +160,11 @@ void opalrivetdata::Terminate()
                     H_it->second->Divide(fHMap[std::string("H_truesignal_")+name]);
                     fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name],fHMap[std::string("H_mcbackgr_")+name],1.0,-mycuts[CUTS]["backgroundscale"]);
                     fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
-                    if   (H_it->first.find("JETR")!=std::string::npos) 
-                    fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
-                    else
-                    if (std::abs(fHMap[std::string("H_corrected_")+name]->Integral())>0.0001)
-                    fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->Integral());
-                    
+                    if   (H_it->first.find("JETR")!=std::string::npos)
+                        fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
+                    else if (std::abs(fHMap[std::string("H_corrected_")+name]->Integral())>0.0001)
+                        fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->Integral());
+
                 }
             if (H_it->first.find("H_acceptancebackgr_")!=std::string::npos)
                 {
@@ -184,15 +183,14 @@ void opalrivetdata::Terminate()
                     G_it->second->Divide(fGMap[std::string("G_mcsignal_")+name],fGMap[std::string("G_truesignal_")+name]);
                     fGMap[std::string("G_corrected_")+name]->Add(fGMap[std::string("G_data_")+name],fGMap[std::string("G_mcbackgr_")+name],1,-mycuts[CUTS]["backgroundscale"]);
                     fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
-                    
-                    if   (G_it->first.find("JETR")!=std::string::npos) 
-                    fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
-                    else
-                   if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
-                    fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
-                    
-                    
-                    
+
+                    if   (G_it->first.find("JETR")!=std::string::npos)
+                        fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
+                    else if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
+                        fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
+
+
+
                 }
             if (G_it->first.find("G_acceptancebackgr_")!=std::string::npos)
                 {
@@ -209,7 +207,8 @@ Bool_t opalrivetdata::Notify()
     TString currentfile=gSystem->BaseName(fChain->GetCurrentFile()->GetName());
     TFile* theDB=new TFile("./opalrivetdata/DB.root","r");
     TMap* filetosamplemap=(TMap*)theDB->Get("mymap");
-    if (!filetosamplemap) printf("No map found!\n"); else filetosamplemap->Print();
+    if (!filetosamplemap) printf("No map found!\n");
+    else filetosamplemap->Print();
     TObjString* samplename=(TObjString* )((*filetosamplemap)(Form("%s_%s",currentfile.Data(),fEnergyString.c_str())));
     if (!samplename) printf("No samplename found!\n");
     else

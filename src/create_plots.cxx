@@ -10,17 +10,17 @@
 
 void DivideByBinWidth(TH1D& H)
 {
-double y,ye,w;	
-for (int i=1; i<H.GetNbinsX();i++)
-{
-y=H.GetBinContent(i);
-ye=H.GetBinError(i);
-w=H.GetBinWidth(i);
-H.SetBinContent(i,y/w);
-H.SetBinError(i,ye/w);
-}	
-	
-}	
+    double y,ye,w;
+    for (int i=1; i<H.GetNbinsX(); i++)
+        {
+            y=H.GetBinContent(i);
+            ye=H.GetBinError(i);
+            w=H.GetBinWidth(i);
+            H.SetBinContent(i,y/w);
+            H.SetBinError(i,ye/w);
+        }
+
+}
 
 
 
@@ -64,18 +64,18 @@ int main(int argc, char* argv[])
             int M=sqrt(quantities.size())+1;
             //CH->Divide(M,M);
             TPad *pads[M][2*M];
-            for (int j=0;j<M;j++)
-            for (int i=0;i<M;i++)
-            {
-			pads[i][2*j]=new TPad(Form("n%i_%i",i,j),Form("n%i_%i",i,j),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
-			pads[i][2*j]->SetBottomMargin(0);
-			pads[i][2*j]->Draw();
-			pads[i][2*j+1]=new TPad(Form("r%i_%i",i,j),Form("r%i_%i",i,j),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);	
-			pads[i][2*j+1]->SetTopMargin(0);
-			pads[i][2*j+1]->Draw();
-			}	
-            
-            
+            for (int j=0; j<M; j++)
+                for (int i=0; i<M; i++)
+                    {
+                        pads[i][2*j]=new TPad(Form("n%i_%i",i,j),Form("n%i_%i",i,j),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
+                        pads[i][2*j]->SetBottomMargin(0);
+                        pads[i][2*j]->Draw();
+                        pads[i][2*j+1]=new TPad(Form("r%i_%i",i,j),Form("r%i_%i",i,j),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
+                        pads[i][2*j+1]->SetTopMargin(0);
+                        pads[i][2*j+1]->Draw();
+                    }
+
+
             int icanH=1;
 
             gStyle->SetOptStat(0);
@@ -89,7 +89,7 @@ int main(int argc, char* argv[])
 
                     //CH->cd(icanH);
                     printf("cd %i %i\n",(icanH-1)/M,2*((icanH-1)%M));
-                    
+
                     int currentI=(icanH-1)/M;
                     int currentJ=(icanH-1)%M;
                     pads[currentI][2*currentJ]->cd();
@@ -111,33 +111,35 @@ int main(int argc, char* argv[])
                                     std::string name0=	"H_corrected_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fHMap.find(name)!=fHMap.end())
                                         {
-											// if (name.find("manipdata")!=std::string::npos) fHMap[name]->Scale(0.01);
-                                            
-                                           if (quantity->find("JETR")==std::string::npos) if (name.find("manipdata")==std::string::npos) DivideByBinWidth(*fHMap[name]);
-                                            
-                                     
-                                            
+                                            // if (name.find("manipdata")!=std::string::npos) fHMap[name]->Scale(0.01);
+
+                                            if (quantity->find("JETR")==std::string::npos) if (name.find("manipdata")==std::string::npos) DivideByBinWidth(*fHMap[name]);
+
+
+
                                             fHMap[name]->SetTitle(";;Fraction");
                                             fHMap[name]->Draw(hoption.c_str());
-                                         
-                                         
-                                         
-                                         //   H_plotted.insert(std::pair<std::string>(name,fHMap[name]));
-if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->Draw("E4SAME");
-	//H_plotted.insert(std::pair<std::string>(name+"_systematics",fHMap[name+"_systematics"]));
-	
-	                                            fHMap[name+"_systematics"]->SetLineColor(usecolors[color%4]);
-                                      //      fHMap[name]->SetMarkerStyle(kFullCircle);
-                                            fHMap[name+"_systematics"]->SetMarkerSize(1.1);
-                                            fHMap[name+"_systematics"]->SetMarkerColor(usecolors[color%4]);
-	 fHMap[name+"_systematics"]->SetFillColor(usecolors[color%4]);
-	
-}
+
+
+
+                                            //   H_plotted.insert(std::pair<std::string>(name,fHMap[name]));
+                                            if (fHMap.find(name+"_systematics")!=fHMap.end())
+                                                {
+                                                    fHMap[name+"_systematics"]->Draw("E4SAME");
+                                                    //H_plotted.insert(std::pair<std::string>(name+"_systematics",fHMap[name+"_systematics"]));
+
+                                                    fHMap[name+"_systematics"]->SetLineColor(usecolors[color%4]);
+                                                    //      fHMap[name]->SetMarkerStyle(kFullCircle);
+                                                    fHMap[name+"_systematics"]->SetMarkerSize(1.1);
+                                                    fHMap[name+"_systematics"]->SetMarkerColor(usecolors[color%4]);
+                                                    fHMap[name+"_systematics"]->SetFillColor(usecolors[color%4]);
+
+                                                }
                                             fHMap[name]->Draw("ASAME");
 
                                             fHMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
                                             if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
-                                             if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetXaxis()->SetRangeUser(0.0000001*sqrt(10),1);
+                                            if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetXaxis()->SetRangeUser(0.0000001*sqrt(10),1);
                                             fHMap[name]->SetLineColor(usecolors[color%4]);
                                             fHMap[name]->SetMarkerStyle(kFullCircle);
                                             fHMap[name]->SetMarkerSize(1.1);
@@ -145,26 +147,26 @@ if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->
 
                                             LH->AddEntry(fHMap[name],(*quantity+" "+*generator).c_str(),"AP");
                                             if (fHMap.find(name+"_systematics")!=fHMap.end())
-                                            LH->AddEntry(fHMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
+                                                LH->AddEntry(fHMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
                                             hoption="same";
-                                        
-                                           
-                                           if (name!=name0)
-                                           {
-                                                                                        TH1D* temp=(TH1D*)fHMap[name]->Clone();
-                                            temp->Divide(fHMap[name0]);
-                                         pads[currentI][2*currentJ+1]->cd();
-                                         temp->Draw(hoption.c_str());
-                                         temp->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                         if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.0000001*sqrt(10),1);
-                                         temp->GetYaxis()->SetRangeUser(0.5,1.5);
-                                         TF1 *fa1 = new TF1("fa1","1",0.000001*sqrt(10),100);
-                                         fa1->SetLineColor(usecolors[0]);
-                                         fa1->DrawClone("same+");
-                                         pads[currentI][2*currentJ]->cd();
-}
-                                        
-                                        
+
+
+                                            if (name!=name0)
+                                                {
+                                                    TH1D* temp=(TH1D*)fHMap[name]->Clone();
+                                                    temp->Divide(fHMap[name0]);
+                                                    pads[currentI][2*currentJ+1]->cd();
+                                                    temp->Draw(hoption.c_str());
+                                                    temp->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                                    if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.0000001*sqrt(10),1);
+                                                    temp->GetYaxis()->SetRangeUser(0.5,1.5);
+                                                    TF1 *fa1 = new TF1("fa1","1",0.000001*sqrt(10),100);
+                                                    fa1->SetLineColor(usecolors[0]);
+                                                    fa1->DrawClone("same+");
+                                                    pads[currentI][2*currentJ]->cd();
+                                                }
+
+
                                         }
                                     else puts("Not Found");
                                     color++;
@@ -173,7 +175,7 @@ if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->
 
                     if (//(*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
                         (quantity->find("JETR")!=std::string::npos)
-                        )
+                    )
                         {
 
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)
@@ -184,17 +186,18 @@ if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->
                                         {
                                             fGMap[name]->SetTitle(";;Fraction");
                                             fGMap[name]->Draw(goption.c_str());
-                                            if (fGMap.find(name+"_systematics")!=fGMap.end()) {
-												     //fGMap[name+"_systematics"]->SetMarkerStyle(kFullCircle);
-												                                                 fGMap[name]->SetLineColor(usecolors[color%5]);
-												fGMap[name+"_systematics"]->SetMarkerSize(1.1);
-                                            fGMap[name+"_systematics"]->SetMarkerColor(usecolors[color%5]);
-                                            	 fGMap[name+"_systematics"]->SetFillColor(usecolors[color%5]);
-												
-												
-												 fGMap[name+"_systematics"]->Draw("SAMELP4");
-												
-											}
+                                            if (fGMap.find(name+"_systematics")!=fGMap.end())
+                                                {
+                                                    //fGMap[name+"_systematics"]->SetMarkerStyle(kFullCircle);
+                                                    fGMap[name]->SetLineColor(usecolors[color%5]);
+                                                    fGMap[name+"_systematics"]->SetMarkerSize(1.1);
+                                                    fGMap[name+"_systematics"]->SetMarkerColor(usecolors[color%5]);
+                                                    fGMap[name+"_systematics"]->SetFillColor(usecolors[color%5]);
+
+
+                                                    fGMap[name+"_systematics"]->Draw("SAMELP4");
+
+                                                }
                                             fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
                                             if (*algorithm=="siscone") fGMap[name]->GetXaxis()->SetRangeUser(1.0,300);
                                             fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
@@ -205,60 +208,60 @@ if (fHMap.find(name+"_systematics")!=fHMap.end()) { fHMap[name+"_systematics"]->
 
 
 
-                                                       if (name!=name0)
-                                             {
-                                         
-                                         pads[currentI][2*currentJ+1]->cd();
-                                                                                        TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
-                                                                                        temp->SetName(("clone"+name).c_str());
-                                            temp->Divide(fGMap[name],fGMap[name0]);
+                                            if (name!=name0)
+                                                {
+
+                                                    pads[currentI][2*currentJ+1]->cd();
+                                                    TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
+                                                    temp->SetName(("clone"+name).c_str());
+                                                    temp->Divide(fGMap[name],fGMap[name0]);
 
 
 
-                                         TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
-                                         fa1->SetLineColor(usecolors[0]);
-fa1->Draw("L");
+                                                    TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
+                                                    fa1->SetLineColor(usecolors[0]);
+                                                    fa1->Draw("L");
 
-                                         //temp->Draw("APLESAME");
-                                         
-
-                                         
-                                         fa1->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                         fa1->GetYaxis()->SetRangeUser(0.0,2.0);
+                                                    //temp->Draw("APLESAME");
 
 
 
-                                            temp->SetLineColor(usecolors[color%5]);
-                                            temp->SetMarkerStyle(kFullCircle);
-                                            temp->SetMarkerSize(1.1);
-                                            temp->SetMarkerColor(usecolors[color%5]);
+                                                    fa1->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                                    fa1->GetYaxis()->SetRangeUser(0.0,2.0);
 
-                                         temp->Draw(goption.c_str());
-                                         temp->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                         temp->GetYaxis()->SetRangeUser(0.0,2.0);
-                                         //TF1 *fa1 = new TF1("fa1","1",0.0001*sqrt(10),100);
-                                         //fa1->SetLineColor(usecolors[0]);
-                                         //fa1->Draw("same+");
 
-                                         pads[currentI][2*currentJ]->cd();
-}
+
+                                                    temp->SetLineColor(usecolors[color%5]);
+                                                    temp->SetMarkerStyle(kFullCircle);
+                                                    temp->SetMarkerSize(1.1);
+                                                    temp->SetMarkerColor(usecolors[color%5]);
+
+                                                    temp->Draw(goption.c_str());
+                                                    temp->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                                    temp->GetYaxis()->SetRangeUser(0.0,2.0);
+                                                    //TF1 *fa1 = new TF1("fa1","1",0.0001*sqrt(10),100);
+                                                    //fa1->SetLineColor(usecolors[0]);
+                                                    //fa1->Draw("same+");
+
+                                                    pads[currentI][2*currentJ]->cd();
+                                                }
 
 
 
                                             LH->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");
                                             if (fGMap.find(name+"_systematics")!=fGMap.end())
-                                            LH->AddEntry(fGMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
+                                                LH->AddEntry(fGMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
                                             goption="PLESAME";///ROOT
-                                            
-                                            
- 
-                                        
-                                        
+
+
+
+
+
                                         }
-                                            
-                                            
-                                            
-                                        
+
+
+
+
                                     else puts("Not Found");
                                     color++;
                                 }

@@ -927,22 +927,22 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
         {
             PASSED=true;
 
-            A->fHMap[H_prefix+"1-T"]->Fill(1-tfj->_thrusts[0],weight);
-            A->fHMap[H_prefix+"T"]->Fill(tfj->_thrusts[0],weight);
+            A->fHMap[H_prefix+"1-T"]->Fill(1-tfj->fThrusts[0],weight);
+            A->fHMap[H_prefix+"T"]->Fill(tfj->fThrusts[0],weight);
 
-            A->fHMap[H_prefix+"T-Maj"]->Fill(tfj->_thrusts[1],weight);
-            A->fHMap[H_prefix+"T-Min"]->Fill(tfj->_thrusts[2],weight);
+            A->fHMap[H_prefix+"T-Maj"]->Fill(tfj->fThrusts[1],weight);
+            A->fHMap[H_prefix+"T-Min"]->Fill(tfj->fThrusts[2],weight);
 
-            A->fHMap[H_prefix+"O"]->Fill(tfj->_thrusts[1]-tfj->_thrusts[2],weight);
+            A->fHMap[H_prefix+"O"]->Fill(tfj->fThrusts[1]-tfj->fThrusts[2],weight);
 
-            A->fHMap[H_prefix+"A"]->Fill(tfj->_lambdas[1][0]*3 / 2.0,weight);            
-            A->fHMap[H_prefix+"S"]->Fill(tfj->_lambdas[1][0]*3 / 2.0+tfj->_lambdas[1][1]*3 / 2.0,weight);
-            
-            
-            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[0][0]*tfj->_lambdas[0][1]+tfj->_lambdas[0][1]*tfj->_lambdas[0][2]+tfj->_lambdas[0][2]*tfj->_lambdas[0][0]),weight);
-            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight);
+            A->fHMap[H_prefix+"A"]->Fill(tfj->fLambdas[1][0]*3 / 2.0,weight);
+            A->fHMap[H_prefix+"S"]->Fill(tfj->fLambdas[1][0]*3 / 2.0+tfj->fLambdas[1][1]*3 / 2.0,weight);
 
-//A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight); //?
+
+            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->fLambdas[0][0]*tfj->fLambdas[0][1]+tfj->fLambdas[0][1]*tfj->fLambdas[0][2]+tfj->fLambdas[0][2]*tfj->fLambdas[0][0]),weight);
+            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->fLambdas[0][0]*tfj->fLambdas[0][1]*tfj->fLambdas[0][2],weight);
+
+//A->fHMap[H_prefix+"DP"]->Fill(27*tfj->fLambdas[0][0]*tfj->fLambdas[0][1]*tfj->fLambdas[0][2],weight); //?
 
             A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
             A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);

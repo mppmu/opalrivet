@@ -34,7 +34,7 @@ bin/x86_64/create_systematics $energy "${systematics[@]}"
 $MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
 #$MAKE output/shapemanip_$energy".root"
-bin/x86_64/plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 
 done
 
