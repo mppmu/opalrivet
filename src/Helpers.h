@@ -935,10 +935,12 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
 
             A->fHMap[H_prefix+"O"]->Fill(tfj->_thrusts[1]-tfj->_thrusts[2],weight);
 
-            A->fHMap[H_prefix+"A"]->Fill(tfj->_lambdas[1][0]*3 / 2.0,weight);
+            A->fHMap[H_prefix+"A"]->Fill(tfj->_lambdas[1][0]*3 / 2.0,weight);            
             A->fHMap[H_prefix+"S"]->Fill(tfj->_lambdas[1][0]*3 / 2.0+tfj->_lambdas[1][1]*3 / 2.0,weight);
-            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[1][0]*tfj->_lambdas[1][1]+tfj->_lambdas[1][1]*tfj->_lambdas[1][2]+tfj->_lambdas[1][2]*tfj->_lambdas[1][0]),weight);
-            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[1][0]*tfj->_lambdas[1][1]*tfj->_lambdas[1][2],weight);
+            
+            
+            A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->_lambdas[0][0]*tfj->_lambdas[0][1]+tfj->_lambdas[0][1]*tfj->_lambdas[0][2]+tfj->_lambdas[0][2]*tfj->_lambdas[0][0]),weight);
+            A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight);
 
 //A->fHMap[H_prefix+"DP"]->Fill(27*tfj->_lambdas[0][0]*tfj->_lambdas[0][1]*tfj->_lambdas[0][2],weight); //?
 

@@ -197,11 +197,11 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
     //this->_thrusts[0]=1-t/momsum;
 
 
-    _regparam=2.0;
-    if (A.size()>2) _calcSphericity(jetstlv,1);
+    //_regparam=2.0;
+    if (A.size()>2) _calcSphericity(jetstlv,100000);
 
-    _regparam=1.0;
-    if (A.size()>2) _calcSphericity(jetstlv,0);
+    //_regparam=1.0;
+    //if (A.size()>2) _calcSphericity(jetstlv,0);
 
 
     if (A.size()>2) _calcB(jetstlv);
@@ -311,103 +311,130 @@ void TFastJet::_calcSphericity(const std::vector<TVector3>& fsmomenta, int where
             //  clear();
             return;
         }
-
+//printf("fsmomenta.size()==%i\n",fsmomenta.size());
     // Iterate over all the final state particles.
     TMatrixD mMom(3,3);
+TMatrixD mMom2(3,3);
+    for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++) mMom[i][j]=0;
 
-    for (size_t i = 0; i < 3; ++i)
-        for (size_t j = 0; j < 3; ++j) mMom[i][j]=0;
+
+    for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++) mMom2[i][j]=0;
+
 
     double totalMomentum = 0.0;
-    //MSG_DEBUG("Number of particles = " << fsmomenta.size());
-    //foreach (const TVector3& p3, fsmomenta) {
+    double totalMomentum2 = 0.0;
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
-            // Build the (regulated) normalising factor.
-            //totalMomentum += std::pow(p3->Mag(), _regparam);
 
 totalMomentum += p3->Mag();
-
-            // Build (regulated) quadratic momentum components.
-            //const double regfactor = std::abs(std::pow(p3->Mag(), _regparam-2));
-            const double regfactor=1.0;
+totalMomentum2 += p3->Mag()*p3->Mag();
+            double regfactor=1.0/p3->Mag();
+                        double regfactor2=1.0;
             //if (!fuzzyEquals(regfactor, 1.0)) {
             //  MSG_TRACE("Regfactor (r=" << _regparam << ") = " << regfactor);
             //}
 
 
-            TMatrixD mMomPart(3,3);
-            for (size_t i = 0; i < 3; ++i)
+            //TMatrixD mMomPart(3,3);
+            //printf("%f %f %f\n",p3[0],p3[1],p3[2]);
+            /*
+            for (size_t i = 0; i < 3; i++)
                 {
-                    for (size_t j = 0; j < 3; ++j)
+                    for (size_t j = 0; j < 3;j++)
                         {
-                            mMom[i][j]+= regfactor *p3[i]*p3[j];
+                            mMom[i][j]+= regfactor *p3[i]*p3[j];///p3->Mag();
                         }
                 }
 
+        */
+        
+        mMom[0][0]+=regfactor *p3->x()*p3->x();
+        mMom[1][0]+=regfactor *p3->y()*p3->x();
+        mMom[2][0]+=regfactor *p3->z()*p3->x();
+        mMom[0][1]+=regfactor *p3->x()*p3->y();
+        mMom[1][1]+=regfactor *p3->y()*p3->y();
+        mMom[2][1]+=regfactor *p3->z()*p3->y();
+        mMom[0][2]+=regfactor *p3->x()*p3->z();
+        mMom[1][2]+=regfactor *p3->y()*p3->z();
+        mMom[2][2]+=regfactor *p3->z()*p3->z();
+
+
+        mMom2[0][0]+=regfactor2 *p3->x()*p3->x();
+        mMom2[1][0]+=regfactor2 *p3->y()*p3->x();
+        mMom2[2][0]+=regfactor2 *p3->z()*p3->x();
+        mMom2[0][1]+=regfactor2 *p3->x()*p3->y();
+        mMom2[1][1]+=regfactor2 *p3->y()*p3->y();
+        mMom2[2][1]+=regfactor2 *p3->z()*p3->y();
+        mMom2[0][2]+=regfactor2 *p3->x()*p3->z();
+        mMom2[1][2]+=regfactor2 *p3->y()*p3->z();
+        mMom2[2][2]+=regfactor2 *p3->z()*p3->z();
+
+
+        
+        
         }
 
     // Normalise to total (regulated) momentum.
     //mMom=mMom*(1.0/totalMomentum);
 
-    for (size_t i = 0; i < 3; ++i)
-        for (size_t j = 0; j < 3; ++j) mMom[i][j]=mMom[i][j]/totalMomentum/totalMomentum;
-    //MSG_DEBUG("Momentum tensor = " << "\n" << mMom);
+    for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++) mMom[i][j]=mMom[i][j]/totalMomentum;
 
-    // Check that the matrix is symmetric.
-    //const bool isSymm = mMom.isSymm();
-    //if (!isSymm) {
-    //MSG_ERROR("Error: momentum tensor not symmetric (r=" << _regparam << ")");
-    //MSG_ERROR("[0,1] vs. [1,0]: " << mMom.get(0,1) << ", " << mMom.get(1,0));
-    //MSG_ERROR("[0,2] vs. [2,0]: " << mMom.get(0,2) << ", " << mMom.get(2,0));
-    //MSG_ERROR("[1,2] vs. [2,1]: " << mMom.get(1,2) << ", " << mMom.get(2,1));
-    // }
-    // If not symmetric, something's wrong (we made sure the error msg appeared first).
-    //assert(isSymm);
+    for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++) mMom2[i][j]=mMom2[i][j]/totalMomentum2;
 
-    // Diagonalize momentum matrix.
-    //const EigenSystem<3> eigen3 = diagonalize(mMom);
     
     TMatrixDSym SmMom(3);
-     for (size_t i = 0; i < 3; ++i)
-        for (size_t j = 0; j < 3; ++j) SmMom[i][j]=mMom[i][j];
+     for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++) SmMom[i][j]=mMom[i][j];
+    
+        TMatrixDSym SmMom2(3);
+     for (size_t i = 0; i < 3; i++)
+        for (size_t j = 0; j < 3; j++) SmMom2[i][j]=mMom2[i][j];
+    
+    int w=0;
     
     TMatrixDSymEigen* eigen3=new TMatrixDSymEigen(SmMom);
-    //MSG_DEBUG("Diag momentum tensor = " << "\n" << eigen3.getDiagMatrix());
+    TMatrixDSymEigen* eigen23=new TMatrixDSymEigen(SmMom2);
+    _lambdas[0].clear();
+    _sphAxes[0].clear();
+    _lambdas[1].clear();
+    _sphAxes[1].clear();
 
-    // Reset and set eigenvalue/vector parameters.
-    _lambdas[where].clear();
-    _sphAxes[where].clear();
-    //const EigenSystem<3>::EigenPairs epairs = eigen3.getEigenPairs();
-    //assert(epairs.size() == 3);
 
     TVectorD EVa=eigen3->GetEigenValues();
     TMatrixD EVe=eigen3->GetEigenVectors();
-    for (size_t i = 0; i < 3; ++i)
-        {
-            _lambdas[where].push_back(EVa[i]);
+    TVectorD EVa2=eigen23->GetEigenValues();
+    TMatrixD EVe2=eigen23->GetEigenVectors();
 
-            _sphAxes[where].push_back(TVector3(EVe[i][0],EVe[i][1],EVe[i][2]));
+    for (int i = 2; i>= 0; i--)
+        {
+            _lambdas[0].push_back(EVa[i]);
+            _sphAxes[0].push_back(TVector3(EVe[i][0],EVe[i][1],EVe[i][2]));
+            _lambdas[1].push_back(EVa2[i]);
+            _sphAxes[1].push_back(TVector3(EVe2[i][0],EVe2[i][1],EVe2[i][2]));
+
+
         }
 
-    std::reverse(_sphAxes[where].begin(),_sphAxes[where].end());
-    std::reverse(_lambdas[where].begin(),_lambdas[where].end());
-   printf("%f          %f %f %f  DP  %f\n",_regparam,EVa[0],EVa[1],EVa[2],27*EVa[0]*EVa[1]*EVa[2]);
 
 
 
-    // Debug output.
-    /*
-      MSG_DEBUG("Lambdas = ("
-               << lambda1() << ", " << lambda2() << ", " << lambda3() << ")");
-      MSG_DEBUG("Sum of lambdas = " << lambda1() + lambda2() + lambda3());
-      MSG_DEBUG("Vectors = "
-               << sphericityAxis() << ", "
-               << sphericityMajorAxis() << ", "
-               << sphericityMinorAxis() << ")");
 
 
-    */
+//    std::reverse(_sphAxes[0].begin(),_sphAxes[0].end());
+//    std::reverse(_lambdas[0].begin(),_lambdas[0].end());
+//    std::reverse(_sphAxes[1].begin(),_sphAxes[1].end());
+//    std::reverse(_lambdas[1].begin(),_lambdas[1].end());
+
+
+ //   printf("%f %f %f  DP  %f %f\n",EVa[0],EVa[1],EVa[2],27*EVa[0]*EVa[1]*EVa[2],27*a);
+   printf("1:A S DP %f %f %f\n",3./2.*_lambdas[0][0],3./2.*_lambdas[0][0]+3./2.*_lambdas[0][1],27*_lambdas[0][0]*_lambdas[0][1]*_lambdas[0][2]);
+ printf("2:A S DP %f %f %f\n",3./2.*_lambdas[1][0],3./2.*_lambdas[1][0]+3./2.*_lambdas[1][1],27*_lambdas[1][0]*_lambdas[1][2]*_lambdas[1][2]);
+//printf("sort  %f %f %f -->%f %f %f\n",EVa[0],EVa[1],EVa[2],_lambdas[0][0],_lambdas[0][1],_lambdas[0][2]);
+//printf("sort  %f %f %f -->%f %f %f\n",EVa2[0],EVa2[1],EVa2[2],_lambdas[1][0],_lambdas[1][1],_lambdas[1][2]);
 }
 
 

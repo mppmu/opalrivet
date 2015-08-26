@@ -104,12 +104,14 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
     if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
-    printf("DP %f\n",Dpdmt);
+    printf("Tuple:A S DP %f %f %f\n",Admt,Sdmt,Dpdmt);
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
+			printf("%s %s\n", datatypes[j].c_str(),options[j].c_str());
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
             for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                 {
+					printf("%s \n", it->c_str());
                     TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
                     MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                 }
