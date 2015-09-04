@@ -339,11 +339,15 @@ void Ntanalyse( string filename,std::string adminfile="" ) {
   hism.subs_4fback( "GRC4F", 1.05, 870000 );
   hism.subs_4fback( "GRC4F", 1.00, 900000, "HERWIG" );
 
+
+/*
   // Do subsample calculations:
   S4sub s4sub( qcdntuples.cms() );   // init 
   s4sub.corr_s4data();               // correct
   s4sub.sigm_s4data_prof();          // create&fill profile
   s4sub.sigm_s4data_prof( true );    // same for the moments
+
+*/
 
   // Detector systematics:
   //hism.sysdet_add();                         very old

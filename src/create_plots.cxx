@@ -157,8 +157,8 @@ int main(int argc, char* argv[])
                                                     temp->Divide(fHMap[name0]);
                                                     pads[currentI][2*currentJ+1]->cd();
                                                     temp->Draw(hoption.c_str());
-                                                    temp->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                                    if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.0000001*sqrt(10),1);
+                                                    temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
+                                                    if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                                     temp->GetYaxis()->SetRangeUser(0.5,1.5);
                                                     TF1 *fa1 = new TF1("fa1","1",0.000001*sqrt(10),100);
                                                     fa1->SetLineColor(usecolors[0]);
@@ -198,7 +198,7 @@ int main(int argc, char* argv[])
                                                     fGMap[name+"_systematics"]->Draw("SAMELP4");
 
                                                 }
-                                            fGMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                            fGMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                             if (*algorithm=="siscone") fGMap[name]->GetXaxis()->SetRangeUser(1.0,300);
                                             fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
                                             fGMap[name]->SetLineColor(usecolors[color%5]);
@@ -217,8 +217,9 @@ int main(int argc, char* argv[])
                                                     temp->Divide(fGMap[name],fGMap[name0],false);
 fGMap[name]->Print();
 fGMap[name0]->Print();
+puts("Divided-->");
 temp->Print();
-
+puts("Divided<--");
                                                     //TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
                                                     //fa1->SetLineColor(usecolors[0]);
                                                     //fa1->Draw("L");
@@ -234,8 +235,8 @@ temp->Print();
                                                     temp->SetMarkerColor(usecolors[color%5]);
 
                                                     
-                                                    temp->GetHistogram()->GetXaxis()->SetLimits(0.0001*sqrt(10),1);
-                                                    temp->GetHistogram()->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                                    temp->GetHistogram()->GetXaxis()->SetLimits(0.000001*sqrt(10),1);
+                                                    temp->GetHistogram()->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                                     temp->GetHistogram()->GetYaxis()->SetRangeUser(0.0,2.0);
                                               
                                                 if (name==name0)
@@ -243,7 +244,7 @@ temp->Print();
 												temp->GetHistogram()->Draw("AXIS");
                                                     
                                                     
-                                                    TF1 *fa1 = new TF1("fa1","1",0.0001*sqrt(10),100);
+                                                    TF1 *fa1 = new TF1("fa1","1",0.0000001*sqrt(10),100);
                                                     fa1->SetLineColor(usecolors[0]);
                                                     fa1->Draw("same+");
                                                    } else
@@ -279,6 +280,7 @@ temp->Print();
             CH->Write();
             CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".pdf").c_str());
             CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".png").c_str());
+            CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".root").c_str());
         }
     F->Close();
 }

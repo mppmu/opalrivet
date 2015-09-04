@@ -10,7 +10,8 @@ declare -a systematics=( central  )
 # wqqlnhigh:wqqlnlow wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
 
-
+#$MAKE output/shapemanip_"161.root"
+#exit
 
 
 for energy in "${energies[@]}"
@@ -26,20 +27,21 @@ done
 
 for cut in "${cuts[@]}"
 do
-#$MAKE output/opal"_"$energy"_"$cut".root" CUTS=$cut
+$MAKE output/opal"_"$energy"_"$cut".root" CUTS=$cut
 :
 done
 $MAKE bin/x86_64/create_systematics
-#bin/x86_64/create_systematics $energy "${systematics[@]}"
+bin/x86_64/create_systematics $energy "${systematics[@]}"
 
 
 
 #$MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
-#$MAKE output/shapemanip_$energy".root"
+$MAKE output/shapemanip_$energy".root"
 make bin/x86_64/create_plots
-bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+#bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 
+bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 done
 
 

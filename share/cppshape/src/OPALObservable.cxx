@@ -231,7 +231,7 @@ void OPALObservable::init_JETR()
         0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
         0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
     };
-
+printf(" JETR IS CALLLLLLLLLLLLLLLLED---------__>\n");
     binMap["JETR"]= bins;
     nbinMap["JETR"]= sizeof( bins )/sizeof( FReal )-1;
 }
