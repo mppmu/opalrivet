@@ -942,7 +942,6 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->fLambdas[0][0]*tfj->fLambdas[0][1]+tfj->fLambdas[0][1]*tfj->fLambdas[0][2]+tfj->fLambdas[0][2]*tfj->fLambdas[0][0]),weight);
             A->fHMap[H_prefix+"DP"]->Fill(27*tfj->fLambdas[0][0]*tfj->fLambdas[0][1]*tfj->fLambdas[0][2],weight);
 
-//A->fHMap[H_prefix+"DP"]->Fill(27*tfj->fLambdas[0][0]*tfj->fLambdas[0][1]*tfj->fLambdas[0][2],weight); //?
 
             A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
             A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);
@@ -951,23 +950,19 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
-//puts("DEBUG");
             if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="siscone")
                 {
                     std::vector<double> ycuts;
                     ycuts.push_back(1.0);
                     for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
                     ycuts.push_back(0.0);
-                    //     for ( j=0; j<6; j++)  printf("%s %f\n",algo.c_str(), ycuts[j]);
-
-                    //for ( j=0; j<6; j++)  printf("%s %f\n","OLD",A->Yddmt[j]);
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
                     for ( j=0; j<5; j++)
                         {
                             for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
                                 A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
                             for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
-                                //if ((A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]>ycuts.at(j+1))&&(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetX()[i]<ycuts.at(j)))
+                                
                                 {
                                     double x,y;
 
@@ -1003,9 +998,6 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                         }
 
                 }
-
-
-
 
 
             if (algo=="cambridge"||algo=="antikt"||algo=="kt")

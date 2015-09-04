@@ -207,27 +207,24 @@ int main(int argc, char* argv[])
                                             fGMap[name]->SetMarkerColor(usecolors[color%5]);
 
 
-
-                                            if (name!=name0)
+  printf("------>%s %s\n",name.c_str(),name0.c_str());
+                                           // if (name!=name0)
                                                 {
 
                                                     pads[currentI][2*currentJ+1]->cd();
                                                     TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
                                                     temp->SetName(("clone"+name).c_str());
-                                                    temp->Divide(fGMap[name],fGMap[name0]);
+                                                    temp->Divide(fGMap[name],fGMap[name0],false);
+fGMap[name]->Print();
+fGMap[name0]->Print();
+temp->Print();
 
-
-
-                                                    TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
-                                                    fa1->SetLineColor(usecolors[0]);
-                                                    fa1->Draw("L");
+                                                    //TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
+                                                    //fa1->SetLineColor(usecolors[0]);
+                                                    //fa1->Draw("L");
 
                                                     //temp->Draw("APLESAME");
 
-
-
-                                                    fa1->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                                    fa1->GetYaxis()->SetRangeUser(0.0,2.0);
 
 
 
@@ -236,16 +233,27 @@ int main(int argc, char* argv[])
                                                     temp->SetMarkerSize(1.1);
                                                     temp->SetMarkerColor(usecolors[color%5]);
 
-                                                    temp->Draw(goption.c_str());
-                                                    temp->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
-                                                    temp->GetYaxis()->SetRangeUser(0.0,2.0);
-                                                    //TF1 *fa1 = new TF1("fa1","1",0.0001*sqrt(10),100);
-                                                    //fa1->SetLineColor(usecolors[0]);
-                                                    //fa1->Draw("same+");
+                                                    
+                                                    temp->GetHistogram()->GetXaxis()->SetLimits(0.0001*sqrt(10),1);
+                                                    temp->GetHistogram()->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                                    temp->GetHistogram()->GetYaxis()->SetRangeUser(0.0,2.0);
+                                              
+                                                if (name==name0)
+                                                   {                                                     
+												temp->GetHistogram()->Draw("AXIS");
+                                                    
+                                                    
+                                                    TF1 *fa1 = new TF1("fa1","1",0.0001*sqrt(10),100);
+                                                    fa1->SetLineColor(usecolors[0]);
+                                                    fa1->Draw("same+");
+                                                   } else
+                                                   temp->Draw("SAMELP");
 
                                                     pads[currentI][2*currentJ]->cd();
+                                                
+                                                
                                                 }
-
+  printf("<------%s %s\n",name.c_str(),name0.c_str());
 
 
                                             LH->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");

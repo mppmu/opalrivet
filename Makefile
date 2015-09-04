@@ -271,7 +271,7 @@ toroot:
 
 
 
-output/manip_%.root: dirs bin/$(ARCH)/create_manip
+output/manip_%.root: dirs bin/$(ARCH)/create_manip  .rootrc
 #toroot
 		bin/$(ARCH)/create_manip   tmp/manip_$*_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_$*_manip.root 
 		bin/$(ARCH)/create_manip   tmp/manip_$*_kt.root         kt share/TC/2012-4-27kt/output_200_$*.root 
@@ -281,7 +281,7 @@ output/manip_%.root: dirs bin/$(ARCH)/create_manip
 
 
 
-output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root
+output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root  .rootrc
 	mkdir -p subs_output
 	share/cppshape/examples/shape/bin/shape2 P output/shape_$* share/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
 	h2root  output/shape_$*_manip.rzhist
