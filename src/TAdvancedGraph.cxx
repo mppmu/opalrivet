@@ -96,7 +96,7 @@ Bool_t TAdvancedGraph::Add( TAdvancedGraph* A, TAdvancedGraph* B, Double_t cA , 
     for (std::vector<double>::iterator it=allx.begin(); it!=allx.end(); it++)
         if 	(finalx.size()==0) finalx.push_back(*it);
         else if (std::abs(*it-finalx.back())>1e-9&&(std::abs(*it-finalx.back())/std::abs(*it+finalx.back())>1e-3 )  ) finalx.push_back(*it);
-        else printf("points equal %f %f\n", *it,finalx.back());
+        //else printf("points equal %f %f\n", *it,finalx.back());
 
 
 
@@ -184,12 +184,12 @@ A->Add(AA,BB,1.0,0.0);
 TAdvancedGraph* B=new  TAdvancedGraph();
 B->Add(AA,BB,0.0,1.0);
 
-puts(">>>>>>>>>+++++++++++++++++++++++++++++++");
-AA->Print();
-BB->Print();
-A->Print();
-B->Print();
-puts("<<<<<<<<+++++++++++++++++++++++++++++++");
+//puts(">>>>>>>>>+++++++++++++++++++++++++++++++");
+//AA->Print();
+//BB->Print();
+//A->Print();
+//B->Print();
+//puts("<<<<<<<<+++++++++++++++++++++++++++++++");
     std::vector<double>	finaly;
     std::vector<double>	finalyel;
     std::vector<double>	finalyeh;

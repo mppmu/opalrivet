@@ -65,6 +65,11 @@ alldata:			\
 
 
 
+pxlib:
+	$(shell cd  px116.fdir; g77 -c *.f )
+
+
+
 include Makefile.software
 
 
@@ -315,4 +320,8 @@ uclean:
 	rm -rf subs_output/*	
 	rm -rf gen/*
 	rm -rf tmp/*
+	
+	
+	
+	
 	

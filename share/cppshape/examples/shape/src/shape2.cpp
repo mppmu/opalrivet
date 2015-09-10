@@ -198,7 +198,10 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 	// Loop over all cuts:
 	if( cur_ntuple->preselect( *ntuple ) ) {
 		
-		//AV! if( cur_ntuple->selection( 0, *ntuple ) ) { printf("EVENT %i %i\n",ntuple->irun(),ntuple->ievnt());  }
+		//AV! 
+		if( cur_ntuple->selection( 0, *ntuple ) ) { 
+			     if (ntuple->irun()==12164&&ntuple->ievnt()==51284) printf("SHAPEEVENT: %i %i %f\n",ntuple->irun(),ntuple->ievnt(),ntuple->tdmt());  
+			}
 		
 	  for( size_t isel= 0; isel < v_cuts.size(); ++isel ) {
 	    if( cur_ntuple->selection( isel, *ntuple ) ) {

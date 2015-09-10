@@ -32,7 +32,7 @@ class TFastJet
 public:
 
     TFastJet();
-    TFastJet( const std::vector<TLorentzVector>&, std::string jetalg,std::map<std::string,double> R, const std::vector<int>* vindx= 0 );
+    TFastJet( const std::vector<TLorentzVector>&, std::string jetalg,std::map<std::string,double> R, const std::vector<int>* vindx= 0 ,bool dbg=false);
     virtual ~TFastJet();
 
     std::vector<TLorentzVector>& InclusiveJets( const double ptmin);
@@ -54,12 +54,15 @@ public:
     std::vector<double> fThrusts;
     std::vector<TVector3> fThrustAxes;
 
-
+bool fDebug;
     double fB[2];
     double fM[2];
     double fEvis;
     /// Eigenvalues.
     std::vector<double> fLambdas[5];
+
+
+std::vector<double> fYFlip;
 
     /// Sphericity axes.
     std::vector<TVector3> fSphericityAxes[5];

@@ -104,16 +104,39 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
     if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
-    printf("Tuple:A S DP %f %f %f\n",Admt,Sdmt,Dpdmt);
+    //printf("Tuple:A S DP %f %f %f\n",Admt,Sdmt,Dpdmt);
+    int shapecomp=0;
+    //if (fSampleInfo->fType==std::string("DATA")||)
+    {
+    //printf("Tuple: %f %f %f\n",Admt,Sdmt,Dpdmt);
+    //printf("OPRIVEVENT: %i %i %f\n",Irun,Ievnt,Tdmt);  
+    
+    }
     for (unsigned int j=0; j<datatypes.size(); j++)
         {
-            printf("%s %s\n", datatypes[j].c_str(),options[j].c_str());
+      //      printf("%s %s\n", datatypes[j].c_str(),options[j].c_str());
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
             for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                 {
-                    printf("%s \n", it->c_str());
-                    TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
+      
+        //            printf("%s \n", it->c_str());
+        bool dbg=false;
+              if (Irun==12164&&Ievnt==51284) dbg=true;
+                    TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL,dbg);
                     MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
+      if (*it=="durham")
+                            if (datatypes[j]=="data"||datatypes[j]=="mcsignal"||datatypes[j]=="mcbackgr")
+                            {
+      //if (Irun==12164&&Ievnt==51284)
+                             if (std::abs(tfj->fYFlip[1]-Yddmt[1])>0.0001)
+                             
+                             printf("RECIVEVENT: %i %i %f %f|%f %f %f\n|%f %f %f %f|\n|%f %f %f %f|\n",Irun,Ievnt,Tdmt,1-Tdmt, tfj->fThrusts[0],tfj->fThrusts[1],tfj->fThrusts[2], 
+                             tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3],
+                             Yddmt[0],Yddmt[1],Yddmt[2],Yddmt[3]
+                             
+                             );    
+                            //if (std::abs(tfj->fYFlip[1]-Yddmt[1])>0.0001) puts("ERRORX"); else puts("ERRORXNO");
+                            }
                 }
         }
     FillWithLabel(fHMap["weight"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);

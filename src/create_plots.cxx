@@ -207,7 +207,7 @@ int main(int argc, char* argv[])
                                             fGMap[name]->SetMarkerColor(usecolors[color%5]);
 
 
-  printf("------>%s %s\n",name.c_str(),name0.c_str());
+  //printf("------>%s %s\n",name.c_str(),name0.c_str());
                                            // if (name!=name0)
                                                 {
 
@@ -215,11 +215,11 @@ int main(int argc, char* argv[])
                                                     TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
                                                     temp->SetName(("clone"+name).c_str());
                                                     temp->Divide(fGMap[name],fGMap[name0],false);
-fGMap[name]->Print();
-fGMap[name0]->Print();
-puts("Divided-->");
-temp->Print();
-puts("Divided<--");
+//fGMap[name]->Print();
+//fGMap[name0]->Print();
+//puts("Divided-->");
+//temp->Print();
+//puts("Divided<--");
                                                     //TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
                                                     //fa1->SetLineColor(usecolors[0]);
                                                     //fa1->Draw("L");
@@ -254,7 +254,7 @@ puts("Divided<--");
                                                 
                                                 
                                                 }
-  printf("<------%s %s\n",name.c_str(),name0.c_str());
+  //printf("<------%s %s\n",name.c_str(),name0.c_str());
 
 
                                             LH->AddEntry(fGMap[name],(*quantity+" "+*generator).c_str(),"AP");

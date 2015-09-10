@@ -91,6 +91,24 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 #define OPT_TO_INT2(a,b)    (256*(int)(a)+(int)(b))
 #define mpi2    0.13957018*0.13957018
 
+
+/*
+CDECK  ID>, PXTTH3.
+      SUBROUTINE PXTTH3 (NTRAK,ITKDM,PTRAK,THR,TVEC,IERR)
+
+      INTEGER  IFIRST,ITKDM,NTRAK,NA1,IERR,
+     +         I,J,K,L,M,K1,IX
+      REAL  PTRAK (ITKDM,*),PTOT (3),PT (3),PTM (3),
+     +      PC (3,4),TVEC (*)
+      REAL  T,U,TMAX,THR,PP,SP
+      DOUBLE PRECISION  AX,BX
+      DATA  IFIRST / 0 /
+*/
+
+
+
+
+
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[]);
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[]);
 
@@ -977,10 +995,12 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="siscone")
                 {
                     std::vector<double> ycuts;
-                    ycuts.push_back(1.0);
-                    for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
+                    //ycuts.push_back(1.0);
+                    //printf("D1 is equal to:\%f\n", tfj->GetClusterSequence()->exclusive_ymerge_max(1));
+                    for ( j=-1; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
                     //Expected diff with shape: inclusive vs exclusive. 6
                     ycuts.push_back(0.0);
+                    tfj->fYFlip=ycuts;
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
                     for ( j=0; j<5; j++)
                         {

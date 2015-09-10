@@ -19,10 +19,11 @@ DllSuf        = so
 OutPutOpt     = -o # keep whitespace after "-o"
 SrcSuf        = cxx
 SrcSuf2        = C
-SrcSuf3        = fpp
+SrcSuf3        = f
 
 
 FC                  =  $(shell  $(ROOT-CONFIG) --f77)
+#FC=g77
 #CXX                 = g++-4.4
 CXX                 =  $(shell  $(ROOT-CONFIG) --cxx)
 #LD                  =  g++-4.4
@@ -32,14 +33,16 @@ SOFLAGS             =  -g -shared
 FASTJET_LIBDIR=$(shell $(FASTJET-CONFIG) --libs |  tr ' ' '\n' | grep '\-L' | sed 's@-L@@g')
 
 
-LDFLAGS+= -pipe -g  -lgfortran  -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
+LDFLAGS+= -pipe -g  -lgfortran -lm -lgcc_s  $(shell $(FASTJET-CONFIG) --libs  --plugins)  $(shell $(ROOT-CONFIG) --libs) -lProofPlayer -lProof
 CXXFLAGS+= -fdiagnostics-color=never -pipe -g -std=c++0x -Wall -Wextra  -Wno-unused-variable -Wno-unused-parameter -Wno-delete-non-virtual-dtor -I.  -fPIC  $(shell $(FASTJET-CONFIG) --cxxflags )  $(shell $(ROOT-CONFIG) --cflags) 
+FFLAGS+=-fPIC
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				Cuts.$(ObjSuf) Helpers.$(ObjSuf) \
 				TFastJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf) \
 				TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf) \
-				TSampleInfo.$(ObjSuf)    TSampleInfoDict.$(ObjSuf)
+				TSampleInfo.$(ObjSuf)    TSampleInfoDict.$(ObjSuf)\
+				pxtth3.$(ObjSuf) pxlut3.$(ObjSuf) pxlth4.$(ObjSuf) pxanxy.$(ObjSuf) pxplu3.$(ObjSuf) pxrmx3.$(ObjSuf) pxrof3.$(ObjSuf) pxrob3.$(ObjSuf)
 
 ROOTMAP       =  lib$(TARGET).rootmap
                  
