@@ -96,7 +96,7 @@ Bool_t TAdvancedGraph::Add( TAdvancedGraph* A, TAdvancedGraph* B, Double_t cA , 
     for (std::vector<double>::iterator it=allx.begin(); it!=allx.end(); it++)
         if 	(finalx.size()==0) finalx.push_back(*it);
         else if (std::abs(*it-finalx.back())>1e-9&&(std::abs(*it-finalx.back())/std::abs(*it+finalx.back())>1e-3 )  ) finalx.push_back(*it);
-        //else printf("points equal %f %f\n", *it,finalx.back());
+    //else printf("points equal %f %f\n", *it,finalx.back());
 
 
 
@@ -110,7 +110,8 @@ Bool_t TAdvancedGraph::Add( TAdvancedGraph* A, TAdvancedGraph* B, Double_t cA , 
                         A->GetPoint(i,x,y);
                         yel=A->GetErrorYlow(i);
                         yeh=A->GetErrorYhigh(i);
-                        if (std::abs(x-finalx[j])>1e-9&&(std::abs(x-finalx[j])/std::abs(x+finalx[j])>1e-3 )  ) {} else
+                        if (std::abs(x-finalx[j])>1e-9&&(std::abs(x-finalx[j])/std::abs(x+finalx[j])>1e-3 )  ) {}
+                        else
                             {
                                 Cy+=cA*y;
                                 Cyel=std::sqrt(Cyel*Cyel+cA*yel*cA*yel);
@@ -124,7 +125,8 @@ Bool_t TAdvancedGraph::Add( TAdvancedGraph* A, TAdvancedGraph* B, Double_t cA , 
                         B->GetPoint(i,x,y);
                         yel=B->GetErrorYlow(i);
                         yeh=B->GetErrorYhigh(i);
-                        if (std::abs(x-finalx[j])>1e-9&&(std::abs(x-finalx[j])/std::abs(x+finalx[j])>1e-3 )  ) {} else
+                        if (std::abs(x-finalx[j])>1e-9&&(std::abs(x-finalx[j])/std::abs(x+finalx[j])>1e-3 )  ) {}
+                        else
                             {
                                 Cy+=cB*y;
                                 Cyel=std::sqrt(Cyel*Cyel+cB*yel*cB*yel);
@@ -172,17 +174,17 @@ void TAdvancedGraph::Divide(TAdvancedGraph* AA, TAdvancedGraph* BB, bool keepcon
 {
 
     if (keepconsistent)
-    if(AA->GetN() != BB->GetN())
-        {
-            printf("TAdvancedGraph::Divide are not consistent: they have different number of bins: %i and %i\n",AA->GetN() , BB->GetN());
-            AA->Print();
-            BB->Print();
-            return;
-        }
-TAdvancedGraph* A=new  TAdvancedGraph();
-A->Add(AA,BB,1.0,0.0);
-TAdvancedGraph* B=new  TAdvancedGraph();
-B->Add(AA,BB,0.0,1.0);
+        if(AA->GetN() != BB->GetN())
+            {
+                printf("TAdvancedGraph::Divide are not consistent: they have different number of bins: %i and %i\n",AA->GetN() , BB->GetN());
+                AA->Print();
+                BB->Print();
+                return;
+            }
+    TAdvancedGraph* A=new  TAdvancedGraph();
+    A->Add(AA,BB,1.0,0.0);
+    TAdvancedGraph* B=new  TAdvancedGraph();
+    B->Add(AA,BB,0.0,1.0);
 
 //puts(">>>>>>>>>+++++++++++++++++++++++++++++++");
 //AA->Print();

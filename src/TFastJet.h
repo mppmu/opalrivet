@@ -54,7 +54,7 @@ public:
     std::vector<double> fThrusts;
     std::vector<TVector3> fThrustAxes;
 
-bool fDebug;
+    bool fDebug;
     double fB[2];
     double fM[2];
     double fEvis;
@@ -62,7 +62,7 @@ bool fDebug;
     std::vector<double> fLambdas[5];
 
 
-std::vector<double> fYFlip;
+    std::vector<double> fYFlip;
 
     /// Sphericity axes.
     std::vector<TVector3> fSphericityAxes[5];

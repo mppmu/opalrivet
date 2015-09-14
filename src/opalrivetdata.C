@@ -72,138 +72,56 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     Int_t entry;
     entry=fChain->LoadTree(gentry);
     fChain->GetEntry(entry);
-        bool passed[2]; 
-    passed[0]=true; 
+    bool passed[2];
+    passed[0]=true;
     passed[1]=true;
-     if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 1 %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-    
+
     if (2*this->Ebeam<fSampleInfo->fE-ENERGYTOLERANCE) return kFALSE;
     if (2*this->Ebeam>fSampleInfo->fE+ENERGYTOLERANCE) return kFALSE;
     if (std::abs(fE-161)<0.1) if (2*this->Ebeam < 160.0 || 2*this->Ebeam> 162.0 ) return kFALSE;
     FillWithLabel(fHMap["weight_before_selection"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-     if (Irun==12164&&Ievnt==193)  printf("Process: %i %05d| Passed 2 %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-    
-
-
-         if (fSampleInfo->fType==std::string("MCSI")||fSampleInfo->fType==std::string("MCBG"))
-         {
-	 if (2.0*this->Ebeam-TLorentzVector(Pisr[0],Pisr[1],Pisr[2],Pisr[3]).M()> 1.0)   {
-		// passed[0]=kFALSE; 
-		 passed[1]=kFALSE;
-		 } //We should not take this MC
-     /*
-     if( this->Ntrkh < 1 ) 
-     { 
-	 passed[1]=kFALSE;    
-     passed[1]=kFALSE;
+    if (fSampleInfo->fType==std::string("MCSI")||fSampleInfo->fType==std::string("MCBG"))
+        {
+            if (2.0*this->Ebeam-TLorentzVector(Pisr[0],Pisr[1],Pisr[2],Pisr[3]).M()> 1.0)
+                {
+                    passed[1]=kFALSE;
+                } //We should not take this MC
         }
-    */
-    }
-    if( this->Ntkd02 < int(mycuts[CUTS]["Ntkd02"]) )  passed[0]=kFALSE;  
-    if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 3 %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-    if( std::abs(this->Tvectc[2])> mycuts[CUTS]["costt"] )  passed[0]=kFALSE;  
-    if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 4 %i %i %f\n",Irun, Ievnt,passed[0],passed[1],this->Tvectc[2]);
-    if( this->Lwqqqq>mycuts[CUTS]["wqqqq"] )  passed[0]=kFALSE;  
-    if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 4a %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  passed[0]=kFALSE;    
-    if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 5 %i %i %f %f\n",Irun, Ievnt,passed[0],passed[1],this->Lwqqqq,this->Lwqqln);
-    if( this->Il2mh!=int(mycuts[CUTS]["Il2mh"]))   passed[0]=kFALSE;  
-    if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   passed[0]=kFALSE;  
-    if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   passed[0]=kFALSE;  
-  if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 6 %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-  /*
-   * 
-               const FReal spr_tru_cut= 1.0;
-            FReal sprime_tru= sqrt( fabs(2.0*ntuple.ebeam()*((2.0*ntuple.ebeam())-2.0*ntuple.pisr()[3])) );
-            bool l_sptrue= true;
-            if( (2.0*ntuple.ebeam()-sprime_tru) >= spr_tru_cut )
-   */ 
-
-     double SP;
-    // passed[1]=kFALSE;  //Sane events selection
-
-	 
-
+    if( this->Ntkd02 < int(mycuts[CUTS]["Ntkd02"]) )  passed[0]=kFALSE;
+    if( std::abs(this->Tvectc[2])> mycuts[CUTS]["costt"] )  passed[0]=kFALSE;
+    if( this->Lwqqqq>mycuts[CUTS]["wqqqq"] )  passed[0]=kFALSE;
+    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  passed[0]=kFALSE;
+    if( this->Il2mh!=int(mycuts[CUTS]["Il2mh"]))   passed[0]=kFALSE;
+    if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   passed[0]=kFALSE;
+    if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   passed[0]=kFALSE;
+    double SP;
     if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
     if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
 
     if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) passed[0]=kFALSE;
     if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  passed[1]=kFALSE;}
     if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   passed[0]=kFALSE;
-    if (Irun==12164&&Ievnt==193) printf("Process: %i %05d| Passed 10 %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-    
-
-
-    //if (fSampleInfo->fType==std::string("DATA")) printf("EVENT %i %i\n",Irun,Ievnt);
-    //DEBUG  if (fSampleInfo->fType==std::string("MCBG")) if (MCNonRad(this,mycuts[CUTS]))     return kFALSE;
-    //DEBUG if (fSampleInfo->fType==std::string("MCSI")) if (MCNonRad(this,mycuts[CUTS]))     return kFALSE;
-    
-    if (Irun==12164&&Ievnt==193)  printf("Process: %i %05d| Passed 10 %i %i\n",Irun, Ievnt,passed[0],passed[1]);
-    
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
     std::string objects="mt";
     if (int(mycuts[CUTS]["objects"])==2) objects="tc";
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
-    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
-    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
-    //printf("Tuple:A S DP %f %f %f\n",Admt,Sdmt,Dpdmt);
-    //int shapecomp=0;
-    //if (fSampleInfo->fType==std::string("DATA")||)
-//    {
-    //printf("Tuple: %f %f %f\n",Admt,Sdmt,Dpdmt);
-    //printf("OPRIVEVENT: %i %i %f\n",Irun,Ievnt,Tdmt);  
-    
-//    }
-   // if (passed[0]&&passed[1])
+    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":p",":",options); }//
+    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":p",":",options); }//add syst
     for (unsigned int j=0; j<datatypes.size(); j++)
-    //if (passed[j])
         {
-      //      printf("%s %s\n", datatypes[j].c_str(),options[j].c_str());
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
             for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                 {
-      
-        //            printf("%s \n", it->c_str());
-        bool dbg=false;
-          //    if (Irun==12164&&Ievnt==51284) dbg=true;
+                    bool dbg=false;
                     TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL,dbg);
                     MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
-      if (passed[0]&&passed[1]) if (*it=="durham") if (datatypes[j]=="truesignal"||datatypes[j]=="truebackgr") printf("RECIVEVENT: %i %05d\n",Irun,Ievnt);//SHAPEEVENT: %i %05d\n"
-      //if (*it=="durham") if (datatypes[j]=="truesignal") printf("RECIVEVENT: %i %05d\n",Irun,Ievnt);//SHAPEEVENT: %i %05d\n"
-      /*
-      if (*it=="durham") 
-                            //if (datatypes[j]=="data"||datatypes[j]=="mcsignal"||datatypes[j]=="mcbackgr")
-                            {
-      //if (Irun==12164&&Ievnt==51284)
-                             //if (std::abs(tfj->fYFlip[1]-Yddmt[1])>0.0001)
-                             
-                             //printf("RECIVEVENT: %i %i %f %f|%f %f %f\n|%f %f %f %f|\n|%f %f %f %f|\n",Irun,Ievnt,Tdmt,1-Tdmt, tfj->fThrusts[0],tfj->fThrusts[1],tfj->fThrusts[2], 
-                             //tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3],
-                             //Yddmt[0],Yddmt[1],Yddmt[2],Yddmt[3]
-                             
-                             //);    
-                           //  if (Irun<8000)
-//                             printf("OPALDATAEVENT: %i %05d|%f %f %f %f %f|%f %f %f %f %f\n",Irun,Ievnt,
-  //                           Tdmt,            Yddmt[0],Yddmt[1],Yddmt[2],Yddmt[3], 
-    //                         tfj->fThrusts[0],tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3]);
-
-                         if (options.at(j)=="h")    printf("OPALDATAEVENT: %i %05d|%f %f %f %f %f|%f %f %f %f %f\n",Irun,Ievnt,
-                              0.,                  0.,             0.,              0.,              0.,
-                             1-tfj->fThrusts[0],tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3]);
-                         if (options.at(j)=="mt")    printf("OPALDATAEVENT: %i %05d|%f %f %f %f %f|%f %f %f %f %f\n",Irun,Ievnt,
-                             1-tfj->fThrusts[0],tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3],
-                             0.,                  0.,             0.,              0.,              0.
-                             );
-
-
-                             //tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3],
-                             //Yddmt[0],Yddmt[1],Yddmt[2],Yddmt[3]
-                            //if (std::abs(tfj->fYFlip[1]-Yddmt[1])>0.0001) puts("ERRORX"); else puts("ERRORXNO");
-                            }
-                
-                */
+                    if (*it=="durham")
+                        {
+                            if (passed[0]&&passed[1])    if (datatypes[j]=="truesignal"||datatypes[j]=="truebackgr") printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
+                            if (passed[0])    if (datatypes[j]=="data"||datatypes[j]=="mcsignal"||datatypes[j]=="mcbackgr") printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
+                        }
                 }
         }
     if (passed[0]&&passed[1]) FillWithLabel(fHMap["weight"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
@@ -311,4 +229,3 @@ Bool_t opalrivetdata::Notify()
     theDB->Close();
     return kTRUE;
 }
-// A->Draw("Tdtc","Ntkd02>6&&Lwqqln<0.5&&Lwqqqq<0.25&&TMath::Abs(Tvectc[2])<0.9&&Il2mh==1&&Icjst==3&&Iebst==3&&(2*Ebeam-TMath::Sqrt(TMath::Abs(Pspr[3]*Pspr[3]-Pspr[0]*Pspr[0]-Pspr[1]*Pspr[1]-Pspr[2]*Pspr[2])))<10.0&&(2*Ebeam>160.0&&2*Ebeam<162.0)")

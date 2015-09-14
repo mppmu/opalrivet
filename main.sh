@@ -18,14 +18,14 @@ declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
 
 
 
-$MAKE output/shapemanip_"161.root" > temp.txt 
+#$MAKE output/shapemanip_"161.root" > temp.txt 
 #exit
-cat temp.txt | grep SHAPEEVENT | sort -n | sed 's@SHAPEEVENT: @@g' >SHAPE.debug
-$MAKE  output/opal_"161_central.root" 
-cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep RECIVEVENT | sort -n | sed 's@RECIVEVENT: @@g' >OPALDATA.debug
+#cat temp.txt | grep SHAPEEVENT | sort -n | sed 's@SHAPEEVENT: @@g' >SHAPE.debug
+#$MAKE  output/opal_"161_central.root" 
+#cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep RECIVEVENT | sort -n | sed 's@RECIVEVENT: @@g' >OPALDATA.debug
 
 
-exit
+#exit
 
 
 #cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep Fill | sed 's@Fill@@g' | sed 's@,weight@@g'   | sort | uniq -c > data_h.txt
@@ -60,13 +60,19 @@ bin/x86_64/create_systematics $energy "${systematics[@]}"
 
 #$MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
-$MAKE output/shapemanip_$energy".root"
+#$MAKE output/shapemanip_$energy".root" > temp.txt 
 make bin/x86_64/create_plots
 bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 
 bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 done
 
+cat temp.txt | grep SHAPE:MCDA: | sort -n | sed 's@SHAPE:MCDA: @@g' >SHAPE_MCDA.debug
+cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep OPALR:MCDA:  | sort -n | sed 's@OPALR:MCDA: @@g' >OPALR_MCDA.debug
+
+
+cat temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >SHAPE_TRUE.debug
+cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep OPALR:TRUE:  | sort -n | sed 's@OPALR:TRUE: @@g' >OPALR_TRUE.debug
 
 
 

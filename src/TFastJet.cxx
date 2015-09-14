@@ -10,7 +10,7 @@ ClassImp(TFastJet)
 */
 TFastJet::TFastJet()
 {
-	fDebug=false;
+    fDebug=false;
     fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
@@ -96,7 +96,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                     const std::vector<int>* vindx, bool dbg ) : fClusterSequence(0), fSISPlugin(0)
 {
     fEvis=-1;
-fDebug=dbg;
+    fDebug=dbg;
     fThrusts.push_back(1.0);
     fThrusts.push_back(0.0);
     fThrusts.push_back(0.0);
@@ -551,61 +551,61 @@ void TFastJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVect
             }
 }
 extern "C" {
-void pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[300][6],float *THR,float TVEC[3], int* IERR);
+    void pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[300][6],float *THR,float TVEC[3], int* IERR);
 //pxtth3_(int*, int*, float (*) [3], float*, float*, int*)
-      //SUBROUTINE PXLUT3 (N,NRLUDM,P,THR,OBL)
-void pxlut3_ (int *N, int *NRLUDM, float P[300][6],float *THR,float *OBL);
-/*
-      IMPLICIT NONE
-      INTEGER  N,NP,MSTU44,MSTU45,ILC,ILD,ILF,ILG,I,J,
-     +         IAGR,NC,IPP,IERR,NRLUDM
-      DOUBLE PRECISION DPP(3),PARU48,DTDS,DTDI(3),TPR(3),THP,THPS,DTEMP
-      REAL  P (NRLUDM,*),TDI (3),PVEC (3),
-     +      RVEC (3),RMX (3,3)
-      REAL  PS,PARU42,TDS,SGN,OBL,THR,
-     +      PHI,CP,SP
-      DATA  PARU42 / 1. /, PARU48 / 0.0001 /,
-     +      MSTU44 / 4  /, MSTU45 / 2 /
-*/
-      //SUBROUTINE PXLTH4 (NTRAK,ITKDM,PTRAK,THRVAL,THRVEC,IERR)
+    //SUBROUTINE PXLUT3 (N,NRLUDM,P,THR,OBL)
+    void pxlut3_ (int *N, int *NRLUDM, float P[300][6],float *THR,float *OBL);
+    /*
+          IMPLICIT NONE
+          INTEGER  N,NP,MSTU44,MSTU45,ILC,ILD,ILF,ILG,I,J,
+         +         IAGR,NC,IPP,IERR,NRLUDM
+          DOUBLE PRECISION DPP(3),PARU48,DTDS,DTDI(3),TPR(3),THP,THPS,DTEMP
+          REAL  P (NRLUDM,*),TDI (3),PVEC (3),
+         +      RVEC (3),RMX (3,3)
+          REAL  PS,PARU42,TDS,SGN,OBL,THR,
+         +      PHI,CP,SP
+          DATA  PARU42 / 1. /, PARU48 / 0.0001 /,
+         +      MSTU44 / 4  /, MSTU45 / 2 /
+    */
+    //SUBROUTINE PXLTH4 (NTRAK,ITKDM,PTRAK,THRVAL,THRVEC,IERR)
 
-void pxlth4_ (int *NTRAK, int *ITKDM,float PTRAK[300][6],float THR[3],float TVEC[3][3], int* IERR);
+    void pxlth4_ (int *NTRAK, int *ITKDM,float PTRAK[300][6],float THR[3],float TVEC[3][3], int* IERR);
 
 }
 // Do the full calculation
 void TFastJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 {
-	
-	int NTRAK=fsmomenta.size(); 
- int ITKDM=6;
-int bmax=200;
-float PTRAK[300][6];
 
-float THR;
-float THRL[3];
-float OBL;
-float TVEC[3]; 
-float TVECL[3][3]; 
-int IERR;
-	for (unsigned int k=0; k<fsmomenta.size(); k++)
-	{
-	PTRAK[k][0]=fsmomenta.at(k).x();
-	PTRAK[k][1]=fsmomenta.at(k).y();
-	PTRAK[k][2]=fsmomenta.at(k).z();
-	PTRAK[k][4]=0.139;
-    PTRAK[k][5]=sqrt(PTRAK[k][0]*PTRAK[k][0]+PTRAK[k][1]*PTRAK[k][1]+PTRAK[k][2]*PTRAK[k][2]  );
-    PTRAK[k][3]=sqrt(PTRAK[k][5]*PTRAK[k][5]+PTRAK[k][4]*PTRAK[k][4]);
-}
-	//pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[100][3],float *THR,float TVEC[3], int* IERR);
-	//pxtth3_ (&NTRAK, &ITKDM,PTRAK,&THR,TVEC,&IERR);		
-	//printf("pxtth3_         :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
-            //CalculateThrust:
-	//pxlth4_ (&NTRAK, &ITKDM,PTRAK,THRL,TVECL,&IERR);		
+    int NTRAK=fsmomenta.size();
+    int ITKDM=6;
+    int bmax=200;
+    float PTRAK[300][6];
+
+    float THR;
+    float THRL[3];
+    float OBL;
+    float TVEC[3];
+    float TVECL[3][3];
+    int IERR;
+    for (unsigned int k=0; k<fsmomenta.size(); k++)
+        {
+            PTRAK[k][0]=fsmomenta.at(k).x();
+            PTRAK[k][1]=fsmomenta.at(k).y();
+            PTRAK[k][2]=fsmomenta.at(k).z();
+            PTRAK[k][4]=0.139;
+            PTRAK[k][5]=sqrt(PTRAK[k][0]*PTRAK[k][0]+PTRAK[k][1]*PTRAK[k][1]+PTRAK[k][2]*PTRAK[k][2]  );
+            PTRAK[k][3]=sqrt(PTRAK[k][5]*PTRAK[k][5]+PTRAK[k][4]*PTRAK[k][4]);
+        }
+    //pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[100][3],float *THR,float TVEC[3], int* IERR);
+    //pxtth3_ (&NTRAK, &ITKDM,PTRAK,&THR,TVEC,&IERR);
+    //printf("pxtth3_         :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
+    //CalculateThrust:
+    //pxlth4_ (&NTRAK, &ITKDM,PTRAK,THRL,TVECL,&IERR);
 //	printf("pxlth4_         :%f %f %f %f\n",THRL[2],TVECL[2][0],TVECL[2][1],TVECL[2][2]);
-  //  printf("pxlth4_         :%f %f %f %f\n",THRL[1],TVECL[1][0],TVECL[1][1],TVECL[1][2]);
+    //  printf("pxlth4_         :%f %f %f %f\n",THRL[1],TVECL[1][0],TVECL[1][1],TVECL[1][2]);
     //printf("pxlth4_         :%f %f %f %f\n",THRL[0],TVECL[0][0],TVECL[0][1],TVECL[0][2]);
-    
-    //pxlut3_(&bmax,&NTRAK,PTRAK,&THR,&OBL); 
+
+    //pxlut3_(&bmax,&NTRAK,PTRAK,&THR,&OBL);
 //	printf("pxlut3_         :%f %f %f %f\n",THR,TVEC[0],TVEC[1],TVEC[2]);
 
     fThrusts.clear();
@@ -616,11 +616,11 @@ int IERR;
     double momentumSum(0.0);
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
-			
-			
-			            
-			
-			
+
+
+
+
+
             // foreach (const TVector3& p3, fsmomenta) {
             momentumSum += p3->Mag();
         }
@@ -676,7 +676,7 @@ int IERR;
     fThrusts.push_back(val / momentumSum);
     // Make sure that thrust always points along the +ve z-axis.
     //if (axis.z() < 0) axis = -axis;///WAAAAAAAAAAAAAAAAAAS?
-    
+
     //MSG_DEBUG("Axis = " << axis);
     fThrustAxes.push_back(axis);
 
@@ -691,11 +691,11 @@ int IERR;
         }
     CalculateT(threeMomenta, val, axis);
     fThrusts.push_back(val / momentumSum);
-    
-    
+
+
     //if (axis.x() < 0) axis = -axis;///WAAAAAAAAAAAAAAAAAAS?
     //if (axis.z() < 0) axis = -axis;
-    
+
     axis = axis.Unit();
     fThrustAxes.push_back(axis);
 
@@ -717,26 +717,26 @@ int IERR;
             fThrusts.push_back(-1.0);
             fThrustAxes.push_back(TVector3(0,0,0));
         }
-       /*
-       // printf("CalculateThrust:%f %f %f %f %f %f\n",fThrusts[0],fThrusts[1],fThrusts[2],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
-         printf("CalculateThrust :%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
-         printf("CalculateThrust :%f %f %f %f\n",fThrusts[1],fThrustAxes[1][0],fThrustAxes[1][1],fThrustAxes[1][2]);
-         printf("CalculateThrust :%f %f %f %f\n",fThrusts[2],fThrustAxes[2][0],fThrustAxes[2][1],fThrustAxes[2][2]);
-          puts("----------------->");	
-       
-       if (std::abs(THRL[2]-fThrusts[0])>0.0001)
-       {
-		   printf("pxtth3_        :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
-		printf("CalculateThrust:%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);   
-		   
-        puts("-----WRONG------------>");
-	}
-	 */
+    /*
+    // printf("CalculateThrust:%f %f %f %f %f %f\n",fThrusts[0],fThrusts[1],fThrusts[2],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
+      printf("CalculateThrust :%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
+      printf("CalculateThrust :%f %f %f %f\n",fThrusts[1],fThrustAxes[1][0],fThrustAxes[1][1],fThrustAxes[1][2]);
+      printf("CalculateThrust :%f %f %f %f\n",fThrusts[2],fThrustAxes[2][0],fThrustAxes[2][1],fThrustAxes[2][2]);
+       puts("----------------->");
+
+    if (std::abs(THRL[2]-fThrusts[0])>0.0001)
+    {
+       printf("pxtth3_        :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
+    printf("CalculateThrust:%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
+
+     puts("-----WRONG------------>");
+    }
+     */
     //printf("->%f %f %f\n",    fThrusts[0],fThrusts[1],fThrusts[2]);
-   
-   //std::sort(fThrusts.begin(),fThrusts.end());
-   //printf("<-%f %f %f\n",    fThrusts[0],fThrusts[1],fThrusts[2]);
-   
+
+    //std::sort(fThrusts.begin(),fThrusts.end());
+    //printf("<-%f %f %f\n",    fThrusts[0],fThrusts[1],fThrusts[2]);
+
 //std::reverse(fThrusts.begin(),fThrusts.end());
 
 

@@ -30,14 +30,69 @@ void FillInfo(TSampleInfo* A,TMap* filestosamples,std::string prefix)
     TOTAL->Delete();
 }
 
+typedef struct DB_entry_
+{
+
+    //  std::string fName;
+    int          fEvents;
+    int          fNfiles;
+    int          fRunsBegin;
+    int          fRunsEnd;
+
+    double       fSigma;
+    double       fLuminocity;
+    double       fWeight;    
+    double       fE;
+    char      fPeriod[50];
+    char      fType[50];    
+    char      fFiles[50][2000];
+    char      fEnergyString[50];	
+	char      fProcesses[50];
+}
+DB_entry;
+
+/*
+void create_DB_entry(DB_entry* A,double E,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
+                         double lum,double sig ,double w)
+{
+    //fName=name;
+//    SetName(name);
+    A->fE=E;
+    A->fPeriod=pr;
+    A->fType=type;
+    A->fFiles=files;
+    A->fEvents=ev;
+    A->fRunsBegin=rb;
+    A->fRunsEnd=re;
+    A->fSigma=sig;
+    A->fLuminocity=lum;
+    A->fWeight=w;
+    char a[20];
+    fProcesses=return_tokenize(std::string(procs),":");
+
+    sprintf(a,"%i",(int)(fE + 0.5));
+
+    A->fEnergyString=std::string(a);
 
 
+}
+*/
 int main(int argc ,char** argv)
 {
     if (argc<2) return 1;
     int i;
 
     TFile* F= new TFile(argv[1],"recreate");
+
+
+
+
+TTree* DB= new TTree("DB","OPAL QCD ntuples DB");
+DB_entry A;
+DB->Branch("DBbranch",&A,"fEvents/I:fNfiles/I:fRunsBegin/I:fRunsEnd/I:fSigma/F:fLuminocity/F:fWeight/F:fE/F:fPeriod/C:fType/C:fFiles[fNfiles]/C:fEnergyString/C:fProcesses/C");
+
+
+
 
     std::vector<TSampleInfo*>AIStruct;
     /*
