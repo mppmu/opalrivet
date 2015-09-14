@@ -197,10 +197,48 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 
 	// Loop over all cuts:
 	if( cur_ntuple->preselect( *ntuple ) ) {
-		
+		 //if (ntuple->irun()==12164&&ntuple->ievnt()==51284)
+		//   printf("SHAPEPRES: %i %05d|%f %f %f %f %f\n",ntuple->irun(),ntuple->ievnt(),ntuple->tdmt()
+	//		     ,ntuple->yddmt()[0],ntuple->yddmt()[1],ntuple->yddmt()[2],ntuple->yddmt()[3]
+//			     );
 		//AV! 
 		if( cur_ntuple->selection( 0, *ntuple ) ) { 
-			     if (ntuple->irun()==12164&&ntuple->ievnt()==51284) printf("SHAPEEVENT: %i %i %f\n",ntuple->irun(),ntuple->ievnt(),ntuple->tdmt());  
+			     //if (ntuple->irun()<8000)
+			     //&&ntuple->ievnt()==51284) 
+			     /*
+			     if (ntuple->irun()!=11927)//NO HERWIG
+			     
+			     {
+
+                 printf("SHAPEEVENT: %i %05d|%f %f %f %f %f|%f %f %f %f %f\n",ntuple->irun(),ntuple->ievnt(),			     
+			     ntuple->tdmt(),ntuple->yddmt()[0],ntuple->yddmt()[1],ntuple->yddmt()[2],ntuple->yddmt()[3],
+			     0.0, 0.0, 0.0, 0.0, 0.0
+			     //ntuple->th(),ntuple->ydh()[0],ntuple->ydh()[1],ntuple->ydh()[2],ntuple->ydh()[3]
+			     );  
+
+
+			     if (ntuple->irun()<7000||ntuple->irun()>8000)
+			     printf("SHAPEEVENT: %i %05d|%f %f %f %f %f|%f %f %f %f %f\n",ntuple->irun(),ntuple->ievnt(),			     
+			     0.0, 0.0, 0.0, 0.0, 0.0,
+			     ntuple->th(),ntuple->ydh()[0],ntuple->ydh()[1],ntuple->ydh()[2],ntuple->ydh()[3]
+			     );  
+			     //else
+			     
+			     
+			     
+			 }
+			     */
+			      //if (ntuple->irun()>7000)if (ntuple->irun()<8000)//NO HERWIG
+			     //printf("SHAPEEVENT: %i %05d|%f %f %f %f %f\n",ntuple->irun(),ntuple->ievnt(),ntuple->tdmt()
+			     //,ntuple->yddmt()[0],ntuple->yddmt()[1],ntuple->yddh()[2],ntuple->yddh()[3]
+			     //);  
+
+			
+			
+//			                             printf("OPALDATAEVENT: %i %i|\n%f %f %f %f %f|\n%f %f %f %f %f\n",Irun,Ievnt,
+  //                           Tdmt,            Yddmt[0],Yddmt[1],Yddmt[2],Yddmt[3], 
+    //                         tfj->fThrusts[0],tfj->fYFlip[0],tfj->fYFlip[1],tfj->fYFlip[2],tfj->fYFlip[3])
+			
 			}
 		
 	  for( size_t isel= 0; isel < v_cuts.size(); ++isel ) {
@@ -266,6 +304,7 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 	}
 
 	// Fill histos in signal MC subsets for S4 method:
+	/*
 	if( cur_ntuple->isZGPythia() ) {
 	  if( cur_ntuple->preselect( *ntuple ) ) {
 	    for( size_t isel= 0; isel < v_cuts.size(); ++isel ) {
@@ -274,12 +313,15 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 	      }
 	    }
 	  }
-	}
+	}*/
 
 	// Loop over all MC cuts:
 	if( b_isMC ) {
 	  for( size_t isel= 0; isel < v_mccuts.size(); ++isel ) {
 	    if( cur_ntuple->selection_mc( isel, *ntuple ) ) {
+	      
+	       if (isel==GUtil.mccuts_id( "sptsta" )) if (ntuple->irun()!=11927) printf("SHAPEEVENT: %i %05d\n",ntuple->irun(),ntuple->ievnt());
+	      
 	      hist.fill_MC( isel, nt, *ntuple );
 	    }
 	  }

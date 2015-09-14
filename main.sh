@@ -10,8 +10,31 @@ declare -a systematics=( central  )
 # wqqlnhigh:wqqlnlow wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
 
-#$MAKE output/shapemanip_"161.root"
+#$MAKE output/shapemanip_"161.root" > temp.txt 
 #exit
+#cat temp.txt | grep SHAPEEVENT | sort -n | sed 's@SHAPEEVENT: @@g' >SHAPE.debug
+#$MAKE  output/opal_"161_central.root" 
+#cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep OPALDATAEVENT | sort -n | sed 's@OPALDATAEVENT: @@g' >OPALDATA.debug
+
+
+
+$MAKE output/shapemanip_"161.root" > temp.txt 
+#exit
+cat temp.txt | grep SHAPEEVENT | sort -n | sed 's@SHAPEEVENT: @@g' >SHAPE.debug
+$MAKE  output/opal_"161_central.root" 
+cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep RECIVEVENT | sort -n | sed 's@RECIVEVENT: @@g' >OPALDATA.debug
+
+
+exit
+
+
+#cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep Fill | sed 's@Fill@@g' | sed 's@,weight@@g'   | sort | uniq -c > data_h.txt
+#cat temp.txt | grep hfill |  sed 's@hfill(hfill(3000017,@(@g' |  sort | uniq -c  > shape_h.txt
+
+
+#	cat /home/andriish/Projects/opalrivet/trunk/.proof_pcatlas18/Projects-opalrivet-trunk/last-lite-session/worker-0.[012345678].log | grep FILL   | sort  > 1.txt
+#	cat temp.txt | grep FILL | sort  > 2.txt
+
 
 
 for energy in "${energies[@]}"
@@ -39,7 +62,7 @@ bin/x86_64/create_systematics $energy "${systematics[@]}"
 #$MAKE output/shape_$energy".root"
 $MAKE output/shapemanip_$energy".root"
 make bin/x86_64/create_plots
-#bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 
 bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 done

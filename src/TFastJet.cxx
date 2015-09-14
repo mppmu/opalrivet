@@ -597,15 +597,15 @@ int IERR;
     PTRAK[k][3]=sqrt(PTRAK[k][5]*PTRAK[k][5]+PTRAK[k][4]*PTRAK[k][4]);
 }
 	//pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[100][3],float *THR,float TVEC[3], int* IERR);
-	pxtth3_ (&NTRAK, &ITKDM,PTRAK,&THR,TVEC,&IERR);		
-	printf("pxtth3_         :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
+	//pxtth3_ (&NTRAK, &ITKDM,PTRAK,&THR,TVEC,&IERR);		
+	//printf("pxtth3_         :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
             //CalculateThrust:
-	pxlth4_ (&NTRAK, &ITKDM,PTRAK,THRL,TVECL,&IERR);		
-	printf("pxlth4_         :%f %f %f %f\n",THRL[2],TVECL[2][0],TVECL[2][1],TVECL[2][2]);
-    printf("pxlth4_         :%f %f %f %f\n",THRL[1],TVECL[1][0],TVECL[1][1],TVECL[1][2]);
-    printf("pxlth4_         :%f %f %f %f\n",THRL[0],TVECL[0][0],TVECL[0][1],TVECL[0][2]);
+	//pxlth4_ (&NTRAK, &ITKDM,PTRAK,THRL,TVECL,&IERR);		
+//	printf("pxlth4_         :%f %f %f %f\n",THRL[2],TVECL[2][0],TVECL[2][1],TVECL[2][2]);
+  //  printf("pxlth4_         :%f %f %f %f\n",THRL[1],TVECL[1][0],TVECL[1][1],TVECL[1][2]);
+    //printf("pxlth4_         :%f %f %f %f\n",THRL[0],TVECL[0][0],TVECL[0][1],TVECL[0][2]);
     
-    pxlut3_(&bmax,&NTRAK,PTRAK,&THR,&OBL); 
+    //pxlut3_(&bmax,&NTRAK,PTRAK,&THR,&OBL); 
 //	printf("pxlut3_         :%f %f %f %f\n",THR,TVEC[0],TVEC[1],TVEC[2]);
 
     fThrusts.clear();
@@ -717,6 +717,7 @@ int IERR;
             fThrusts.push_back(-1.0);
             fThrustAxes.push_back(TVector3(0,0,0));
         }
+       /*
        // printf("CalculateThrust:%f %f %f %f %f %f\n",fThrusts[0],fThrusts[1],fThrusts[2],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
          printf("CalculateThrust :%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
          printf("CalculateThrust :%f %f %f %f\n",fThrusts[1],fThrustAxes[1][0],fThrustAxes[1][1],fThrustAxes[1][2]);
@@ -730,7 +731,7 @@ int IERR;
 		   
         puts("-----WRONG------------>");
 	}
-	 
+	 */
     //printf("->%f %f %f\n",    fThrusts[0],fThrusts[1],fThrusts[2]);
    
    //std::sort(fThrusts.begin(),fThrusts.end());

@@ -76,7 +76,7 @@ int GlobalsUtil::cuts_id( const std::string & cut, const bool debug )
                     return i+50;
                 }
         }
-    if( debug )
+    //if( debug )
         {
             std::cout << "GlobalsUtil::cuts_id: unknown selection cut " << cut << std::endl;
         }

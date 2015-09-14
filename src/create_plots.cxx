@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
             type_fFile->Close();
         }
     std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
-    std::vector<std::string> generators=return_tokenize("corrected:olddata:manipdata:pythia8:herwig++:sherpa",":");
+    std::vector<std::string> generators=return_tokenize("corrected:olddata:manipcorrected:pythia8:herwig++:sherpa",":");
     std::string energy=std::string(argv[1]);
     std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
 //",":");
@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
         {
 
 
-            TCanvas* CH=new TCanvas((*algorithm+"H").c_str(),algorithm->c_str(),2*1024,2*768);
+            TCanvas* CH=new TCanvas((*algorithm+"H").c_str(),algorithm->c_str(),4*1024,4*768);
             int M=sqrt(quantities.size())+1;
             //CH->Divide(M,M);
             TPad *pads[M][2*M];
@@ -108,12 +108,14 @@ int main(int argc, char* argv[])
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)
                                 {
                                     std::string name=	"H_"+*generator+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
-                                    std::string name0=	"H_corrected_"+*algorithm+"_"+energy+"GeV_"+*quantity;
+                                    std::string name0=	"H_"+generators[0]+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fHMap.find(name)!=fHMap.end())
                                         {
                                             // if (name.find("manipdata")!=std::string::npos) fHMap[name]->Scale(0.01);
 
-                                            if (quantity->find("JETR")==std::string::npos) if (name.find("manipdata")==std::string::npos) DivideByBinWidth(*fHMap[name]);
+                                            if (quantity->find("JETR")==std::string::npos) 
+                                            if (name.find("manipcorrected")==std::string::npos) 
+                                            DivideByBinWidth(*fHMap[name]);
 
 
 
@@ -181,7 +183,7 @@ int main(int argc, char* argv[])
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)
                                 {
                                     std::string name=	"G_"+*generator+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
-                                    std::string name0=	"G_corrected_"+*algorithm+"_"+energy+"GeV_"+*quantity;
+                                    std::string name0=	"G_"+generators[0]+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fGMap.find(name)!=fGMap.end())
                                         {
                                             fGMap[name]->SetTitle(";;Fraction");

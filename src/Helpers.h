@@ -995,18 +995,59 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
             if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="siscone")
                 {
                     std::vector<double> ycuts;
-                    //ycuts.push_back(1.0);
+                    //
                     //printf("D1 is equal to:\%f\n", tfj->GetClusterSequence()->exclusive_ymerge_max(1));
-                    for ( j=-1; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
+                    //for ( j=-1; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
+                    
+                    ycuts.push_back(1.0);
+                    for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
+                    
                     //Expected diff with shape: inclusive vs exclusive. 6
+                    
+  //                  Fill(0.000056,weight)0.000041 0.000072 
+//Fill(-0.010646,weight)-0.021299 -0.021293 
+//Fill(0.000010,weight)0.000007 0.000013 
+                    
+                    
                     ycuts.push_back(0.0);
                     tfj->fYFlip=ycuts;
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
                     for ( j=0; j<5; j++)
                         {
+							
+							/*
                             for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
+                                {
+								if (i<1) continue;
                                 A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
-                            for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
+							    if (H_prefix=="H_data_durham_161GeV_"&&j==2) printf("Fill(%f,weight)%f %f \n", A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i),
+							    
+							    A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i)+A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinWidth(i)
+							    );
+							    
+							    }
+                            */
+                            
+                            for (int i=1;i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
+                            {
+								double x,y;
+								x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
+								   if (x>ycuts.at(j+1)&&x<ycuts.at(j))
+								   {
+									A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);   
+									// if (H_prefix=="H_data_durham_161GeV_"&&j==2) printf("FILL: %f %f %f %i %i\n", 
+									 //A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i),  
+									//A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i)+A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinWidth(i),
+									
+								//	A->Irun,A->Ievnt
+									
+							 //   ); 
+								   }	   
+								
+								
+							}	
+                            
+                            for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)   ///Should be ok. if point between flip values ++
                                 
                                 {
                                     double x,y;

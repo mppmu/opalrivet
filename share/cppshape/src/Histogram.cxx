@@ -487,11 +487,31 @@ void Histogram::fill_evsh_jetr_mom( int hiid, const string & obs,
 	  if( ( observ->get( stnjlow, reco, nt ) >= nycut ) &&
 	      ( observ->get( stnjhigh, reco, nt ) < nycut ) ) {
 	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 ); 
+	//  if (hiid==3000017)
+	  //{
+	  //printf("FILL: %f %f %f %i %i\n", 0.5*(xbins[bin]+xbins[bin+1]),xbins[bin],xbins[bin+1],nt.irun(),nt.ievnt());
+	  //printf("FUNNY: %i %05d|%f %f %f %f %f %f %f|%f %f %f %f %f\n",nt.irun(),nt.ievnt(),			     
+		//	     nt.tdmt(),nt.yddmt()[0],nt.yddmt()[1],nt.yddmt()[2],nt.yddmt()[3],nt.yddmt()[4],nt.yddmt()[5],
+			//      0.0, 0.0, 0.0, 0.0, 0.0
+			     //ntuple->th(),ntuple->ydh()[0],ntuple->ydh()[1],ntuple->ydh()[2],ntuple->ydh()[3]
+			  //   );  
+
+  //     }
 	  }
 	}
 	else {
 	  if( observ->get( stnjlow, reco, nt ) >= xbins[bin] ) {
 	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );	 
+	//    	  if (hiid==3000017)
+	  //{
+	    //printf("FILL: %f %f %f %i %i\n", 0.5*(xbins[bin]+xbins[bin+1]),xbins[bin],xbins[bin+1],nt.irun(),nt.ievnt());
+	    //printf("hfill(%i,%f) %f %f\n",hiid, 0.5*(xbins[bin]+xbins[bin+1]),xbins[bin],xbins[bin+1]);
+	  //printf("FUNNY: %i %05d|%f %f %f %f %f %f %f|%f %f %f %f %f\n",nt.irun(),nt.ievnt(),			     
+		//	     nt.tdmt(),nt.yddmt()[0],nt.yddmt()[1],nt.yddmt()[2],nt.yddmt()[3],nt.yddmt()[4],nt.yddmt()[5],
+			//      0.0, 0.0, 0.0, 0.0, 0.0
+			     //ntuple->th(),ntuple->ydh()[0],ntuple->ydh()[1],ntuple->ydh()[2],ntuple->ydh()[3]
+			  //   );  
+	  //}
 	  }
 	}
       }
