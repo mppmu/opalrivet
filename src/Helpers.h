@@ -1010,6 +1010,7 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
 
 
                     ycuts.push_back(0.0);
+                    ycuts.push_back(-10.0);
                     tfj->fYFlip=ycuts;
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
                     for ( j=0; j<5; j++)
@@ -1026,13 +1027,33 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                                 );
 
                                 }
+                            
+	  // It is a njet, but not a njet+1 event
+	  double nycut(0.);
+	  nycut= 0.5*(xbins[bin]+xbins[bin+1]);
+	  if( ( observ->get( stnjlow, reco, nt ) >= nycut ) &&
+	      ( observ->get( stnjhigh, reco, nt ) < nycut ) ) {
+	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 ); 
+	  }
+	}
+	else {
+	  if( observ->get( stnjlow, reco, nt ) >= xbins[bin] ) {
+	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );	 
+                            
+                            
                             */
+
+
+                            A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);//Undewrflow for norm//Terrible idea...
 
                             for (int i=1; i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
                                 {
                                     double x,y;
                                     x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
+                                   if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);
                                     if (x>ycuts.at(j+1)&&x<ycuts.at(j))
+                                        
+                                        
                                         {
                                             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
                                             // if (H_prefix=="H_data_durham_161GeV_"&&j==2) printf("FILL: %f %f %f %i %i\n",

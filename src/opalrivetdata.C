@@ -56,14 +56,15 @@ void opalrivetdata::SlaveBegin(TTree * tree)
     tokenize(ALGORITHMS,":",fAlgorithms);
     tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",fDataType);
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<fDataType.size(); j++) BookHistograms(this,*fSampleInfo,Form("%s_%s_%sGeV_",fDataType.at(j).c_str(),fAlgorithms.at(i).c_str(),fSampleInfo->fEnergyString.c_str()));
-    fHMap.insert(std::pair<std::string,TH1D*>("weight",new TH1D("weight","weight",30,0.0,30.0)));
+    fHMap.insert(std::pair<std::string,TH1D*>("weight_reco",new TH1D("weight_reco","weight_reco",30,0.0,30.0)));
+    fHMap.insert(std::pair<std::string,TH1D*>("weight_true",new TH1D("weight_true","weight_true",30,0.0,30.0)));
     fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
     int idata=0,imcsi=0,imcbg=0;
     for (std::map<std::string,std::pair<double,int> >::iterator p=proc.begin(); p!=proc.end(); p++)
         {
-            if (p->first.find("DATA_")!=std::string::npos) {fHMap["weight"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str());  idata++;}
-            if (p->first.find("MCSI_")!=std::string::npos) {fHMap["weight"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str()); imcsi++;}
-            if (p->first.find("MCBG_")!=std::string::npos) {fHMap["weight"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); imcbg++;}
+            if (p->first.find("DATA_")!=std::string::npos) {fHMap["weight_reco"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str()); fHMap["weight_true"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(idata+ 1,p->first.c_str());  idata++;}
+            if (p->first.find("MCSI_")!=std::string::npos) {fHMap["weight_reco"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str()); fHMap["weight_true"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcsi+11,p->first.c_str()); imcsi++;}
+            if (p->first.find("MCBG_")!=std::string::npos) {fHMap["weight_reco"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); fHMap["weight_true"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); imcbg++;}
         }
 }
 Bool_t opalrivetdata::Process(Long64_t gentry)
@@ -107,9 +108,10 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     std::string objects="mt";
     if (int(mycuts[CUTS]["objects"])==2) objects="tc";
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
-    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":p",":",options); }//
-    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":p",":",options); }//add syst
+    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
+    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
     for (unsigned int j=0; j<datatypes.size(); j++)
+    if (passed[j])
         {
             std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
             for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
@@ -119,12 +121,14 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
                     MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                     if (*it=="durham")
                         {
-                            if (passed[0]&&passed[1])    if (datatypes[j]=="truesignal"||datatypes[j]=="truebackgr") printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
-                            if (passed[0])    if (datatypes[j]=="data"||datatypes[j]=="mcsignal"||datatypes[j]=="mcbackgr") printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
+                            if (j==1) printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
+                            if (j==0) printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
                         }
                 }
         }
-    if (passed[0]&&passed[1]) FillWithLabel(fHMap["weight"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
+    //if (passed[1]) 
+        if (passed[0]&&passed[0]) FillWithLabel(fHMap["weight_reco"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
+        if (passed[1]) FillWithLabel(fHMap["weight_true"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     return kTRUE;
 }
 void opalrivetdata::SlaveTerminate()
@@ -158,7 +162,9 @@ void opalrivetdata::Terminate()
         }
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
 
-    double number_of_events=fHMap["weight"]->GetBinContent(1)-fHMap["weight"]->Integral(20,30)*mycuts[CUTS]["backgroundscale"];
+    double number_of_reco_events=fHMap["weight_reco"]->GetBinContent(1)-fHMap["weight_reco"]->Integral(18,30)*mycuts[CUTS]["backgroundscale"];
+    //double number_of_reco_events=fHMap["weight_reco"]->GetBinContent(1)-fHMap["weight_reco"]->Integral(18,30)*mycuts[CUTS]["backgroundscale"];
+    double reco_over_true=fHMap["weight_reco"]->Integral(9,11)/fHMap["weight_true"]->Integral(9,11);
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             if (H_it->first.find("H_acceptancesignal_")!=std::string::npos)
@@ -169,7 +175,7 @@ void opalrivetdata::Terminate()
                     fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name],fHMap[std::string("H_mcbackgr_")+name],1.0,-mycuts[CUTS]["backgroundscale"]);
                     fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
                     if   (H_it->first.find("JETR")!=std::string::npos)
-                        fHMap[std::string("H_corrected_")+name]->Scale(1.0/number_of_events);
+                        fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->GetBinContent(0));
                     else if (std::abs(fHMap[std::string("H_corrected_")+name]->Integral())>0.0001)
                         fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->Integral());
 
@@ -193,7 +199,7 @@ void opalrivetdata::Terminate()
                     fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
 
                     if   (G_it->first.find("JETR")!=std::string::npos)
-                        fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_events);
+                        fGMap[std::string("G_corrected_")+name]->Scale(1.0/number_of_reco_events);
                     else if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
                         fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
 

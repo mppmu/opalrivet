@@ -102,7 +102,8 @@ int main(int argc, char* argv[])
                     color=0;
 
                     if (//(*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
-                        (quantity->find("JETR")==std::string::npos))
+                        1//(quantity->find("JETR")==std::string::npos)
+                        )
 
                         {
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)
@@ -114,7 +115,7 @@ int main(int argc, char* argv[])
                                             // if (name.find("manipdata")!=std::string::npos) fHMap[name]->Scale(0.01);
 
                                             if (quantity->find("JETR")==std::string::npos)
-                                                if (name.find("manipcorrected")==std::string::npos)
+                                                if (name.find("manip")==std::string::npos)
                                                     DivideByBinWidth(*fHMap[name]);
 
 
@@ -176,7 +177,7 @@ int main(int argc, char* argv[])
                         }
 
                     if (//(*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
-                        (quantity->find("JETR")!=std::string::npos)
+                        0//(quantity->find("JETR")!=std::string::npos)
                     )
                         {
 
