@@ -4,11 +4,11 @@
 #include "fastjet/SISConePlugin.hh"
 #include "fastjet/JadePlugin.hh"
 #include "fastjet/EECambridgePlugin.hh"
-#include "TFastJet.h"
+#include "OPALJet.h"
 /*
-ClassImp(TFastJet)
+ClassImp(OPALJet)
 */
-TFastJet::TFastJet()
+OPALJet::OPALJet()
 {
     fDebug=false;
     fEvis=-1;
@@ -36,9 +36,9 @@ TFastJet::TFastJet()
 
 }
 
-fastjet::ClusterSequence* TFastJet::GetClusterSequence() {return fClusterSequence;};
+fastjet::ClusterSequence* OPALJet::GetClusterSequence() {return fClusterSequence;};
 /*
-TFastJet::TFastJet( const std::vector<TParticle>& vtp )
+OPALJet::OPALJet( const std::vector<TParticle>& vtp )
 {
 	fEvis=-1;
     fClusterSequence=0;
@@ -77,7 +77,7 @@ TFastJet::TFastJet( const std::vector<TParticle>& vtp )
     return;
 }
 */
-bool TFastJet::FindAlgorithm(std::string jetalg)
+bool OPALJet::FindAlgorithm(std::string jetalg)
 {
     fJetAlgString= std::string(jetalg);
     if (fJetAlgString==std::string("kt"))        { fJetAlg=fastjet::kt_algorithm; return true;}
@@ -90,7 +90,7 @@ bool TFastJet::FindAlgorithm(std::string jetalg)
     return false;
 }
 
-TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
+OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                     std::string jetalg,
                     std::map<std::string,double> R,
                     const std::vector<int>* vindx, bool dbg ) : fClusterSequence(0), fSISPlugin(0)
@@ -155,7 +155,7 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
                 }
             if (!ok)
                 {
-                    std::cout << "TFastJet::TFastJet: jet plugin not known: " << fJetAlgString<<" "<<fJetAlg << std::endl;
+                    std::cout << "OPALJet::OPALJet: jet plugin not known: " << fJetAlgString<<" "<<fJetAlg << std::endl;
                     return;
                 }
 
@@ -216,28 +216,28 @@ TFastJet::TFastJet( const std::vector<TLorentzVector>& vtl,
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
 }
 
-TFastJet::~TFastJet()
+OPALJet::~OPALJet()
 {
 
     if( fClusterSequence ) delete fClusterSequence;
     if( fPJets ) delete fPJets;
 }
 
-std::vector<TLorentzVector>& TFastJet::InclusiveJets( const double ptmin )
+std::vector<TLorentzVector>& OPALJet::InclusiveJets( const double ptmin )
 {
     std::vector<fastjet::PseudoJet> incljets= fClusterSequence->inclusive_jets( ptmin );
     *fPJets= sorted_by_pt( incljets );
     return CopyPseudoJetsToLorentzVectors();
 }
 
-std::vector<TLorentzVector>& TFastJet::ExclusiveJets( const int njets )
+std::vector<TLorentzVector>& OPALJet::ExclusiveJets( const int njets )
 {
     std::vector<fastjet::PseudoJet> excljets= fClusterSequence->exclusive_jets( njets );
     *fPJets= sorted_by_E( excljets );
     return CopyPseudoJetsToLorentzVectors();
 }
 
-std::vector<TLorentzVector>& TFastJet::CopyPseudoJetsToLorentzVectors()
+std::vector<TLorentzVector>& OPALJet::CopyPseudoJetsToLorentzVectors()
 {
     std::vector<TLorentzVector>* jetstlv= new std::vector<TLorentzVector>();
     fastjet::PseudoJet pj;
@@ -255,7 +255,7 @@ std::vector<TLorentzVector>& TFastJet::CopyPseudoJetsToLorentzVectors()
 
 
 
-std::vector< std::vector<int> >& TFastJet::Constituents()
+std::vector< std::vector<int> >& OPALJet::Constituents()
 {
     std::vector< std::vector<int> >* cnstmap= new std::vector< std::vector<int> >();
     fastjet::PseudoJet pj;
@@ -270,12 +270,12 @@ std::vector< std::vector<int> >& TFastJet::Constituents()
     return *cnstmap;
 }
 
-double TFastJet::YMerge( int njets )
+double OPALJet::YMerge( int njets )
 {
     return fClusterSequence->exclusive_ymerge_max( njets );
 }
 
-int TFastJet::NJets( double ycut )
+int OPALJet::NJets( double ycut )
 {
     return fClusterSequence->n_exclusive_jets_ycut( ycut );
 }
@@ -302,7 +302,7 @@ inline int intpow(int a, int b)
 
 
 // Actually do the calculation
-void TFastJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int where)
+void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int where)
 {
     //MSG_DEBUG("Calculating sphericity with r = " << fRegParameter);
 
@@ -442,7 +442,7 @@ void TFastJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int w
 
 
 // Do the general case thrust calculation
-void TFastJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
+void OPALJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
 {
     double b1=0,b2=0,ml=0,mh=0;
 
@@ -495,7 +495,7 @@ void TFastJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
 
 
 // Do the general case thrust calculation
-void TFastJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis)
+void OPALJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis)
 {
     // This function implements the iterative algorithm as described in the
     // Pythia manual. We take eight (four) different starting std::vectors
@@ -573,7 +573,7 @@ extern "C" {
 
 }
 // Do the full calculation
-void TFastJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
+void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 {
 
     int NTRAK=fsmomenta.size();

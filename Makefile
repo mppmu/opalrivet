@@ -111,7 +111,7 @@ gen/%Dict.cxx: dirs src/%.h gen/%LinkDef.h
 SOURCES=src/Helpers.cxx         src/Helpers.h \
 		src/Cuts.cxx            src/Cuts.h \
 		src/TSampleInfo.cxx     src/TSampleInfo.h \
-		src/TFastJet.cxx        src/TFastJet.h  \
+		src/OPALJet.cxx        src/OPALJet.h  \
 		src/TAdvancedGraph.cxx  src/TAdvancedGraph.h \
 		src/TUserProofData.cxx 	src/TUserProofData.h
 	
@@ -122,7 +122,7 @@ output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrive
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
-output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile DEVRPMS/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
+output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile external/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
 		make -C run GEN=$(GEN) ENERGY=$*
 		mv run/*.root ./output
 
@@ -165,8 +165,8 @@ bin/$(ARCH)/opalrivet$(GEN):
 	touch bin/$(ARCH)/opalrivet$(GEN)
 
 
-obj/$(ARCH)/opalrivetpythia8.o:  dirs src/opalrivetpythia8.cxx
-	$(CXX) -fdiagnostics-color=never   -pipe  -c src/opalrivetpythia8.cxx -o obj/$(ARCH)/opalrivetpythia8.o 
+obj/$(ARCH)/opalrivetpythia8.o:  dirs src/MC/opalrivetpythia8.cxx
+	$(CXX) -fdiagnostics-color=never   -pipe  -c src/MC/opalrivetpythia8.cxx -o obj/$(ARCH)/opalrivetpythia8.o 
 	
 	
 	
@@ -179,8 +179,8 @@ bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/$(ARCH)/opalrivetpythia8.o
 
 
 
-obj/$(ARCH)/opalrivetpythia8_evtgen.o:  dirs src/opalrivetpythia8_evtgen.cxx
-	$(CXX) -fdiagnostics-color=never   -pipe  -c src/opalrivetpythia8_evtgen.cxx -o obj/$(ARCH)/opalrivetpythia8_evtgen.o -L/lib64 
+obj/$(ARCH)/opalrivetpythia8_evtgen.o:  dirs src/MC/opalrivetpythia8_evtgen.cxx
+	$(CXX) -fdiagnostics-color=never   -pipe  -c src/MC/opalrivetpythia8_evtgen.cxx -o obj/$(ARCH)/opalrivetpythia8_evtgen.o -L/lib64 
 	
 
 bin/$(ARCH)/opalrivetpythia8_evtgen:  dirs obj/$(ARCH)/opalrivetpythia8_evtgen.o
@@ -242,10 +242,7 @@ lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedG
 	echo Rint.Logon: ./rootlogon.C >> .rootrc
 	echo 'rootlogon(){ gROOT->ProcessLine(".L ./lib/'$(ARCH)'/libopalrivet.so");}' >./rootlogon.C
 
-#output/plots_%.root: .rootrc dirs   bin/$(ARCH)/plots output/opal_%.root output/$(GEN)_%.root
-	#we need so somewhere
-#	bin/$(ARCH)/plots $* output/opal_$*.root output/$(GEN)_$*.root
-	
+
 
 output/plots_%.root: .rootrc dirs   bin/$(ARCH)/create_plots output/opal_%.root output/$(GEN)_%.root output/shapemanip_%.root output/old_%.root
 	#we need so somewhere
@@ -257,57 +254,30 @@ output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables
 	#we need so somewhere
 	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
 	
-output/opalrivet.pdf:  opalrivet.tex
-		$(MAKE) $(shell cat opalrivet.tex | grep output/tables | sed 's@\input{@@g' | grep -v '%' | sed 's@}@@g' )
-		pdflatex opalrivet.tex
-		mv opalrivet.pdf  output/opalrivet.pdf
+doc/opalrivet.pdf:  opalrivet.tex
+		$(MAKE) $(shell cat opalrivet.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
+		pdflatex doc/opalrivet.tex
+		mv opalrivet.pdf  doc/opalrivet.pdf
 
-pdf: output/opalrivet.pdf
+pdf: doc/opalrivet.pdf
 
 
 bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
 		$(CXX) -fdiagnostics-color=never   -pipe  -fdiagnostics-color=never  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
 
 	
-output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
-	bin/$(ARCH)/hepplotconvert yoda2root DEVRPMS/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
+output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
+	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
 
 
 output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root
 	#cp output/JADE_OPAL_2000_S4300807.root output/old_$*.root
 	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
 
-toroot:
-		for a in $(shell find share/TC/2012-4-27antiktQ/R0.7 | grep rzhist  | grep -v '.svn' ); do \
-		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
-		done
-		for a in $(shell find share/TC/2012-4-27inclKt | grep rzhist  | grep -v '.svn' ); do \
-		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
-		done
-		for a in $(shell find share/TC/2012-4-27kt | grep rzhist  | grep -v '.svn' ); do \
-		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
-		done
-
-		for a in $(shell find share/TC/2012-4-27SISCone/ee_siscone_etabins0.7.npass2 | grep rzhist  | grep -v '.svn' ); do \
-		h2root $$a $(echo $$a| sed 's@rzhist@root@g');\
-		done
-
-
-
-
-output/manip_%.root: dirs bin/$(ARCH)/create_manip  .rootrc
-#toroot
-		bin/$(ARCH)/create_manip   tmp/manip_$*_antikt.root antikt share/TC/2012-4-27antiktQ/R0.7/output_200_$*_manip.root 
-		bin/$(ARCH)/create_manip   tmp/manip_$*_kt.root         kt share/TC/2012-4-27kt/output_200_$*.root 
-		bin/$(ARCH)/create_manip   tmp/manip_$*_inclkt.root inclkt share/TC/2012-4-27inclKt/output_200_$*.root 
-		bin/$(ARCH)/create_manip   tmp/manip_$*_siscone.root siscone share/TC/2012-4-27SISCone/ee_siscone_etabins0.7.npass2/output_200_$*_manip.root 
-		hadd -f output/manip_$*.root tmp/manip_$*_antikt.root tmp/manip_$*_kt.root tmp/manip_$*_inclkt.root tmp/manip_$*_siscone.root
-
-
 
 output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root  .rootrc
 	mkdir -p subs_output
-	share/cppshape/examples/shape/bin/shape2 P output/shape_$* share/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+	external/cppshape/examples/shape/bin/shape2 P output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
 	h2root  output/shape_$*_manip.rzhist
 	h2root  output/shape_$*.rzhist
 	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_durham.root durham output/shape_$*_manip.root output/shape_$*.root
@@ -318,12 +288,12 @@ output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root  .r
 
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 output/shape_%.root:
-				make -C share/cppshape clean
-				make -C share/cppshape/examples/shape clean
-				make -C share/cppshape
-				make -C share/cppshape/examples/shape
+				make -C external/cppshape clean
+				make -C external/cppshape/examples/shape clean
+				make -C external/cppshape
+				make -C external/cppshape/examples/shape
 			    rm -rf output_200_$*.rzhist
-			    share/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  share/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+			    external/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
 				mv  output_200_$*.rzhist output/shape_$*.rzhist
 				h2root output/shape_$*.rzhist
 

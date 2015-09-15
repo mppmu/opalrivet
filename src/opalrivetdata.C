@@ -1,6 +1,6 @@
 #define opalrivetdata_cxx
 #include  "opalrivetdata.h"
-#include  "TFastJet.h"
+#include  "OPALJet.h"
 #include  "TSampleInfo.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
@@ -117,7 +117,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
                 for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                     {
                         bool dbg=false;
-                        TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL,dbg);
+                        OPALJet* tfj =new OPALJet( vtlv,*it,mycuts[*it], NULL,dbg);
                         MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                         if (*it=="durham")
                             {

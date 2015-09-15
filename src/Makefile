@@ -38,7 +38,7 @@ CXXFLAGS+= -fdiagnostics-color=never -pipe -g -std=c++0x -Wall -Wextra  -Wno-unu
 FFLAGS+=-fPIC
 EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				Cuts.$(ObjSuf) Helpers.$(ObjSuf) \
-				TFastJet.$(ObjSuf)  \
+				OPALJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf) \
 				TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf) \
 				TSampleInfo.$(ObjSuf)    TSampleInfoDict.$(ObjSuf)

@@ -74,7 +74,7 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 #include  "fastjet/ClusterSequence.hh"
 #include  "fastjet/PseudoJet.hh"
 #include "Cuts.h"
-#include "TFastJet.h"
+#include "OPALJet.h"
 #include "TAdvancedGraph.h"
 #define ARRAY_PROTECT(...) __VA_ARGS__
 #define H_INSERTER_DBL(a,b,c)     { const double temp[]=c;     H_inserter(a,b,sizeof(temp)/sizeof(double)-1,temp); }
@@ -959,7 +959,7 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
 #endif
 
 
-template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::string algo,std::string Iprefix="")
+template <class EXA> bool MyAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
 {
     bool PASSED=false;
     std::string H_prefix=std::string("H_")+Iprefix;

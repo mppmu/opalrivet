@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Helpers.h"
 #include "Cuts.h"
-#include "TFastJet.h"
+#include "OPALJet.h"
 #include "TAdvancedGraph.h"
 int main(int argc, char** argv)
 {

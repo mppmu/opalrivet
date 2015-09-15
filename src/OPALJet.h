@@ -26,14 +26,14 @@ class EECambridgePlugin;
 
 }
 
-class TFastJet
+class OPALJet
 //: public TObject
 {
 public:
 
-    TFastJet();
-    TFastJet( const std::vector<TLorentzVector>&, std::string jetalg,std::map<std::string,double> R, const std::vector<int>* vindx= 0 ,bool dbg=false);
-    virtual ~TFastJet();
+    OPALJet();
+    OPALJet( const std::vector<TLorentzVector>&, std::string jetalg,std::map<std::string,double> R, const std::vector<int>* vindx= 0 ,bool dbg=false);
+    virtual ~OPALJet();
 
     std::vector<TLorentzVector>& InclusiveJets( const double ptmin);
     std::vector<TLorentzVector>& ExclusiveJets( const int njets );
@@ -82,7 +82,7 @@ public:
     std::string fJetAlgString;
     int fJetAlg; //This should be enum, but fastjet has a bug which amkes it imposible to use with root.
     /*
-        ClassDef(TFastJet,0)
+        ClassDef(OPALJet,0)
     */
 };
 #endif

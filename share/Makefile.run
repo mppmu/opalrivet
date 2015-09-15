@@ -7,8 +7,8 @@ NAME=JADE_OPAL_2000_S4300807a
 
 all: dirs plots ref/$(NAME).yoda
 
-src/Rivet$(NAME).cc: ../DEVRPMS/Rivet/src/Analyses/$(NAME).cc
-		cp ../DEVRPMS/Rivet/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
+src/Rivet$(NAME).cc: ../external/Rivet/src/Analyses/$(NAME).cc
+		cp ../external/Rivet/src/Analyses/$(NAME).cc ./src/Rivet$(NAME).cc
 
 Run.dat: Run$(GEN).dat_$(ENERGY)
 	cp Run$(GEN).dat_$(ENERGY)  Run.dat_tmp 
@@ -17,12 +17,12 @@ Run.dat: Run$(GEN).dat_$(ENERGY)
 
 
 lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
-		rm -f src/TFastJet.cxx 
+		rm -f src/OPALJet.cxx 
 		rm -f inc/Cuts.h 
 		rm -f inc/Helpers.h 
-		rm -f inc/TFastJet.h 
-		cp ../src/TFastJet.cxx ./src
-		cp ../src/TFastJet.h ./inc	
+		rm -f inc/OPALJet.h 
+		cp ../src/OPALJet.cxx ./src
+		cp ../src/OPALJet.h ./inc	
 		cp ../src/TAdvancedGraph.cxx ./src
 		cp ../src/TAdvancedGraph.h ./inc	
 		cp ../src/TSampleInfo.cxx ./src
@@ -34,8 +34,8 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 	
 		rm -f  gen/LinkDef.h
 		
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TFastJet.cxx -o obj/TFastJet.o
-		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TFastJet.o  -o lib/libTFastJet.so
+		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/OPALJet.cxx -o obj/OPALJet.o
+		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/OPALJet.o  -o lib/libOPALJet.so
 
 
 		@rm -f TAdvancedGraphLinkDef.h
@@ -63,7 +63,7 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 
 
 		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall\
-		   -DUSE_RIVET -std=gnu++0x -lRIO  -lNet -I. -I./inc -L. -L./lib -lTFastJet -lTAdvancedGraph -lTSampleInfo '-DGENERATOR=\"$(GEN)\"'  
+		   -DUSE_RIVET -std=gnu++0x -lRIO  -lNet -I. -I./inc -L. -L./lib -lOPALJet -lTAdvancedGraph -lTSampleInfo '-DGENERATOR=\"$(GEN)\"'  
 
 
 
@@ -75,10 +75,10 @@ Rivet$(NAME).yoda: lib/Rivet$(NAME).so refs  Run.dat
 		../bin/run-rivet.sh $(NAME)
 		rm -f Sherpa_References.tex fifo.hepmc.hepmc2g
 		
-refs:  ../DEVRPMS/Rivet/data/refdata/$(NAME).yoda ../DEVRPMS/Rivet/data/plotinfo/$(NAME).plot ../DEVRPMS/Rivet/data/anainfo/$(NAME).info
-		cp ../DEVRPMS/Rivet/data/refdata/$(NAME).yoda  ref/$(NAME).yoda
-		cp ../DEVRPMS/Rivet/data/plotinfo/$(NAME).plot  ref/$(NAME).plot
-		cp ../DEVRPMS/Rivet/data/anainfo/$(NAME).info  ref/$(NAME).info
+refs:  ../external/Rivet/data/refdata/$(NAME).yoda ../external/Rivet/data/plotinfo/$(NAME).plot ../external/Rivet/data/anainfo/$(NAME).info
+		cp ../external/Rivet/data/refdata/$(NAME).yoda  ref/$(NAME).yoda
+		cp ../external/Rivet/data/plotinfo/$(NAME).plot  ref/$(NAME).plot
+		cp ../external/Rivet/data/anainfo/$(NAME).info  ref/$(NAME).info
 		
 dirs:
 		mkdir -p gen
