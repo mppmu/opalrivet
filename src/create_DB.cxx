@@ -49,32 +49,50 @@ typedef struct DB_entry_
 }
 DB_entry;
 
-/*
+
 void create_DB_entry(DB_entry* A,double E,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                          double lum,double sig ,double w)
 {
-    //fName=name;
-//    SetName(name);
     A->fE=E;
-    A->fPeriod=pr;
-    A->fType=type;
-    A->fFiles=files;
+    sprintf(A->fName,"%s",name);
+    sprintf(A->fPeriod,"%s",pr);
+    sprintf(A->fType,"%s",type);
+    //A->fFiles=files;
     A->fEvents=ev;
     A->fRunsBegin=rb;
     A->fRunsEnd=re;
     A->fSigma=sig;
     A->fLuminocity=lum;
     A->fWeight=w;
-    char a[20];
-    fProcesses=return_tokenize(std::string(procs),":");
+    //char a[50*2000];
+    std::vector<std::string> af=return_tokenize(files," ");
+    int fNfiles=0;
+    for (std::vector<std::string>::iterator it=af.begin();it!=af.end()&&fNfiles<50;it++)
+    {
+	sprintf(fFiles[fNfiles],"%s",it->c_str());fNfiles++;	
+	}	
+    //fProcesses=return_tokenize(std::string(procs),":");
 
-    sprintf(a,"%i",(int)(fE + 0.5));
+    //sprintf(a,"%i",(int)(fE + 0.5));
 
-    A->fEnergyString=std::string(a);
+    sprintf(A->fEnergyString,"%i",(int)(fE + 0.5));
 
+    TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
+     TChain* C= new TChain("h10");
+    for (fNfiles=0;fNfiles<std::max(af.size(),50);fNfiles++)  C->Add((prefix+af[fNFiles]).c_str());
+C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fE-ENERGYTOLERANCE),0.5*(A->fE+ENERGYTOLERANCE)));
+
+    A->fRunsBegin=0;
+    A->fRunsEnd=20000-2;
+  while (TOTAL->GetBinContent(A->fRunsBegin)<0.5&&A->fRunsEnd>=A->fRunsBegin) A->fRunsBegin++;
+    while (TOTAL->GetBinContent(A->fRunsEnd)<0.5&&A->fRunsEnd>=A->fRunsBegin) A->fRunsEnd--;
+    if (A->fRunsEnd<A->fRunsBegin) puts("Wrong run numbers of energy");
+    A->fEvents=TOTAL->GetEntries();
+    A->Print();
+    TOTAL->Delete();
 
 }
-*/
+
 int main(int argc ,char** argv)
 {
     if (argc<2) return 1;
@@ -107,7 +125,8 @@ int main(int argc ,char** argv)
     #HERWIG          (Z/g)*    11925    334.9   0.0      2    mc11925
     */
 
-
+create_DB_entry(&A,130.0,"130_DATA_1",  "DATA","ALL","kLEP1","da130_95_200.root",-1,-1,-1,2.70,0.0,0.0);
+DB->Fill();
 
 
     AIStruct.push_back(new TSampleInfo(130.0,"130_DATA_1",  "DATA","ALL","kLEP1","da130_95_200.root",-1,-1,-1,2.70,0.0,0.0));
@@ -550,6 +569,7 @@ int main(int argc ,char** argv)
             (*it)->Write();
         }
     db->Write("mymap",1);
+    DB->Write();
     F->Close();
     return 0;
 }
