@@ -119,7 +119,7 @@ SOURCES=src/Helpers.cxx         src/Helpers.h \
 
 
 output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/create_proof       src/opalanalysis.C gen/DB.root
-		bin/$(ARCH)/create_proof  LOCAL_OPAL_$*
+		bin/$(ARCH)/create_proof  LOCAL_OPAL_$* share/input.rc
 
 	
 output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile external/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
