@@ -87,8 +87,9 @@ int main(int argc, char** argv)
                     replace_all(name,"h31100","H_manipmcsignal_"+std::string(argv[2])+"_161GeV|_");
                     replace_all(name,"h31180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_161GeV|_"); //PARTON!
                     replace_all(name,"h31190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_161GeV|_"); //HADRON!
-                    //h31183
-                    //replace_all(name,"h3310","H_manipmcbackgr_"+std::string(argv[2])+"_161GeV|_");
+ 
+ 
+ 
 
                     replace_all(name,"h28600","H_manipcorrected_"+std::string(argv[2])+"_136GeV|_");
 
@@ -96,31 +97,7 @@ int main(int argc, char** argv)
 
                     replace_all(name,"h18600","H_manipcorrected_"+std::string(argv[2])+"_91GeV|_");
 
-                    /*
 
-                                        replace_all(name,"00000","1-T");
-                                        replace_all(name,"00001","T-Min");
-                                        replace_all(name,"00002","T-Maj");
-                                        replace_all(name,"00003","A");
-                                        replace_all(name,"00004","CP");
-                                        replace_all(name,"00005","MH");
-                                        replace_all(name,"00006","S");
-                                        replace_all(name,"00007","O");
-                                        replace_all(name,"00008","BT");
-                                        replace_all(name,"00009","BW");
-                                        replace_all(name,"00010","D2");
-                                        replace_all(name,"00011","T");
-                                        replace_all(name,"00012","MH2");
-                                        replace_all(name,"00013","JTE0");
-                                        replace_all(name,"00014","DP");
-                                        replace_all(name,"00015","JETR2");
-                                        replace_all(name,"00016","JETR3");
-                                        replace_all(name,"00017","JETR4");
-                                        replace_all(name,"00018","JETR5");
-                                        replace_all(name,"00019","JETR6");
-                                        replace_all(name,"00020","ML");
-                                        replace_all(name,"00021","BN");
-                    */
 
                     //replace_all(name,"9999","admin");
                     replace_all(name,"|_00","_1-T");
@@ -151,12 +128,12 @@ int main(int argc, char** argv)
 
 
 
-                    //if (name.find("JETR")==std::string::npos) H_it->second->Scale(0.01);
+                    
 
                     H_it->second->SetName(name.c_str());
                     std::string gname=name;
                     replace_all(gname,"H_","G_");
-                    //std::map<std::string,TAdvancedGraph*>
+                    
                     fGMap.insert(std::pair<std::string,TAdvancedGraph*>(gname,new TAdvancedGraph(H_it->second)));
                     fGMap[gname]->SetName(gname.c_str());
                 }

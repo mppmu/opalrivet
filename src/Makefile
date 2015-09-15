@@ -41,8 +41,9 @@ EVENTO        = $(TARGET).$(ObjSuf) $(TARGET)Dict.$(ObjSuf)\
 				TFastJet.$(ObjSuf)  \
 				TAdvancedGraph.$(ObjSuf) TAdvancedGraphDict.$(ObjSuf) \
 				TUserProofData.$(ObjSuf) TUserProofDataDict.$(ObjSuf) \
-				TSampleInfo.$(ObjSuf)    TSampleInfoDict.$(ObjSuf)\
-				pxtth3.$(ObjSuf) pxlut3.$(ObjSuf) pxlth4.$(ObjSuf) pxanxy.$(ObjSuf) pxplu3.$(ObjSuf) pxrmx3.$(ObjSuf) pxrof3.$(ObjSuf) pxrob3.$(ObjSuf)
+				TSampleInfo.$(ObjSuf)    TSampleInfoDict.$(ObjSuf)
+#				\
+#				pxtth3.$(ObjSuf) pxlut3.$(ObjSuf) pxlth4.$(ObjSuf) pxanxy.$(ObjSuf) pxplu3.$(ObjSuf) pxrmx3.$(ObjSuf) pxrof3.$(ObjSuf) pxrob3.$(ObjSuf)
 
 ROOTMAP       =  lib$(TARGET).rootmap
                  

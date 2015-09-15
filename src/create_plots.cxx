@@ -102,7 +102,7 @@ int main(int argc, char* argv[])
                     color=0;
 
                     if (//(*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
-                        1//(quantity->find("JETR")==std::string::npos)
+                        (quantity->find("JETR")==std::string::npos)
                         )
 
                         {
@@ -177,7 +177,7 @@ int main(int argc, char* argv[])
                         }
 
                     if (//(*algorithm=="cambridge"||*algorithm=="antikt"||*algorithm=="kt")&&
-                        0//(quantity->find("JETR")!=std::string::npos)
+                        (quantity->find("JETR")!=std::string::npos)
                     )
                         {
 

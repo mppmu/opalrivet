@@ -1013,6 +1013,7 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                     ycuts.push_back(-10.0);
                     tfj->fYFlip=ycuts;
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
+                     if (H_prefix.find("_durham_161GeV_")!=std::string::npos)  printf("D2: %i %05d %f %f\n",A->Irun,A->Ievnt,ycuts[1],A->Yddmt[1]);
                     for ( j=0; j<5; j++)
                         {
 
@@ -1050,7 +1051,7 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                                 {
                                     double x,y;
                                     x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
-                                   if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);
+                                   if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);//FIXME!
                                     if (x>ycuts.at(j+1)&&x<ycuts.at(j))
                                         
                                         
@@ -1074,6 +1075,12 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                                     double x,y;
 
                                     A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
+                                    
+                                    
+                                  // x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i+1);
+                                   //if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i+1);//FIXME!
+                                    
+                                    
                                     if (x>ycuts.at(j+1)&&x<ycuts.at(j))
                                         {
                                             A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
