@@ -85,7 +85,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (std::abs(fE-189)<0.1) if (2*this->Ebeam < 188.0 || 2*this->Ebeam> 190.0 ) return kFALSE;
     if (std::abs(fE-192)<0.1) if (2*this->Ebeam < 191.0 || 2*this->Ebeam> 193.0 ) return kFALSE;
     if (std::abs(fE-196)<0.1) if (2*this->Ebeam < 195.0 || 2*this->Ebeam> 197.0 ) return kFALSE;
-    
+
     FillWithLabel(fHMap["weight_before_selection"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
     if (fSampleInfo->fType==std::string("MCSI")||fSampleInfo->fType==std::string("MCBG")) if (2.0*this->Ebeam-TLorentzVector(Pisr[0],Pisr[1],Pisr[2],Pisr[3]).M()> 1.0)  passed[1]=kFALSE;
@@ -111,24 +111,24 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
     if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
     for (unsigned int j=0; j<datatypes.size(); j++)
-    if (passed[j])
-        {
-            std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
-            for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
-                {
-                    bool dbg=false;
-                    TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL,dbg);
-                    MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
-                    if (*it=="durham")
-                        {
-                            if (j==1) if (passed[0]) printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
-                            if (j==0) printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
-                        }
-                }
-        }
-    //if (passed[1]) 
-        if (passed[0]&&passed[0]) FillWithLabel(fHMap["weight_reco"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
-        if (passed[1]) FillWithLabel(fHMap["weight_true"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
+        if (passed[j])
+            {
+                std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
+                for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
+                    {
+                        bool dbg=false;
+                        TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL,dbg);
+                        MyAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
+                        if (*it=="durham")
+                            {
+                                if (j==1) if (passed[0]) printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
+                                if (j==0) printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
+                            }
+                    }
+            }
+    //if (passed[1])
+    if (passed[0]&&passed[0]) FillWithLabel(fHMap["weight_reco"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
+    if (passed[1]) FillWithLabel(fHMap["weight_true"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     return kTRUE;
 }
 void opalrivetdata::SlaveTerminate()
@@ -165,7 +165,7 @@ void opalrivetdata::Terminate()
     double number_of_reco_events=fHMap["weight_reco"]->GetBinContent(1)-fHMap["weight_reco"]->Integral(18,30)*mycuts[CUTS]["backgroundscale"];
     //double number_of_reco_events=fHMap["weight_reco"]->GetBinContent(1)-fHMap["weight_reco"]->Integral(18,30)*mycuts[CUTS]["backgroundscale"];
     double reco_over_true=fHMap["weight_reco"]->Integral(9,11)/fHMap["weight_true"]->Integral(9,11);
-    
+
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             if (H_it->first.find("H_acceptancesignal_")!=std::string::npos)
@@ -177,7 +177,7 @@ void opalrivetdata::Terminate()
                     fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
                     double H_scale=fHMap[std::string("H_corrected_")+name]->GetBinContent(0);
                     if   (H_it->first.find("JETR")!=std::string::npos)
-                        { fHMap[std::string("H_corrected_")+name]->Scale(1.0/H_scale);fHMap[std::string("H_corrected_")+name]->SetBinContent(0,H_scale);}
+                        { fHMap[std::string("H_corrected_")+name]->Scale(1.0/H_scale); fHMap[std::string("H_corrected_")+name]->SetBinContent(0,H_scale);}
                     else if (std::abs(fHMap[std::string("H_corrected_")+name]->Integral())>0.0001)
                         fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->Integral());
 

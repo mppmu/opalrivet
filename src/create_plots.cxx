@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
 
                     if (//(*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
                         (quantity->find("JETR")==std::string::npos)
-                        )
+                    )
 
                         {
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)

@@ -41,13 +41,13 @@ typedef struct DB_entry_
 
     double       fSigma;
     double       fLuminocity;
-    double       fWeight;    
+    double       fWeight;
     double       fE;
     char      fPeriod[50];
-    char      fType[50];    
+    char      fType[50];
     char      fFiles[50][2000];
-    char      fEnergyString[50];	
-	char      fProcesses[50];
+    char      fEnergyString[50];
+    char      fProcesses[50];
 }
 DB_entry;
 
@@ -87,9 +87,9 @@ int main(int argc ,char** argv)
 
 
 
-TTree* DB= new TTree("DB","OPAL QCD ntuples DB");
-DB_entry A;
-DB->Branch("DBbranch",&A,"fEvents/I:fNfiles/I:fRunsBegin/I:fRunsEnd/I:fSigma/F:fLuminocity/F:fWeight/F:fE/F:fPeriod/C:fType/C:fFiles[fNfiles]/C:fEnergyString/C:fProcesses/C");
+    TTree* DB= new TTree("DB","OPAL QCD ntuples DB");
+    DB_entry A;
+    DB->Branch("DBbranch",&A,"fEvents/I:fNfiles/I:fRunsBegin/I:fRunsEnd/I:fSigma/F:fLuminocity/F:fWeight/F:fE/F:fPeriod/C:fType/C:fFiles[fNfiles]/C:fEnergyString/C:fProcesses/C");
 
 
 

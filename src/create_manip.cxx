@@ -58,20 +58,20 @@ int main(int argc, char** argv)
                     ||(name.find("h28600")!=std::string::npos)///FIXME!
                )
                 {
-					
-					/* 
-  KEY: TH1F	h3118000;1	1-T	Parton	PYTHIA	(Z/g)*	sptrue 
-  KEY: TH1F	h3118050;1	1-T	Parton	PYTHIA	(Z/g)*	sptrue moments 
-  KEY: TH1F	h3119000;1	1-T	Hadron	PYTHIA	(Z/g)*	sptrue 
-  KEY: TH1F	h3119050;1	1-T	Hadron	PYTHIA	(Z/g)*	sptrue moments 
-  KEY: TH1F	h3118100;1	1-T	Parton	PYTHIA	(Z/g)*	sptpre 
-  KEY: TH1F	h3118150;1	1-T	Parton	PYTHIA	(Z/g)*	sptpre moments 
-  KEY: TH1F	h3118200;1	1-T	Parton	PYTHIA	(Z/g)*	sptisr 
-  KEY: TH1F	h3118250;1	1-T	Parton	PYTHIA	(Z/g)*	sptisr moments 
-  KEY: TH1F	h3118300;1	1-T	Parton	PYTHIA	(Z/g)*	sptsta 
-  KEY: TH1F	h3118350;1	1-T	Parton	PYTHIA	(Z/g)*	sptsta moments 
-					
-					*/
+
+                    /*
+                    KEY: TH1F	h3118000;1	1-T	Parton	PYTHIA	(Z/g)*	sptrue
+                    KEY: TH1F	h3118050;1	1-T	Parton	PYTHIA	(Z/g)*	sptrue moments
+                    KEY: TH1F	h3119000;1	1-T	Hadron	PYTHIA	(Z/g)*	sptrue
+                    KEY: TH1F	h3119050;1	1-T	Hadron	PYTHIA	(Z/g)*	sptrue moments
+                    KEY: TH1F	h3118100;1	1-T	Parton	PYTHIA	(Z/g)*	sptpre
+                    KEY: TH1F	h3118150;1	1-T	Parton	PYTHIA	(Z/g)*	sptpre moments
+                    KEY: TH1F	h3118200;1	1-T	Parton	PYTHIA	(Z/g)*	sptisr
+                    KEY: TH1F	h3118250;1	1-T	Parton	PYTHIA	(Z/g)*	sptisr moments
+                    KEY: TH1F	h3118300;1	1-T	Parton	PYTHIA	(Z/g)*	sptsta
+                    KEY: TH1F	h3118350;1	1-T	Parton	PYTHIA	(Z/g)*	sptsta moments
+
+                    */
 
                     replace_all(name,"h98600","H_manipcorrected_"+std::string(argv[2])+"_205GeV|_");
                     //replace_all(name,"h1900","H_manipcorrected_"+std::string(argv[2])+"_205GeV|_");
@@ -87,9 +87,9 @@ int main(int argc, char** argv)
                     replace_all(name,"h31100","H_manipmcsignal_"+std::string(argv[2])+"_161GeV|_");
                     replace_all(name,"h31180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_161GeV|_"); //PARTON!
                     replace_all(name,"h31190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_161GeV|_"); //HADRON!
- 
- 
- 
+
+
+
 
                     replace_all(name,"h28600","H_manipcorrected_"+std::string(argv[2])+"_136GeV|_");
 
@@ -128,12 +128,12 @@ int main(int argc, char** argv)
 
 
 
-                    
+
 
                     H_it->second->SetName(name.c_str());
                     std::string gname=name;
                     replace_all(gname,"H_","G_");
-                    
+
                     fGMap.insert(std::pair<std::string,TAdvancedGraph*>(gname,new TAdvancedGraph(H_it->second)));
                     fGMap[gname]->SetName(gname.c_str());
                 }

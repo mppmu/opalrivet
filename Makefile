@@ -215,6 +215,12 @@ bin/$(ARCH)/create_plots: dirs src//create_plots.cxx src/Helpers.cxx src/Helpers
 
 
 
+bin/$(ARCH)/create_tables: dirs src//create_tables.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_tables.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_tables
+
+
+
+
 bin/$(ARCH)/create_manip: dirs src//create_manip.cxx src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h
 		$(CXX) -fdiagnostics-color=never   -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src//create_manip.cxx src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o ./bin/$(ARCH)/create_manip
 
@@ -244,6 +250,18 @@ output/plots_%.root: .rootrc dirs   bin/$(ARCH)/create_plots output/opal_%.root 
 	#we need so somewhere
 	bin/$(ARCH)/create_plots $* output/opal_$*.root output/$(GEN)_$*.root output/shapemanip_$*.root output/old_$*.root
 
+
+output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables 
+#output/plots_%.root
+	#we need so somewhere
+	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
+	
+output/opalrivet.pdf:  opalrivet.tex
+		$(MAKE) $(shell cat opalrivet.tex | grep output/tables | sed 's@\input{@@g' | sed 's@}@@g' )
+		pdflatex opalrivet.tex
+		mv opalrivet.pdf  output/opalrivet.pdf
+
+pdf: output/opalrivet.pdf
 
 
 bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
