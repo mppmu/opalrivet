@@ -1,0 +1,11 @@
+--- a/include/Pythia8/Pythia.h
++++ b/include/Pythia8/Pythia.h
+@@ -48,7 +48,7 @@
+ public:
+ 
+   // Constructor. (See Pythia.cc file.)
+-  Pythia(string xmlDir = "../xmldoc", bool printBanner = true);
++  Pythia(string xmlDir = "/usr/share/pythia8-data/xmldoc", bool printBanner = true);
+ 
+   // Destructor. (See Pythia.cc file.)
+   ~Pythia();

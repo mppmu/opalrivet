@@ -1,0 +1,8 @@
+NT_VERSION 200j
+14588 GeV
+Generator   Process   Runno    Sigma    Lumi     Part   filestem
+                               (pb)     (pb-1)
+Data        ALL       0        0        1.639    1      jade/data7985_588
+PYTHIA      (Z/g)*    5714     1908.9   0        2      jade14/mcpy5714 11
+HERWIG      (Z/g)*    5914     1908.9   0        2      jade14/mchw5914 11
+GRC4F       qqqq      5714     190.89   0        2      jade14/mcpy5714 12

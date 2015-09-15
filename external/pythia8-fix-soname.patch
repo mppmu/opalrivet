@@ -1,0 +1,81 @@
+diff -ur pythia8180.orig/Makefile pythia8180/Makefile
+--- pythia8180.orig/Makefile	2013-09-21 18:43:06.000000000 +0200
++++ pythia8180/Makefile	2013-11-06 11:56:52.820286793 +0100
+@@ -40,11 +40,8 @@
+ ifeq ($(SHAREDLIBS),yes)
+   targets=$(LIBDIRARCH)/libpythia8.a
+   targets+=$(LIBDIR)/libpythia8.$(SHAREDSUFFIX)
+-  targets+=$(LIBDIRARCH)/liblhapdfdummy.a
+-  targets+=$(LIBDIR)/liblhapdfdummy.$(SHAREDSUFFIX)
+ else
+   targets=$(LIBDIRARCH)/libpythia8.a
+-  targets+=$(LIBDIRARCH)/liblhapdfdummy.a
+ endif
+ 
+ ifneq (x$(HEPMCLOCATION),x)
+@@ -72,14 +69,6 @@
+ 	@mkdir -p $(MYTMPDIR)/archive
+ 	$(CXX) $(CXXFLAGS) -c -I$(INCDIR) $< -o $@
+ 
+-$(MYTMPDIR)/%.o : lhapdfdummy/%.cc
+-	@mkdir -p $(MYTMPDIR)
+-	$(CXX) $(CXXFLAGS) $(CXXFLAGSSHARED) -c -I$(INCDIR) $< -o $@
+-
+-$(MYTMPDIR)/archive/%.o : lhapdfdummy/%.cc
+-	@mkdir -p $(MYTMPDIR)/archive
+-	$(CXX) $(CXXFLAGS) -c -I$(INCDIR) $< -o $@
+-
+ # Creating the dependency files *.d
+ # The compiler with option -M is used to build the dependency strings. They
+ # are further edited with sed (stream editor). The first sed command adds the
+@@ -110,23 +99,15 @@
+ 
+ $(LIBDIR)/libpythia8.$(SHAREDSUFFIX): $(objects)
+ 	@mkdir -p $(LIBDIR)
+-	$(CXX) $(LDFLAGSSHARED) -o $@ $(objects) $(LDFLAGLIBNAME),$(notdir $@)
++	$(CXX) $(LDFLAGSSHARED) -o $@ $(objects) $(LDFLAGLIBNAME),$(notdir $@) -lLHAPDF
++	if [ $(SHAREDSUFFIX) != 'so' ] ; then \
++		ln -s $(notdir $@) $(LIBDIR)/libpythia8.so ; \
++	fi
+ 
+ $(LIBDIRARCH)/libpythia8.a: $(objectsarch)
+ 	@mkdir -p $(LIBDIRARCH)
+ 	ar cru $@ $(objectsarch)
+ 
+-objdum := $(patsubst lhapdfdummy/%.cc,$(MYTMPDIR)/%.o,$(wildcard lhapdfdummy/*.cc))
+-objdumarch := $(patsubst lhapdfdummy/%.cc,$(MYTMPDIR)/archive/%.o,$(wildcard lhapdfdummy/*.cc))
+-
+-$(LIBDIR)/liblhapdfdummy.$(SHAREDSUFFIX): $(objdum)
+-	@mkdir -p $(LIBDIR)
+-	$(CXX) $(LDFLAGSSHARED) -o $@ $(objdum) $(LDFLAGLIBNAME),$(notdir $@)
+-
+-$(LIBDIRARCH)/liblhapdfdummy.a: $(objdumarch)
+-	@mkdir -p $(LIBDIRARCH)
+-	ar cru $@ $(objdumarch)
+-
+ deps := $(patsubst $(SRCDIR)/%.cc,$(MYTMPDIR)/%.d,$(wildcard $(SRCDIR)/*.cc))
+ depsarch := $(patsubst $(SRCDIR)/%.cc,$(MYTMPDIR)/archive/%.d,$(wildcard $(SRCDIR)/*.cc))
+ 
+@@ -173,9 +154,12 @@
+    objectsI := $(patsubst pythia8tohepmc/%.cc,$(MYTMPDIR)/%.o,$(wildcard pythia8tohepmc/*.cc))
+    objectsIarch := $(patsubst pythia8tohepmc/%.cc,$(MYTMPDIR)/archive/%.o,$(wildcard pythia8tohepmc/*.cc))
+ 
+-   $(LIBDIR)/libpythia8tohepmc.$(SHAREDSUFFIX) : $(objectsI)
++   $(LIBDIR)/libpythia8tohepmc.$(SHAREDSUFFIX) : $(objectsI) $(LIBDIR)/libpythia8.$(SHAREDSUFFIX)
+ 	@mkdir -p $(LIBDIR)
+-	$(CXX) $(LDFLAGSSHARED) $(objectsI) -o $@ $(LDFLAGLIBNAME),$(notdir $@)
++	$(CXX) $(LDFLAGSSHARED) $(objectsI) -o $@ $(LDFLAGLIBNAME),$(notdir $@) -lHepMC -L$(LIBDIR) -lpythia8
++	if [ $(SHAREDSUFFIX) != 'so' ] ; then \
++		ln -s $(notdir $@) $(LIBDIR)/libpythia8tohepmc.so ; \
++	fi
+ 
+    $(LIBDIRARCH)/libpythia8tohepmc.a : $(objectsIarch)
+ 	@mkdir -p $(LIBDIRARCH)
+@@ -252,7 +236,6 @@
+ 	cd htmldoc; rm -f *~; rm -f \#*; cd -
+ 	cd phpdoc; rm -f *~; rm -f \#*; cd -
+ 	cd pythia8tohepmc; rm -f *~; rm -f \#*; cd -
+-	cd lhapdfdummy; rm -f *~; rm -f \#*; cd -
+ 	cd examples; rm -f *~; rm -f \#*; rm -f core*; rm -f config.*; cd -
+ 	cd rootexamples; rm -f *~; rm -f \#*; rm -f core*; rm -f config.*; cd -
+ 

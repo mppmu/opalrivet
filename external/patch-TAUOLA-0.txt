@@ -1,0 +1,24 @@
+diff -Naur ./Makefile ./Makefile
+--- ./Makefile	2013-12-10 01:31:33.000000000 +0100
++++ ./Makefile	2014-04-08 23:46:05.964872152 +0200
+@@ -40,8 +40,8 @@
+ 	mkdir -p $(PREFIX)/include
+ 	mkdir -p $(PREFIX)/include/Tauola
+ 	cp include/Tauola/* $(PREFIX)/include/Tauola/.
+-	mkdir -p $(PREFIX)/lib
+-	cp lib/* $(PREFIX)/lib/.
++	mkdir -p $(LIBDIR)
++	cp lib/* $(LIBDIR)/.
+ 
+ src: include_dir $(EVENT_RECORD_INTERFACE_DIR) $(FORTRAN_TAUOLA_INTERFACE_DIR) $(C_TAUOLA_INTERFACE_DIR) $(UTILITIES_DIR)
+ 	ar cr lib/$(LIB_TAUOLA_CXX_INT_A) $(TAUOLA_CXX_INT_OBJECTS)
+diff -Naur ./platform/make.inc.in ./platform/make.inc.in
+--- ./platform/make.inc.in	2013-04-18 14:40:36.000000000 +0200
++++ ./platform/make.inc.in	2014-04-08 23:45:27.029215859 +0200
+@@ -1,4 +1,6 @@
+ PREFIX        = @prefix@
++exec_prefix   = @prefix@
++LIBDIR        = @libdir@
+ HEPMCLOCATION = @with_hepmc@
+ LHAPDFLOCATION   = @with_lhapdf@
+ MAKE_TAU_SPINNER = @with_tau_spinner@
