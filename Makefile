@@ -254,12 +254,12 @@ output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables
 	#we need so somewhere
 	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
 	
-doc/opal.pdf:  opal.tex
+doc/opalanalysis.pdf:  opal.tex
 		$(MAKE) $(shell cat opal.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
-		pdflatex doc/opal.tex
-		mv opal.pdf  doc/opal.pdf
+		pdflatex doc/opalanalysis.tex
+		mv opalanalysis.pdf  doc/opalanalysis.pdf
 
-pdf: doc/opal.pdf
+pdf: doc/opalanalysis.pdf
 
 
 bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
