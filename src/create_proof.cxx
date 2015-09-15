@@ -1,6 +1,6 @@
 #include "Helpers.h"
 #include "TSampleInfo.h"
-void runProof( std::map<std::string,std::string> fMS,  std::map<std::string,int> fMI,std::map<std::string,float> fMF)
+void create_proof( std::map<std::string,std::string> fMS,  std::map<std::string,int> fMI,std::map<std::string,float> fMF)
 {
     TChain* chainTD = new TChain(fMS["CHAIN"].c_str());
     TObjArray * parsed;
@@ -145,5 +145,5 @@ int main(int argc ,char** argv)
     fMS.insert(std::pair<std::string,std::string>("DB",e_config->GetValue(CONF+".PREFIX","./gen/DB.root")));
 
     if (argc>2)      fMS.insert(std::pair<std::string,std::string>("OPTION",  std::string(argv[2])));
-    runProof(fMS,fMI,fMF);
+    create_proof(fMS,fMI,fMF);
 }

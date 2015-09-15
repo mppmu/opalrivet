@@ -118,8 +118,8 @@ SOURCES=src/Helpers.cxx         src/Helpers.h \
 
 
 
-output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalanalysis.C gen/DB.root
-		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
+output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/create_proof       src/opalanalysis.C gen/DB.root
+		bin/$(ARCH)/create_proof  LOCAL_OPAL_$*
 
 	
 output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile external/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
@@ -195,8 +195,8 @@ bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
 	$(CXX) -fdiagnostics-color=never   -pipe   -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen   -L/lib64
 
 
-bin/$(ARCH)/runProof: dirs src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
-		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
+bin/$(ARCH)/create_proof: dirs src/create_proof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/create_proof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/create_proof
 
 
 bin/$(ARCH)/create_DB: dirs src/create_DB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
