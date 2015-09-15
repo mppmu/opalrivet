@@ -5,8 +5,7 @@ set -x
 declare -a generators=()
 #( pythia8 herwig++ )
  #130 136 161 172 183 189 192 196  202  207  205 
-declare -a energies=(161)
-#172 183 189 192 196)
+declare -a energies=(161 172 183 189 192 196)
 declare -a systematics=( central  )
 # wqqlnhigh:wqqlnlow wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
@@ -37,6 +36,7 @@ cat temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >SHAPE_TRUE.
 make bin/x86_64/create_plots
 bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 bin/x86_64/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+$MAKE output/tables_$energy".tex"
 done
 
 
