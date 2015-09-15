@@ -113,6 +113,7 @@ void create_proof( std::map<std::string,std::string> fMS,  std::map<std::string,
 int main(int argc ,char** argv)
 {
     TString* config=new TString(gSystem->Getenv("EXCITED_CONFIG"));
+    if (config->Length()==0) if (argc>2)  config=new TString(argv[2]);
     if (config->Length()==0) config=new TString("./input.rc");
     TEnv* e_config= new TEnv(config->Data());
     TString      CONF;

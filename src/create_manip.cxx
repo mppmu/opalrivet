@@ -123,13 +123,6 @@ int main(int argc, char** argv)
                     replace_all(name,"|_20","_ML");
                     replace_all(name,"|_21","_BN");
 
-
-
-
-
-
-
-
                     H_it->second->SetName(name.c_str());
                     std::string gname=name;
                     replace_all(gname,"H_","G_");

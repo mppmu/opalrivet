@@ -28,13 +28,8 @@ int main(int argc, char** argv)
         }
 
     type_fFile->Close();
-
-
-
     TFile* fFile= new TFile(argv[1], "RECREATE");
     fFile->cd();
-
-//printf("vvvv %i\n",fHMap.size());
 
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {

@@ -16,7 +16,6 @@ TAdvancedGraph* GetSystematicsGraph(std::vector<TAdvancedGraph*> GG,std::string 
         {
             double x,y;
             GG[0]->GetPoint(i,x,y);
-//R->GetPoint(i,x,y);
             R->SetPoint(i,x,0);
             R->SetPointError(i,0,0,0,0);
             for (int j=1; j<GG.size(); j++)
@@ -24,9 +23,6 @@ TAdvancedGraph* GetSystematicsGraph(std::vector<TAdvancedGraph*> GG,std::string 
                     double xj,yj;
                     GG[j]->GetPoint(i,xj,yj);
                     R->SetPointError(i,0,0,std::max(R->GetErrorYlow(i),y-yj),std::max(R->GetErrorYhigh(i),yj-y));
-
-//R->SetPoint(i,xj,R->GetErrorYlow(i));
-//printf("%f %f\n",R->GetErrorYlow(i),R->GetErrorYhigh(i));
                 }
         }
     return R;
@@ -117,15 +113,6 @@ std::map<std::string,TH1D*> GetHistos(std::string file)
 
 
 
-
-
-
-
-
-
-
-
-
 int main(int argc, char* argv[])
 {
 
@@ -189,24 +176,7 @@ int main(int argc, char* argv[])
     for (std::map<std::string,TAdvancedGraph*>::iterator gG_it=fGMaps["central"].begin(); gG_it!=fGMaps["central"].end(); ++gG_it)        {	q->cd();  gG_it->second->Write(); }
     for (std::map<std::string,TAdvancedGraph*>::iterator gG_it=fGMaps["systematics"].begin(); gG_it!=fGMaps["systematics"].end(); ++gG_it) {	q->cd();  gG_it->second->Write(); }
 
-
-
-
-
-
-
     std::map<std::string,std::map<std::string,TH1D*> > fHMaps;
-
-
-
-
-
-
-
-
-
-
-
 
     for (int i=2; i<argc; i++)
         {
@@ -254,41 +224,8 @@ int main(int argc, char* argv[])
                         gH_it->second->Add(gH_it->second,fHMaps[Form("systematicsN%i",i)][gH_it->first],1.0,1.0);
                 }
         }
-
-
     for (std::map<std::string,TH1D*>::iterator gH_it=fHMaps["central"].begin(); gH_it!=fHMaps["central"].end(); ++gH_it)        {	q->cd();  gH_it->second->Write(); }
     for (std::map<std::string,TH1D*>::iterator gH_it=fHMaps["systematics"].begin(); gH_it!=fHMaps["systematics"].end(); ++gH_it) {	q->cd();  gH_it->second->Write(); }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     q->Close();
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

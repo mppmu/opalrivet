@@ -1049,7 +1049,7 @@ template <class EXA> bool MyAnalysis(EXA* A, OPALJet* tfj,  float weight,std::st
 
                             for (int i=1; i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
                                 {
-                                    double x,y;
+                                    double x;
                                     x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
                                     if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);//FIXME!
                                     if (x>ycuts.at(j+1)&&x<ycuts.at(j))
