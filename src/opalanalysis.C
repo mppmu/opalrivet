@@ -1,5 +1,5 @@
-#define opalrivetdata_cxx
-#include  "opalrivetdata.h"
+#define opalanalysis_cxx
+#include  "opalanalysis.h"
 #include  "OPALJet.h"
 #include  "TSampleInfo.h"
 #include  "Helpers.h"
@@ -7,12 +7,12 @@
 #ifndef YEARSUFFIX
 #define YEARSUFFIX ""
 #endif
-void opalrivetdata::Begin(__attribute__ ((unused))TTree *tree) {}
-void opalrivetdata::SlaveBegin(TTree * tree)
+void opalanalysis::Begin(__attribute__ ((unused))TTree *tree) {}
+void opalanalysis::SlaveBegin(TTree * tree)
 {
     fE=-1;//fAI.fE;
     fEnergyString="NONE";
-    TFile* TDB=new TFile("./opalrivetdata/DB.root","update");
+    TFile* TDB=new TFile("./opalanalysis/DB.root","update");
     std::vector<std::string> S=return_tokenize(SAMPLES, ":");
     std::map<std::string,std::pair<double,int> > proc;
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
@@ -67,7 +67,7 @@ void opalrivetdata::SlaveBegin(TTree * tree)
             if (p->first.find("MCBG_")!=std::string::npos) {fHMap["weight_reco"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); fHMap["weight_true"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); fHMap["weight_before_selection"]->GetXaxis()->SetBinLabel(imcbg+21,p->first.c_str()); imcbg++;}
         }
 }
-Bool_t opalrivetdata::Process(Long64_t gentry)
+Bool_t opalanalysis::Process(Long64_t gentry)
 {
     Bool_t PASSED=kFALSE;
     Int_t entry;
@@ -130,7 +130,7 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
     if (passed[1]) FillWithLabel(fHMap["weight_true"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     return kTRUE;
 }
-void opalrivetdata::SlaveTerminate()
+void opalanalysis::SlaveTerminate()
 {
     TDirectory *savedir = gDirectory;
     fFile->cd();
@@ -141,7 +141,7 @@ void opalrivetdata::SlaveTerminate()
     gDirectory = savedir;
     fFile->Close();
 }
-void opalrivetdata::Terminate()
+void opalanalysis::Terminate()
 {
     TSampleInfo *out = (TSampleInfo *) fOutput->FindObject("sampleinfo");
     if (!out)  { printf("No TSampleInfo\n"); fSampleInfo=new TSampleInfo();}
@@ -212,10 +212,10 @@ void opalrivetdata::Terminate()
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
     type_fFile->Close();
 }
-Bool_t opalrivetdata::Notify()
+Bool_t opalanalysis::Notify()
 {
     TString currentfile=gSystem->BaseName(fChain->GetCurrentFile()->GetName());
-    TFile* theDB=new TFile("./opalrivetdata/DB.root","r");
+    TFile* theDB=new TFile("./opalanalysis/DB.root","r");
     TMap* filetosamplemap=(TMap*)theDB->Get("mymap");
     if (!filetosamplemap) printf("No map found!\n");
     else filetosamplemap->Print();

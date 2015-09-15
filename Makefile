@@ -118,7 +118,7 @@ SOURCES=src/Helpers.cxx         src/Helpers.h \
 
 
 
-output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalrivetdata.C gen/DB.root
+output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/runProof       src/opalanalysis.C gen/DB.root
 		bin/$(ARCH)/runProof  LOCAL_OPAL_$*
 
 	
@@ -199,13 +199,13 @@ bin/$(ARCH)/runProof: dirs src/runProof.cxx  src/Helpers.cxx src/Helpers.h gen/T
 		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/runProof.cxx  src/Helpers.cxx  gen/TSampleInfoDict.cxx src/TSampleInfo.cxx -o ./bin/$(ARCH)/runProof
 
 
-bin/$(ARCH)/makeDB: dirs src/makeDB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
-		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/makeDB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/makeDB
+bin/$(ARCH)/create_DB: dirs src/create_DB.cxx gen/TSampleInfoDict.cxx $(SOURCES)
+		$(CXX) -fdiagnostics-color=never   -pipe  -I. -g -DSIMPLE_HELPERS_ONLY $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/create_DB.cxx  src/Helpers.cxx gen/TSampleInfoDict.cxx src/TSampleInfo.cxx  -o ./bin/$(ARCH)/create_DB
 
 
 
-gen/DB.root: dirs bin/$(ARCH)/makeDB
-	bin/$(ARCH)/makeDB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
+gen/DB.root: dirs bin/$(ARCH)/create_DB
+	bin/$(ARCH)/create_DB  gen/DB.root $(MNT)/scratch/andriish/opal/ntuple_root/qcd/
 	
 
 
