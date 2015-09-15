@@ -1,6 +1,0 @@
-1) analysis of y23 (Durham) LEP1 91 GeV 1996 data
-2) use h2root converted ntuples, read with NtupleReader
-3) standard analysis: mt reconstruction, costt cut 0.9, # tracks = 5, PYTHIA exp. corr.
-4) systematics: costt cut 0.7, # tracks = 7, HERWIG exp. corr.
-5) results in root histos
-

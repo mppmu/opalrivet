@@ -1,9 +1,0 @@
-    NT_VERSION 107j
-    22588 GeV
-    Generator       Process   Runno    Sigma    Lumi     Part  filestem
-                                       (pb)     (pb-1)
-    Data            ALL       0        0        2.41     5     jade/data7985_588
-    PYTHIA          (Z/g)*    5722     0        0        2     jade22/mc5722
-    HERWIG          (Z/g)*    5922     0        0        2     jade22/mc5922
-
-
