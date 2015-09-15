@@ -74,30 +74,6 @@ int main(int argc, char** argv)
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j],  i+1),Form("_jade_%dGeV_JETR%d",  energies[j],i+2));
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
                     }
-            /*
-            		replace_all(name,"0000","1-T");
-            		replace_all(name,"0001","T-Min");
-            		replace_all(name,"0002","T-Maj");
-            		replace_all(name,"0003","A");
-            		replace_all(name,"0004","CP");
-            		replace_all(name,"0005","MH");
-            		replace_all(name,"0006","S");
-            		replace_all(name,"0007","O");
-            		replace_all(name,"0008","BT");
-            		replace_all(name,"0009","BW");
-            		replace_all(name,"0010","D2");
-            		replace_all(name,"0011","T");
-            		replace_all(name,"0012","MH2");
-            		replace_all(name,"0013","JTE0");
-            		replace_all(name,"0014","DP");
-            		replace_all(name,"0015","JETR2");
-            		replace_all(name,"0016","JETR3");
-            		replace_all(name,"0017","JETR4");
-            		replace_all(name,"0018","JETR5");
-            		replace_all(name,"0019","JETR6");
-            		replace_all(name,"0020","ML");
-            		replace_all(name,"0021","BN");
-            */
             puts(name.c_str());
             H_it->second->SetName(name.c_str());
 
@@ -117,25 +93,11 @@ int main(int argc, char** argv)
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
                     }
 
-
-
-
-
-//puts(name.c_str());
             G_it->second->SetName(("G_"+name).c_str());
             G_it->second->Scale(0.01);
             fHMap.insert(std::pair<std::string,TH1D*> (std::string("H_")+name, G_it->second->ToTH1D(std::string("H_")+name,0)));
 
-            //fHMap[std::string("H_")+name]->Scale(0.01);
         }
-
-
-
-
-
-
-
-
 
     fFile->cd();
 
@@ -147,5 +109,4 @@ int main(int argc, char** argv)
     printf("%i\n",fHMap.size());
     printf("%i\n",fGMap.size());
     fFile->Close();
-
 }

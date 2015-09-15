@@ -37,46 +37,7 @@ OPALJet::OPALJet()
 }
 
 fastjet::ClusterSequence* OPALJet::GetClusterSequence() {return fClusterSequence;};
-/*
-OPALJet::OPALJet( const std::vector<TParticle>& vtp )
-{
-	fEvis=-1;
-    fClusterSequence=0;
-    fSISPlugin=0;
-    fRegParameter=2.0;
 
-    fThrusts.push_back(1.0);
-    fThrusts.push_back(0.0);
-    fThrusts.push_back(0.0);
-    fThrustAxes.push_back( TVector3(0,0,0));
-    fThrustAxes.push_back( TVector3(0,0,0));
-    fThrustAxes.push_back( TVector3(0,0,0));
-
-    fLambdas[0].push_back(0);
-    fLambdas[0].push_back(0);
-    fLambdas[0].push_back(0);
-    fLambdas[1].push_back(0);
-    fLambdas[1].push_back(0);
-    fLambdas[1].push_back(0);
-    fSphericityAxes[0].push_back(TVector3(0,0,0));
-    fSphericityAxes[1].push_back(TVector3(0,0,0));
-
-
-    fPJets= new std::vector<fastjet::PseudoJet>();
-    std::vector<fastjet::PseudoJet> particles;
-    for( UInt_t i= 0; i < vtp.size(); i++ )
-        {
-            const TParticle& tp= vtp[i];
-            fastjet::PseudoJet pj=  fastjet::PseudoJet( tp.Px(), tp.Py(), tp.Pz(), tp.Energy() );
-            pj.set_user_index( i );
-            particles.push_back( pj );
-        }
-    double R= 0.4;
-    fastjet::JetDefinition jetdef( fastjet::antikt_algorithm, R );
-    fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
-    return;
-}
-*/
 bool OPALJet::FindAlgorithm(std::string jetalg)
 {
     fJetAlgString= std::string(jetalg);
@@ -91,9 +52,9 @@ bool OPALJet::FindAlgorithm(std::string jetalg)
 }
 
 OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
-                    std::string jetalg,
-                    std::map<std::string,double> R,
-                    const std::vector<int>* vindx, bool dbg ) : fClusterSequence(0), fSISPlugin(0)
+                  std::string jetalg,
+                  std::map<std::string,double> R,
+                  const std::vector<int>* vindx, bool dbg ) : fClusterSequence(0), fSISPlugin(0)
 {
     fEvis=-1;
     fDebug=dbg;
@@ -422,21 +383,6 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int wh
         }
 
 
-
-
-
-
-//    std::reverse(fSphericityAxes[0].begin(),fSphericityAxes[0].end());
-//    std::reverse(fLambdas[0].begin(),fLambdas[0].end());
-//    std::reverse(fSphericityAxes[1].begin(),fSphericityAxes[1].end());
-//    std::reverse(fLambdas[1].begin(),fLambdas[1].end());
-
-
-//   printf("%f %f %f  DP  %f %f\n",EVa[0],EVa[1],EVa[2],27*EVa[0]*EVa[1]*EVa[2],27*a);
-    //printf("1:A S DP %f %f %f\n",3./2.*fLambdas[0][0],3./2.*fLambdas[0][0]+3./2.*fLambdas[0][1],27*fLambdas[0][0]*fLambdas[0][1]*fLambdas[0][2]);
-    //printf("2:A S DP %f %f %f\n",3./2.*fLambdas[1][0],3./2.*fLambdas[1][0]+3./2.*fLambdas[1][1],27*fLambdas[1][0]*fLambdas[1][2]*fLambdas[1][2]);
-//printf("sort  %f %f %f -->%f %f %f\n",EVa[0],EVa[1],EVa[2],fLambdas[0][0],fLambdas[0][1],fLambdas[0][2]);
-//printf("sort  %f %f %f -->%f %f %f\n",EVa2[0],EVa2[1],EVa2[2],fLambdas[1][0],fLambdas[1][1],fLambdas[1][2]);
 }
 
 
@@ -550,63 +496,11 @@ void OPALJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVecto
                 taxis=tvec[i];
             }
 }
-extern "C" {
-    void pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[300][6],float *THR,float TVEC[3], int* IERR);
-//pxtth3_(int*, int*, float (*) [3], float*, float*, int*)
-    //SUBROUTINE PXLUT3 (N,NRLUDM,P,THR,OBL)
-    void pxlut3_ (int *N, int *NRLUDM, float P[300][6],float *THR,float *OBL);
-    /*
-          IMPLICIT NONE
-          INTEGER  N,NP,MSTU44,MSTU45,ILC,ILD,ILF,ILG,I,J,
-         +         IAGR,NC,IPP,IERR,NRLUDM
-          DOUBLE PRECISION DPP(3),PARU48,DTDS,DTDI(3),TPR(3),THP,THPS,DTEMP
-          REAL  P (NRLUDM,*),TDI (3),PVEC (3),
-         +      RVEC (3),RMX (3,3)
-          REAL  PS,PARU42,TDS,SGN,OBL,THR,
-         +      PHI,CP,SP
-          DATA  PARU42 / 1. /, PARU48 / 0.0001 /,
-         +      MSTU44 / 4  /, MSTU45 / 2 /
-    */
-    //SUBROUTINE PXLTH4 (NTRAK,ITKDM,PTRAK,THRVAL,THRVEC,IERR)
-
-    void pxlth4_ (int *NTRAK, int *ITKDM,float PTRAK[300][6],float THR[3],float TVEC[3][3], int* IERR);
-
-}
 // Do the full calculation
 void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 {
 
-    int NTRAK=fsmomenta.size();
-    int ITKDM=6;
-    int bmax=200;
-    float PTRAK[300][6];
 
-    float THR;
-    float THRL[3];
-    float OBL;
-    float TVEC[3];
-    float TVECL[3][3];
-    int IERR;
-    for (unsigned int k=0; k<fsmomenta.size(); k++)
-        {
-            PTRAK[k][0]=fsmomenta.at(k).x();
-            PTRAK[k][1]=fsmomenta.at(k).y();
-            PTRAK[k][2]=fsmomenta.at(k).z();
-            PTRAK[k][4]=0.139;
-            PTRAK[k][5]=sqrt(PTRAK[k][0]*PTRAK[k][0]+PTRAK[k][1]*PTRAK[k][1]+PTRAK[k][2]*PTRAK[k][2]  );
-            PTRAK[k][3]=sqrt(PTRAK[k][5]*PTRAK[k][5]+PTRAK[k][4]*PTRAK[k][4]);
-        }
-    //pxtth3_ (int *NTRAK, int *ITKDM,float PTRAK[100][3],float *THR,float TVEC[3], int* IERR);
-    //pxtth3_ (&NTRAK, &ITKDM,PTRAK,&THR,TVEC,&IERR);
-    //printf("pxtth3_         :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
-    //CalculateThrust:
-    //pxlth4_ (&NTRAK, &ITKDM,PTRAK,THRL,TVECL,&IERR);
-//	printf("pxlth4_         :%f %f %f %f\n",THRL[2],TVECL[2][0],TVECL[2][1],TVECL[2][2]);
-    //  printf("pxlth4_         :%f %f %f %f\n",THRL[1],TVECL[1][0],TVECL[1][1],TVECL[1][2]);
-    //printf("pxlth4_         :%f %f %f %f\n",THRL[0],TVECL[0][0],TVECL[0][1],TVECL[0][2]);
-
-    //pxlut3_(&bmax,&NTRAK,PTRAK,&THR,&OBL);
-//	printf("pxlut3_         :%f %f %f %f\n",THR,TVEC[0],TVEC[1],TVEC[2]);
 
     fThrusts.clear();
     fThrustAxes.clear();
@@ -717,27 +611,6 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
             fThrusts.push_back(-1.0);
             fThrustAxes.push_back(TVector3(0,0,0));
         }
-    /*
-    // printf("CalculateThrust:%f %f %f %f %f %f\n",fThrusts[0],fThrusts[1],fThrusts[2],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
-      printf("CalculateThrust :%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
-      printf("CalculateThrust :%f %f %f %f\n",fThrusts[1],fThrustAxes[1][0],fThrustAxes[1][1],fThrustAxes[1][2]);
-      printf("CalculateThrust :%f %f %f %f\n",fThrusts[2],fThrustAxes[2][0],fThrustAxes[2][1],fThrustAxes[2][2]);
-       puts("----------------->");
-
-    if (std::abs(THRL[2]-fThrusts[0])>0.0001)
-    {
-       printf("pxtth3_        :%f %f %f %f %i<- WE USE IT\n",THR,TVEC[0],TVEC[1],TVEC[2],NTRAK);
-    printf("CalculateThrust:%f %f %f %f\n",fThrusts[0],fThrustAxes[0][0],fThrustAxes[0][1],fThrustAxes[0][2]);
-
-     puts("-----WRONG------------>");
-    }
-     */
-    //printf("->%f %f %f\n",    fThrusts[0],fThrusts[1],fThrusts[2]);
-
-    //std::sort(fThrusts.begin(),fThrusts.end());
-    //printf("<-%f %f %f\n",    fThrusts[0],fThrusts[1],fThrusts[2]);
-
-//std::reverse(fThrusts.begin(),fThrusts.end());
 
 
 }

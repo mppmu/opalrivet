@@ -27,7 +27,6 @@ void DivideByBinWidth(TH1D& H)
 
 int main(int argc, char* argv[])
 {
-    //TApplication* theApp = new TApplication("App", &argc, argv);
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
     for (int i=2; i<argc; i++)

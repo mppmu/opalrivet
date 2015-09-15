@@ -115,14 +115,7 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
 
 
     if (f==0) f= stdout;
-
-    //TH1D* Z = new TH1D(0);
-    //for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
-    //Z->Add(Z,C->second,0.0,0.0)	;
     int N=fHMap.begin()->second->GetNbinsX();
-    //for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
-    //C->second->Add(C->second,Z,1.0,0.0);
-
     fprintf(f,"\\newcommand{\\%s}[2]{\n",command.c_str());
     fprintf(f,"\\begin{table}\\centering\n\\begin{tabular}{|c|");
     for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
@@ -173,22 +166,15 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
             //int i=1;
             for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
                 {
-                    //C->second->ls();
-                    //if (i%2==1) continue;
                     TPad* A1=(TPad*)C->second->GetListOfPrimitives()->At(2*i);
                     TPad* A2=(TPad*)C->second->GetListOfPrimitives()->At(2*i+1);
-
                     double h1=A1->GetAbsHNDC();
                     double h2=A2->GetAbsHNDC();
 
-
                     A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
                     A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
-
                     TCanvas *Q= new TCanvas("Q","Q",1024,1024);
                     Q->cd();
-
-
                     A1->Draw();
                     A2->Draw();
                     std::string pname=C->first+A1->GetTitle();
@@ -242,29 +228,13 @@ int main(int argc, char* argv[])
                     //fCMap[std::string(key->GetName())]->SetDirectory(0);
                 }
 
-            //if ( obj->IsA()->InheritsFrom( "TH1"    ) ) { fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj  ) );  fHMap[std::string(key->GetName())]->SetDirectory(0); }
-            //if ( obj->IsA()->InheritsFrom( "TGraph" ) )
-            //  {
-            //    fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
-            //}
         }
     type_fFile->Close();
-
-
     PrintTC(fCMap,FF,"");
-
-
-    //std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
-
-
 
     for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
         {
-            //puts(C->first.c_str());
-
-            //TVirtualPad* c1;
             int i=1;
-            //C->second->ls();
             for (i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
                     if (i%2==1) continue;
@@ -291,27 +261,14 @@ int main(int argc, char* argv[])
                                     fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(z->GetName()) , z ) );
                                 }
 
-
-//	   cout << "histo: " << obj->GetName() << endl;
                         }
 
-
-
-                    //   printf("Pad %i: %i %i\n",i,fGMap.size(),fHMap.size());
                     PrintTG(fGMap,FF,"");
                     PrintTH(fHMap,FF,"");
 
-
-
-
-
                 }
-
-
-
 
         }
 
     fclose(FF);
-
 }

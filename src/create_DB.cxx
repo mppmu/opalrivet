@@ -14,8 +14,6 @@ void FillInfo(TSampleInfo* A,TMap* filestosamples,std::string prefix)
             C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fE-ENERGYTOLERANCE),0.5*(A->fE+ENERGYTOLERANCE)));
             TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
             TOTAL->Add(RUNHIST);
-            // RUNHIST->SetName((*it+"_RUNHIST").c_str());
-            //  RUNHIST->Write();
             filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
         }
     A->fRunsBegin=0;

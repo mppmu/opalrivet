@@ -6,7 +6,7 @@
 #include "Rivet/Projections/FinalState.hh"
 #include "Helpers.h"
 #include "Cuts.h"
-#include "TFastJet.h" 
+#include "OPALJet.h" 
 using namespace fastjet;
 namespace Rivet
 {
@@ -49,7 +49,7 @@ public:
          {
 		 Rivet::Particles particles = (applyProjection<FinalState>(e, "VFS")).particles();
 		 std::vector<TLorentzVector>  vtlv = GetMC2(&particles);
-         TFastJet* tfj =new TFastJet( vtlv,*it,mycuts[*it], NULL);
+         OPALJet* tfj =new OPALJet( vtlv,*it,mycuts[*it], NULL);
 		 MyAnalysis(this, tfj,e.weight(),*it,fGenerator+"_"+*it+"_"+fSampleInfo->fEnergyString+"GeV_");
 		 } 
     }
