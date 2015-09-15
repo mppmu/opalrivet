@@ -122,12 +122,12 @@ output/opal_%.root:   dirs $(SOURCES)    bin/$(ARCH)/create_proof       src/opal
 		bin/$(ARCH)/create_proof  LOCAL_OPAL_$* share/input.rc
 
 	
-output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opalrivet$(GEN) run/Run$(GEN).dat_%  run/Makefile external/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
+output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opal$(GEN) run/Run$(GEN).dat_%  run/Makefile external/Rivet/src/Analyses/JADE_OPAL_2000_S4300807a.cc
 		make -C run GEN=$(GEN) ENERGY=$*
 		mv run/*.root ./output
 
 	
-run/Runpythia8.dat_%: 	bin/$(ARCH)/opalrivet$(GEN)
+run/Runpythia8.dat_%: 	bin/$(ARCH)/opal$(GEN)
 		mkdir -p run		
 		cp share/Runpythia8.dat run/Runpythia8.dat_$*		
 		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat_$*
@@ -160,39 +160,39 @@ run/Makefile: share/Makefile.run
 beauty:
 		astyle -n --keep-one-line-blocks --style=gnu    ./*/*.h   ./*/*.cxx ./*/*.C ./*/*.hh
 
-bin/$(ARCH)/opalrivet$(GEN):
-	rm -f bin/$(ARCH)/opalrivet$(GEN)
-	touch bin/$(ARCH)/opalrivet$(GEN)
+bin/$(ARCH)/opal$(GEN):
+	rm -f bin/$(ARCH)/opal$(GEN)
+	touch bin/$(ARCH)/opal$(GEN)
 
 
-obj/$(ARCH)/opalrivetpythia8.o:  dirs src/MC/opalrivetpythia8.cxx
-	$(CXX) -fdiagnostics-color=never   -pipe  -c src/MC/opalrivetpythia8.cxx -o obj/$(ARCH)/opalrivetpythia8.o 
+obj/$(ARCH)/opalpythia8.o:  dirs src/MC/opalpythia8.cxx
+	$(CXX) -fdiagnostics-color=never   -pipe  -c src/MC/opalpythia8.cxx -o obj/$(ARCH)/opalpythia8.o 
 	
 	
 	
 	
-bin/$(ARCH)/opalrivetpythia8:  dirs obj/$(ARCH)/opalrivetpythia8.o
-	$(CXX) -fdiagnostics-color=never   -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8  -L/lib64
+bin/$(ARCH)/opalpythia8:  dirs obj/$(ARCH)/opalpythia8.o
+	$(CXX) -fdiagnostics-color=never   -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalpythia8.o -o ./bin/$(ARCH)/opalpythia8  -L/lib64
 
-bin/$(ARCH)/opalrivetpythia8_nohad:  dirs obj/$(ARCH)/opalrivetpythia8.o
-	$(CXX) -fdiagnostics-color=never   -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalrivetpythia8.o -o ./bin/$(ARCH)/opalrivetpythia8_nohad  -L/lib64
+bin/$(ARCH)/opalpythia8_nohad:  dirs obj/$(ARCH)/opalpythia8.o
+	$(CXX) -fdiagnostics-color=never   -pipe   -lpythia8 -lpythia8tohepmc -lHepMC obj/$(ARCH)/opalpythia8.o -o ./bin/$(ARCH)/opalpythia8_nohad  -L/lib64
 
 
 
-obj/$(ARCH)/opalrivetpythia8_evtgen.o:  dirs src/MC/opalrivetpythia8_evtgen.cxx
-	$(CXX) -fdiagnostics-color=never   -pipe  -c src/MC/opalrivetpythia8_evtgen.cxx -o obj/$(ARCH)/opalrivetpythia8_evtgen.o -L/lib64 
+obj/$(ARCH)/opalpythia8_evtgen.o:  dirs src/MC/opalpythia8_evtgen.cxx
+	$(CXX) -fdiagnostics-color=never   -pipe  -c src/MC/opalpythia8_evtgen.cxx -o obj/$(ARCH)/opalpythia8_evtgen.o -L/lib64 
 	
 
-bin/$(ARCH)/opalrivetpythia8_evtgen:  dirs obj/$(ARCH)/opalrivetpythia8_evtgen.o
-	$(CXX) -fdiagnostics-color=never   -pipe  -lpythia8 -lHepMC  -lEvtGenExternal  obj/$(ARCH)/opalrivetpythia8_evtgen.o -o ./bin/$(ARCH)/opalrivetpythia8_evtgen -L/lib64
+bin/$(ARCH)/opalpythia8_evtgen:  dirs obj/$(ARCH)/opalpythia8_evtgen.o
+	$(CXX) -fdiagnostics-color=never   -pipe  -lpythia8 -lHepMC  -lEvtGenExternal  obj/$(ARCH)/opalpythia8_evtgen.o -o ./bin/$(ARCH)/opalpythia8_evtgen -L/lib64
 
 
 
-obj/$(ARCH)/opalrivetevtgen.o:  dirs src/opalrivetevtgen.cxx
-	$(CXX) -fdiagnostics-color=never   -pipe  $(shell root-config --cflags) -c src/opalrivetevtgen.cxx -o obj/$(ARCH)/opalrivetevtgen.o
+obj/$(ARCH)/opalevtgen.o:  dirs src/opalevtgen.cxx
+	$(CXX) -fdiagnostics-color=never   -pipe  $(shell root-config --cflags) -c src/opalevtgen.cxx -o obj/$(ARCH)/opalevtgen.o
 		
-bin/$(ARCH)/opalrivetevtgen:  dirs obj/$(ARCH)/opalrivetevtgen.o
-	$(CXX) -fdiagnostics-color=never   -pipe   -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalrivetevtgen.o -o ./bin/$(ARCH)/opalrivetevtgen   -L/lib64
+bin/$(ARCH)/opalevtgen:  dirs obj/$(ARCH)/opalevtgen.o
+	$(CXX) -fdiagnostics-color=never   -pipe   -lEvtGenExternal $(shell  root-config --libs)  obj/$(ARCH)/opalevtgen.o -o ./bin/$(ARCH)/opalevtgen   -L/lib64
 
 
 bin/$(ARCH)/create_proof: dirs src/create_proof.cxx  src/Helpers.cxx src/Helpers.h gen/TSampleInfoDict.cxx src/TSampleInfo.cxx
@@ -233,14 +233,14 @@ bin/$(ARCH)/create_old: dirs src//create_old.cxx src/Helpers.cxx src/Helpers.h g
 
 
 
-lib/$(ARCH)/libopalrivet.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  gen/TAdvancedGraphLinkDef.h
-	$(CXX) -fdiagnostics-color=never   -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopalrivet.so
-	rlibmap -f -o lib/$(ARCH)/libopalrivet.rootmap -l lib/$(ARCH)/libopalrivet.so  -c gen/TAdvancedGraphLinkDef.h
+lib/$(ARCH)/libopal.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  gen/TAdvancedGraphLinkDef.h
+	$(CXX) -fdiagnostics-color=never   -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopal.so
+	rlibmap -f -o lib/$(ARCH)/libopal.rootmap -l lib/$(ARCH)/libopal.so  -c gen/TAdvancedGraphLinkDef.h
 	
-.rootrc: lib/$(ARCH)/libopalrivet.so
+.rootrc: lib/$(ARCH)/libopal.so
 	echo Unix.*.Root.DynamicPath:  .:./lib/$(ARCH):$(shell root-config --libdir) > .rootrc
 	echo Rint.Logon: ./rootlogon.C >> .rootrc
-	echo 'rootlogon(){ gROOT->ProcessLine(".L ./lib/'$(ARCH)'/libopalrivet.so");}' >./rootlogon.C
+	echo 'rootlogon(){ gROOT->ProcessLine(".L ./lib/'$(ARCH)'/libopal.so");}' >./rootlogon.C
 
 
 
@@ -254,12 +254,12 @@ output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables
 	#we need so somewhere
 	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
 	
-doc/opalrivet.pdf:  opalrivet.tex
-		$(MAKE) $(shell cat opalrivet.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
-		pdflatex doc/opalrivet.tex
-		mv opalrivet.pdf  doc/opalrivet.pdf
+doc/opal.pdf:  opal.tex
+		$(MAKE) $(shell cat opal.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
+		pdflatex doc/opal.tex
+		mv opal.pdf  doc/opal.pdf
 
-pdf: doc/opalrivet.pdf
+pdf: doc/opal.pdf
 
 
 bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
