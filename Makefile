@@ -257,7 +257,7 @@ output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables
 	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
 	
 output/opalrivet.pdf:  opalrivet.tex
-		$(MAKE) $(shell cat opalrivet.tex | grep output/tables | sed 's@\input{@@g' | sed 's@}@@g' )
+		$(MAKE) $(shell cat opalrivet.tex | grep output/tables | sed 's@\input{@@g' | grep -v '%' | sed 's@}@@g' )
 		pdflatex opalrivet.tex
 		mv opalrivet.pdf  output/opalrivet.pdf
 

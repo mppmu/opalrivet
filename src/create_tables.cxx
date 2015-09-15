@@ -16,7 +16,7 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
 
     puts(fGMap.begin()->first.c_str());
     std::vector<std::string> na;
-    std::string newcommand="G";
+    std::string newcommand="TABG";
     tokenize(fGMap.begin()->first,"_",na);
     for (int i=2; i<na.size(); i++) newcommand+=na[i];
     if (command==std::string("")) command=newcommand;
@@ -48,7 +48,7 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
         C->second->Add(C->second,Z,1.0,0.0);
 
     fprintf(f,"\\newcommand{\\%s}[2]{\n",command.c_str());
-    fprintf(f,"\\begin{table}\n\\begin{tabular}{|c|");
+    fprintf(f,"\\begin{table}\\centering\n\\begin{tabular}{|c|");
     for (std::map<std::string,TAdvancedGraph*>::iterator C=fGMap.begin(); C!=fGMap.end(); C++)
         fprintf(f,"c|");
     fprintf(f,"}\\hline\n");
@@ -91,7 +91,7 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
 
 //	      puts(fGMap.begin()->first.c_str());
     std::vector<std::string> na;
-    std::string newcommand="H";
+    std::string newcommand="TABH";
     tokenize(fHMap.begin()->first,"_",na);
     for (int i=2; i<na.size(); i++) newcommand+=na[i];
     if (command==std::string("")) command=newcommand;
@@ -121,7 +121,7 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
     //C->second->Add(C->second,Z,1.0,0.0);
 
     fprintf(f,"\\newcommand{\\%s}[2]{\n",command.c_str());
-    fprintf(f,"\\begin{table}\n\\begin{tabular}{|c|");
+    fprintf(f,"\\begin{table}\\centering\n\\begin{tabular}{|c|");
     for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
         fprintf(f,"c|");
     fprintf(f,"}\\hline\n");
@@ -155,7 +155,65 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
 }
 
 
+void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
+{
+    if (fCMap.size()==0) return;
 
+
+
+    if (f==0) f= stdout;
+
+    for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
+    {
+    
+    
+    //int i=1;            
+    for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
+    {
+		//C->second->ls();
+    //if (i%2==1) continue;
+    TPad* A1=(TPad*)C->second->GetListOfPrimitives()->At(2*i);
+    TPad* A2=(TPad*)C->second->GetListOfPrimitives()->At(2*i+1);
+
+    double h1=A1->GetAbsHNDC();
+    double h2=A2->GetAbsHNDC();
+
+
+    A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
+    A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
+
+    TCanvas *Q= new TCanvas("Q","Q",1024,1024);
+    Q->cd();
+
+    
+    A1->Draw();
+    A2->Draw();
+    std::string pname=C->first+A1->GetTitle();
+    replace_all(pname,"1","one");
+    replace_all(pname,"2","two");
+    replace_all(pname,"3","three");
+    replace_all(pname,"4","four");
+    replace_all(pname,"5","five");
+    replace_all(pname,"6","six");
+    replace_all(pname,"7","seven");
+    replace_all(pname,"8","eight");
+    replace_all(pname,"9","nine");
+    replace_all(pname,"0","zero");
+    replace_all(pname,"-","minus");
+    replace_all(pname,"+","plus");
+    replace_all(pname,"_","");
+    Q->SaveAs((std::string("output/")+pname+".eps").c_str());
+
+
+    fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{output/%s}\\caption{#1}\\end{figure}}\n",
+    pname.c_str(),pname.c_str());
+
+
+     }
+
+
+}
+}
 
 
 
@@ -189,7 +247,11 @@ int main(int argc, char* argv[])
         }
     type_fFile->Close();
 
-    std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
+    
+    PrintTC(fCMap,FF,"");
+    
+    
+    //std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
 
 
 
@@ -248,10 +310,5 @@ int main(int argc, char* argv[])
         }
 
     fclose(FF);
-    for (std::vector<std::string>::iterator algorithm=algorithms.begin(); algorithm!=algorithms.end(); algorithm++)
-        {
-
-
-        }
 
 }

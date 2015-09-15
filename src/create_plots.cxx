@@ -60,23 +60,32 @@ int main(int argc, char* argv[])
         {
 
 
-            TCanvas* CH=new TCanvas((*algorithm+"H").c_str(),algorithm->c_str(),4*1024,4*768);
+            TCanvas* CH=new TCanvas((*algorithm+"_"+energy).c_str(),(*algorithm+"_"+energy).c_str(),4*1024,4*768);
             int M=sqrt(quantities.size())+1;
+            std::vector<std::string> Q=  quantities;
+            for (int j=Q.size(); j<M*M; j++) Q.push_back(Form("Placeholder_%i",j));
             //CH->Divide(M,M);
-            TPad *pads[M][2*M];
-            for (int j=0; j<M; j++)
-                for (int i=0; i<M; i++)
+            TPad *pads[2*M*M];
+            //for (int j=0; j<M; j++)
+              //  for (int i=0; i<M; i++)
+                  for (int z=0;z<M*M;z++)
                     {
-                        pads[i][2*j]=new TPad(Form("n%i_%i",i,j),Form("n%i_%i",i,j),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
-                        pads[i][2*j]->SetBottomMargin(0);
-                        pads[i][2*j]->Draw();
-                        pads[i][2*j+1]=new TPad(Form("r%i_%i",i,j),Form("r%i_%i",i,j),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
-                        pads[i][2*j+1]->SetTopMargin(0);
-                        pads[i][2*j+1]->Draw();
+						int i=z%M;
+						int j=z/M;
+                        pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
+                        
+                        //pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("Q_%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
+                        
+                        pads[2*z]->SetBottomMargin(0);
+                        pads[2*z]->Draw();
+                        pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
+                        //pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("R_%s",Q[z].c_str()),(z+0.0)/M/M,(j+0.0)/M,(z+1.0)/M/M,(j+0.3)/M);
+                        pads[2*z+1]->SetTopMargin(0);
+                        pads[2*z+1]->Draw();
                     }
 
 
-            int icanH=1;
+            int icanH=0;
 
             gStyle->SetOptStat(0);
             for (std::vector<std::string>::iterator quantity=quantities.begin(); quantity!=quantities.end(); quantity++)
@@ -88,14 +97,14 @@ int main(int argc, char* argv[])
 
 
                     //CH->cd(icanH);
-                    printf("cd %i %i\n",(icanH-1)/M,2*((icanH-1)%M));
+                    //printf("cd %i %i\n",(icanH-1)/M,2*((icanH-1)%M));
 
-                    int currentI=(icanH-1)/M;
-                    int currentJ=(icanH-1)%M;
-                    pads[currentI][2*currentJ]->cd();
-                    pads[currentI][2*currentJ]->SetLogx();
-                    pads[currentI][2*currentJ+1]->SetLogx();
-                    icanH++;
+                    //int currentI=(icanH-1)/M;
+                    //int currentJ=(icanH-1)%M;
+                    pads[2*icanH]->cd();
+                    pads[2*icanH]->SetLogx();
+                    pads[2*icanH+1]->SetLogx();
+
                     //std::map<std::string,TH1D*> H_plotted;
 
                     TLegend* LH= new TLegend(0.75,0.68,0.95,0.9);
@@ -158,7 +167,7 @@ int main(int argc, char* argv[])
                                                 {
                                                     TH1D* temp=(TH1D*)fHMap[name]->Clone();
                                                     temp->Divide(fHMap[name0]);
-                                                    pads[currentI][2*currentJ+1]->cd();
+                                                    pads[2*icanH+1]->cd();
                                                     temp->Draw(hoption.c_str());
                                                     temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                                     if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
@@ -166,7 +175,7 @@ int main(int argc, char* argv[])
                                                     TF1 *fa1 = new TF1("fa1","1",0.000001*sqrt(10),100);
                                                     fa1->SetLineColor(usecolors[0]);
                                                     fa1->DrawClone("same+");
-                                                    pads[currentI][2*currentJ]->cd();
+                                                    pads[2*icanH]->cd();
                                                 }
 
 
@@ -214,7 +223,7 @@ int main(int argc, char* argv[])
                                             // if (name!=name0)
                                             {
 
-                                                pads[currentI][2*currentJ+1]->cd();
+                                                pads[2*icanH+1]->cd();
                                                 TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
                                                 temp->SetName(("clone"+name).c_str());
                                                 temp->Divide(fGMap[name],fGMap[name0],false);
@@ -254,7 +263,7 @@ int main(int argc, char* argv[])
                                                 else
                                                     temp->Draw("SAMELP");
 
-                                                pads[currentI][2*currentJ]->cd();
+                                                pads[2*icanH]->cd();
 
 
                                             }
@@ -280,6 +289,9 @@ int main(int argc, char* argv[])
                                 }
                         }
                     LH->Draw();
+                
+                                    icanH++;
+                
                 }
             CH->Write();
             CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".pdf").c_str());
