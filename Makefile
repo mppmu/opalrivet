@@ -254,8 +254,8 @@ output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables
 	#we need so somewhere
 	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
 	
-doc/opalanalysis.pdf:  opal.tex
-		$(MAKE) $(shell cat opal.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
+doc/opalanalysis.pdf:  opalanalysis.tex
+		$(MAKE) $(shell cat opalanalysis.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
 		pdflatex doc/opalanalysis.tex
 		mv opalanalysis.pdf  doc/opalanalysis.pdf
 
