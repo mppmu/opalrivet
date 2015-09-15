@@ -205,7 +205,8 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 		if( cur_ntuple->selection( 0, *ntuple ) ) { 
 			     //if (ntuple->irun()<8000)
 			     //&&ntuple->ievnt()==51284) 
-			     if (ntuple->irun()!=11927) printf("SHAPE:MCDA: %i %05d\n",ntuple->irun(),ntuple->ievnt());
+			     //if (ntuple->irun()!=11927) 
+			     printf("SHAPE:MCDA: %i %05d\n",ntuple->irun(),ntuple->ievnt());
 			     //("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
 			     /*
 			     if (ntuple->irun()!=11927)//NO HERWIG
@@ -322,7 +323,9 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
 	  for( size_t isel= 0; isel < v_mccuts.size(); ++isel ) {
 	    if( cur_ntuple->selection_mc( isel, *ntuple ) ) {
 	      
-	       if (isel==GUtil.mccuts_id( "sptsta" )) if (ntuple->irun()!=11927) printf("SHAPE:TRUE: %i %05d\n",ntuple->irun(),ntuple->ievnt());
+	       if (isel==GUtil.mccuts_id( "sptsta" )) 
+	       //if (ntuple->irun()!=11927) 
+	       printf("SHAPE:TRUE: %i %05d\n",ntuple->irun(),ntuple->ievnt());
 	      
 	      hist.fill_MC( isel, nt, *ntuple );
 	    }
