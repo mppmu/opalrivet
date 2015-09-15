@@ -1013,7 +1013,7 @@ template <class EXA> bool MyAnalysis(EXA* A, TFastJet* tfj,  float weight,std::s
                     ycuts.push_back(-10.0);
                     tfj->fYFlip=ycuts;
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
-                    if (H_prefix.find("_durham_161GeV_")!=std::string::npos)  printf("D2: %i %05d %f %f\n",A->Irun,A->Ievnt,ycuts[1],A->Yddmt[1]);
+                    //if (H_prefix.find("_durham_161GeV_")!=std::string::npos)  printf("D2: %i %05d %f %f\n",A->Irun,A->Ievnt,ycuts[1],A->Yddmt[1]);
                     for ( j=0; j<5; j++)
                         {
 

@@ -126,7 +126,6 @@ Bool_t opalrivetdata::Process(Long64_t gentry)
                             }
                     }
             }
-    //if (passed[1])
     if (passed[0]&&passed[0]) FillWithLabel(fHMap["weight_reco"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     if (passed[1]) FillWithLabel(fHMap["weight_true"],fSampleInfo->fType+"_"+fSampleInfo->fProcesses[0],fSampleInfo->fWeight);
     return kTRUE;
@@ -161,11 +160,6 @@ void opalrivetdata::Terminate()
             if ( obj->IsA()->InheritsFrom( "TGraph" ) ) fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
         }
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-
-    double number_of_reco_events=fHMap["weight_reco"]->GetBinContent(1)-fHMap["weight_reco"]->Integral(18,30)*mycuts[CUTS]["backgroundscale"];
-    //double number_of_reco_events=fHMap["weight_reco"]->GetBinContent(1)-fHMap["weight_reco"]->Integral(18,30)*mycuts[CUTS]["backgroundscale"];
-    double reco_over_true=fHMap["weight_reco"]->Integral(9,11)/fHMap["weight_true"]->Integral(9,11);
-
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             if (H_it->first.find("H_acceptancesignal_")!=std::string::npos)

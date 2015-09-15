@@ -34,6 +34,7 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
     replace_all(command,"0","zero");
     replace_all(command,"-","minus");
     replace_all(command,"+","plus");
+    replace_all(command,"GeV","");
 
 
 
@@ -108,6 +109,8 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
     replace_all(command,"0","zero");
     replace_all(command,"-","minus");
     replace_all(command,"+","plus");
+    replace_all(command,"GeV","");
+
 
 
 
@@ -164,55 +167,55 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
     if (f==0) f= stdout;
 
     for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
-    {
-    
-    
-    //int i=1;            
-    for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
-    {
-		//C->second->ls();
-    //if (i%2==1) continue;
-    TPad* A1=(TPad*)C->second->GetListOfPrimitives()->At(2*i);
-    TPad* A2=(TPad*)C->second->GetListOfPrimitives()->At(2*i+1);
-
-    double h1=A1->GetAbsHNDC();
-    double h2=A2->GetAbsHNDC();
+        {
 
 
-    A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
-    A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
+            //int i=1;
+            for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
+                {
+                    //C->second->ls();
+                    //if (i%2==1) continue;
+                    TPad* A1=(TPad*)C->second->GetListOfPrimitives()->At(2*i);
+                    TPad* A2=(TPad*)C->second->GetListOfPrimitives()->At(2*i+1);
 
-    TCanvas *Q= new TCanvas("Q","Q",1024,1024);
-    Q->cd();
-
-    
-    A1->Draw();
-    A2->Draw();
-    std::string pname=C->first+A1->GetTitle();
-    replace_all(pname,"1","one");
-    replace_all(pname,"2","two");
-    replace_all(pname,"3","three");
-    replace_all(pname,"4","four");
-    replace_all(pname,"5","five");
-    replace_all(pname,"6","six");
-    replace_all(pname,"7","seven");
-    replace_all(pname,"8","eight");
-    replace_all(pname,"9","nine");
-    replace_all(pname,"0","zero");
-    replace_all(pname,"-","minus");
-    replace_all(pname,"+","plus");
-    replace_all(pname,"_","");
-    Q->SaveAs((std::string("output/")+pname+".eps").c_str());
+                    double h1=A1->GetAbsHNDC();
+                    double h2=A2->GetAbsHNDC();
 
 
-    fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{output/%s}\\caption{#1}\\end{figure}}\n",
-    pname.c_str(),pname.c_str());
+                    A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
+                    A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
+
+                    TCanvas *Q= new TCanvas("Q","Q",1024,1024);
+                    Q->cd();
 
 
-     }
+                    A1->Draw();
+                    A2->Draw();
+                    std::string pname=C->first+A1->GetTitle();
+                    replace_all(pname,"1","one");
+                    replace_all(pname,"2","two");
+                    replace_all(pname,"3","three");
+                    replace_all(pname,"4","four");
+                    replace_all(pname,"5","five");
+                    replace_all(pname,"6","six");
+                    replace_all(pname,"7","seven");
+                    replace_all(pname,"8","eight");
+                    replace_all(pname,"9","nine");
+                    replace_all(pname,"0","zero");
+                    replace_all(pname,"-","minus");
+                    replace_all(pname,"+","plus");
+                    replace_all(pname,"_","");
+                    Q->SaveAs((std::string("output/")+pname+".eps").c_str());
 
 
-}
+                    fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{output/%s}\\caption{#1}\\end{figure}}\n",
+                            pname.c_str(),pname.c_str());
+
+
+                }
+
+
+        }
 }
 
 
@@ -247,10 +250,10 @@ int main(int argc, char* argv[])
         }
     type_fFile->Close();
 
-    
+
     PrintTC(fCMap,FF,"");
-    
-    
+
+
     //std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
 
 

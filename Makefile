@@ -92,6 +92,7 @@ dirs:
 	mkdir -p tmp
 	mkdir -p gen
 	mkdir -p run
+	mkdir -p logs
 	mkdir -p subs_output
 
 gen/%LinkDef.h: dirs

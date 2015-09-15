@@ -500,8 +500,8 @@ void Histogram::fill_evsh_jetr_mom( int hiid, const string & obs,
 	  }
 	}
 	else {
-	  if( observ->get( stnjlow, reco, nt ) >= xbins[bin] ) {
-	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );	 
+	  if( observ->get( stnjlow, reco, nt ) >= xbins[bin] ) { ///FIXME!
+	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );	
 	//    	  if (hiid==3000017)
 	  //{
 	    //printf("FILL: %f %f %f %i %i\n", 0.5*(xbins[bin]+xbins[bin+1]),xbins[bin],xbins[bin+1],nt.irun(),nt.ievnt());

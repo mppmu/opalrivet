@@ -67,22 +67,22 @@ int main(int argc, char* argv[])
             //CH->Divide(M,M);
             TPad *pads[2*M*M];
             //for (int j=0; j<M; j++)
-              //  for (int i=0; i<M; i++)
-                  for (int z=0;z<M*M;z++)
-                    {
-						int i=z%M;
-						int j=z/M;
-                        pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
-                        
-                        //pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("Q_%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
-                        
-                        pads[2*z]->SetBottomMargin(0);
-                        pads[2*z]->Draw();
-                        pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
-                        //pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("R_%s",Q[z].c_str()),(z+0.0)/M/M,(j+0.0)/M,(z+1.0)/M/M,(j+0.3)/M);
-                        pads[2*z+1]->SetTopMargin(0);
-                        pads[2*z+1]->Draw();
-                    }
+            //  for (int i=0; i<M; i++)
+            for (int z=0; z<M*M; z++)
+                {
+                    int i=z%M;
+                    int j=z/M;
+                    pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
+
+                    //pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("Q_%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
+
+                    pads[2*z]->SetBottomMargin(0);
+                    pads[2*z]->Draw();
+                    pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
+                    //pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("R_%s",Q[z].c_str()),(z+0.0)/M/M,(j+0.0)/M,(z+1.0)/M/M,(j+0.3)/M);
+                    pads[2*z+1]->SetTopMargin(0);
+                    pads[2*z+1]->Draw();
+                }
 
 
             int icanH=0;
@@ -289,9 +289,9 @@ int main(int argc, char* argv[])
                                 }
                         }
                     LH->Draw();
-                
-                                    icanH++;
-                
+
+                    icanH++;
+
                 }
             CH->Write();
             CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".pdf").c_str());
