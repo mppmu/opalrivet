@@ -12,6 +12,10 @@ ARCH          =   $(shell uname -m)
 CXX?=g++ -fdiagnostics-color=never 
 include Makefile.syst
 
+warn: 
+	echo 'ARE YOU SURE?'
+
+
 all:	 		    output/$(GEN)_91_$(CUTS).root \
 					output/opal_9196_$(CUTS).root \
 					output/opal_9197_$(CUTS).root \
@@ -130,7 +134,7 @@ output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opal$(GEN) run/Run$(GEN).dat_
 run/Runpythia8.dat_%: 	bin/$(ARCH)/opal$(GEN)
 		mkdir -p run		
 		cp share/Runpythia8.dat run/Runpythia8.dat_$*		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat_$*
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  0.5*$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat_$*
 
 run/Runpythia8_nohad.dat_%: share/Runpythia8_nohad.dat
 		cp share/Runpythia8_nohad.dat run/Runpythia8_nohad.dat		
@@ -254,16 +258,16 @@ output/tables_%.tex: .rootrc dirs   bin/$(ARCH)/create_tables
 	#we need so somewhere
 	bin/$(ARCH)/create_tables  output/plots_$*.root  output/tables_$*.tex
 	
-doc/opalanalysis.pdf:  opalanalysis.tex
-		$(MAKE) $(shell cat opalanalysis.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
+doc/opalanalysis.pdf:  doc/opalanalysis.tex
+		$(MAKE) $(shell cat doc/opalanalysis.tex | grep output/tables | sed 's@\input{../@@g' | grep -v '%' | sed 's@}@@g' )
 		pdflatex doc/opalanalysis.tex
 		mv opalanalysis.pdf  doc/opalanalysis.pdf
 
 pdf: doc/opalanalysis.pdf
 
 
-bin/$(ARCH)/hepplotconvert: dirs   src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc
-		$(CXX) -fdiagnostics-color=never   -pipe  -fdiagnostics-color=never  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  src/hepplotconvert/WriterROOT.h src/hepplotconvert/ROOTConvert.cc src/hepplotconvert/ROOTConvert.h src/hepplotconvert/ReaderROOT.cc src/hepplotconvert/ReaderROOT.h src/hepplotconvert/hepplotconvert.cxx src/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
+bin/$(ARCH)/hepplotconvert: dirs   external/hepplotconvert/WriterROOT.h external/hepplotconvert/ROOTConvert.cc external/hepplotconvert/ROOTConvert.h external/hepplotconvert/ReaderROOT.cc external/hepplotconvert/ReaderROOT.h external/hepplotconvert/hepplotconvert.cxx external/hepplotconvert/WriterROOT.cc
+		$(CXX) -fdiagnostics-color=never   -pipe  -fdiagnostics-color=never  -I. -g -fdiagnostics-color=never  $(shell  yoda-config --ldflags --libs --cflags  )  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof  external/hepplotconvert/WriterROOT.h external/hepplotconvert/ROOTConvert.cc external/hepplotconvert/ROOTConvert.h external/hepplotconvert/ReaderROOT.cc external/hepplotconvert/ReaderROOT.h external/hepplotconvert/hepplotconvert.cxx external/hepplotconvert/WriterROOT.cc -o ./bin/$(ARCH)/hepplotconvert
 
 	
 output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
