@@ -1,6 +1,19 @@
 #include "Helpers.h"
 
 
+void DivideByBinWidth(TH1D& H)
+{
+    double y,ye,w;
+    for (int i=1; i<H.GetNbinsX(); i++)
+        {
+            y=H.GetBinContent(i);
+            ye=H.GetBinError(i);
+            w=H.GetBinWidth(i);
+            H.SetBinContent(i,y/w);
+            H.SetBinError(i,ye/w);
+        }
+
+}
 
 
 //http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c

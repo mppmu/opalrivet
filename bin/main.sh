@@ -6,7 +6,8 @@ set -x
 declare -a generators=(pythia8 )
 #( pythia8 herwig++ )
  #130 136 161 172 183 189 192 196  202  207  205 
-declare -a energies=(161 172 183 189 192 196)
+declare -a energies=(161)
+# 172 183 189 192 196)
 declare -a systematics=( central  )
 # wqqlnhigh:wqqlnlow wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))

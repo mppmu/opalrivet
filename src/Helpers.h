@@ -127,7 +127,7 @@ CDECK  ID>, PXTTH3.
       DATA  IFIRST / 0 /
 */
 
-
+void DivideByBinWidth(TH1D& H);
 void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                         double lum,double sig ,double w);
 

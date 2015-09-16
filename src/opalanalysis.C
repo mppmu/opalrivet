@@ -31,7 +31,7 @@ void opalanalysis::SlaveBegin(TTree * tree)
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++) ///Update the DB and set weights for this execution. If there would be nmore files one can write a new DB.
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
-            if (R->fType=="MCBG") R->fWeight=proc["ALL"].first/proc[R->fProcesses].first/proc["ALL"].second*proc[R->fProcesses].second; ///Set proper weight to the MC
+            if (R->fType=="MCBG"||R->fType=="MCSI") R->fWeight=proc["ALL"].first/proc[R->fProcesses].first/proc["ALL"].second*proc[R->fProcesses].second; ///Set proper weight to the MC
             else R->fWeight=1.0;
             R->Write();
         }
@@ -44,7 +44,7 @@ void opalanalysis::SlaveBegin(TTree * tree)
     savedir->cd();
     tokenize(ALGORITHMS,":",fAlgorithms);
     std::vector<std::string> datatypes;
-    tokenize("mcbackgr:mcsignal:data:truesignal:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",datatypes);
+    tokenize("mcbackgr:mcsignal:mcall:data:truesignal:truesignalp:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",datatypes);
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<datatypes.size(); j++) BookHistograms(this,fSampleInfo->fPeriod,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),fAlgorithms.at(i).c_str(),fSampleInfo->fEnergyString.c_str()));
 }
 Bool_t opalanalysis::Process(Long64_t gentry)
@@ -78,10 +78,10 @@ Bool_t opalanalysis::Process(Long64_t gentry)
     std::string objects="mt";
     if (int(mycuts[CUTS]["objects"])==2) objects="tc";
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
-    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal",":",datatypes); tokenize(objects+":h",":",options); }//
-    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr",":",datatypes); tokenize(objects+":h",":",options); }//add syst
+    if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal:mcall:truesignalp",":",datatypes); tokenize(objects+":h:mt:p",":",options); }//
+    if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr:mcall",":",datatypes); tokenize(objects+":h:mt",":",options); }//add syst
     for (unsigned int j=0; j<datatypes.size(); j++)
-        if (passed[j])
+        if (passed[j%2])
             {
                 std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
                 for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
