@@ -500,28 +500,14 @@ void OPALJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVecto
 void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 {
 
-
-
     fThrusts.clear();
     fThrustAxes.clear();
-
-
-    // Make a std::vector of the three-momenta in the final state
     double momentumSum(0.0);
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
-
-
-
-
-
-            // foreach (const TVector3& p3, fsmomenta) {
             momentumSum += p3->Mag();
         }
-    // MSG_DEBUG("Number of particles = " << fsmomenta.size());
 
-
-    // Clear the caches
     fThrusts.clear();
     fThrustAxes.clear();
 
@@ -599,7 +585,6 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
             axis = fThrustAxes[0].Cross(fThrustAxes[1]);
             fThrustAxes.push_back(axis);
             val = 0.0;
-            //foreach (const TVector3& v, fsmomenta) {
             for (std::vector<TVector3>::const_iterator v=fsmomenta.begin(); v!=fsmomenta.end(); v++)
                 {
                     val += std::abs(v->Dot(axis));
@@ -614,11 +599,3 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 
 
 }
-
-
-
-
-
-
-
-

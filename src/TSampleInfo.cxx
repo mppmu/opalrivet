@@ -12,7 +12,7 @@ TSampleInfo::TSampleInfo(const char* Es,double El, double Eh,const char* name, c
                          double lum,double sig ,double w)
 {
     //fName=name;
-    SetName(name);    
+    SetName(name);
     fEl=El;
     fEh=Eh;
     fPeriod=pr;

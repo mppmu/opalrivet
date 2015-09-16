@@ -59,7 +59,7 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 
 
 void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
-                     double lum,double sig ,double w)
+                        double lum,double sig ,double w)
 {
     A.fEl=El;
     A.fEh=Eh;
@@ -79,20 +79,20 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
     //sprintf(a,"%i",(int)(A.fE + 0.5));
     A.fEnergyString=std::string(Es);
     if (prefix!=std::string(""))
-    {
-    TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
-    TChain* C= new TChain("h10");
-    for (std::vector<std::string>::iterator it=A.fFiles.begin(); it!=A.fFiles.end(); it++)
-        C->Add((prefix+*it).c_str());
-    C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A.fEl),0.5*(A.fEh)));
-    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
-    TOTAL->Add(RUNHIST);
-    A.fRunsBegin=TOTAL->FindFirstBinAbove(0);
-    A.fRunsEnd=TOTAL->FindLastBinAbove(0);
-    if (A.fRunsEnd<A.fRunsBegin) puts("Wrong run numbers of energy");
-    A.fEvents=TOTAL->GetEntries();
-    TOTAL->Delete();
-    }
+        {
+            TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
+            TChain* C= new TChain("h10");
+            for (std::vector<std::string>::iterator it=A.fFiles.begin(); it!=A.fFiles.end(); it++)
+                C->Add((prefix+*it).c_str());
+            C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A.fEl),0.5*(A.fEh)));
+            TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
+            TOTAL->Add(RUNHIST);
+            A.fRunsBegin=TOTAL->FindFirstBinAbove(0);
+            A.fRunsEnd=TOTAL->FindLastBinAbove(0);
+            if (A.fRunsEnd<A.fRunsBegin) puts("Wrong run numbers of energy");
+            A.fEvents=TOTAL->GetEntries();
+            TOTAL->Delete();
+        }
 }
 
 
@@ -114,7 +114,6 @@ void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Dou
             A[t]->SetBinContent(b,0);
 
         }
-    //A[t]->SetBinErrorOption( TH1::EBinErrorOpt::kPoisson);
 }
 
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[])

@@ -12,7 +12,7 @@ void FillInfo(TSampleInfo* A,std::string prefix)
             C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
             TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
             TOTAL->Add(RUNHIST);
-           // filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
+            // filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
         }
     A->fRunsBegin=0;
     A->fRunsEnd=20000-2;
@@ -23,10 +23,10 @@ void FillInfo(TSampleInfo* A,std::string prefix)
     if (A->fRunsEnd<A->fRunsBegin) puts("Wrong run numbers of energy");
     A->fEvents=TOTAL->GetEntries();
     A->Print();
-    
-    
+
+
     if (A->fType==std::string("MCBG")||A->fType==std::string("MCSI")) A->fLuminocity=A->fEvents*A->fSigma;
-    
+    A->Print();
     TOTAL->Delete();
 }
 

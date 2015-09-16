@@ -79,7 +79,7 @@ typedef struct sample_info_
     float       fLuminocity;
     float       fWeight;
     float       fEl;
-float       fEh;
+    float       fEh;
     std::string      fGenerator;
     std::string      fName;
     std::string      fPeriod;
@@ -129,7 +129,7 @@ CDECK  ID>, PXTTH3.
 
 
 void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
-                     double lum,double sig ,double w);
+                        double lum,double sig ,double w);
 
 
 
@@ -258,7 +258,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     switch (energy)
         {
         case 91:
-            if (algorithm=="durham")
+            if (algorithm=="durham"||algorithm=="antikt")
                 {
 
 
@@ -343,7 +343,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                                                              }));
                 }
 
-            if (algorithm=="siscone")
+            if (algorithm=="siscone"||algorithm=="cambridge")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
                     {
@@ -383,7 +383,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 
         default: //133,161,172,183,189
 
-            if (algorithm=="durham")
+            if (algorithm=="durham"||algorithm=="antikt")
                 {
 
                     /*
@@ -464,7 +464,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                 }
 
 
-            if (algorithm=="siscone")
+            if (algorithm=="siscone"||algorithm=="cambridge")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
                     {
@@ -1031,79 +1031,26 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
             A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
-            if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="siscone")
+            if (algo=="durham"||algo=="jade"||algo=="eecambridge"||algo=="antikt")
                 {
                     std::vector<double> ycuts;
-                    //
-                    //printf("D1 is equal to:\%f\n", tfj->GetClusterSequence()->exclusive_ymerge_max(1));
-                    //for ( j=-1; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
-
                     ycuts.push_back(1.0);
                     for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
-
-                    //Expected diff with shape: inclusive vs exclusive. 6
-
-                    //                  Fill(0.000056,weight)0.000041 0.000072
-//Fill(-0.010646,weight)-0.021299 -0.021293
-//Fill(0.000010,weight)0.000007 0.000013
-
 
                     ycuts.push_back(0.0);
                     ycuts.push_back(-10.0);
                     tfj->fYFlip=ycuts;
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
-                    //if (H_prefix.find("_durham_161GeV_")!=std::string::npos)  printf("D2: %i %05d %f %f\n",A->Irun,A->Ievnt,ycuts[1],A->Yddmt[1]);
                     for ( j=0; j<5; j++)
                         {
-
-                            /*
-                            for (int i=A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j+1)); i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->FindBin(ycuts.at(j)); i++)
-                                {
-                            	if (i<1) continue;
-                                A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),weight);
-                                if (H_prefix=="H_data_durham_161GeV_"&&j==2) printf("Fill(%f,weight)%f %f \n", A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i),
-
-                                A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i)+A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinWidth(i)
-                                );
-
-                                }
-
-                            // It is a njet, but not a njet+1 event
-                            double nycut(0.);
-                            nycut= 0.5*(xbins[bin]+xbins[bin+1]);
-                            if( ( observ->get( stnjlow, reco, nt ) >= nycut ) &&
-                            ( observ->get( stnjhigh, reco, nt ) < nycut ) ) {
-                            hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );
-                            }
-                            }
-                            else {
-                              if( observ->get( stnjlow, reco, nt ) >= xbins[bin] ) {
-                                hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );
-
-
-                                                       */
-
-
                             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);//Undewrflow for norm//Terrible idea...
 
                             for (int i=1; i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
                                 {
                                     double x;
                                     x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
-                                    if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);//FIXME!
-                                    if (x>ycuts.at(j+1)&&x<ycuts.at(j))
-
-
-                                        {
-                                            A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
-                                            // if (H_prefix=="H_data_durham_161GeV_"&&j==2) printf("FILL: %f %f %f %i %i\n",
-                                            //A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i),A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i),
-                                            //A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i)+A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinWidth(i),
-
-                                            //	A->Irun,A->Ievnt
-
-                                            //   );
-                                        }
+                                    if (j==4)                           x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);//FIXME!
+                                    if (x>ycuts.at(j+1)&&x<ycuts.at(j)) A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
 
 
                                 }
@@ -1128,24 +1075,44 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                                 }
                         }
                 }
-            if (algo=="siscone")
+            if (algo=="siscone"||algo=="cambridge")
                 {
-                    int q=0;
+                    
                     std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
                     double q2=1;//sqrt(tfj->GetClusterSequence()->Q2());
-                    for (q=0; q<5; q++)
+                    for (j=0; j<5; j++)
                         {
-                            for (  int binL = 0; binL < A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetN(); binL++ )
+
+
+
+                            A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);
+
+                            for (int i=1; i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
+                                {
+                                    double x;
+                                    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
+                                    if (j==4)                           x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);//FIXME!
+
+                                    int fdjet=0;
+                                    for (  unsigned  int ii = 0; ii < fdjets.size(); ii++) if ( fdjets[ii].E() > x*q2 )    fdjet++;
+                                    if (fdjet==j+2) A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
+
+                                }
+
+
+
+
+
+                            for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
                                 {
                                     Double_t x,y;
-                                    A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetPoint(binL,x,y);
+                                    A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
                                     int fdjet=0;
-
-                                    for (  unsigned  int i = 0; i < fdjets.size(); i++) 	     {  if ( fdjets[i].E() > x*q2 )    fdjet++;   /* printf("%i %f %f %f\n",fdjet, x, E_min,  fdjets[i].E()); */ }
-                                    if (fdjet==q+2)
+                                    for (  unsigned  int ii = 0; ii < fdjets.size(); ii++) 	       if ( fdjets[ii].E() > x*q2 )    fdjet++;
+                                    if (fdjet==j+2)
                                         {
-                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPoint(binL,x,y+weight);
-                                            A->fGMap[G_prefix+Form("JETR%i",q+2)]->SetPointError(binL,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",q+2)]->GetErrorY(binL),2)+weight*weight));
+                                            A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
+                                            A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYlow()[i],2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetEYhigh()[i],2)+weight*weight));
                                         }
                                 }
                         }
@@ -1153,7 +1120,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                 }
 
 
-            if (algo=="cambridge"||algo=="antikt"||algo=="kt")
+            if (algo=="antikt"||algo=="kt")
                 {
 
                     int q=0;

@@ -152,7 +152,7 @@ run/Runsherpa.dat_%: share/Runsherpa.dat
 
 run/Runherwig++.dat_%: share/Runherwig++.dat
 		cp share/Runherwig++.dat run/Runherwig++.dat_$*
-		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  $* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat_$*
+		sed -i 's@.*set LEPGenerator:EventHandler:LuminosityFunction:Energy.*@set LEPGenerator:EventHandler:LuminosityFunction:Energy '$(shell echo  1.0*$* | bc -qi | tail -n 1)'@g' run/Runherwig++.dat_$*
 		
 run/Runevtgen.dat_%: share/Runevtgen.dat		
 		cp share/Runevtgen.dat run/Runevtgen.dat_$*

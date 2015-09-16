@@ -87,10 +87,6 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
 void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
 {
     if (fHMap.size()==0) return;
-
-
-
-//	      puts(fGMap.begin()->first.c_str());
     std::vector<std::string> na;
     std::string newcommand="TABH";
     tokenize(fHMap.begin()->first,"_",na);
@@ -196,16 +192,9 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
 
                     fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{output/%s}\\caption{#1}\\end{figure}}\n",
                             pname.c_str(),pname.c_str());
-
-
                 }
-
-
         }
 }
-
-
-
 
 int main(int argc, char* argv[])
 {
@@ -238,16 +227,14 @@ int main(int argc, char* argv[])
             for (i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
                     if (i%2==1) continue;
-                    //;
 
-                    //puts("OK");
                     std::map<std::string,TH1D*> fHMap;
                     std::map<std::string,TAdvancedGraph*> fGMap;
                     TObject *obj2;
                     TIter next2(((TPad*)C->second->GetListOfPrimitives()->At(i))->GetListOfPrimitives());
                     while ((obj2=next2()))
                         {
-                            //       cout << "Reading: " << obj->GetName() << endl;
+
                             if (obj2->InheritsFrom("TH1D"))
                                 {
                                     TH1D* z= (TH1D*)obj2;
@@ -262,12 +249,9 @@ int main(int argc, char* argv[])
                                 }
 
                         }
-
                     PrintTG(fGMap,FF,"");
                     PrintTH(fHMap,FF,"");
-
                 }
-
         }
 
     fclose(FF);

@@ -69,17 +69,12 @@ TH1D* GetSystematicsHisto(std::vector<TH1D*> HH,std::string name)
         {
             double x,y;
             y=HH[0]->GetBinContent(i);
-//R->HetPoint(i,x,y);
-//R->SetPoint(i,x,0);
             R->SetBinContent(i,0);
             for (int j=1; j<HH.size(); j++)
                 {
                     double xj,yj;
                     yj=HH[j]->GetBinContent(i,yj);
                     R->SetBinError(i,std::max(R->GetBinError(i),y-yj),std::max(R->GetBinError(i),yj-y));
-
-//R->SetPoint(i,xj,R->HetErrorYlow(i));
-//printf("%f %f\n",R->HetErrorYlow(i),R->HetErrorYhigh(i));
                 }
         }
     return R;

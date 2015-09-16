@@ -18,7 +18,7 @@ public:
     double       fEh;
 
     std::string      fGenerator;
-    
+
     //  std::string fName;
     std::string      fPeriod;
     std::string      fType;

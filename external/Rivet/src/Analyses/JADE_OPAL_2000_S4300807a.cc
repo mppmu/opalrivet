@@ -58,21 +58,22 @@ public:
     void finalize()    {
     TDirectory *savedir = gDirectory;
     fFile->cd();
+    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)     
+    { H_it->second->Sumw2(); 		
+		double H_scale=H_it->second->GetBinContent(0);
+	if   (H_it->first.find("JETR")==std::string::npos)H_it->second->Scale(1.0/fTotalWeight);   else 	
+	   if (H_scale>0.001){  H_it->second->Scale(1.0/H_scale);  H_it->second->SetBinContent(0,H_scale);}                    		
+		H_it->second->Write(); 
+	}
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 
 	{ 
-		if   (G_it->first.find("JETR")!=std::string::npos) 		G_it->second->Scale(1.0/fTotalWeight);	 
+		if   (G_it->first.find("JETR")==std::string::npos) 		G_it->second->Scale(1.0/fTotalWeight);	 
 		else 
 		{ std::string a=G_it->first; replace_all(a,"G_","H_"); if (fHMap[a]->GetBinContent(0)>0.0001) G_it->second->Scale(1.0/fHMap[a]->GetBinContent(0)); }
 		G_it->second->Write();
 	}
 
-    for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)     
-    { H_it->second->Sumw2(); 		
-	if   (H_it->first.find("JETR")==std::string::npos)H_it->second->Scale(1.0/fTotalWeight);   else 	
-                       if (H_it->second->GetBinContent(0)>0.001) H_it->second->Scale(1.0/H_it->second->GetBinContent(0));
-		
-		H_it->second->Write(); 
-	}
+
 	gDirectory = savedir;
     fFile->Close();  
     }

@@ -63,22 +63,15 @@ int main(int argc, char* argv[])
             int M=sqrt(quantities.size())+1;
             std::vector<std::string> Q=  quantities;
             for (int j=Q.size(); j<M*M; j++) Q.push_back(Form("Placeholder_%i",j));
-            //CH->Divide(M,M);
             TPad *pads[2*M*M];
-            //for (int j=0; j<M; j++)
-            //  for (int i=0; i<M; i++)
             for (int z=0; z<M*M; z++)
                 {
                     int i=z%M;
                     int j=z/M;
                     pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
-
-                    //pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("Q_%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
-
                     pads[2*z]->SetBottomMargin(0);
                     pads[2*z]->Draw();
                     pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
-                    //pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("R_%s",Q[z].c_str()),(z+0.0)/M/M,(j+0.0)/M,(z+1.0)/M/M,(j+0.3)/M);
                     pads[2*z+1]->SetTopMargin(0);
                     pads[2*z+1]->Draw();
                 }
@@ -93,18 +86,10 @@ int main(int argc, char* argv[])
                     std::string hoption="";
                     std::string goption="APLE";
                     Color_t usecolors[5]= {kBlue,kRed,kGreen,kYellow,kBlack};
-
-
-                    //CH->cd(icanH);
-                    //printf("cd %i %i\n",(icanH-1)/M,2*((icanH-1)%M));
-
-                    //int currentI=(icanH-1)/M;
-                    //int currentJ=(icanH-1)%M;
                     pads[2*icanH]->cd();
                     pads[2*icanH]->SetLogx();
                     pads[2*icanH+1]->SetLogx();
 
-                    //std::map<std::string,TH1D*> H_plotted;
 
                     TLegend* LH= new TLegend(0.75,0.68,0.95,0.9);
                     color=0;
@@ -120,7 +105,6 @@ int main(int argc, char* argv[])
                                     std::string name0=	"H_"+generators[0]+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fHMap.find(name)!=fHMap.end())
                                         {
-                                            // if (name.find("manipdata")!=std::string::npos) fHMap[name]->Scale(0.01);
 
                                             if (quantity->find("JETR")==std::string::npos)
                                                 if (name.find("manip")==std::string::npos)
@@ -133,14 +117,14 @@ int main(int argc, char* argv[])
 
 
 
-                                            //   H_plotted.insert(std::pair<std::string>(name,fHMap[name]));
+
                                             if (fHMap.find(name+"_systematics")!=fHMap.end())
                                                 {
                                                     fHMap[name+"_systematics"]->Draw("E4SAME");
-                                                    //H_plotted.insert(std::pair<std::string>(name+"_systematics",fHMap[name+"_systematics"]));
+
 
                                                     fHMap[name+"_systematics"]->SetLineColor(usecolors[color%4]);
-                                                    //      fHMap[name]->SetMarkerStyle(kFullCircle);
+
                                                     fHMap[name+"_systematics"]->SetMarkerSize(1.1);
                                                     fHMap[name+"_systematics"]->SetMarkerColor(usecolors[color%4]);
                                                     fHMap[name+"_systematics"]->SetFillColor(usecolors[color%4]);
@@ -148,9 +132,9 @@ int main(int argc, char* argv[])
                                                 }
                                             fHMap[name]->Draw("ASAME");
 
-                                            fHMap[name]->GetXaxis()->SetRangeUser(0.0001*sqrt(10),1);
+                                            fHMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                             if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
-                                            if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetXaxis()->SetRangeUser(0.0000001*sqrt(10),1);
+                                            if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                             fHMap[name]->SetLineColor(usecolors[color%4]);
                                             fHMap[name]->SetMarkerStyle(kFullCircle);
                                             fHMap[name]->SetMarkerSize(1.1);
@@ -179,7 +163,7 @@ int main(int argc, char* argv[])
 
 
                                         }
-                                    else puts("Not Found");
+                                    else printf("Not Found histo: %s\n",name.c_str());
                                     color++;
                                 }
                         }
@@ -210,35 +194,26 @@ int main(int argc, char* argv[])
 
                                                 }
                                             fGMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
-                                            if (*algorithm=="siscone") fGMap[name]->GetXaxis()->SetRangeUser(1.0,300);
+                                            fGMap[name]->GetXaxis()->SetLimits(0.000001*sqrt(10),1);
+                                            if (*algorithm=="siscone")   fGMap[name]->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);
+                                            if (*algorithm=="siscone")  fGMap[name]->GetHistogram()->GetXaxis()->SetLimits(1.0,100);
+                                            if (*algorithm=="siscone")   fGMap[name]->GetXaxis()->SetRangeUser(1.0,100);
+                                            if (*algorithm=="siscone")  fGMap[name]->GetXaxis()->SetLimits(1.0,100);
+
                                             fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
                                             fGMap[name]->SetLineColor(usecolors[color%5]);
                                             fGMap[name]->SetMarkerStyle(kFullCircle);
                                             fGMap[name]->SetMarkerSize(1.1);
                                             fGMap[name]->SetMarkerColor(usecolors[color%5]);
 
-
-                                            //printf("------>%s %s\n",name.c_str(),name0.c_str());
-                                            // if (name!=name0)
                                             {
 
                                                 pads[2*icanH+1]->cd();
                                                 TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
                                                 temp->SetName(("clone"+name).c_str());
                                                 temp->Divide(fGMap[name],fGMap[name0],false);
-//fGMap[name]->Print();
-//fGMap[name0]->Print();
-//puts("Divided-->");
-//temp->Print();
-//puts("Divided<--");
-                                                //TF1 *fa1 = new TF1("faff1","1",0.0000001*sqrt(10),100);
-                                                //fa1->SetLineColor(usecolors[0]);
-                                                //fa1->Draw("L");
 
-                                                //temp->Draw("APLESAME");
-
-
-
+                                                temp->DrawClone(goption.c_str());
 
                                                 temp->SetLineColor(usecolors[color%5]);
                                                 temp->SetMarkerStyle(kFullCircle);
@@ -246,16 +221,23 @@ int main(int argc, char* argv[])
                                                 temp->SetMarkerColor(usecolors[color%5]);
 
 
-                                                temp->GetHistogram()->GetXaxis()->SetLimits(0.000001*sqrt(10),1);
+                                                temp->GetHistogram()->GetXaxis()->   SetLimits(0.000001*sqrt(10),1);
                                                 temp->GetHistogram()->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
+
                                                 temp->GetHistogram()->GetYaxis()->SetRangeUser(0.0,2.0);
+                                                if (*algorithm=="siscone")  temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);
+                                                if (*algorithm=="siscone")  temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);
 
                                                 if (name==name0)
                                                     {
                                                         temp->GetHistogram()->Draw("AXIS");
 
 
-                                                        TF1 *fa1 = new TF1("fa1","1",0.0000001*sqrt(10),100);
+                                                        TF1 *fa1;
+
+                                                        if (*algorithm=="siscone") fa1 = new TF1("fa1","1",1.0,100);
+                                                        else
+                                                            fa1 = new TF1("fa1","1",0.000001*sqrt(10),1);
                                                         fa1->SetLineColor(usecolors[0]);
                                                         fa1->Draw("same+");
                                                     }
@@ -275,22 +257,16 @@ int main(int argc, char* argv[])
                                             goption="PLESAME";///ROOT
 
 
-
-
-
                                         }
 
 
-
-
-                                    else puts("Not Found");
+                                    else printf("Not Found g: %s\n",name.c_str());
                                     color++;
                                 }
                         }
                     LH->Draw();
 
                     icanH++;
-
                 }
             CH->Write();
             CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".pdf").c_str());

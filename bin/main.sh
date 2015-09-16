@@ -3,11 +3,10 @@ export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 export ARCH=$(uname -m)
 set -x
-declare -a generators=(pythia8 herwig++)
+declare -a generators=(pythia8 )
 #( pythia8 herwig++ )
  #130 136 161 172 183 189 192 196  202  207  205 
-declare -a energies=(161)
-# 172 183 189 192 196)
+declare -a energies=(161 172 183 189 192 196)
 declare -a systematics=( central  )
 # wqqlnhigh:wqqlnlow wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
