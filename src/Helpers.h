@@ -1,14 +1,11 @@
 #ifndef ZROOT_H
 #define ZROOT_H
 #include "TApplication.h"
-#include "TArrow.h"
 #include "TCanvas.h"
 #include "TChain.h"
-#include "TDatime.h"
 #include "TDSet.h"
 #include "TEntryList.h"
 #include "TEnv.h"
-#include "TError.h"
 #include "TEventList.h"
 #include "TF1.h"
 #include "TF2.h"
@@ -17,7 +14,7 @@
 #include "TH1D.h"
 #include "TH1F.h"
 #include "TH2F.h"
-#include  "TKey.h"
+#include "TKey.h"
 #include "TLatex.h"
 #include "TLegend.h"
 #include "TLine.h"
@@ -27,11 +24,8 @@
 #include "TNtuple.h"
 #include "TObjArray.h"
 #include "TObjString.h"
-#include "TPaveLabel.h"
-#include "TPaveText.h"
 #include "TProof.h"
 #include "TProofOutputFile.h"
-#include <TROOT.h>
 #include "TROOT.h"
 #include "TString.h"
 #include "TStyle.h"
@@ -42,18 +36,15 @@
 #include "TBufferFile.h"
 #include <TCanvas.h>
 #include <TMultiGraph.h>
-#include <TMath.h>
 #include "TSampleInfo.h"
 #endif
 
 #include <vector>
-#include <cmath>
-#include  <map>
-#include  <sstream>
+#include <map>
+#include <sstream>
 #include <cassert>
 #include <cmath>
 #include <iostream>
-#include <math.h>
 #include <sstream>
 
 

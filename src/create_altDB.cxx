@@ -6,7 +6,7 @@
     DBC->Add("./opalanalysis/DB.root");
     TTree* match_DBC=DBC->CopyTree(Form("(fFiles.c_str()==\"%s\")&&(fEnergyString.c_str()==\"%s\")",currentfile.Data(),fEnergyString.c_str());DB->Fill();
     match_DBC->Scan("*");
-    /*
+
      * for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
      {
      T->Draw("0",Form("(fType==\"DATA\")&&(fName==\"%s\")",S->c_str()),"fEvents")
@@ -23,9 +23,9 @@
 
      }
 
-    */
-
 */
+
+
 
 
 

@@ -11,7 +11,6 @@ TSampleInfo::~TSampleInfo() {}
 TSampleInfo::TSampleInfo(const char* Es,double El, double Eh,const char* name, const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                          double lum,double sig ,double w)
 {
-    //fName=name;
     SetName(name);
     fEl=El;
     fEh=Eh;
@@ -24,7 +23,6 @@ TSampleInfo::TSampleInfo(const char* Es,double El, double Eh,const char* name, c
     fSigma=sig;
     fLuminocity=lum;
     fWeight=w;
-    //char a[20];
     fGenerator=std::string("opal");
     fProcesses=std::string(procs);
     fEnergyString=std::string(Es);

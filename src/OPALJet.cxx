@@ -154,7 +154,6 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
 
     if (A.size()>2) CalculateThrust(jetstlv);
     if (A.size()>2) CalculateSphericity(jetstlv);
-
     if (A.size()>2) CalculateBroadening(jetstlv);
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
 }
