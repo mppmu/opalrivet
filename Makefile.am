@@ -46,12 +46,12 @@ AM_CPPFLAGS = -Ilib -I$(top_srcdir)/lib -Isrc -I$(top_srcdir)/src
 #GEN=pythia8
 
 #GEN=evtgen
-GEN?=pythia8
+#GEN?=pythia8
 #GEN=pythia8_evtgen
-CUTS?=central
+#CUTS?=central
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
-CXX?='g++ -Wextra -Wall -pedantic -Wno-long-long -Wno-variadic-macros'
+#CXX?='g++ -Wextra -Wall -pedantic -Wno-long-long -Wno-variadic-macros'
 include Makefile.syst
 
 warn: 
@@ -302,7 +302,7 @@ doc/opalanalysis.pdf:  doc/opalanalysis.tex
 		pdflatex doc/opalanalysis.tex
 		mv opalanalysis.pdf  doc/opalanalysis.pdf
 
-pdf-local: doc/opalanalysis.pdf
+#pdf-local: doc/opalanalysis.pdf
 
 
 bin/$(ARCH)/hepplotconvert: dirs   external/hepplotconvert/WriterROOT.h external/hepplotconvert/ROOTConvert.cc external/hepplotconvert/ROOTConvert.h external/hepplotconvert/ReaderROOT.cc external/hepplotconvert/ReaderROOT.h external/hepplotconvert/hepplotconvert.cxx external/hepplotconvert/WriterROOT.cc
@@ -351,6 +351,16 @@ uclean:
 	rm -rf tmp/*
 	
 	
-	
-	
+
+MOSTLYCLEANFILES = $(DX_CLEANFILES)
+include m4/aminclude.am
+
+EXTRA_DIST = Doxyfile
+
+uninstall-local:
+		rm $(DESTDIR)$(datadir)/$(PACKAGE)/html/
+		-rmdir $(DESTDIR)$(datadir)/$(PACKAGE)/html 
+install: install-am install-rootmap install-examples
+
+
 	

@@ -1,8 +1,3 @@
-#include <cmath>
-#include <vector>
-#include <string>
-#include <functional>
-#include <fstream>
 #include "Helpers.h"
 #include "Cuts.h"
 #include "OPALJet.h"

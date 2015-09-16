@@ -1,8 +1,3 @@
-#include <cmath>
-#include <vector>
-#include <string>
-#include <functional>
-#include <fstream>
 #include "Helpers.h"
 #include "Cuts.h"
 #include "OPALJet.h"
@@ -41,23 +36,6 @@ int main(int argc, char* argv[])
 
     TFile* F= new TFile(("output/plots_"+energy+".root").c_str(),"RECREATE");
     F->cd();
-
-
-
-
-
-
-
-
-
-
-
-
-
-//////////////
-
-
-
 
     TCanvas* CH=new TCanvas("specialplots","specialplots",4*1024,4*768);
     const int M=2;//sqrt(quantities.size())+1;

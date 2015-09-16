@@ -14,7 +14,6 @@ OPALJet::OPALJet()
     fSISPlugin=0;
     fRegParameter=2.0;
 
-
     fThrusts.push_back(1.0);
     fThrusts.push_back(0.0);
     fThrusts.push_back(0.0);
@@ -30,12 +29,9 @@ OPALJet::OPALJet()
     fLambdas[1].push_back(0);
     fSphericityAxes[0].push_back(TVector3(0,0,0));
     fSphericityAxes[1].push_back(TVector3(0,0,0));
-
-
 }
 
 fastjet::ClusterSequence* OPALJet::GetClusterSequence() {return fClusterSequence;}
-
 bool OPALJet::FindAlgorithm(std::string jetalg)
 {
     fJetAlgString= std::string(jetalg);
@@ -100,12 +96,8 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                 {
                     fEECambridgePlugin= new fastjet::EECambridgePlugin( R["YMIN"]);
                     jetdef= fastjet::JetDefinition( fEECambridgePlugin );
-
                     ok=1;
                 }
-
-
-
             if ( fJetAlgString == "jade" )
                 {
                     fJadePlugin= new fastjet::JadePlugin();
@@ -117,7 +109,6 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                     std::cout << "OPALJet::OPALJet: jet plugin not known: " << fJetAlgString<<" "<<fJetAlg << std::endl;
                     return;
                 }
-
             break;
         case fastjet::ee_kt_algorithm:
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg );
@@ -136,15 +127,8 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R["R"] );
             break;
         }
-
-
-
-////
-
     std::vector<TVector3> jetstlv;//= new std::vector<TVector3>();
-
     std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
-
     for( UInt_t i= 0; i <  A.size(); i++ )
         {
             fastjet::PseudoJet pj= A[i];
@@ -192,11 +176,6 @@ std::vector<TLorentzVector>& OPALJet::CopyPseudoJetsToLorentzVectors()
     return *jetstlv;
 }
 
-
-
-
-
-
 std::vector< std::vector<int> >& OPALJet::Constituents()
 {
     std::vector< std::vector<int> >* cnstmap= new std::vector< std::vector<int> >();
@@ -222,11 +201,6 @@ int OPALJet::NJets( double ycut )
     return fClusterSequence->n_exclusive_jets_ycut( ycut );
 }
 
-
-
-
-
-
 inline bool mod2Cmp(const TVector3& a, const TVector3& b)
 {
     return a.Mag2() > b.Mag2();
@@ -241,58 +215,21 @@ inline int intpow(int a, int b)
 
 }
 
-
-
-// Actually do the calculation
 void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta)
 {
-    //MSG_DEBUG("Calculating sphericity with r = " << fRegParameter);
-
-    // Return (with "safe nonsense" sphericity params) if there are no final state particles.
-    if (fsmomenta.empty())
-        {
-            //MSG_DEBUG("No particles in final state...");
-            //  clear();
-            return;
-        }
-//printf("fsmomenta.size()==%i\n",fsmomenta.size());
-    // Iterate over all the final state particles.
+    if (fsmomenta.empty())            return;
     TMatrixD mMom(3,3);
     TMatrixD mMom2(3,3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) mMom[i][j]=0;
-
-
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) mMom2[i][j]=0;
-
-
+    for (size_t i = 0; i < 3; i++) for (size_t j = 0; j < 3; j++) mMom[i][j]=0;
+    for (size_t i = 0; i < 3; i++) for (size_t j = 0; j < 3; j++) mMom2[i][j]=0;
     double totalMomentum = 0.0;
     double totalMomentum2 = 0.0;
     for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
         {
-
             totalMomentum += p3->Mag();
             totalMomentum2 += p3->Mag()*p3->Mag();
             double regfactor=1.0/p3->Mag();
             double regfactor2=1.0;
-            //if (!fuzzyEquals(regfactor, 1.0)) {
-            //  MSG_TRACE("Regfactor (r=" << fRegParameter << ") = " << regfactor);
-            //}
-
-
-            //TMatrixD mMomPart(3,3);
-            //printf("%f %f %f\n",p3[0],p3[1],p3[2]);
-            /*
-            for (size_t i = 0; i < 3; i++)
-                {
-                    for (size_t j = 0; j < 3;j++)
-                        {
-                            mMom[i][j]+= regfactor *p3[i]*p3[j];///p3->Mag();
-                        }
-                }
-
-            */
 
             mMom[0][0]+=regfactor *p3->x()*p3->x();
             mMom[1][0]+=regfactor *p3->y()*p3->x();
@@ -314,31 +251,14 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta)
             mMom2[0][2]+=regfactor2 *p3->x()*p3->z();
             mMom2[1][2]+=regfactor2 *p3->y()*p3->z();
             mMom2[2][2]+=regfactor2 *p3->z()*p3->z();
-
-
-
-
         }
 
-    // Normalise to total (regulated) momentum.
-    //mMom=mMom*(1.0/totalMomentum);
-
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) mMom[i][j]=mMom[i][j]/totalMomentum;
-
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) mMom2[i][j]=mMom2[i][j]/totalMomentum2;
-
-
+    for (size_t i = 0; i < 3; i++)        for (size_t j = 0; j < 3; j++) mMom[i][j]=mMom[i][j]/totalMomentum;
+    for (size_t i = 0; i < 3; i++)   for (size_t j = 0; j < 3; j++) mMom2[i][j]=mMom2[i][j]/totalMomentum2;
     TMatrixDSym SmMom(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) SmMom[i][j]=mMom[i][j];
-
+    for (size_t i = 0; i < 3; i++)   for (size_t j = 0; j < 3; j++) SmMom[i][j]=mMom[i][j];
     TMatrixDSym SmMom2(3);
-    for (size_t i = 0; i < 3; i++)
-        for (size_t j = 0; j < 3; j++) SmMom2[i][j]=mMom2[i][j];
-
-
+    for (size_t i = 0; i < 3; i++)        for (size_t j = 0; j < 3; j++) SmMom2[i][j]=mMom2[i][j];
 
     TMatrixDSymEigen* eigen3=new TMatrixDSymEigen(SmMom);
     TMatrixDSymEigen* eigen23=new TMatrixDSymEigen(SmMom2);
@@ -347,33 +267,23 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta)
     fLambdas[1].clear();
     fSphericityAxes[1].clear();
 
-
     TVectorD EVa=eigen3->GetEigenValues();
     TMatrixD EVe=eigen3->GetEigenVectors();
     TVectorD EVa2=eigen23->GetEigenValues();
     TMatrixD EVe2=eigen23->GetEigenVectors();
-
     for (int i = 2; i>= 0; i--)
         {
             fLambdas[0].push_back(EVa[i]);
             fSphericityAxes[0].push_back(TVector3(EVe[i][0],EVe[i][1],EVe[i][2]));
             fLambdas[1].push_back(EVa2[i]);
             fSphericityAxes[1].push_back(TVector3(EVe2[i][0],EVe2[i][1],EVe2[i][2]));
-
-
         }
-
-
 }
-
-
 
 // Do the general case thrust calculation
 void OPALJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
 {
     double b1=0,b2=0;
-
-
     double totalMomentumb1 = 0.0;
     double totalMomentumb2 = 0.0;
     TLorentzVector vH1(0,0,0,0),vH2(0,0,0,0);
@@ -382,8 +292,6 @@ void OPALJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
             double sprod=p3->Dot(fThrustAxes[0]);
             double vprod=(p3->Cross(fThrustAxes[0])).Mag();
             fEvis+=sqrt(p3->Mag()*p3->Mag()+0.139*0.139);
-
-
             if (sprod>0)
                 {
                     totalMomentumb1 += p3->Mag();
@@ -401,8 +309,6 @@ void OPALJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
                     t.SetVectM(*p3,0.139);
                     vH2+=t;
                 }
-
-
         }
     b1/=(2*totalMomentumb1+2*totalMomentumb2);
     b2/=(2*totalMomentumb1+2*totalMomentumb2);
@@ -412,16 +318,8 @@ void OPALJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
 
     fM[0]=std::max(vH1.M(),vH2.M());
     fM[1]=std::min(vH1.M(),vH2.M());
-
-
-
 }
 
-
-
-
-
-// Do the general case thrust calculation
 void OPALJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis)
 {
     // This function implements the iterative algorithm as described in the
@@ -446,7 +344,6 @@ void OPALJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVecto
                     sign /= 2;
                 }
             foo=foo.Unit();
-
             // Iterate
             double diff=999.;
             while (diff>1e-5)
@@ -480,7 +377,6 @@ void OPALJet::CalculateT(const std::vector<TVector3>& momenta, double& t, TVecto
 // Do the full calculation
 void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
 {
-
     fThrusts.clear();
     fThrustAxes.clear();
     double momentumSum(0.0);
@@ -488,11 +384,8 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
         {
             momentumSum += p3->Mag();
         }
-
     fThrusts.clear();
     fThrustAxes.clear();
-
-
     // If there are fewer than 2 visible particles, we can't do much
     if (fsmomenta.size() < 2)
         {
@@ -503,8 +396,6 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
                 }
             return;
         }
-
-
     // Handle special case of thrust = 1 if there are only 2 particles
     if (fsmomenta.size() == 2)
         {
@@ -524,23 +415,15 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
             fThrustAxes.push_back( fThrustAxes[0].Cross(fThrustAxes[1]) );
             return;
         }
-
-
-
     // Temporary variables for calcs
     TVector3 axis(0,0,0);
     double val = 0.;
-
     // Get thrust
     CalculateT(fsmomenta, val, axis);
     //MSG_DEBUG("Mom sum = " << momentumSum);
     fThrusts.push_back(val / momentumSum);
     // Make sure that thrust always points along the +ve z-axis.
-    //if (axis.z() < 0) axis = -axis;///WAAAAAAAAAAAAAAAAAAS?
-
-    //MSG_DEBUG("Axis = " << axis);
     fThrustAxes.push_back(axis);
-
     // Get thrust major
     std::vector<TVector3> threeMomenta;
     //foreach (const TVector3& v, fsmomenta) {
@@ -552,24 +435,15 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
         }
     CalculateT(threeMomenta, val, axis);
     fThrusts.push_back(val / momentumSum);
-
-
-    //if (axis.x() < 0) axis = -axis;///WAAAAAAAAAAAAAAAAAAS?
-    //if (axis.z() < 0) axis = -axis;
-
     axis = axis.Unit();
     fThrustAxes.push_back(axis);
-
     // Get thrust minor
     if (fThrustAxes[0].Dot(fThrustAxes[1]) < 1e-10)
         {
             axis = fThrustAxes[0].Cross(fThrustAxes[1]);
             fThrustAxes.push_back(axis);
             val = 0.0;
-            for (std::vector<TVector3>::const_iterator v=fsmomenta.begin(); v!=fsmomenta.end(); v++)
-                {
-                    val += std::abs(v->Dot(axis));
-                }
+            for (std::vector<TVector3>::const_iterator v=fsmomenta.begin(); v!=fsmomenta.end(); v++)   val += std::abs(v->Dot(axis));
             fThrusts.push_back(val / momentumSum);
         }
     else
@@ -577,6 +451,4 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
             fThrusts.push_back(-1.0);
             fThrustAxes.push_back(TVector3(0,0,0));
         }
-
-
 }

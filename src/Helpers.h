@@ -3,21 +3,16 @@
 #include "TApplication.h"
 #include "TCanvas.h"
 #include "TChain.h"
-#include "TDSet.h"
 #include "TEntryList.h"
-#include "TEnv.h"
-#include "TEventList.h"
 #include "TF1.h"
 #include "TF2.h"
 #include "TFile.h"
 #include <TGraphAsymmErrors.h>
 #include "TH1D.h"
 #include "TH1F.h"
-#include "TH2F.h"
+#include "TEnv.h"
 #include "TKey.h"
-#include "TLatex.h"
 #include "TLegend.h"
-#include "TLine.h"
 #include "TLorentzVector.h"
 #include "TMap.h"
 #include "TMath.h"
@@ -28,14 +23,9 @@
 #include "TProofOutputFile.h"
 #include "TROOT.h"
 #include "TString.h"
-#include "TStyle.h"
-#include "TSystem.h"
 #include "TTree.h"
 #include <TVector3.h>
-#include <TVirtualFitter.h>
-#include "TBufferFile.h"
 #include <TCanvas.h>
-#include <TMultiGraph.h>
 #include "TSampleInfo.h"
 #endif
 
@@ -46,7 +36,11 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
-
+#include <cmath>
+#include <vector>
+#include <string>
+#include <functional>
+#include <fstream>
 
 
 static const Int_t nt_maxtrk= 501;
@@ -80,10 +74,7 @@ typedef struct sample_info_
     std::vector<std::string>      fFiles;
 }
 sample_info;
-
 #ifndef SIMPLE_HELPERS_ONLY
-
-
 #include  "fastjet/ClusterSequence.hh"
 #include  "fastjet/PseudoJet.hh"
 #include "Cuts.h"
@@ -97,8 +88,6 @@ sample_info;
 #define G_INSERTER_DBL(a,b,c)     { const double temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(double)-1,temp); }
 
 #define G_INSERTER_DBL_LOG10(a,b,c)     {double temp2[]=c;  for (int iii=0;iii<sizeof(temp2)/sizeof(double)-1;iii++) temp2[iii]=pow(10,temp2[iii]); const double* temp=temp2;   G_inserter(a,b,sizeof(temp2)/sizeof(double)-1,temp); }
-
-
 #define G_INSERTER_INT(a,b,c)     { const   int temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(int)-1,temp);   }
 #define OPT_TO_INT(a)    (256*((int)(a[0]))+(int)(a[1]))
 #define OPT_TO_INT2(a,b)    (256*(int)(a)+(int)(b))
@@ -107,9 +96,6 @@ sample_info;
 void DivideByBinWidth(TH1D& H);
 void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                         double lum,double sig ,double w);
-
-
-
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[]);
 void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s, const Double_t a[]);
 
@@ -120,16 +106,11 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
     printf("NOptions used: %zu\n",options.size());
     TH1::SetDefaultSumw2(kTRUE);
-
-
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_reco",new TH1D("weight_reco","weight_reco",30,0.0,30.0)));
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_true",new TH1D("weight_true","weight_true",30,0.0,30.0)));
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
-
-
     std::string prefix;
     prefix=std::string("H_")+Iprefix;
-
     std::vector<std::string> tok;
     tokenize(Iprefix,"_",tok);
     std::string senergy="91";
@@ -137,10 +118,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     if (tok.size()>2)  senergy=tok.at(2);
     replace_all(senergy,"GeV","");
     int energy=atoi(senergy.c_str());
-
     printf("Prefix %s,  %i, prefix='%s'\n", senergy.c_str(),energy,prefix.c_str());
-
-
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     H_INSERTER_DBL(A->fHMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     H_INSERTER_DBL(A->fHMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
@@ -157,9 +135,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     H_INSERTER_DBL(A->fHMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     H_INSERTER_DBL(A->fHMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
 
-
 ////////////////////////////////////////
-
     H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({0.7000000E-05,
                    0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                    0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -167,7 +143,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
                    0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
                                                           }));
-
     H_INSERTER_DBL(A->fHMap,prefix+"JETR3",    ARRAY_PROTECT({0.7000000E-05,
                    0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                    0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -175,8 +150,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
                    0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
                                                              }));
-
-
     H_INSERTER_DBL(A->fHMap,prefix+"JETR4",    ARRAY_PROTECT({0.7000000E-05,
                    0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                    0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -184,7 +157,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
                    0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
                                                              }));
-
     H_INSERTER_DBL(A->fHMap,prefix+"JETR5",    ARRAY_PROTECT({0.7000000E-05,
                    0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                    0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -192,8 +164,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.7198470E-02, 0.1280150E-01, 0.2276450E-01, 0.4048150E-01,
                    0.7198650E-01, 0.1280140    , 0.2276460    , 0.4048140
                                                              }));
-
-
     H_INSERTER_DBL(A->fHMap,prefix+"JETR6",    ARRAY_PROTECT({0.7000000E-05,
                    0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
                    0.7178800E-04, 0.1282120E-03, 0.2274480E-03, 0.4050120E-03,
@@ -210,10 +180,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.035, 0.040, 0.050, 0.060, 0.080, 0.120,
                    0.170
                                                           }));
-
-
     prefix=std::string("G_")+Iprefix;
-
     G_INSERTER_DBL(A->fGMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     G_INSERTER_DBL(A->fGMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     G_INSERTER_DBL(A->fGMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
@@ -229,50 +196,38 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     G_INSERTER_DBL(A->fGMap,prefix+"MH2",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40}));
     G_INSERTER_DBL(A->fGMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     G_INSERTER_DBL(A->fGMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
-
-
-
     switch (energy)
         {
         case 91:
             if (algorithm=="durham"||algorithm=="antikt")
                 {
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316,
                                    0.3162278
                                                                           }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                                              }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                                              }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                                              }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                                              }));
                 }
-
             if (algorithm=="jade")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({  8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
@@ -282,7 +237,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
                                    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
                                                                           }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
                                    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
                                    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
@@ -290,8 +244,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
                                    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
                                                                              }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
                                    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
                                    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
@@ -299,7 +251,6 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
                                    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
                                                                              }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
                                    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
                                    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
@@ -307,137 +258,70 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
                                    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
                                                                              }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({8.0E-5, 1.0E-4, 1.3E-4, 1.6E-4, 2.1E-4, 2.6E-4, 3.0E-4, 3.3E-4, 4.2E-4,
                                    4.5E-4, 5.4E-4, 6.5E-4, 6.8E-4, 8.6E-4, 8.75E-4, 0.0011, 0.00125, 0.0014, 0.0018,
                                    0.002, 0.0022, 0.0028, 0.003, 0.0036, 0.0045, 0.0046, 0.0058, 0.0065, 0.0073,
                                    0.00875, 0.0093, 0.012, 0.0125, 0.015, 0.019, 0.02, 0.024, 0.03, 0.031,
                                    0.039, 0.04, 0.049, 0.05, 0.06, 0.062, 0.07, 0.08, 0.095, 0.1,
                                    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
-
-
                                                                              }));
                 }
-
             if (algorithm=="siscone"||algorithm=="cambridge")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
                 }
-
-
-
             break;
-
-
-
         default: //133,161,172,183,189
 
             if (algorithm=="durham"||algorithm=="antikt")
                 {
-
-                    /*
-                           G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                                          1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                                          0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                                 }));
-
-                           G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                                          1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                                          0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                                    }));
-
-
-                           G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                                          1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                                          0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                                    }));
-
-                           G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                                          1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                                          0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                                    }));
-
-
-                           G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.78E-5,  3.16E-5,  5.62E-5, 1.0E-4,
-                                          1.78E-4,  3.16E-4,  5.62E-4, 0.001,  0.00178,
-                                          0.00316,  0.00562,  0.01,  0.0178,  0.0316, 0.0562,  0.1, 0.178, 0.316
-                                                                                    }));
-                      */
-
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000}));
-
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR3", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000}));
-
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR4", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000}));
-
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR5", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000}));
-
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR6", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000}));
-
-
-
-
                 }
-
             if (algorithm=="jade")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({   6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
                                    0.002, 0.003, 0.0045, 0.0065, 0.00875, 0.0125, 0.02, 0.03, 0.04, 0.05,
                                    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
                                                                           }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
                                    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
                                    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
                                                                              }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
                                    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
                                    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
                                                                              }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
                                    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
                                    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
                                                                              }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({6.5E-5, 8.8E-5, 1.25E-4, 2.0E-4, 3.0E-4, 4.5E-4, 6.5E-4, 8.75E-4, 0.00125,
                                    0.002, 0.003, 0.0045, 0.0065, 0.00875 , 0.0125, 0.02, 0.03, 0.04, 0.05,
                                    0.06, 0.07, 0.08, 0.095, 0.115, 0.135, 0.16, 0.1875, 0.25
-
-
                                                                              }));
-
                 }
 
 
@@ -447,69 +331,42 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR3", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR4", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR5", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
-
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR6", ARRAY_PROTECT(
                     {
                         2,6,10,14,18,22,25.5
                     }));
-
                 }
-
-
-
         }
-
-
-
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                    0.14, 0.16, 0.20, 0.24, 0.30, 0.40
-                                                          }));
+                                                 }));
     G_INSERTER_DBL(A->fGMap,prefix+"BN",    ARRAY_PROTECT({0.000, 0.010, 0.015, 0.020, 0.025, 0.030,
                    0.035, 0.040, 0.050, 0.060, 0.080, 0.120,
                    0.170
                                                           }));
-
-
-
-
 }
-
-
-
-
 template <class EXA>
 void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
     printf("NOptions used: %zu\n",options.size());
     std::string prefix;
     prefix=std::string("H_")+Iprefix;
-
-
-
+    
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_reco",new TH1D("weight_reco","weight_reco",30,0.0,30.0)));
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_true",new TH1D("weight_true","weight_true",30,0.0,30.0)));
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
-
-
-
 
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12 ,
                    0.14, 0.16, 0.18, 0.20, 0.23, 0.27, 0.32,
@@ -629,7 +486,6 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.1000000    , 0.1333521    , 0.1778279    , 0.2371374    ,
                    0.3162278
                                                              }));
-
     //<-- Same as Donkers for Durham
     H_INSERTER_DBL(A->fHMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                    0.14, 0.16, 0.20, 0.24, 0.30, 0.40
@@ -638,8 +494,6 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.035, 0.040, 0.050, 0.060, 0.080, 0.120,
                    0.170
                                                           }));
-
-
     prefix=std::string("G_")+Iprefix;
 
     G_INSERTER_DBL(A->fGMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12 ,
@@ -698,46 +552,32 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.030, 0.045, 0.070, 0.100, 0.150,
                    0.250, 0.500,1.000
                                                           }));
-
-
-
-
-
     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316 ,
                    0.3162278
                                                           }));
-
     G_INSERTER_DBL(A->fGMap,prefix+"JETR3",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                              }));
-
-
     G_INSERTER_DBL(A->fGMap,prefix+"JETR4",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                              }));
-
     G_INSERTER_DBL(A->fGMap,prefix+"JETR5",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                              }));
-
-
     G_INSERTER_DBL(A->fGMap,prefix+"JETR6",    ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
                    0.00237, 0.00316, 0.00422, 0.00562, 0.0075, 0.01, 0.0133, 0.0178, 0.0237, 0.0316,
                    0.0422, 0.0562, 0.075, 0.1, 0.133, 0.178, 0.237, 0.316
                                                              }));
-
-
-
     G_INSERTER_DBL(A->fGMap,prefix+"ML",    ARRAY_PROTECT({0.00, 0.04, 0.06, 0.08, 0.10, 0.12,
                    0.14, 0.16, 0.20, 0.24, 0.30, 0.40
                                                           }));
@@ -745,14 +585,7 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.035, 0.040, 0.050, 0.060, 0.080, 0.120,
                    0.170
                                                           }));
-
-
-
-
-
 }
-
-
 
 template <class EXA>
 void BookHistograms(EXA * A,std::string BfPeriod, std::string Iprefix="")
@@ -921,14 +754,11 @@ void GetMt(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack 
                 }
             ptrack[ifill][3]= sqrt(ptrack[ifill][3]);
             ifill++;
-
         }
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
     ntrack= ifill;
     return;
 }
-
-
 #ifdef USE_RIVET
 #include "Rivet/Rivet.hh"
 template <class EXA>
@@ -957,7 +787,6 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
     int ifill=0;
     int maxtrack=500;
     std::vector<TLorentzVector> vtlv2;
-
     for (i=0; (i<A->size())&&(ifill<maxtrack); i++)
         {
             const Rivet::FourMomentum fv = A->at(i).momentum();
@@ -966,15 +795,11 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
                                            fv.pz(),
                                            fv.E()));
             ifill++;
-
         }
-
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
     return vtlv2;
 }
 #endif
-
-
 template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
 {
     bool PASSED=false;
@@ -984,23 +809,15 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
     if (tfj->GetClusterSequence())
         {
             PASSED=true;
-
             A->fHMap[H_prefix+"1-T"]->Fill(1-tfj->fThrusts[0],weight);
             A->fHMap[H_prefix+"T"]->Fill(tfj->fThrusts[0],weight);
-
             A->fHMap[H_prefix+"T-Maj"]->Fill(tfj->fThrusts[1],weight);
             A->fHMap[H_prefix+"T-Min"]->Fill(tfj->fThrusts[2],weight);
-
             A->fHMap[H_prefix+"O"]->Fill(tfj->fThrusts[1]-tfj->fThrusts[2],weight);
-
             A->fHMap[H_prefix+"A"]->Fill(tfj->fLambdas[1][0]*3 / 2.0,weight);
             A->fHMap[H_prefix+"S"]->Fill(tfj->fLambdas[1][0]*3 / 2.0+tfj->fLambdas[1][1]*3 / 2.0,weight);
-
-
             A->fHMap[H_prefix+"CP"]->Fill(3*(tfj->fLambdas[0][0]*tfj->fLambdas[0][1]+tfj->fLambdas[0][1]*tfj->fLambdas[0][2]+tfj->fLambdas[0][2]*tfj->fLambdas[0][0]),weight);
             A->fHMap[H_prefix+"DP"]->Fill(27*tfj->fLambdas[0][0]*tfj->fLambdas[0][1]*tfj->fLambdas[0][2],weight);
-
-
             A->fHMap[H_prefix+"BW"]->Fill(tfj->fB[0],weight);
             A->fHMap[H_prefix+"BN"]->Fill(tfj->fB[1],weight);
             A->fHMap[H_prefix+"BT"]->Fill(tfj->fB[1]+tfj->fB[0],weight);
@@ -1013,7 +830,6 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                     std::vector<double> ycuts;
                     ycuts.push_back(1.0);
                     for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
-
                     ycuts.push_back(0.0);
                     ycuts.push_back(-10.0);
                     tfj->fYFlip=ycuts;
@@ -1028,22 +844,14 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                                     x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
                                     if (j==4)                           x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i);//FIXME!
                                     if (x>ycuts.at(j+1)&&x<ycuts.at(j)) A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
-
-
                                 }
-
                             for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)   ///Should be ok. if point between flip values ++
 
                                 {
                                     double x,y;
-
                                     A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
-
-
                                     // x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i+1);
                                     //if (j==4)    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinLowEdge(i+1);//FIXME!
-
-
                                     if (x>ycuts.at(j+1)&&x<ycuts.at(j))
                                         {
                                             A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
@@ -1054,14 +862,10 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                 }
             if (algo=="siscone"||algo=="cambridge")
                 {
-
                     std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
                     double q2=1;//sqrt(tfj->GetClusterSequence()->Q2());
                     for (j=0; j<5; j++)
                         {
-
-
-
                             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);
 
                             for (int i=1; i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
@@ -1073,13 +877,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                                     int fdjet=0;
                                     for (  unsigned  int ii = 0; ii < fdjets.size(); ii++) if ( fdjets[ii].E() > x*q2 )    fdjet++;
                                     if (fdjet==j+2) A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
-
                                 }
-
-
-
-
-
                             for (int i=0; i<A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++)
                                 {
                                     Double_t x,y;
@@ -1093,10 +891,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                                         }
                                 }
                         }
-
                 }
-
-
             if (algo=="antikt"||algo=="kt")
                 {
 
@@ -1121,19 +916,10 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                                         }
                                 }
                         }
-
-
                 }
-
-
         }
     return PASSED;
 }
-
-
-
-
-
 
 template <class EXA>
 std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
@@ -1181,5 +967,4 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     for( Int_t itrk= 0; itrk < ntrack; itrk++ ) vtlv.push_back( TLorentzVector( ptrack[itrk][0], ptrack[itrk][1], ptrack[itrk][2], ptrack[itrk][3] ));
     return vtlv;
 }
-
 #endif

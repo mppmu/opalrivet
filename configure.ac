@@ -29,6 +29,19 @@ AC_PROG_CXX
 AC_PROG_F77
 AC_PROG_LIBTOOL
 
+DX_DOXYGEN_FEATURE(ON)
+DX_DOT_FEATURE(OFF)
+DX_HTML_FEATURE(OFF)
+DX_CHM_FEATURE(OFF)
+DX_CHI_FEATURE(OFF)
+DX_MAN_FEATURE(OFF)
+DX_RTF_FEATURE(OFF)
+DX_XML_FEATURE(OFF)
+DX_PDF_FEATURE(OFF)
+DX_PS_FEATURE(OFF)
+
+
+
 
 AC_CONFIG_HEADERS([config.h])
 AX_CHECK_COMPILE_FLAG([-fdiagnostics-color=never], [CFLAGS="$CFLAGS -fdiagnostics-color=never"], [], []) 
@@ -49,14 +62,6 @@ AX_CHECK_COMPILE_FLAG([-pedantic], [CXXFLAGS="$CXXFLAGS -pedantic"], [], [])
 AX_CHECK_COMPILE_FLAG([-Wno-error=long-long], [CXXFLAGS="$CXXFLAGS -Wno-error=long-long"], [], []) 
 
 
-
-
-AC_ARG_WITH([root],
-  [AS_HELP_STRING([--with-root],
-  [use root for builds, defaults to yes])],
-  [ZBESTLIB_U="$withval"],
-  [ZBESTLIB_U='yes'])
-AM_CONDITIONAL(ZBESTLIB_USE, test "$ZBESTLIB_U" = yes)
 
 AC_ARG_WITH([root],
   [AS_HELP_STRING([--with-root],
@@ -103,4 +108,6 @@ AC_SUBST([OPALRIVET_API_VERSION], [${PACKAGE_VERSION}])
 AC_SUBST([PACKAGE_URL], [http://mpp.mpg.de])
 
 AC_CONFIG_FILES([Makefile])
+DX_INIT_DOXYGEN([$PACKAGE_NAME], Doxyfile, ./doc)
+
 AC_OUTPUT

@@ -22,13 +22,7 @@
      GetXaxis()->FindBin("DATA"
 
      }
-
 */
-
-
-
-
-
 
 int main(int argc ,char** argv)
 {

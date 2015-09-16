@@ -27,7 +27,6 @@ void opalanalysis::SlaveBegin(TTree * tree)
                     else if (R->fEnergyString!=fSampleInfo->fEnergyString) {printf("Mixing samples!"); exit(2);} ///Check all requested samples have same energy string.
                 }
         }
-
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++) ///Update the DB and set weights for this execution. If there would be nmore files one can write a new DB.
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
@@ -177,7 +176,6 @@ void opalanalysis::Terminate()
                 }
         }
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
-
     type_fFile->Close();
 }
 Bool_t opalanalysis::Notify()
