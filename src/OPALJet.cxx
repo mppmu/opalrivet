@@ -5,9 +5,7 @@
 #include "fastjet/JadePlugin.hh"
 #include "fastjet/EECambridgePlugin.hh"
 #include "OPALJet.h"
-/*
-ClassImp(OPALJet)
-*/
+
 OPALJet::OPALJet()
 {
     fDebug=false;
@@ -36,7 +34,7 @@ OPALJet::OPALJet()
 
 }
 
-fastjet::ClusterSequence* OPALJet::GetClusterSequence() {return fClusterSequence;};
+fastjet::ClusterSequence* OPALJet::GetClusterSequence() {return fClusterSequence;}
 
 bool OPALJet::FindAlgorithm(std::string jetalg)
 {
@@ -152,28 +150,12 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
             fastjet::PseudoJet pj= A[i];
             TVector3 tlv( pj.px(), pj.py(), pj.pz());
             jetstlv.push_back( tlv );
-//            momsum+=tlv.Mag();
         }
 
     if (A.size()>2) CalculateThrust(jetstlv);
-    //this->fThrusts[0]=1-t/momsum;
-
-
-    //fRegParameter=2.0;
-    if (A.size()>2) CalculateSphericity(jetstlv,100000);
-
-    //fRegParameter=1.0;
-    //if (A.size()>2) CalculateSphericity(jetstlv,0);
-
+    if (A.size()>2) CalculateSphericity(jetstlv);
 
     if (A.size()>2) CalculateBroadening(jetstlv);
-    //this->fThrusts[0]=1-t/momsum;
-
-
-
-//////////////
-
-
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
 }
 
@@ -263,7 +245,7 @@ inline int intpow(int a, int b)
 
 
 // Actually do the calculation
-void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int where)
+void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta)
 {
     //MSG_DEBUG("Calculating sphericity with r = " << fRegParameter);
 
@@ -357,7 +339,7 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int wh
     for (size_t i = 0; i < 3; i++)
         for (size_t j = 0; j < 3; j++) SmMom2[i][j]=mMom2[i][j];
 
-    int w=0;
+
 
     TMatrixDSymEigen* eigen3=new TMatrixDSymEigen(SmMom);
     TMatrixDSymEigen* eigen23=new TMatrixDSymEigen(SmMom2);
@@ -390,7 +372,7 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta, int wh
 // Do the general case thrust calculation
 void OPALJet::CalculateBroadening(const std::vector<TVector3>& fsmomenta)
 {
-    double b1=0,b2=0,ml=0,mh=0;
+    double b1=0,b2=0;
 
 
     double totalMomentumb1 = 0.0;

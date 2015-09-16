@@ -8,26 +8,20 @@
 ClassImp(TAdvancedGraph)
 
 
-TAdvancedGraph::TAdvancedGraph(TH1D* a): TGraphAsymmErrors(a) {};
+TAdvancedGraph::TAdvancedGraph(TH1D* a): TGraphAsymmErrors(a) {}
 
-TAdvancedGraph::TAdvancedGraph(): TGraphAsymmErrors() {};
+TAdvancedGraph::TAdvancedGraph(): TGraphAsymmErrors() {}
 
 TAdvancedGraph::TAdvancedGraph(Int_t n, const Double_t* x, const Double_t* y, const Double_t* exl , const Double_t* exh , const Double_t* eyl , const Double_t* eyh ):
-    TGraphAsymmErrors(n,x,y,exl,exh,eyl,eyh) {};
-TAdvancedGraph::TAdvancedGraph(Int_t n) : TGraphAsymmErrors(n) {};
+    TGraphAsymmErrors(n,x,y,exl,exh,eyl,eyh) {}
+TAdvancedGraph::TAdvancedGraph(Int_t n) : TGraphAsymmErrors(n) {}
 int TAdvancedGraph::Merge(TCollection *hlist)
 {
-    // Possible implementation for TH1::Merge; the real one add checks on the ranges ...
-
     if (hlist)
         {
             TAdvancedGraph *xh = 0;
             TIter nxh(hlist);
-            while ((xh = (TAdvancedGraph *) nxh()))
-                {
-                    // Add this histogram to me
-                    Add(this,xh);
-                }
+            while ((xh = (TAdvancedGraph *) nxh()))  Add(this,xh);
         }
     return this->GetN();
 }
@@ -37,8 +31,8 @@ TH1D* TAdvancedGraph::ToTH1D(std::string n,int l)
 {
     int N=this->GetN();
     double* xx=(double*)malloc((N+1)*sizeof(double));
-    double Ax,Bx,Ay,By;
-    double x,y,yel,yeh,xel,xeh;
+    double Ax,Ay;
+    double yel,yeh,xel,xeh;
     for (int i = 0; i < this->GetN() ; ++i)
         {
             this->GetPoint(i,Ax,Ay);
@@ -96,13 +90,11 @@ Bool_t TAdvancedGraph::Add( TAdvancedGraph* A, TAdvancedGraph* B, Double_t cA , 
     for (std::vector<double>::iterator it=allx.begin(); it!=allx.end(); it++)
         if 	(finalx.size()==0) finalx.push_back(*it);
         else if (std::abs(*it-finalx.back())>1e-9&&(std::abs(*it-finalx.back())/std::abs(*it+finalx.back())>1e-3 )  ) finalx.push_back(*it);
-    //else printf("points equal %f %f\n", *it,finalx.back());
-
 
 
     for (unsigned int j=0; j<finalx.size(); j++)
         {
-            double Cx=finalx[j],Cy=0,Cyeh=0,Cyel=0;
+            double Cy=0,Cyeh=0,Cyel=0;
 
             if (A) for (int i = 0; i < A->GetN() ; ++i)
                     {
@@ -185,13 +177,6 @@ void TAdvancedGraph::Divide(TAdvancedGraph* AA, TAdvancedGraph* BB, bool keepcon
     A->Add(AA,BB,1.0,0.0);
     TAdvancedGraph* B=new  TAdvancedGraph();
     B->Add(AA,BB,0.0,1.0);
-
-//puts(">>>>>>>>>+++++++++++++++++++++++++++++++");
-//AA->Print();
-//BB->Print();
-//A->Print();
-//B->Print();
-//puts("<<<<<<<<+++++++++++++++++++++++++++++++");
     std::vector<double>	finaly;
     std::vector<double>	finalyel;
     std::vector<double>	finalyeh;
@@ -203,7 +188,7 @@ void TAdvancedGraph::Divide(TAdvancedGraph* AA, TAdvancedGraph* BB, bool keepcon
     for(Int_t i = 0; i < B->GetN() ; ++i)
 
         {
-            Double_t Ax,Bx,Ay,By,Cx,Cy,Dx,Dy,Cyeh,Cyel,Cxeh,Cxel,Byeh,Byel,Ayeh,Ayel;
+            Double_t Ax,Bx,Ay,By,Cx,Cy,Cyeh,Cyel,Cxeh,Cxel,Byeh,Byel,Ayeh,Ayel;
             A->GetPoint(i,Ax,Ay);
             B->GetPoint(i,Bx,By);
 

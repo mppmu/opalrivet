@@ -113,20 +113,6 @@ sample_info;
 #define OPT_TO_INT2(a,b)    (256*(int)(a)+(int)(b))
 #define mpi2    0.13957018*0.13957018
 
-
-/*
-CDECK  ID>, PXTTH3.
-      SUBROUTINE PXTTH3 (NTRAK,ITKDM,PTRAK,THR,TVEC,IERR)
-
-      INTEGER  IFIRST,ITKDM,NTRAK,NA1,IERR,
-     +         I,J,K,L,M,K1,IX
-      REAL  PTRAK (ITKDM,*),PTOT (3),PT (3),PTM (3),
-     +      PC (3,4),TVEC (*)
-      REAL  T,U,TMAX,THR,PP,SP
-      DOUBLE PRECISION  AX,BX
-      DATA  IFIRST / 0 /
-*/
-
 void DivideByBinWidth(TH1D& H);
 void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                         double lum,double sig ,double w);
@@ -1077,7 +1063,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                 }
             if (algo=="siscone"||algo=="cambridge")
                 {
-                    
+
                     std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
                     double q2=1;//sqrt(tfj->GetClusterSequence()->Q2());
                     for (j=0; j<5; j++)

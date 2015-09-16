@@ -3,9 +3,7 @@
 void create_proof( std::map<std::string,std::string> fMS,  std::map<std::string,int> fMI,std::map<std::string,float> fMF)
 {
     TChain* chainTD = new TChain(fMS["CHAIN"].c_str());
-    TObjArray * parsed;
     std::vector<std::string> pp;
-    Int_t i;
     gSystem->Setenv("HOME",gSystem->GetFromPipe("readlink -f ./"));
     gSystem->GetFromPipe("rm -rf   ./Temp_"+TString(gSystem->GetFromPipe("hostname"))+"/*");
     gSystem->GetFromPipe("mkdir -p ./PAR_"+TString(gSystem->GetFromPipe("hostname"))+"/");

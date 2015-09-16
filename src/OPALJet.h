@@ -44,7 +44,7 @@ public:
     void CalculateT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis);
     void CalculateThrust(const std::vector<TVector3>& fsmomenta);
 
-    void CalculateSphericity(const std::vector<TVector3>& fsmomenta, int where=0);
+    void CalculateSphericity(const std::vector<TVector3>& fsmomenta);
     void CalculateBroadening(const std::vector<TVector3>& momenta);
 
     fastjet::ClusterSequence* GetClusterSequence();

@@ -138,8 +138,8 @@ int main(int argc, char** argv)
         if (std::string(H_it->second->GetName()).find("H_")!=std::string::npos)
             {H_it->second->SetDirectory(fFile); H_it->second->Write(0,TObject::kWriteDelete); }
 
-    printf("%i\n",fHMap.size());
-    printf("%i\n",fGMap.size());
+    printf("%lu\n",fHMap.size());
+    printf("%lu\n",fGMap.size());
     fFile->Close();
 
 }

@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
 
             TCanvas* CH=new TCanvas((*algorithm+"_"+energy).c_str(),(*algorithm+"_"+energy).c_str(),4*1024,4*768);
-            int M=sqrt(quantities.size())+1;
+            const int M=sqrt(quantities.size())+1;
             std::vector<std::string> Q=  quantities;
             for (int j=Q.size(); j<M*M; j++) Q.push_back(Form("Placeholder_%i",j));
             TPad *pads[2*M*M];

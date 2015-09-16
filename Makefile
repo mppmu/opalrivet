@@ -9,7 +9,7 @@ GEN?=pythia8
 CUTS?=central
 NAME=JADE_OPAL_2000_S4300807a
 ARCH          =   $(shell uname -m)
-CXX?=g++ -fdiagnostics-color=never 
+CXX?='g++ -Wextra -Wall -pedantic -Wno-long-long -Wno-variadic-macros'
 include Makefile.syst
 
 warn: 
@@ -243,7 +243,7 @@ bin/$(ARCH)/create_old: dirs src//create_old.cxx src/Helpers.cxx src/Helpers.h g
 
 
 lib/$(ARCH)/libopal.so:  dirs  src/Helpers.cxx src/Helpers.h gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  gen/TAdvancedGraphLinkDef.h
-	$(CXX) -fdiagnostics-color=never   -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopal.so
+	$(CXX) -fdiagnostics-color=never -Wextra -Wall -pedantic -Wno-long-long -Wno-variadic-macros -g -shared -fPIC -pipe  -I. -Isrc -I../ -g  $(shell  root-config --ldflags --glibs --cflags  ) -L$(shell root-config --config | sed 's@\ @\n@g' | grep "\-\-libdir=" | cut -f 2 -d=) -lProof   src/Helpers.cxx  gen/TAdvancedGraphDict.cxx src/TAdvancedGraph.cxx -o lib/$(ARCH)/libopal.so
 	rlibmap -f -o lib/$(ARCH)/libopal.rootmap -l lib/$(ARCH)/libopal.so  -c gen/TAdvancedGraphLinkDef.h
 	
 .rootrc: lib/$(ARCH)/libopal.so

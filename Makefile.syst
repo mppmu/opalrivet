@@ -1,2 +1,2 @@
-CXX=g++
+CXX=g++  -Wextra -Wall -pedantic -Wno-long-long -Wno-variadic-macros
 MNT=

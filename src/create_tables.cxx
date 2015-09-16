@@ -18,7 +18,7 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
     std::vector<std::string> na;
     std::string newcommand="TABG";
     tokenize(fGMap.begin()->first,"_",na);
-    for (int i=2; i<na.size(); i++) newcommand+=na[i];
+    for (unsigned int i=2; i<na.size(); i++) newcommand+=na[i];
     if (command==std::string("")) command=newcommand;
 
 
@@ -90,7 +90,7 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
     std::vector<std::string> na;
     std::string newcommand="TABH";
     tokenize(fHMap.begin()->first,"_",na);
-    for (int i=2; i<na.size(); i++) newcommand+=na[i];
+    for (unsigned int i=2; i<na.size(); i++) newcommand+=na[i];
     if (command==std::string("")) command=newcommand;
 
     replace_all(command,"1","one");
@@ -134,7 +134,7 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
             int firstc=1;
             for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
                 {
-                    double x,y;
+                    double y;
                     y=C->second->GetBinContent(i);
                     y=std::abs(y);
                     if (firstc) { fprintf(f,"$%f:%f$",C->second->GetBinLowEdge(i),C->second->GetBinLowEdge(i)+C->second->GetBinWidth(i)); firstc=0;}
@@ -174,6 +174,7 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
                     A1->Draw();
                     A2->Draw();
                     std::string pname=C->first+A1->GetTitle();
+                    if (command!="") pname=command;
                     replace_all(pname,"1","one");
                     replace_all(pname,"2","two");
                     replace_all(pname,"3","three");

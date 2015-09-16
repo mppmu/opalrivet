@@ -36,7 +36,6 @@ void FillInfo(TSampleInfo* A,std::string prefix)
 int main(int argc ,char** argv)
 {
     if (argc<2) return 1;
-    int i;
 
     TFile* F= new TFile(argv[1],"recreate");
 

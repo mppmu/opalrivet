@@ -63,8 +63,8 @@ int main(int argc, char** argv)
             replace_all(name,"/REF/JADE_OPAL_2000_S4300807a","H_olddata");
             int offsets[]= {9,10,11,12,13,14};
             int energies[]= {91,133,161,172,183,189};
-            for (size_t i = 0; i < 5; i++)
-                for (size_t j = 0; j < 5; j++)
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 5; j++)
                     {
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j],  i+1),Form("_jade_%dGeV_JETR%d",  energies[j],i+2));
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
@@ -81,8 +81,8 @@ int main(int argc, char** argv)
             replace_all(name,"/REF/JADE_OPAL_2000_S4300807a","olddata");
             int offsets[]= {9,10,11,12,13,14};
             int energies[]= {91,133,161,172,183,189};
-            for (size_t i = 0; i < 5; i++)
-                for (size_t j = 0; j < 5; j++)
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 5; j++)
                     {
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]  ,i+1),Form("_jade_%dGeV_JETR%d",  energies[j],i+2));
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
@@ -101,7 +101,7 @@ int main(int argc, char** argv)
         if (std::string(H_it->second->GetName()).find("H_olddata_")!=std::string::npos)
             {H_it->second->SetDirectory(fFile); H_it->second->Write(0,TObject::kWriteDelete); }
 
-    printf("%i\n",fHMap.size());
-    printf("%i\n",fGMap.size());
+    printf("%lu\n",fHMap.size());
+    printf("%lu\n",fGMap.size());
     fFile->Close();
 }

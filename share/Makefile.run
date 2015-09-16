@@ -1,10 +1,10 @@
 NAME=JADE_OPAL_2000_S4300807a
 #GEN=sherpa
-#GEN=herwig++
+#GEN=herwi$(CXX)
 #GEN=pythia8
 #GEN=evtgen
 #GEN?=pythia8
-
+CXX=g++ -Wextra -Wall -pedantic -Wno-long-long -Wno-variadic-macros
 all: dirs plots ref/$(NAME).yoda
 
 src/Rivet$(NAME).cc: ../external/Rivet/src/Analyses/$(NAME).cc
@@ -34,8 +34,8 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 	
 		rm -f  gen/LinkDef.h
 		
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/OPALJet.cxx -o obj/OPALJet.o
-		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/OPALJet.o  -o lib/libOPALJet.so
+		$(CXX) -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/OPALJet.cxx -o obj/OPALJet.o
+		$(CXX) -fPIC -shared $(shell root-config --ldflags --libs )   obj/OPALJet.o  -o lib/libOPALJet.so
 
 
 		@rm -f TAdvancedGraphLinkDef.h
@@ -44,9 +44,9 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		@echo  "#endif                ">> TAdvancedGraphLinkDef.h
 		@rootcint -f src/TAdvancedGraphDict.cxx -c  ./inc/TAdvancedGraph.h TAdvancedGraphLinkDef.h
 
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraphDict.cxx -o obj/TAdvancedGraphDict.o
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraph.cxx -o obj/TAdvancedGraph.o
-		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TAdvancedGraph.o obj/TAdvancedGraphDict.o -o lib/libTAdvancedGraph.so
+		$(CXX) -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraphDict.cxx -o obj/TAdvancedGraphDict.o
+		$(CXX) -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TAdvancedGraph.cxx -o obj/TAdvancedGraph.o
+		$(CXX) -fPIC -shared $(shell root-config --ldflags --libs )   obj/TAdvancedGraph.o obj/TAdvancedGraphDict.o -o lib/libTAdvancedGraph.so
 
 
 
@@ -56,9 +56,9 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		@echo  "#endif                ">> TSampleInfoLinkDef.h
 		@rootcint -f src/TSampleInfoDict.cxx -c  ./inc/TSampleInfo.h TSampleInfoLinkDef.h
 
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TSampleInfoDict.cxx -o obj/TSampleInfoDict.o
-		g++ -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TSampleInfo.cxx -o obj/TSampleInfo.o
-		g++ -fPIC -shared $(shell root-config --ldflags --libs )   obj/TSampleInfo.o obj/TSampleInfoDict.o -o lib/libTSampleInfo.so
+		$(CXX) -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TSampleInfoDict.cxx -o obj/TSampleInfoDict.o
+		$(CXX) -fPIC -shared $(shell root-config --cflags ) -I. -I./inc src/TSampleInfo.cxx -o obj/TSampleInfo.o
+		$(CXX) -fPIC -shared $(shell root-config --ldflags --libs )   obj/TSampleInfo.o obj/TSampleInfoDict.o -o lib/libTSampleInfo.so
 
 
 

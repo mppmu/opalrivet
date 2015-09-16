@@ -18,7 +18,7 @@ TAdvancedGraph* GetSystematicsGraph(std::vector<TAdvancedGraph*> GG,std::string 
             GG[0]->GetPoint(i,x,y);
             R->SetPoint(i,x,0);
             R->SetPointError(i,0,0,0,0);
-            for (int j=1; j<GG.size(); j++)
+            for (unsigned int j=1; j<GG.size(); j++)
                 {
                     double xj,yj;
                     GG[j]->GetPoint(i,xj,yj);
@@ -60,19 +60,19 @@ std::map<std::string,TAdvancedGraph*> GetGraphs(std::string file)
 TH1D* GetSystematicsHisto(std::vector<TH1D*> HH,std::string name)
 {
     TH1D* R= new TH1D();
-    if (!HH[0]) printf("Strange %i\n",HH.size());
+    if (!HH[0]) printf("Strange %lu\n",HH.size());
     else
         R= (TH1D*)(HH[0]->Clone());
 
     R->SetName(name.c_str());
     for (int i=0; i<HH[0]->GetNbinsX(); i++)
         {
-            double x,y;
+            double y;
             y=HH[0]->GetBinContent(i);
             R->SetBinContent(i,0);
-            for (int j=1; j<HH.size(); j++)
+            for (unsigned int j=1; j<HH.size(); j++)
                 {
-                    double xj,yj;
+                    double yj;
                     yj=HH[j]->GetBinContent(i,yj);
                     R->SetBinError(i,std::max(R->GetBinError(i),y-yj),std::max(R->GetBinError(i),yj-y));
                 }
