@@ -46,8 +46,8 @@ void create_proof( std::map<std::string,std::string> fMS,  std::map<std::string,
                     if (!R) printf("No such sample %s\n",it->c_str());
                     else
                         {
-                            std::vector<std::string> qq=return_tokenize(R->fFiles," ");
-                            for (std::vector<std::string>::iterator it2=qq.begin(); it2!=qq.end(); it2++)
+                            //std::vector<std::string> qq=return_tokenize(R->fFiles," ");
+                            for (std::vector<std::string>::iterator it2=R->fFiles.begin(); it2!=R->fFiles.end(); it2++)
                                 {
                                     chainTD->Add((fMS["PREFIX"]+*it2).c_str());
                                     printf("%s\n",(fMS["PREFIX"]+*it2).c_str());

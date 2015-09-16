@@ -134,15 +134,15 @@ output/$(GEN)_%.root: dirs $(SOURCES)	 bin/$(ARCH)/opal$(GEN) run/Run$(GEN).dat_
 run/Runpythia8.dat_%: 	bin/$(ARCH)/opal$(GEN)
 		mkdir -p run		
 		cp share/Runpythia8.dat run/Runpythia8.dat_$*		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  0.5*$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat_$*
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  1.0*$* | bc -qi | tail -n 1)'@g' run/Runpythia8.dat_$*
 
 run/Runpythia8_nohad.dat_%: share/Runpythia8_nohad.dat
 		cp share/Runpythia8_nohad.dat run/Runpythia8_nohad.dat		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat_$*
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  1.0*$* | bc -qi | tail -n 1)'@g' run/Runpythia8_nohad.dat_$*
 
 run/Runpythia8_evtgen.dat_%: share/Runpythia8_evtgen.dat
 		cp share/Runpythia8_evtgen.dat run/Runpythia8_evtgen.dat_$*		
-		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  $*+$* | bc -qi | tail -n 1)'@g' run/Runpythia8_evtgen.dat_$*
+		sed -i 's@.*Beams:eCM.*@Beams:eCM = '$(shell echo  1.0*$* | bc -qi | tail -n 1)'@g' run/Runpythia8_evtgen.dat_$*
 
 
 run/Runsherpa.dat_%: share/Runsherpa.dat

@@ -5,23 +5,29 @@
 class TSampleInfo: public TNamed
 {
 public:
-    TSampleInfo();// : TGraphAsymmErrors(n){};
-    //TAdvancedGraph(Int_t n, const Double_t* x, const Double_t* y, const Double_t* exl = 0, const Double_t* exh = 0, const Double_t* eyl = 0, const Double_t* eyh = 0);
-    TSampleInfo(double,const char*,const char*,const char*,const char*,const char*,int,int,int,double,double,double);
-    void Print();
-    double fE;
-    //  std::string fName;
-    std::string      fPeriod;
-    std::string      fType;
-    std::vector<std::string>      fProcesses;
-    std::string      fFiles;
+    TSampleInfo();
+    TSampleInfo(const char*,double, double,const char*,const char*,const char*,const char*,const char*,int,int,int,double,double,double);
+
     int          fEvents;
     int          fRunsBegin;
     int          fRunsEnd;
     double       fSigma;
     double       fLuminocity;
-    double fWeight;
-    std::string fEnergyString;
+    double       fWeight;
+    double       fEl;
+    double       fEh;
+
+    std::string      fGenerator;
+    
+    //  std::string fName;
+    std::string      fPeriod;
+    std::string      fType;
+    std::string      fEnergyString;
+    std::string      fProcesses;
+    std::vector<std::string>      fFiles;
+
+    void Print();
+
     ~TSampleInfo();
     ClassDef(TSampleInfo,1)
 

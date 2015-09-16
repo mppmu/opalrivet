@@ -1,5 +1,8 @@
 #include "Helpers.h"
 
+
+
+
 //http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
 std::vector<std::string> return_tokenize(const std::string& str, const std::string& delimiters )
 {
@@ -54,6 +57,43 @@ void replace_all(std::string& str, const std::string& from, const std::string& t
 }
 
 
+
+void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
+                     double lum,double sig ,double w)
+{
+    A.fEl=El;
+    A.fEh=Eh;
+    A.fName=std::string(name);
+    A.fPeriod=std::string(pr);
+    A.fProcesses=std::string(procs);
+    A.fType=std::string(type);
+    A.fEvents=ev;
+    A.fRunsBegin=rb;
+    A.fRunsEnd=re;
+    A.fSigma=sig;
+    A.fLuminocity=lum;
+    A.fWeight=w;
+    A.fGenerator=std::string("opal");
+    A.fFiles=return_tokenize(files," ");
+    //char a[20];
+    //sprintf(a,"%i",(int)(A.fE + 0.5));
+    A.fEnergyString=std::string(Es);
+    if (prefix!=std::string(""))
+    {
+    TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
+    TChain* C= new TChain("h10");
+    for (std::vector<std::string>::iterator it=A.fFiles.begin(); it!=A.fFiles.end(); it++)
+        C->Add((prefix+*it).c_str());
+    C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A.fEl),0.5*(A.fEh)));
+    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
+    TOTAL->Add(RUNHIST);
+    A.fRunsBegin=TOTAL->FindFirstBinAbove(0);
+    A.fRunsEnd=TOTAL->FindLastBinAbove(0);
+    if (A.fRunsEnd<A.fRunsBegin) puts("Wrong run numbers of energy");
+    A.fEvents=TOTAL->GetEntries();
+    TOTAL->Delete();
+    }
+}
 
 
 #ifndef SIMPLE_HELPERS_ONLY

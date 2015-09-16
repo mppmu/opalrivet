@@ -67,6 +67,28 @@ static const Int_t nt_maxh= 2004;
 void tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens);
 std::vector<std::string> return_tokenize(const std::string& str, const std::string& delimiters );
 void replace_all(std::string& str, const std::string& from, const std::string& to);
+typedef struct sample_info_
+{
+
+
+    int          fEvents;
+    int          fRunsBegin;
+    int          fRunsEnd;
+
+    float       fSigma;
+    float       fLuminocity;
+    float       fWeight;
+    float       fEl;
+float       fEh;
+    std::string      fGenerator;
+    std::string      fName;
+    std::string      fPeriod;
+    std::string      fType;
+    std::string      fEnergyString;
+    std::string      fProcesses;
+    std::vector<std::string>      fFiles;
+}
+sample_info;
 
 #ifndef SIMPLE_HELPERS_ONLY
 
@@ -106,6 +128,8 @@ CDECK  ID>, PXTTH3.
 */
 
 
+void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,double Eh,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
+                     double lum,double sig ,double w);
 
 
 
@@ -119,6 +143,12 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
     printf("NOptions used: %zu\n",options.size());
     TH1::SetDefaultSumw2(kTRUE);
+
+
+    A->fHMap.insert(std::pair<std::string,TH1D*>("weight_reco",new TH1D("weight_reco","weight_reco",30,0.0,30.0)));
+    A->fHMap.insert(std::pair<std::string,TH1D*>("weight_true",new TH1D("weight_true","weight_true",30,0.0,30.0)));
+    A->fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
+
 
     std::string prefix;
     prefix=std::string("H_")+Iprefix;
@@ -495,6 +525,15 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     std::string prefix;
     prefix=std::string("H_")+Iprefix;
 
+
+
+    A->fHMap.insert(std::pair<std::string,TH1D*>("weight_reco",new TH1D("weight_reco","weight_reco",30,0.0,30.0)));
+    A->fHMap.insert(std::pair<std::string,TH1D*>("weight_true",new TH1D("weight_true","weight_true",30,0.0,30.0)));
+    A->fHMap.insert(std::pair<std::string,TH1D*>("weight_before_selection",new TH1D("weight_before_selection","weight_before_selection",30,0.0,30.0)));
+
+
+
+
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12 ,
                    0.14, 0.16, 0.18, 0.20, 0.23, 0.27, 0.32,
                    0.40, 0.50
@@ -739,12 +778,12 @@ void JADEObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 
 
 template <class EXA>
-void BookHistograms(EXA * A,TSampleInfo B, std::string Iprefix="")
+void BookHistograms(EXA * A,std::string BfPeriod, std::string Iprefix="")
 {
     std::set<std::string> foo;
-    if (B.fPeriod==std::string("kLEP1")||B.fPeriod==std::string("kLEP2")) { OPALObs(A,foo,Iprefix); return;}
-    if (B.fPeriod==std::string("kJADE"))           {JADEObs(A,foo,Iprefix); return;}
-    printf("UNKNOWN FILL OPTION %s\n",B.fPeriod.c_str());
+    if (BfPeriod==std::string("kLEP1")||BfPeriod==std::string("kLEP2")) { OPALObs(A,foo,Iprefix); return;}
+    if (BfPeriod==std::string("kJADE"))           {JADEObs(A,foo,Iprefix); return;}
+    printf("UNKNOWN FILL OPTION %s\n",BfPeriod.c_str());
 }
 
 #ifndef USE_RIVET
@@ -959,7 +998,7 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
 #endif
 
 
-template <class EXA> bool MyAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
+template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
 {
     bool PASSED=false;
     std::string H_prefix=std::string("H_")+Iprefix;

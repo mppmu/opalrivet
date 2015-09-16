@@ -8,36 +8,33 @@ ClassImp(TSampleInfo)
 TSampleInfo::TSampleInfo() {}
 TSampleInfo::~TSampleInfo() {}
 
-TSampleInfo::TSampleInfo(double E,const char* name,const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
+TSampleInfo::TSampleInfo(const char* Es,double El, double Eh,const char* name, const char* type,const char* procs,const char* pr,const char* files,int ev,int rb,int re,
                          double lum,double sig ,double w)
 {
     //fName=name;
-    SetName(name);
-    fE=E;
+    SetName(name);    
+    fEl=El;
+    fEh=Eh;
     fPeriod=pr;
     fType=type;
-    fFiles=files;
+    fFiles=return_tokenize(std::string(files)," ");;
     fEvents=ev;
     fRunsBegin=rb;
     fRunsEnd=re;
     fSigma=sig;
     fLuminocity=lum;
     fWeight=w;
-    char a[20];
-    fProcesses=return_tokenize(std::string(procs),":");
-
-    sprintf(a,"%i",(int)(fE + 0.5));
-
-    fEnergyString=std::string(a);
-
-
+    //char a[20];
+    fGenerator=std::string("opal");
+    fProcesses=std::string(procs);
+    fEnergyString=std::string(Es);
 }
 void TSampleInfo::Print()
 {
 
-    printf("%6.2f fPeriod=%s %s %8d %8d %8d fSigma=%6.2f fLuminocity=%6.2f fWeight=%6.2f fFiles=%.200s\n",
+    printf("%6.2f %6.2f fPeriod=%s %s %8d %8d %8d fSigma=%6.2f fLuminocity=%6.2f fWeight=%6.2f fFiles=%.200s\n",
 
-           fE,
+           fEl,fEh,
            //  std::string fName;
            fPeriod.c_str(),
            fType.c_str(),
@@ -46,7 +43,7 @@ void TSampleInfo::Print()
            fRunsEnd,
            fSigma,
            fLuminocity,
-           fWeight, fFiles.c_str());
+           fWeight, fFiles[0].c_str());
 
 }
 #endif

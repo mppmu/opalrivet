@@ -15,16 +15,12 @@ class TSampleInfo;
 class TUserProofData
 {
 public :
-    std::string fGenerator;
-    std::vector<std::string> fDataType;
     std::vector<std::string> fAlgorithms;
     std::map<std::string,TAdvancedGraph*> fGMap;
     std::map<std::string,TH1D*> fHMap;
     TProofOutputFile *fProofFile;
     TSampleInfo *fSampleInfo;
     TFile *fFile;
-    double fE;
-    std::string fEnergyString;
     TUserProofData();
     ~TUserProofData();
 
