@@ -60,9 +60,10 @@ tar:  Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfi
 	rm -rf TAR
 
 
-figures=Figures/$(newname)-figure0.eps  Figures/$(newname)-figure0.pdf Figures/$(newname)-figure1.eps  Figures/$(newname)-figure1.pdf 
-tables=Tables/constants.txt Tables/ee10_tab.txt Tables/eez0_tab.txt Tables/heradis_tab.txt Tables/heraphp_tab.txt Tables/lhcb_tab.txt Tables/average_tab2.txt Tables/average_cov.txt Tables/excited_tab.txt Tables/pdg_tab.txt
-constanttables=ConstantTables/pp_ALICE_7TeV.txt ConstantTables/pp_ATLAS_7TeV.txt ConstantTables/av_David.txt ConstantTables/pp_CDF_2TeV.txt
+figures=
+tables=
+constanttables=
+
 
 
 $(latexfile).dvi :  $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex  $(latexfile).tex zeus_paper.cls
