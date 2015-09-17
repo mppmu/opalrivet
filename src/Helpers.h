@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-#ifndef ZROOT_H
-#define ZROOT_H
+#ifndef HELPERS_H
+#define HELPERS_H
 #include "TApplication.h"
 #include "TCanvas.h"
 #include "TChain.h"
@@ -48,7 +48,7 @@
 #include <TVector3.h>
 #include <TCanvas.h>
 #include "TSampleInfo.h"
-#endif
+
 
 #include <vector>
 #include <map>
@@ -110,7 +110,6 @@ sample_info;
 
 #define G_INSERTER_DBL_LOG10(a,b,c)     {double temp2[]=c;  for (int iii=0;iii<sizeof(temp2)/sizeof(double)-1;iii++) temp2[iii]=pow(10,temp2[iii]); const double* temp=temp2;   G_inserter(a,b,sizeof(temp2)/sizeof(double)-1,temp); }
 #define G_INSERTER_INT(a,b,c)     { const   int temp[]=c;     G_inserter(a,b,sizeof(temp)/sizeof(int)-1,temp);   }
-#define OPT_TO_INT(a)    (256*((int)(a[0]))+(int)(a[1]))
 #define OPT_TO_INT2(a,b)    (256*(int)(a)+(int)(b))
 #define mpi2    0.13957018*0.13957018
 
@@ -125,7 +124,7 @@ void FillWithLabel(TH1D* H,std::string l,double weight);
 template <class EXA>
 void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 {
-    printf("NOptions used: %zu\n",options.size());
+    printf("Number of options used: %zu\n",options.size());
     TH1::SetDefaultSumw2(kTRUE);
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_reco",new TH1D("weight_reco","weight_reco",30,0.0,30.0)));
     A->fHMap.insert(std::pair<std::string,TH1D*>("weight_true",new TH1D("weight_true","weight_true",30,0.0,30.0)));
@@ -617,40 +616,6 @@ void BookHistograms(EXA * A,std::string BfPeriod, std::string Iprefix="")
     printf("UNKNOWN FILL OPTION %s\n",BfPeriod.c_str());
 }
 
-#ifndef USE_RIVET
-template <class EXA> Float_t costt(EXA* A) { return A->Tvectc[2]; }
-template <class EXA> Float_t tdmt(EXA* A) { return A->Tdmt; }
-template <class EXA>
-bool LEP1Preselection(EXA* A,std::map<std::string,double> cuts)
-{
-    bool result= true;
-    if( A->Icjst != int(cuts["Icjst"]) || A->Iebst != int(cuts["Iebst"]) ) result= false;
-    if( A->Itkmh != int(cuts["Itkmh"])) result= false;
-    return result;
-}
-template <class EXA>
-bool LEP1Selection(EXA* A,std::map<std::string,double> cuts)
-{
-    bool result= true;
-    if( !LEP1Preselection(A,cuts) ) result= false;
-    if( A->Ntkd02 < int(cuts["Ntkd02"]) ) result= false;
-    if( costt(A) > cuts["costt"] ) result= false;
-    return result;
-}
-template <class EXA>
-bool MCNonRad(EXA* A,std::map<std::string,double> cuts)
-{
-    bool result= false;
-    if( (Int_t) A->Inonr == int(cuts["Inonr"]) ) result= true;
-    return result;
-}
-template <class EXA>
-Float_t dmt_ymerge(EXA* A, Int_t njet )
-{
-    if( njet > 0 && njet <= A->Nxjdmt ) return A->Yddmt[njet-1];
-    else return -1;
-}
-#endif
 
 template <class EXA>
 void GetP(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
@@ -800,6 +765,14 @@ void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack
     ntrack= ifill;
     return;
 }
+#else
+template <class EXA>
+void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
+{
+puts("Dumb implementaton of GetMC1!");
+}
+#endif
+
 
 template <class EXA>
 std::vector<TLorentzVector> GetMC2(EXA*A)
@@ -820,7 +793,7 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
     return vtlv2;
 }
-#endif
+
 template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
 {
     bool PASSED=false;
@@ -971,11 +944,9 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
         case 	(OPT_TO_INT2('m','t')):
             GetMt(A, ptrack, nt_maxtrk, ntrack );
             break;
-#ifdef USE_RIVET
         case 	(OPT_TO_INT2('m','c')):
             GetMC1(A, ptrack, nt_maxtrk, ntrack );
             break;
-#endif
         case 	(OPT_TO_INT2('x','x')):
             printf("Empty option %s\n",OPT.c_str());
             break;
@@ -988,4 +959,5 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     for( Int_t itrk= 0; itrk < ntrack; itrk++ ) vtlv.push_back( TLorentzVector( ptrack[itrk][0], ptrack[itrk][1], ptrack[itrk][2], ptrack[itrk][3] ));
     return vtlv;
 }
+#endif
 #endif

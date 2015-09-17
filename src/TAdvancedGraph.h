@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-#ifndef UBACKGROUND_H
-#define UBACKGROUND_H
+#ifndef TADVANCEDGRAPH_H
+#define TADVANCEDGRAPH_H
 
 #include "TGraphAsymmErrors.h"
 #include "TH1D.h"

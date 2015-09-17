@@ -22,6 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+#ifndef OPALJET_CXX
+#define OPALJET_CXX 
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"
@@ -476,3 +478,4 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
             fThrustAxes.push_back(TVector3(0,0,0));
         }
 }
+#endif

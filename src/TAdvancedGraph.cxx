@@ -22,7 +22,6 @@
 #ifndef TADVANCEDGRAPH_CXX
 #define TADVANCEDGRAPH_CXX
 #include "TAdvancedGraph.h"
-//#include "TIter.h"
 #include "TCollection.h"
 #include "TH1D.h"
 #include <algorithm>

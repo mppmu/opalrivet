@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-#ifndef userproofdata_h
-#define userproofdata_h
+#ifndef TUSERPROOFDATA_H
+#define TUSERPROOFDATA_H
 #include <TROOT.h>
 #include <TChain.h>
 #include <TObject.h>

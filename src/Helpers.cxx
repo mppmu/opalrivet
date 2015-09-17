@@ -19,6 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
+#ifndef HELPERS_CXX
+#define HELPERS_CXX  
 #include "Helpers.h"
 
 
@@ -160,4 +162,5 @@ void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s,
     A[t]->SetName(t.c_str());
     //gDirectory->Append(A[t]);
 }
+#endif
 #endif

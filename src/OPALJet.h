@@ -22,8 +22,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301, USA.
  */
-#ifndef TFASTJET_HH
-#define TFASTJET_HH
+#ifndef OPALJET_HH
+#define OPALJET_HH
 #include <vector>
 #include <map>
 #include <string>
