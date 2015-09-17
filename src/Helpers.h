@@ -23,6 +23,7 @@
 #define HELPERS_H
 #include "TApplication.h"
 #include "TCanvas.h"
+#include "TStyle.h"
 #include "TChain.h"
 #include "TEntryList.h"
 #include "TF1.h"
@@ -765,14 +766,6 @@ void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack
     ntrack= ifill;
     return;
 }
-#else
-template <class EXA>
-void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
-{
-puts("Dumb implementaton of GetMC1!");
-}
-#endif
-
 
 template <class EXA>
 std::vector<TLorentzVector> GetMC2(EXA*A)
@@ -793,6 +786,25 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
     return vtlv2;
 }
+
+#else
+template <class EXA>
+void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
+{
+puts("Dumb implementaton of GetMC1!");
+}
+template <class EXA>
+std::vector<TLorentzVector> GetMC2(EXA*A)
+{
+puts("Dumb implementaton of GetMC1!");
+std::vector<TLorentzVector> Af;
+return Af;
+}
+
+#endif
+
+
+
 
 template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
 {

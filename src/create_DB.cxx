@@ -522,6 +522,17 @@ int main(int argc ,char** argv)
         {
             FillInfo(*it,prefix);
             (*it)->Write();
+            
+            
+            if ((*it)->fType=="DATA")
+            {
+				
+			printf("OK 19%s & $%f-%f$ & $%f$ & $%f$ \n",(*it)->fEnergyString.c_str(),(*it)->fEl,(*it)->fEh,
+			0.5*((*it)->fEl+(*it)->fEh),(*it)->fLuminocity);
+				
+			}	
+            
+            
         }
     //db->Write("mymap",1);
     F->Close();

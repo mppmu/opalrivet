@@ -4,6 +4,19 @@
 \usepackage{authblk}
 \usepackage{lineno}
 \usepackage{hyperref}
+
+\usepackage[utf8]{inputenc}
+\usepackage{supertabular}
+\usepackage{graphicx}
+\usepackage{geometry}
+\newcommand{\olddata}{Published}
+\newcommand{\pythia}{Pythia}
+\newcommand{\herwig}{Herwig}
+\newcommand{\corrected}{AV implementation}
+\newcommand{\manipcorrected}{Results of {\bf SHAPE}}
+
+
+
 \linenumbers
 \title{Measurements of jet rates at LEP with the OPAL detector}
 \author[a]{OPAL Collaboration}
@@ -17,6 +30,11 @@
 \renewcommand\Authands{\\and\\}
 \include{opalJRT-tab}
 \include{opalJRT-fig}
+\include{opalJRT-auth}
+
+\input{../../output/tables_161.tex}
+
+
 \newcommand{\SECtitle}{
 \abstract{
 Jet rates
@@ -39,6 +57,7 @@ Jet rates
 \begin{document}
 \SECtitle
 \clearpage
+\authorlist
 \pagenumbering{arabic}
 \pagestyle{plain}
 \include{opalJRT-txt}

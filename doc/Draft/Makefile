@@ -25,10 +25,10 @@ figures_tikz: $(latexfile)-dia.tex
 	mv $(latexfile)"-dia-figure1.pdf" Figures/$(newname)-figure1.pdf
 	rm $(latexfile)"-dia-figure1".*
 
-tar:  Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex  $(latexfile).tex zeus_paper.cls
+tar:  Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex $(latexfile)-auth.tex  $(latexfile).tex zeus_paper.cls
 	rm -rf TAR
 	mkdir -p TAR
-	cp Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex  $(latexfile).tex zeus_paper.cls TAR	
+	cp Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex $(latexfile)-auth.tex  $(latexfile).tex zeus_paper.cls TAR	
 	sed -i 's@ConstantTables/@./@g'  TAR/*tex
 	sed -i 's@ConstantTables/@./@g'  TAR/Makefile
 	sed -i 's@Tables/@./@g'  TAR/*tex
@@ -49,7 +49,7 @@ tar:  Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfi
 	mv TAR/$(latexfile).tex TAR/$(newname).tex
 	mv TAR/$(latexfile)-txt.tex TAR/$(newname)-txt.tex
 	mv TAR/$(latexfile)-tab.tex TAR/$(newname)-tab.tex
-	mv TAR/$(latexfile)-fig.tex TAR/$(newname)-fig.tex
+	mv TAR/$(latexfile)-fig.tex $(latexfile)-auth.tex TAR/$(newname)-fig.tex
 #####-->A trick to get bib file
 	$(MAKE) -C TAR
 	mv TAR/$(newname).bbl  TAR/$(newname).bbl.temp
@@ -66,7 +66,7 @@ constanttables=
 
 
 
-$(latexfile).dvi :  $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex  $(latexfile).tex zeus_paper.cls
+$(latexfile).dvi :  $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex $(latexfile)-auth.tex  $(latexfile).tex zeus_paper.cls
 	$(TEX) $(latexfile)
 	$(TEX) $(latexfile)
 	$(BIB) $(latexfile)
