@@ -203,13 +203,11 @@ Bool_t opalanalysis::Notify()
 {
     TString currentfile=gSystem->BaseName(fChain->GetCurrentFile()->GetName());
     TFile* theDB=new TFile("./opalanalysis/DB.root","r");
-
     std::vector<std::string> S=return_tokenize(SAMPLES, ":");
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++)
         {
             TSampleInfo* R=(TSampleInfo*)theDB->Get(it->c_str());
-            if (!R)
-                {printf("No such sample %s\n",it->c_str());  exit(1);}
+            if (!R) {printf("No such sample %s\n",it->c_str());  exit(1);}
             else if ((fSampleInfo->fEnergyString==R->fEnergyString)&&( std::find(R->fFiles.begin(), R->fFiles.end(), std::string(currentfile.Data()))!=R->fFiles.end() ))
                 {
                     printf("Found file %s in sample %s with energy %s\n",std::string(currentfile.Data()).c_str(),R->GetName(),R->fEnergyString.c_str());
