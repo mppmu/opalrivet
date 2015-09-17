@@ -93,7 +93,7 @@ of the used samples is given in Tab.~\ref{tab:luminocity}.
 
 
 For the background estimation and detector corrections the Monte Carlo samples 
-produced with Pythia6, Herwig, Ariadne and KoralW~\cite{Skrzypek:1995wd} generators 
+produced with Pythia6.1, Herwig6.2, Ariadne and, grc4f 2.1  KoralW1.42~\cite{Skrzypek:1995wd} generators 
 and passed throught OPAL detector simulation were used.
 A short overview of the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}.
 \TABmontecarlo
@@ -103,13 +103,24 @@ A short overview of the used Monte Carlo samples is given in Tab.~\ref{tab:monte
 \label{sec:selection}
 The performed event selection is similar to one used in Ref.~\cite{}.
 
-A minimum five tracks were required in the event.
+The events where tracking system , electromagnetic calorimeter or the trigger system were inoperational are rejected.
+The tracks with small transverse momenta $p_t<0.10\GeV$,{\bf $0.15?$} the minimal  distance to the 
+collision axis more than $2cm$ or minimal distance in $z$ direction to the nominal interaction point less that $25cm$
+were excluded from the consideration. 
+Energy clusters in the electromagnetic calori
+meter were required to have energies exceeding $0.10(0.25) \GeV$ in 
+the barrel (endcap) region of the detector.
+
+
+For the further analysis only the
+Only events with more than five reconstructed tracks were accepted.
+
 The events were required to have $|\cos\theta|<0.95$, where the  
 $\theta|$ is the polar angle of the thrust axis calculated from all track
 and cluster objects.
 
-To reject the background event the cuts on the probaility of $w$ were applied.
-The formae is calculated accordingly to the Ref.~.
+To reject the background event the cuts on the probaility of 4-fermion event were applied.
+The probability estimation is  calculated in the same way as in Ref.~\cite{Abbiendi:2000eg}.
 
 
 
@@ -151,16 +162,16 @@ the simulated detector level distributions of the $e^-e^+ \rightarrow llqq$ even
 and the generator level distributions of the same events.
 Finaly the distributions were normalized to the number of weighted entries.
 
-The Figs.~\ref{fig:example}\ref{fig:example}\ref{fig:example}\ref{fig:example}
+The Figs.~\ref{fig:durhamexample}\ref{fig:jadeexample}\ref{fig:sisconeexample}
 present the obtained distributions for the studied clustering algorithms.
-\FIGexample
-\FIGexample
-\FIGexample
-\FIGexample
+\FIGdurhamexample
+\FIGjadeexample
+%\FIGcambridgeexample
+\FIGsisconeexample
 The corresponding numerical values can be found in App.~\ref{sec:appendixA}
 in Tabs.~\ref{tab:example}. The  presented systematic uncertainties are discussed below.
 
-
+\FloatBarrier
 \section{Systematic uncertainties}
 \label{sec:systematic}
 It was assumed the
@@ -187,7 +198,7 @@ every bin of the reference distribution.
 
 
 %\TABGdurhamonesixoneJETRthree{$y$ cut}{Durham 161 JETR3}
-%\TABGdurhamonesixoneJETRthree{$y$ cut}{Durham 161 JETR3}
+
 %\TABGdurhamoneseventwoJETRthree{$y$ cut}{Durham 172 JETR3}
 %\FIGdurhamonesixoneJETRtwo{Durham 161 JETR2}
 %\FIGdurhamoneseventwoJETRfour{Durham 172 JETR3}
@@ -229,11 +240,12 @@ We thank
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{AppendixA}
 \label{sec:appendixA}
-\TABexample
-\TABexample
-\TABexample
-\TABexample
-\TABexample
-
+%\TABexample
+%\TABexample
+%\TABexample
+%\TABexample
+%\TABexample
+\input{../../output/tables_161.tex}
+\TABGdurhamonesixoneJETRthree{$y$ cut}{Durham 161 JETR3}
 
 \end{appendices}
