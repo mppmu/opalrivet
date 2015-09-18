@@ -548,7 +548,7 @@ Year & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\GeV$ &
             (*it)->Write();
             
             
-            if ((*it)->fType=="DATA")
+            if (((*it)->fType=="DATA") &&((*it)->fEa>100.0))
             {
 			std::string year;
 			for (std::map<std::pair<int,int>,std::string>::iterator r=run_to_year.begin();r!=run_to_year.end();r++)

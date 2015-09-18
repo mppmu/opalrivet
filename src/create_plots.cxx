@@ -72,11 +72,14 @@ int main(int argc, char* argv[])
                 {
                     int i=z%M;
                     int j=z/M;
-                    pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.3)/M,(i+1.0)/M,(j+1.0)/M);
+                    pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.35)/M,(i+1.0)/M,(j+1.0)/M);
                     pads[2*z]->SetBottomMargin(0);
+                    pads[2*z]->SetRightMargin(0.05);
                     pads[2*z]->Draw();
-                    pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.3)/M);
+                    pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.35)/M);
                     pads[2*z+1]->SetTopMargin(0);
+                               pads[2*z+1]->SetRightMargin(0.05);
+                    pads[2*z+1]->SetBottomMargin(0.25);
                     pads[2*z+1]->Draw();
                 }
 
@@ -95,7 +98,7 @@ int main(int argc, char* argv[])
                     pads[2*icanH+1]->SetLogx();
 
 
-                    TLegend* LH= new TLegend(0.75,0.68,0.95,0.9);
+                    TLegend* LH= new TLegend(0.72,0.68,0.95,0.9);
                     color=0;
 
                     if (//(*algorithm=="durham"||*algorithm=="jade"||*algorithm=="eecambridge"||*algorithm=="siscone")||
@@ -116,10 +119,11 @@ int main(int argc, char* argv[])
 
 
 
-                                            fHMap[name]->SetTitle(";;Fraction");
+                                            fHMap[name]->SetTitle(Form(";;#frac{1}{#sigma}#frac{d#sigma}{d%s}",quantity->c_str()));
                                             fHMap[name]->Draw(hoption.c_str());
 
-
+                                            fHMap[name]->GetYaxis()->SetTitleSize(0.08);
+                                            fHMap[name]->GetYaxis()->SetTitleOffset(0.45);
 
 
                                             if (fHMap.find(name+"_systematics")!=fHMap.end())
@@ -158,7 +162,18 @@ int main(int argc, char* argv[])
                                                     temp->Draw(hoption.c_str());
                                                     temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                                     if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
-                                                    temp->GetYaxis()->SetRangeUser(0.5,1.5);
+                                                    temp->GetYaxis()->SetRangeUser(0.05,1.95);
+                                                    
+                                                    
+                                                 temp->GetYaxis()->SetLabelSize(0.09);
+                                                temp->GetXaxis()->SetLabelSize(0.09);                                                
+                                                temp->GetXaxis()->SetTitleSize(0.10);
+                                                    
+                                                temp->GetYaxis()->SetRangeUser(0.05,1.95);
+                                                temp->GetXaxis()->SetTitle(quantity->c_str());
+                                                temp->GetYaxis()->SetTitle();
+                                                    
+
                                                     TF1 *fa1 = new TF1("fa1","1",0.000001*sqrt(10),100);
                                                     fa1->SetLineColor(usecolors[0]);
                                                     fa1->DrawClone("same+");
@@ -184,7 +199,10 @@ int main(int argc, char* argv[])
                                     if (fGMap.find(name)!=fGMap.end())
                                         {
                                             fGMap[name]->SetTitle(";;Fraction");
+                                            
                                             fGMap[name]->Draw(goption.c_str());
+                                            fGMap[name]->GetHistogram()->GetYaxis()->SetTitleSize(0.08);
+                                            fGMap[name]->GetHistogram()->GetYaxis()->SetTitleOffset(0.45);
                                             if (fGMap.find(name+"_systematics")!=fGMap.end())
                                                 {
                                                     //fGMap[name+"_systematics"]->SetMarkerStyle(kFullCircle);
@@ -204,7 +222,8 @@ int main(int argc, char* argv[])
                                             if (*algorithm=="siscone")   fGMap[name]->GetXaxis()->SetRangeUser(1.0,100);
                                             if (*algorithm=="siscone")  fGMap[name]->GetXaxis()->SetLimits(1.0,100);
 
-                                            fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
+                                            fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.55);
+                                             if (*algorithm=="antikt") fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.95);
                                             fGMap[name]->SetLineColor(usecolors[color%5]);
                                             fGMap[name]->SetMarkerStyle(kFullCircle);
                                             fGMap[name]->SetMarkerSize(1.1);
@@ -227,10 +246,17 @@ int main(int argc, char* argv[])
 
                                                 temp->GetHistogram()->GetXaxis()->   SetLimits(0.000001*sqrt(10),1);
                                                 temp->GetHistogram()->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
-
-                                                temp->GetHistogram()->GetYaxis()->SetRangeUser(0.0,2.0);
-                                                if (*algorithm=="siscone")  temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);
-                                                if (*algorithm=="siscone")  temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);
+                                                   
+                                                   
+                                                temp->GetHistogram()->GetYaxis()->SetLabelSize(0.09);
+                                                temp->GetHistogram()->GetXaxis()->SetLabelSize(0.09);                                                
+                                                temp->GetHistogram()->GetXaxis()->SetTitleSize(0.10);
+                                                
+                                                temp->GetHistogram()->GetYaxis()->SetRangeUser(0.05,1.95);
+                                                temp->GetHistogram()->GetXaxis()->SetTitle("y_{cut}");
+                                                temp->GetHistogram()->GetYaxis()->SetTitle();
+                                                if (*algorithm=="siscone") { temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+                                                if (*algorithm=="siscone") { temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
 
                                                 if (name==name0)
                                                     {

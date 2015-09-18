@@ -10,20 +10,29 @@ predictions. The verification of the QCD predictions of the QCD can
 be used for the theory tuning and searches of the physics beyond the 
 QCD.
 One of QCD predictions that depends strongly on the theory parameters, namely on the constant of strong interaction $\alpha_s$ 
-in the topology of the $e^+e^-\rightarrow hadrons$ events, i.e. multi-jet events. One of the reasons why the
-topologies of the $e^+e^-\rightarrow hadrons$ events can be predicted with a high
+in the topology of the $e^+e^-\rightarrow \text{hadrons}$ events, i.e. multi-jet events. One of the reasons why the
+topologies of the $e^+e^-\rightarrow \text{hadrons}$ events can be predicted with a high
 precision is the absence of  strong interaction in the initial state. In the same tame the prediction depends on the 
 centre-of-mass energy of the system and the $\alpha_s$.
 
-
-
+Recent theoretical developments 
+allows to make the predictions even more precise than before. %In the same time
+The newest Monte Carlo simulations can be used to predict the 
+hadronisation corrections and significantly reduce the corresponding uncertainties.% reduce the hadronisation corrections
+In the same time the invention of new jet clustering algorithms provide new
+ oportunities to study the $e^+e^-\rightarrow \text{hadrons}$ events and 
+ corresponding observables in the context of QCD.
 
 This paper presents an analysis of the data obtained in $e^+e^-$ 
 annihilations to hadrons in the centre-of-mass energy range 
 $\sqrt{s}=91-209\GeV$. The data was obtained in the OPAL experiment 
 at the LEP storage ring between 1995 and  2001. 
 The measured observables are the multiplicities of the jets in the 
-hadronic events obtained with various clustering procedures.
+hadronic events obtained with various jet clustering algorithms,
+including those not available during the datataking period.
+The the results  obtained with the jet algorithms used for the same measurements
+in the past are compared to previously published results.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,59 +91,55 @@ The integrated luminosity was evaluated using small
 angle Bhabha scattering events observed in the forward calorimeters 
 \cite{Abbiendi:2003dh}. 
 {\bf End of~\cite{Abbiendi:2005eq}}
-The 
+
+For the reconstruction of the Monte Carlo simulated events Geant3-based~\cite{Brun:1987ma} program GOPAL
+is used. The detailed discryption for which can be found elsewhere~\cite{Allison:1991bf}.
 
 \section{Data and Monte Carlo samples}
 \label{sec:selection}
 The analysis is based on the data samples obtained between 1995 and 2001 
-at the centre-of-mass energies $\sqrt{s}=91-208\GeV$. A summary on the luminocity
+at the centre-of-mass energies $\sqrt{s}=91-209\GeV$. A summary on the luminocity
 of the used samples is given in Tab.~\ref{tab:luminocity}.
 \input{../../output/table_luminocity.tex}
-\TABluminocity{The used data samples-by year, energy range, mean centre-of-mass-energy, integrated luminosity }
+\TABluminocity{The used data samples by year, centre-of-mass-energy range, mean centre-of-mass-energy and integrated luminosity.}
 
 
-
-
-For the background estimation and detector corrections the Monte Carlo samples 
-produced with Pythia6.1, Herwig6.2, Ariadne and, grc4f 2.1  KoralW1.42~\cite{Skrzypek:1995wd} generators 
-and passed thought OPAL detector simulation were used.
-A short overview of the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}.
+For the correction of the reconstructed events to the hadron level 
+Monte Carlo samples with simulation of $e^+e^-\rightarrow \text{hadrons}$ events were produced with Pythia~6.1~\cite{Sjostrand:2000wi} and 
+ Herwig~6.2~\cite{Corcella:2000bw} generators.
+For the estimation of background   $e^+e^\rightarrow W^+W^-\rightarrow qqqq$, $e^+e^\rightarrow W^+W^-\rightarrow qqll$ processes,
+ the Monte Carlo samples with simulation of corresponding events were produced with grc4f2.1~\cite{Fujimoto:1996wj} and  KORALW1.42~\cite{Skrzypek:1995wd} generators.
+The samples above were passed thought OPAL detector simulation and reconstructed
+in the same way as the data.
+A summary on  the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}.
 \TABmontecarlo
 
 
 \subsection{Event selection}
 \label{sec:selection}
-The performed event selection is similar to one used in Ref.~\cite{}.
-
+The performed event selection is similar to one used in Ref.~\cite{Abbiendi:2004qz}.
 The events where tracking system , electromagnetic calorimeter or the trigger system were inoperational are rejected.
-The tracks with small transverse momenta $p_t<0.10\GeV$,{\bf $0.15?$} the minimal  distance to the 
+The tracks with small transverse momenta $p_{T}<0.10\GeV$,{\bf $0.15?$} the minimal  distance to the 
 collision axis more than $2cm$ or minimal distance in $z$ direction to the nominal interaction point less that $25cm$
 were excluded from the consideration. 
-Energy clusters in the electromagnetic calori
-meter were required to have energies exceeding $0.10(0.25) \GeV$ in 
+Energy clusters in the electromagnetic calorimeter were required to have energies exceeding $0.10(0.25) \GeV$ in 
 the barrel (endcap) region of the detector.
 
+To reject the events with  the radiative return a cut $\sqrt{s}-\sqrt{s^{'}}<1\GeV$ was applied. 
+${s}^{'}$ is the effective centre-of-mass energy afrer the initial state radiation, calculated as in Ref.~\cite{Abbiendi:2003dh}.
 
-For the further analysis only the
 Only events with more than five reconstructed tracks were accepted.
-
 The events were required to have $|\cos\theta|<0.95$, where the  
 $\theta|$ is the polar angle of the thrust axis calculated from all track
 and cluster objects.
-
-To reject the background event the cuts on the probability of 4-fermion event were applied.
+To reject from the $e^+e^\rightarrow W^+W^-$ background events the relevant likelihood-based cuts were applied.
 The probability estimation is  calculated in the same way as in Ref.~\cite{Abbiendi:2000eg}.
-
-
-
-
-
 
 \subsection{Event reconstruction}
 \label{sec:reconstruction}
 For the selected events the reconstruction procedure was performed.
-The input for the reconstruction procedure for the Monte Carlo generator events
-was a set of partons.
+The input for the reconstruction procedure of  the simulated events
+was a set of hadrons.
 The input for the reconstruction procedure on the (simulated)detector level
  was a set of tracks and the electromagnetic calorimeter clusters.
 To avoid the double counting of the clustered objects on the detector level the energy-flow 
@@ -163,14 +168,10 @@ The obtained distributions were corrected bin by bin to the detector effects.
 The corrections were obtained as a ratio of 
 the simulated detector level distributions of the $e^-e^+ \rightarrow llqq$ events 
 and the generator level distributions of the same events.
-At the next step the  distributions were normalised to the number of weighted entries.
-
-{\bf Not done yet!}
-Finally, the distributions were  multiplied bin by bin with the hadronisation corrections.
-The later were calculated as a ratio of parton and hadron distributions calculated 
-from a large Monte Carlo event sample generated with SHERPA2~\cite{Gleisberg:2008ta}.
-{\bf Not done yet End!}
-
+Finally, the  distributions were normalised to the number of weighted entries.
+%{\bf Not done yet!}
+% SHERPA2~\cite{Gleisberg:2008ta}.
+%{\bf Not done yet End!}
 
 The Figs.~\ref{fig:durhamexample}\ref{fig:jadeexample}\ref{fig:sisconeexample}
 present the obtained distributions for the studied clustering algorithms.
@@ -204,20 +205,6 @@ The differences between the reference distributions and the distributions obtain
 the variation procedure were bin-by-bin added in quadratures resulting the systematic uncertainty for 
 every bin of the reference distribution.
  
-% For each quantity  the  pair of cut changes to lower and higher value considering as one variation.
-
-
-%\TABGdurhamonesixoneJETRthree{$y$ cut}{Durham 161 JETR3}
-
-%\TABGdurhamoneseventwoJETRthree{$y$ cut}{Durham 172 JETR3}
-%\FIGdurhamonesixoneJETRtwo{Durham 161 JETR2}
-%\FIGdurhamoneseventwoJETRfour{Durham 172 JETR3}
-%\FIGdurhamoneseventwoJETRsix{Durham 172 JETR6}
-
-%\FIGdurhamoneseventwoT{Durham 172 $T$}
-%\FIGdurhamoneeightnineJETRfour{Durham 189 $T$}
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -226,11 +213,8 @@ every bin of the reference distribution.
 The previous measurements of the jet rates were performed on the LEP by 
 the OPAL, DELPHI, ALEPH and L3 experiments~\cite{Alexander:1996kh,
 Ackerstaff:1997kk,Acton:1992fa,Akrawy:1989rg,Heister:2003aj,Abdallah:2003xz,Achard:2004sv}.
-
-
-
-
-
+Differential distributions of the various event shape observables were 
+obtained with the jet clustering algorithms available at that  time.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}                      
 \label{sec:summary}
@@ -244,17 +228,12 @@ provide an input for the validation of QCD and precise estimation of its paramet
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section*{Acknowledgements}
 \label{sec:acknowledgements}
-We thank 
+We
 \FloatBarrier
 \begin{appendices}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{AppendixA}
+\section{Numerical results}
 \label{sec:appendixA}
-%\TABexample
-%\TABexample
-%\TABexample
-%\TABexample
-%\TABexample
 \input{../../output/tables_161.tex}
 \TABGdurhamonesixoneJETRthree{$y$ cut}{Durham 161 JETR3}
 
