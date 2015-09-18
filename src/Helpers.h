@@ -87,6 +87,7 @@ typedef struct sample_info_
     float       fWeight;
     float       fEl;
     float       fEh;
+    float       fEa;
     std::string      fGenerator;
     std::string      fName;
     std::string      fPeriod;

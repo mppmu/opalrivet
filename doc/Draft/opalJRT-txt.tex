@@ -4,10 +4,10 @@
 \label{sec:introduction}
 The strong interactions  in the Standard Model are described 
 with Quantum Chromodynamics(QCD) theory. 
-The theory succesfully describes 
+The theory successfully describes 
 the interactions between quarks and gluons and is a source for numerous 
 predictions. The verification of the QCD predictions of the QCD can
-be used for the theory tunning and searches of the physics beyond the 
+be used for the theory tuning and searches of the physics beyond the 
 QCD.
 One of QCD predictions that depends strongly on the theory parameters, namely on the constant of strong interaction $\alpha_s$ 
 in the topology of the $e^+e^-\rightarrow hadrons$ events, i.e. multi-jet events. One of the reasons why the
@@ -20,7 +20,7 @@ centre-of-mass energy of the system and the $\alpha_s$.
 
 This paper presents an analysis of the data obtained in $e^+e^-$ 
 annihilations to hadrons in the centre-of-mass energy range 
-$\sqrt{s}=91-208\GeV$. The data was obtained in the OPAL experiment 
+$\sqrt{s}=91-209\GeV$. The data was obtained in the OPAL experiment 
 at the LEP storage ring between 1995 and  2001. 
 The measured observables are the multiplicities of the jets in the 
 hadronic events obtained with various clustering procedures.
@@ -30,8 +30,8 @@ hadronic events obtained with various clustering procedures.
 \section{Jet algorithms}
 \label{sec:algorithms}
 A jet clustering algorithm is a way to simplify the high energy collision event topology 
- and exibit the underlying physics at the parton level. The main goal of such a procedure is to
- reconstruct the kinematic variables of the particles produced during the primary interation.
+ and exhibit the underlying physics at the parton level. The main goal of such a procedure is to
+ reconstruct the kinematic variables of the particles produced during the primary interaction.
  The energy and the momenta of the partons are reconstructed combining the 
  momenta and energy of the objects originated from the partons into jet objects.
  There are several ways, called jet algorithms,
@@ -89,12 +89,15 @@ The
 The analysis is based on the data samples obtained between 1995 and 2001 
 at the centre-of-mass energies $\sqrt{s}=91-208\GeV$. A summary on the luminocity
 of the used samples is given in Tab.~\ref{tab:luminocity}.
-\TABluminocity
+\input{../../output/table_luminocity.tex}
+\TABluminocity{The used data samples-by year, energy range, mean centre-of-mass-energy, integrated luminosity }
+
+
 
 
 For the background estimation and detector corrections the Monte Carlo samples 
 produced with Pythia6.1, Herwig6.2, Ariadne and, grc4f 2.1  KoralW1.42~\cite{Skrzypek:1995wd} generators 
-and passed throught OPAL detector simulation were used.
+and passed thought OPAL detector simulation were used.
 A short overview of the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}.
 \TABmontecarlo
 
@@ -119,7 +122,7 @@ The events were required to have $|\cos\theta|<0.95$, where the
 $\theta|$ is the polar angle of the thrust axis calculated from all track
 and cluster objects.
 
-To reject the background event the cuts on the probaility of 4-fermion event were applied.
+To reject the background event the cuts on the probability of 4-fermion event were applied.
 The probability estimation is  calculated in the same way as in Ref.~\cite{Abbiendi:2000eg}.
 
 
@@ -160,7 +163,14 @@ The obtained distributions were corrected bin by bin to the detector effects.
 The corrections were obtained as a ratio of 
 the simulated detector level distributions of the $e^-e^+ \rightarrow llqq$ events 
 and the generator level distributions of the same events.
-Finaly the distributions were normalized to the number of weighted entries.
+At the next step the  distributions were normalised to the number of weighted entries.
+
+{\bf Not done yet!}
+Finally, the distributions were  multiplied bin by bin with the hadronisation corrections.
+The later were calculated as a ratio of parton and hadron distributions calculated 
+from a large Monte Carlo event sample generated with SHERPA2~\cite{Gleisberg:2008ta}.
+{\bf Not done yet End!}
+
 
 The Figs.~\ref{fig:durhamexample}\ref{fig:jadeexample}\ref{fig:sisconeexample}
 present the obtained distributions for the studied clustering algorithms.
@@ -180,14 +190,14 @@ It was assumed the
 
  To take into account a limited quality of Monte Carlo simulation of the
  QCD processes, the Pythia Monte Carlo simulated event sample used for the detector
- corrction was replaced with one produced with Herwig.
- The uncertsainty of the background modelig was estimated by varying the 
+ correction was replaced with one produced with Herwig.
+ The uncertainty of the background modelling was estimated by varying the 
  background amount by $\pm5\%$.
-To take into account a limited efficiencly of the energy-flow 
+To take into account a limited efficiently of the energy-flow 
 algorithm the same reconstruction was performed without it.
- To take into acount the influence of selection procedure
+ To take into account the influence of selection procedure
 the background rejection cuts described in Sec.~\ref{sec:selection}. % independantly.
- The actual values of the independantly performed variations are shown in Tab.~\ref{tab:cutvariations}.
+ The actual values of the independently performed variations are shown in Tab.~\ref{tab:cutvariations}.
  \TABcutvariations
  
 The differences between the reference distributions and the distributions obtained with 

@@ -36,6 +36,7 @@ public:
     double       fWeight;
     double       fEl;
     double       fEh;
+    double fEa;
     std::string      fGenerator;
     //  std::string fName;
     std::string      fPeriod;

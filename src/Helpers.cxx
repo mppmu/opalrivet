@@ -99,6 +99,7 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
 {
     A.fEl=El;
     A.fEh=Eh;
+    A.fEh=0.5*(Eh+El);
     A.fName=std::string(name);
     A.fPeriod=std::string(pr);
     A.fProcesses=std::string(procs);
@@ -127,6 +128,11 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
             A.fRunsEnd=TOTAL->FindLastBinAbove(0);
             if (A.fRunsEnd<A.fRunsBegin) puts("Wrong run numbers of energy");
             A.fEvents=TOTAL->GetEntries();
+            C->Draw("Ebeam>>EBEAMHIST(10000,40.0,140.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A.fEl),0.5*(A.fEh)));
+            TH1F* EBEAMHIST=(TH1F*)gDirectory->Get("EBEAMHIST");
+            A.fEa=2.0*EBEAMHIST->GetMean();
+            A.fEl=2.0*EBEAMHIST->GetBinCenter(EBEAMHIST->FindFirstBinAbove(0));
+            A.fEh=2.0*EBEAMHIST->GetBinCenter(EBEAMHIST->FindLastBinAbove(0));
             TOTAL->Delete();
         }
 }

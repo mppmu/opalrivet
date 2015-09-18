@@ -35,6 +35,7 @@ TSampleInfo::TSampleInfo(const char* Es,double El, double Eh,const char* name, c
     SetName(name);
     fEl=El;
     fEh=Eh;
+    fEa=0.5*(Eh+Eh);
     fPeriod=pr;
     fType=type;
     fFiles=return_tokenize(std::string(files)," ");;
