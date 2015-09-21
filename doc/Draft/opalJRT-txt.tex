@@ -103,12 +103,14 @@ of the used samples is given in Tab.~\ref{tab:luminocity}.
 \input{../../output/table_luminocity.tex}
 \TABluminocity{The used data samples by year, centre-of-mass-energy range, mean centre-of-mass-energy and integrated luminosity.}
 
-
 For the correction of the reconstructed events to the hadron level 
-Monte Carlo samples with simulation of $e^+e^-\rightarrow \text{hadrons}$ events were produced with Pythia~6.1~\cite{Sjostrand:2000wi} and 
+Monte Carlo samples with simulation of $e^+e^-\rightarrow 
+\text{hadrons}$ events were produced with Pythia~6.1~\cite{Sjostrand:2000wi} and 
  Herwig~6.2~\cite{Corcella:2000bw} generators.
-For the estimation of background   $e^+e^\rightarrow W^+W^-\rightarrow qqqq$, $e^+e^\rightarrow W^+W^-\rightarrow qqll$ processes,
- the Monte Carlo samples with simulation of corresponding events were produced with grc4f2.1~\cite{Fujimoto:1996wj} and  KORALW1.42~\cite{Skrzypek:1995wd} generators.
+For the estimation of background  from $e^+e^-\rightarrow W^+W^-\rightarrow qqqq$, 
+$e^+e^-\rightarrow W^+W^-\rightarrow qqll$ processes,
+ the Monte Carlo samples with simulation of corresponding events 
+ were produced with grc4f2.1~\cite{Fujimoto:1996wj} and  KORALW1.42~\cite{Skrzypek:1995wd} generators.
 The samples above were passed thought OPAL detector simulation and reconstructed
 in the same way as the data.
 A summary on  the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}.
@@ -118,8 +120,8 @@ A summary on  the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}
 \subsection{Event selection}
 \label{sec:selection}
 The performed event selection is similar to one used in Ref.~\cite{Abbiendi:2004qz}.
-The events where tracking system , electromagnetic calorimeter or the trigger system were inoperational are rejected.
-The tracks with small transverse momenta $p_{T}<0.10\GeV$,{\bf $0.15?$} the minimal  distance to the 
+The events where tracking system, electromagnetic calorimeter or the trigger system were inoperational are rejected.
+The tracks with small transverse momenta $p_{T}<0.10\GeV$,{\bf $0.15?\GeV$} the minimal  distance to the 
 collision axis more than $2cm$ or minimal distance in $z$ direction to the nominal interaction point less that $25cm$
 were excluded from the consideration. 
 Energy clusters in the electromagnetic calorimeter were required to have energies exceeding $0.10(0.25) \GeV$ in 
@@ -130,9 +132,10 @@ ${s}^{'}$ is the effective centre-of-mass energy afrer the initial state radiati
 
 Only events with more than five reconstructed tracks were accepted.
 The events were required to have $|\cos\theta|<0.95$, where the  
-$\theta|$ is the polar angle of the thrust axis calculated from all track
+$\theta$ is the polar angle of the thrust axis calculated from all track
 and cluster objects.
-To reject from the $e^+e^\rightarrow W^+W^-$ background events the relevant likelihood-based cuts were applied.
+To reject from the $e^+e^-\rightarrow W^+W^-$ background events the relevant likelihood-based cuts ${\cal L}_{qqqq}$ and 
+${\cal L}_{qqll}$ were applied.
 The probability estimation is  calculated in the same way as in Ref.~\cite{Abbiendi:2000eg}.
 
 \subsection{Event reconstruction}
@@ -160,13 +163,13 @@ The parameters of the clustering procedures are given in Tab.~\ref{tab:algorithm
 \TABalgorithms
 
 The measured distributions of the jet rates were obtained in the following way.
-To take into account the presence of $e^-e^+ \rightarrow llqq$ events in the 
+To take into account the presence of $e^-e^+ \rightarrow W^-W^+$ events in the 
 obtained detector level distribution the background subtraction procedure was performed.
-The simulated detector level distributions of the $e^-e^+ \rightarrow llqq$ events 
+The simulated detector level distributions of the $e^-e^+ \rightarrow W^-W^+$ events 
 weighted to the same luminocity were subtracted from the detector level distributions.
 The obtained distributions were corrected bin by bin to the detector effects. 
 The corrections were obtained as a ratio of 
-the simulated detector level distributions of the $e^-e^+ \rightarrow llqq$ events 
+the simulated detector level distributions of the $e^-e^+ \rightarrow W^-W^+$ events 
 and the generator level distributions of the same events.
 Finally, the  distributions were normalised to the number of weighted entries.
 %{\bf Not done yet!}
@@ -234,7 +237,50 @@ We
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Numerical results}
 \label{sec:appendixA}
+
+
+%\def\cnt{2}
+%\advance\cnt by 1
+\newcommand{\TABGFONTSIZE}{\scriptsize}
+\newarray\TABGCAPTIONcorrected
+\readarray{TABGCAPTIONcorrected}{JETR2 & JETR3 & JETR4 & JETR5 & JETR6 }
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=130\GeV$}
+\FloatBarrier
+\input{../../output/tables_130.tex}
+\TABGdurhamonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeonethreezeroJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=136\GeV$}
+\FloatBarrier
+\input{../../output/tables_136.tex}
+\TABGdurhamonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeonethreesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=161\GeV$}
+\FloatBarrier
 \input{../../output/tables_161.tex}
-\TABGdurhamonesixoneJETRthree{$y$ cut}{Durham 161 JETR3}
+\TABGdurhamonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeonesixoneJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=172\GeV$}
+\FloatBarrier
+\footnotesize{
+\input{../../output/tables_172.tex}
+\TABGdurhamoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeoneseventwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+}
+
 
 \end{appendices}
