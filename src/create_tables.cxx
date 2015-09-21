@@ -273,11 +273,6 @@ int main(int argc, char* argv[])
     type_fFile->Close();
 
 
-           // for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
-             //   {
-               //     TPad* A1=(TPad*)C->second->GetListOfPrimitives()->At(2*i);
-                 //   TPad* A2=(TPad*)C->second->GetListOfPrimitives()->At(2*i+1);
-
     for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
         {
 
@@ -286,10 +281,6 @@ int main(int argc, char* argv[])
             int i=1;
             for (i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
-                   // if (i%2==1) continue;
-                   puts(C->first.c_str());
-                   printf("%i\n",C->second->GetListOfPrimitives()->GetSize());
-                  //  if (C->first.find("RPAD")!=std::string::npos) continue;
                     std::map<std::string,TH1D*> fHMap;
                     std::map<std::string,TAdvancedGraph*> fGMap;
                     
@@ -300,7 +291,7 @@ int main(int argc, char* argv[])
                     TIter next2(((TPad*)C->second->GetListOfPrimitives()->At(i))->GetListOfPrimitives());
                     while ((obj2=next2()))
                         {
-printf("R: %s\n", obj2->GetName());
+
                             if (obj2->InheritsFrom("TH1"))
                                 {
                                     TH1D* z= (TH1D*)obj2;
@@ -315,12 +306,16 @@ printf("R: %s\n", obj2->GetName());
                                 }
 
                         }
-                    puts("----------->");
                     PrintTG(fGMap,FF,"");
-                    puts("<-----------");
+
                     PrintTH(fHMap,FF,"");
                 if (fGMap.size())
-                if (fGMap.begin()->first.find("JETR")!=std::string::npos) {allfHMap.insert(fHMap.begin(),fHMap.end()); allfGMap.insert(fGMap.begin(),fGMap.end());}
+                //if (fGMap.begin()->first.find("corrected")!=std::string::npos)
+                 if (fGMap.begin()->first.find("JETR")!=std::string::npos) {
+					for ( std::map<std::string,TAdvancedGraph*>::iterator it=fGMap.begin();it!=fGMap.end();it++) if (it->first.find("corrected")!=std::string::npos) allfGMap.insert(*it); 
+					 for ( std::map<std::string,TH1D*>::iterator it=fHMap.begin();it!=fHMap.end();it++) if (it->first.find("corrected")!=std::string::npos) allfHMap.insert(*it); 
+					 
+					 }
                 
                 }
         

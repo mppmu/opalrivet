@@ -47,8 +47,8 @@ void FillInfo(TSampleInfo* A,std::string prefix)
             C->Draw("Ebeam>>EBEAMHIST(10000,40.0,140.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
             TH1F* EBEAMHIST=(TH1F*)gDirectory->Get("EBEAMHIST");
             A->fEa=2.0*EBEAMHIST->GetMean();
-            A->fEl=2.0*EBEAMHIST->GetBinCenter(EBEAMHIST->FindFirstBinAbove(0));
-            A->fEh=2.0*EBEAMHIST->GetBinCenter(EBEAMHIST->FindLastBinAbove(0));
+            A->fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
+            A->fEh=2.0*(EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindLastBinAbove(0))+EBEAMHIST->GetBinWidth(EBEAMHIST->FindLastBinAbove(0)));
 
     if (A->fType==std::string("MCBG")||A->fType==std::string("MCSI")) A->fLuminocity=A->fEvents*A->fSigma;
     A->Print();

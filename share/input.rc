@@ -1,3 +1,180 @@
+
+LOCAL_OPAL_91:
+LOCAL_OPAL_91.NAME:    opalanalysis
+LOCAL_OPAL_91.CHAIN:   h10
+LOCAL_OPAL_91.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91.DB:      gen/DB.root
+LOCAL_OPAL_91.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91.NUMBER:  1000000000
+
+
+
+
+
+LOCAL_OPAL_91_central:
+LOCAL_OPAL_91_central.NAME:    opalanalysis
+LOCAL_OPAL_91_central.CHAIN:   h10
+LOCAL_OPAL_91_central.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_central.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_central.DB:      gen/DB.root
+LOCAL_OPAL_91_central.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_central.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_central.NUMBER:  1000000000
+LOCAL_OPAL_91_central.DEFINES: \'-DCUTS=\"central\"\'
+
+
+
+LOCAL_OPAL_91_mttotc:
+LOCAL_OPAL_91_mttotc.NAME:    opalanalysis
+LOCAL_OPAL_91_mttotc.CHAIN:   h10
+LOCAL_OPAL_91_mttotc.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_mttotc.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_mttotc.DB:      gen/DB.root
+LOCAL_OPAL_91_mttotc.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_mttotc.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_mttotc.NUMBER:  1000000000
+LOCAL_OPAL_91_mttotc.DEFINES: \'-DCUTS=\"mttotc\"\'
+
+
+
+LOCAL_OPAL_91_sprm:
+LOCAL_OPAL_91_sprm.NAME:    opalanalysis
+LOCAL_OPAL_91_sprm.CHAIN:   h10
+LOCAL_OPAL_91_sprm.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_sprm.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_sprm.DB:      gen/DB.root
+LOCAL_OPAL_91_sprm.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_sprm.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_sprm.NUMBER:  1000000000
+LOCAL_OPAL_91_sprm.DEFINES: \'-DCUTS=\"sprm\"\'
+
+
+
+LOCAL_OPAL_91_hrwg:
+LOCAL_OPAL_91_hrwg.NAME:    opalanalysis
+LOCAL_OPAL_91_hrwg.CHAIN:   h10
+LOCAL_OPAL_91_hrwg.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_hrwg.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_HERWIG_1:9197_HERWIG_1:9198_HERWIG_1:9199_HERWIG_1:9199_HERWIG_1:9100_HERWIG_1
+LOCAL_OPAL_91_hrwg.DB:      gen/DB.root
+LOCAL_OPAL_91_hrwg.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_hrwg.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_hrwg.NUMBER:  1000000000
+LOCAL_OPAL_91_hrwg.DEFINES: \'-DCUTS=\"hrwg\"\'
+
+
+
+
+LOCAL_OPAL_91_costtlow:
+LOCAL_OPAL_91_costtlow.NAME:    opalanalysis
+LOCAL_OPAL_91_costtlow.CHAIN:   h10
+LOCAL_OPAL_91_costtlow.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_costtlow.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_costtlow.DB:      gen/DB.root
+LOCAL_OPAL_91_costtlow.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_costtlow.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_costtlow.NUMBER:  1000000000
+LOCAL_OPAL_91_costtlow.DEFINES: \'-DCUTS=\"costtlow\"\'
+
+
+
+LOCAL_OPAL_91_costthigh:
+LOCAL_OPAL_91_costthigh.NAME:    opalanalysis
+LOCAL_OPAL_91_costthigh.CHAIN:   h10
+LOCAL_OPAL_91_costthigh.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_costthigh.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_costthigh.DB:      gen/DB.root
+LOCAL_OPAL_91_costthigh.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_costthigh.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_costthigh.NUMBER:  1000000000
+LOCAL_OPAL_91_costthigh.DEFINES: \'-DCUTS=\"costthigh\"\'
+
+LOCAL_OPAL_91_wqqlnhigh:
+LOCAL_OPAL_91_wqqlnhigh.NAME:    opalanalysis
+LOCAL_OPAL_91_wqqlnhigh.CHAIN:   h10
+LOCAL_OPAL_91_wqqlnhigh.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_wqqlnhigh.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_wqqlnhigh.DB:      gen/DB.root
+LOCAL_OPAL_91_wqqlnhigh.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_wqqlnhigh.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_wqqlnhigh.NUMBER:  1000000000
+LOCAL_OPAL_91_wqqlnhigh.DEFINES: \'-DCUTS=\"wqqlnhigh\"\'
+
+
+
+
+
+LOCAL_OPAL_91_wqqlnlow:
+LOCAL_OPAL_91_wqqlnlow.NAME:    opalanalysis
+LOCAL_OPAL_91_wqqlnlow.CHAIN:   h10
+LOCAL_OPAL_91_wqqlnlow.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_wqqlnlow.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_wqqlnlow.DB:      gen/DB.root
+LOCAL_OPAL_91_wqqlnlow.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_wqqlnlow.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_wqqlnlow.NUMBER:  1000000000
+LOCAL_OPAL_91_wqqlnlow.DEFINES: \'-DCUTS=\"wqqlnlow\"\'
+
+
+
+
+LOCAL_OPAL_91_wqqqqhigh:
+LOCAL_OPAL_91_wqqqqhigh.NAME:    opalanalysis
+LOCAL_OPAL_91_wqqqqhigh.CHAIN:   h10
+LOCAL_OPAL_91_wqqqqhigh.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_wqqqqhigh.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_wqqqqhigh.DB:      gen/DB.root
+LOCAL_OPAL_91_wqqqqhigh.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_wqqqqhigh.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_wqqqqhigh.NUMBER:  1000000000
+LOCAL_OPAL_91_wqqqqhigh.DEFINES: \'-DCUTS=\"wqqqqhigh\"\'
+
+
+LOCAL_OPAL_91_wqqqqlow:
+LOCAL_OPAL_91_wqqqqlow.NAME:    opalanalysis
+LOCAL_OPAL_91_wqqqqlow.CHAIN:   h10
+LOCAL_OPAL_91_wqqqqlow.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_wqqqqlow.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_wqqqqlow.DB:      gen/DB.root
+LOCAL_OPAL_91_wqqqqlow.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_wqqqqlow.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_wqqqqlow.NUMBER:  1000000000
+LOCAL_OPAL_91_wqqqqlow.DEFINES: \'-DCUTS=\"wqqqqlow\"\'
+
+
+
+LOCAL_OPAL_91_backgroundhigh:
+LOCAL_OPAL_91_backgroundhigh.NAME:    opalanalysis
+LOCAL_OPAL_91_backgroundhigh.CHAIN:   h10
+LOCAL_OPAL_91_backgroundhigh.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_backgroundhigh.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_backgroundhigh.DB:      gen/DB.root
+LOCAL_OPAL_91_backgroundhigh.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_backgroundhigh.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_backgroundhigh.NUMBER:  1000000000
+LOCAL_OPAL_91_backgroundhigh.DEFINES: \'-DCUTS=\"backgroundhigh\"\'
+
+
+LOCAL_OPAL_91_backgroundlow:
+LOCAL_OPAL_91_backgroundlow.NAME:    opalanalysis
+LOCAL_OPAL_91_backgroundlow.CHAIN:   h10
+LOCAL_OPAL_91_backgroundlow.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/mc12163_1_200.root
+LOCAL_OPAL_91_backgroundlow.SAMPLES: 9196_DATA_1:9197_DATA_1:9198_DATA_1:9199_DATA_1:9100_DATA_1:9196_PYTHIA_1:9197_PYTHIA_1:9198_PYTHIA_1:9199_PYTHIA_1:9199_PYTHIA_1:9100_PYTHIA_1
+LOCAL_OPAL_91_backgroundlow.DB:      gen/DB.root
+LOCAL_OPAL_91_backgroundlow.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+LOCAL_OPAL_91_backgroundlow.FILES:   gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx  src/Cuts.cxx src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+LOCAL_OPAL_91_backgroundlow.NUMBER:  1000000000
+LOCAL_OPAL_91_backgroundlow.DEFINES: \'-DCUTS=\"backgroundlow\"\'
+
+########################################33
+
+
+
+
+
+
+
 LOCAL_OPAL_9196:
 LOCAL_OPAL_9196.NAME:    opalanalysis
 LOCAL_OPAL_9196.CHAIN:   h10

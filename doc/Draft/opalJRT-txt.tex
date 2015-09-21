@@ -53,7 +53,6 @@ A jet clustering algorithm is a way to simplify the high energy collision event 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{The OPAL detector}
 \label{sec:detector}
-{\bf Detector description is from~\cite{Abbiendi:2005eq}. Is there a standard one?}
 A detailed description of the OPAL detector can be found elsewhere 
 \cite{Ahmet:1990eg, Anderson:1997xwa}. Tracking of charged particles was performed by a central
 detector, enclosed in a solenoid which provided a uniform axial magnetic field
@@ -90,7 +89,6 @@ endcaps, and together covered 93\,\% of the full solid angle.
 The integrated luminosity was evaluated using small
 angle Bhabha scattering events observed in the forward calorimeters 
 \cite{Abbiendi:2003dh}. 
-{\bf End of~\cite{Abbiendi:2005eq}}
 
 For the reconstruction of the Monte Carlo simulated events Geant3-based~\cite{Brun:1987ma} program GOPAL
 is used. The detailed discryption for which can be found elsewhere~\cite{Allison:1991bf}.
@@ -121,7 +119,7 @@ A summary on  the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}
 \label{sec:selection}
 The performed event selection is similar to one used in Ref.~\cite{Abbiendi:2004qz}.
 The events where tracking system, electromagnetic calorimeter or the trigger system were inoperational are rejected.
-The tracks with small transverse momenta $p_{T}<0.10\GeV$,{\bf $0.15?\GeV$} the minimal  distance to the 
+The tracks with small transverse momenta $p_{T}<0.15GeV$ the minimal  distance to the 
 collision axis more than $2cm$ or minimal distance in $z$ direction to the nominal interaction point less that $25cm$
 were excluded from the consideration. 
 Energy clusters in the electromagnetic calorimeter were required to have energies exceeding $0.10(0.25) \GeV$ in 
@@ -134,8 +132,8 @@ Only events with more than five reconstructed tracks were accepted.
 The events were required to have $|\cos\theta|<0.95$, where the  
 $\theta$ is the polar angle of the thrust axis calculated from all track
 and cluster objects.
-To reject from the $e^+e^-\rightarrow W^+W^-$ background events the relevant likelihood-based cuts ${\cal L}_{qqqq}$ and 
-${\cal L}_{qqll}$ were applied.
+To reject from the $e^+e^-\rightarrow W^+W^-$ background events the relevant likelihood-based cuts ${\cal L}_{qqqq}<0.40$ and 
+${\cal L}_{qqll}<0.75$ were applied.
 The probability estimation is  calculated in the same way as in Ref.~\cite{Abbiendi:2000eg}.
 
 \subsection{Event reconstruction}
@@ -147,15 +145,15 @@ The input for the reconstruction procedure on the (simulated)detector level
  was a set of tracks and the electromagnetic calorimeter clusters.
 To avoid the double counting of the clustered objects on the detector level the energy-flow 
 algorithm~\cite{Ackerstaff:1997nga,Abbiendi:1999sy}, that matched tracks to the 
- clusters in the electromagnetic calorimeter was applied. Therefore each 
- matched pair of track and cluster was replaced with a combined object.
- {\bf I would do so, it is the best solution. But what they did is not clear. Ask Stefan.}
+ clusters in the electromagnetic calorimeter was applied. Therefore  each 
+ matched pair of track and cluster  was recombined in one (or two) new objects with better estimated energies.
+ %{\bf I would do so, it is the best solution. But what they did is not clear. Ask Stefan.}
 
 For each event the event shape variables~\cite{OPAL:2011aa} 
 were calculated  as  implemented in Rivet package~\cite{Buckley:2010ar}.
 
 The jet rates were obtained with the Durham~\cite{Catani:1991hj}, SiScone~\cite{Cacciari:2005hq}, anti-kt~\cite{Cacciari:2008gp}, Jade~\cite{Bartel:1986ua}
-  and Cambridge-Aahen~\cite{Dokshitzer:1997in}
+  and Cambridge-Aachen~\cite{Dokshitzer:1997in}
 clustering algorithms as implemented in FastJet~\cite{Cacciari:2011ma}.
 % for the data and reconstructed events.
 
@@ -164,7 +162,7 @@ The parameters of the clustering procedures are given in Tab.~\ref{tab:algorithm
 
 The measured distributions of the jet rates were obtained in the following way.
 To take into account the presence of $e^-e^+ \rightarrow W^-W^+$ events in the 
-obtained detector level distribution the background subtraction procedure was performed.
+obtained detector level distribution, for the samples with for $\sqrt{s}\ge 160\GeV$ the background subtraction procedure was performed. 
 The simulated detector level distributions of the $e^-e^+ \rightarrow W^-W^+$ events 
 weighted to the same luminocity were subtracted from the detector level distributions.
 The obtained distributions were corrected bin by bin to the detector effects. 
@@ -172,9 +170,6 @@ The corrections were obtained as a ratio of
 the simulated detector level distributions of the $e^-e^+ \rightarrow W^-W^+$ events 
 and the generator level distributions of the same events.
 Finally, the  distributions were normalised to the number of weighted entries.
-%{\bf Not done yet!}
-% SHERPA2~\cite{Gleisberg:2008ta}.
-%{\bf Not done yet End!}
 
 The Figs.~\ref{fig:durhamexample}\ref{fig:jadeexample}\ref{fig:sisconeexample}
 present the obtained distributions for the studied clustering algorithms.
@@ -244,7 +239,8 @@ We
 \newcommand{\TABGFONTSIZE}{\scriptsize}
 \newarray\TABGCAPTIONcorrected
 \readarray{TABGCAPTIONcorrected}{JETR2 & JETR3 & JETR4 & JETR5 & JETR6 }
-
+\newarray\TABGCAPTIONolddata
+\readarray{TABGCAPTIONolddata}{Published & Published}
 
 \FloatBarrier
 \subsection{Results for $\sqrt{s}=130\GeV$}
@@ -253,6 +249,7 @@ We
 \TABGdurhamonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGjadeonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGsisconeonethreezeroJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 \FloatBarrier
 \subsection{Results for $\sqrt{s}=136\GeV$}
@@ -261,6 +258,7 @@ We
 \TABGdurhamonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGjadeonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGsisconeonethreesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
 \FloatBarrier
@@ -270,17 +268,98 @@ We
 \TABGdurhamonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGjadeonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGsisconeonesixoneJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
 \FloatBarrier
 \subsection{Results for $\sqrt{s}=172\GeV$}
 \FloatBarrier
-\footnotesize{
 \input{../../output/tables_172.tex}
 \TABGdurhamoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGjadeoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGsisconeoneseventwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
-}
+\TABGantiktoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=183\GeV$}
+\FloatBarrier
+\input{../../output/tables_183.tex}
+\TABGdurhamoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeoneeightthreeJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=189\GeV$}
+\FloatBarrier
+\input{../../output/tables_189.tex}
+\TABGdurhamoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeoneeightnineJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=192\GeV$}
+\FloatBarrier
+\input{../../output/tables_192.tex}
+\TABGdurhamoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeoneninetwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=196\GeV$}
+\FloatBarrier
+\input{../../output/tables_196.tex}
+\TABGdurhamoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadeoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeoneninesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=202\GeV$}
+\FloatBarrier
+\input{../../output/tables_202.tex}
+\TABGdurhamtwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadetwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconetwozerotwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantikttwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=205\GeV$}
+\FloatBarrier
+\input{../../output/tables_205.tex}
+\TABGdurhamtwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadetwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconetwozerofiveJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantikttwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+\FloatBarrier
+\subsection{Results for $\sqrt{s}=207\GeV$}
+\FloatBarrier
+\input{../../output/tables_207.tex}
+\TABGdurhamtwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGjadetwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconetwozerosevenJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantikttwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+
+
+
+
+
 
 
 \end{appendices}
