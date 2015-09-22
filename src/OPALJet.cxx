@@ -65,7 +65,7 @@ bool OPALJet::FindAlgorithm(std::string jetalg)
     if (fJetAlgString==std::string("cambridge")) { fJetAlg=fastjet::cambridge_algorithm; return true;}
     if (fJetAlgString==std::string("antikt"))    { fJetAlg=fastjet::antikt_algorithm; return true;}
     if (fJetAlgString==std::string("genkt"))     { fJetAlg=fastjet::genkt_algorithm; return true;}
-    if (fJetAlgString==std::string("siscone")||fJetAlgString==std::string("jade")||fJetAlgString==std::string("eecambridge"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
+    if (fJetAlgString.find("siscone")!=std::string::npos||fJetAlgString==std::string("jade")||fJetAlgString==std::string("eecambridge"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
     if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))      { fJetAlg=fastjet::ee_kt_algorithm; return true;}
 
     return false;
@@ -110,7 +110,7 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
         case fastjet::plugin_algorithm:
 
 
-            if ( fJetAlgString == "siscone" )
+            if ( fJetAlgString.find("siscone")!=std::string::npos )
                 {
                     fSISPlugin= new fastjet::SISConePlugin( R["R"], R["OVERLAP_THRESHOLD"] );
                     jetdef= fastjet::JetDefinition( fSISPlugin );

@@ -288,7 +288,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                                    0.115, 0.13, 0.135, 0.16, 0.1875, 0.2, 0.26
                                                                              }));
                 }
-            if (algorithm=="siscone"||algorithm=="cambridge")
+            if (algorithm.find("siscone")!=std::string::npos||algorithm=="cambridge")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
                     {
@@ -347,7 +347,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                 }
 
 
-            if (algorithm=="siscone"||algorithm=="cambridge")
+            if (algorithm.find("siscone")!=std::string::npos||algorithm=="cambridge")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT(
                     {
@@ -625,7 +625,7 @@ void GetP(EXA* A, Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
     for( Int_t itrk= 0; itrk < std::min(A->Ntrkp,maxtrack); itrk++ ) for( Int_t j= 0; j < 4; j++ )  ptrack[itrk][j]= A->Ptrkp[itrk][j];
     ntrack= std::min(A->Ntrkp,maxtrack);
     if (ntrack!=A->Ntrkp) printf("Maxtrack is too low\n");
-    printf("ntrack=%i\n",ntrack);
+//    printf("ntrack=%i\n",ntrack);
     return;
 }
 template <class EXA>
@@ -867,7 +867,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                                 }
                         }
                 }
-            if (algo=="siscone"||algo=="cambridge")
+            if (algo.find("siscone")!=std::string::npos||algo=="cambridge")
                 {
                     std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
                     double q2=1;//sqrt(tfj->GetClusterSequence()->Q2());
@@ -936,6 +936,7 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
     Float_t ptrack[nt_maxtrk][4];
     Int_t ntrack;
     int ioff=0;
+    
     switch (OPT_TO_INT2(OPT[0],OPT[1]))
         {
 

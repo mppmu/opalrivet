@@ -53,7 +53,7 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
     replace_all(command,"+","plus");
     replace_all(command,"GeV","");
     replace_all(command,"_","");
-
+    replace_all(command,".","dot");
 
 
 
@@ -144,6 +144,7 @@ replace_all(command,"_","");
     replace_all(command,"-","minus");
     replace_all(command,"+","plus");
     replace_all(command,"GeV","");
+    replace_all(command,".","dot");
 
 
 
@@ -238,6 +239,7 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
                     replace_all(pname,"0","zero");
                     replace_all(pname,"-","minus");
                     replace_all(pname,"+","plus");
+                    replace_all(pname,".","dot");
                     replace_all(pname,"_","");
                     Q->SaveAs((std::string("output/")+pname+".eps").c_str());
 

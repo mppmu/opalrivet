@@ -44,10 +44,68 @@ A jet clustering algorithm is a way to simplify the high energy collision event 
  The energy and the momenta of the partons are reconstructed combining the 
  momenta and energy of the objects originated from the partons into jet objects.
  There are several ways, called jet algorithms,
-  to perform the combination. A detailed overview of the properties can be found elsewhere.
- 
- 
- 
+  to perform the combination, intended for a usage in different environments -- $e^+e^-$, $pp$ or $e^{\pm}p$ collisions. 
+  A detailed overview of the properties can be found elsewhere~\cite{Ali:2010tw}.
+ A brief description 
+ of the Durham~\cite{Catani:1991hj}, SiScone~\cite{Cacciari:2005hq}, anti-$k_{T}$~\cite{Cacciari:2008gp}, Jade~\cite{Bartel:1986ua}
+  and Cambridge-Aachen~\cite{Dokshitzer:1997in} jet clustering algorithms in $e^+e^-$ collisions is given below.
+Basically, the contemporary algorithms can be divided in two groups: the sequential recombination algorithms and the cone algorithms.
+
+
+\subsection{Sequential recombination algorithms}
+\label{sec:algorithmssequential}
+The sequential recombination algorithms merge pairs of clustered objects $i$ and $j$
+if a given measure $d_{ij}$ is smaller than a given cut-off. Only with $E_i$ and $E_j$ energies of clustered objects
+$E_i,E_j>E_{cut}$ are considered. 
+In the definitions below $\theta_{ij}$ is an angle between objects $i$ and $j$.
+
+For the Jade algorithm, used for $e^+e^-$ collisions, the measure is defined as 
+$$
+d_{ij,Jade}=2E_iE_j(1-\cos{\theta_{ij}})/s, E_{i,j}>0.
+$$
+ Each clustering object is used to form a jet.
+
+For the Durham algorithm, the measure definition is the following:
+$$
+d_{ij,Durham}=2min(E_i^2,E_j^2)(1-\cos{\theta_{ij}})/s, E_{i,j}>0.
+$$ 
+Each clustering object is used to form a jet.
+
+
+For the inclusive Durham algorithm, the measure definition is the following:
+$$
+d_{ij,Durham}=2min(E_i^2,E_j^2)(1-\cos{\theta_{ij}})/s, E_{i,j}>fE_{vis},
+$$
+where $E_{vis}$ is the total visible energy in the event
+and $f=0.077$ is an arbitrary parameter chosen to be the sama as in Ref.~\cite{Catani:1991hj}.
+
+
+For the anti-$k_{T}$ algorithm, the measure definition is the following:
+$$
+d_{ij,anti-kT}=2min(E_i^{-2},E_j^{-2})(1-\cos{\theta_{ij}}), E_{i,j}>fE_{vis},
+$$
+where $E_{vis}$ is the total visible energy in the event
+and $f=0.077$ is an arbitrary parameter chosen to be the sama as in Ref.~\cite{Catani:1991hj}.
+
+
+For the Cambridge-Aachen algorithm, the measure definition is the following:
+$$
+d_{ij,CA}=(1-\cos{\theta_{ij}})/s, E_{i,j}>fE_{vis},
+$$
+where $E_{vis}$ is the total visible energy in the event
+and $f=0.077$ is an arbitrary parameter chosen to be the sama as in Ref.~\cite{Catani:1991hj}.
+\subsection{Cone recombination algorithms}
+\label{sec:algorithmscone}
+
+For the SIScone algorithm with parameter $R$, the cone is defined as a set of tracks, that
+with an axis 
+$$
+n=\frac{Sum_{i in Cone}p_i}{|Sum_{i}p_i|}, np_{i Cone} \le \cos{R}, np_{i ne Cone}\ge \cos{R}, E_{cone}>E_{cut}.
+$$
+On the set of protojets a split-merging algorithm is performed, which is regulated with
+overlap parameter. Basically if the jets share a fraction of energy of objects more than the actual cut value,
+these jets are merged into a combined object. Otherwise the common set of clustered objects is splitted between
+two cones assigning the individual objects to the closest cone axis.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -99,6 +157,8 @@ The analysis is based on the data samples obtained between 1995 and 2001
 at the centre-of-mass energies $\sqrt{s}=91-209\GeV$. A summary on the luminocity
 of the used samples is given in Tab.~\ref{tab:luminocity}.
 \input{../../output/table_luminocity.tex}
+
+\renewcommand{\TABGFONTSIZE}{\tiny}
 \TABluminocity{The used data samples by year, centre-of-mass-energy range, mean centre-of-mass-energy and integrated luminosity.}
 
 For the correction of the reconstructed events to the hadron level 
@@ -112,7 +172,9 @@ $e^+e^-\rightarrow W^+W^-\rightarrow qqll$ processes,
 The samples above were passed thought OPAL detector simulation and reconstructed
 in the same way as the data.
 A summary on  the used Monte Carlo samples is given in Tab.~\ref{tab:montecarlo}.
-\TABmontecarlo
+\input{../../output/table_montecarlo.tex}
+\renewcommand{\TABGFONTSIZE}{\tiny}
+\TABmontecarlo{A summary on the used Monte Carlo samples.}
 
 
 \subsection{Event selection}
@@ -154,7 +216,7 @@ were calculated  as  implemented in Rivet package~\cite{Buckley:2010ar}.
 
 The jet rates were obtained with the Durham~\cite{Catani:1991hj}, SiScone~\cite{Cacciari:2005hq}, anti-kt~\cite{Cacciari:2008gp}, Jade~\cite{Bartel:1986ua}
   and Cambridge-Aachen~\cite{Dokshitzer:1997in}
-clustering algorithms as implemented in FastJet~\cite{Cacciari:2011ma}.
+clustering algorithms, described in Sec.~\ref{sec:algorithms} as implemented in FastJet~\cite{Cacciari:2011ma}.
 % for the data and reconstructed events.
 
 The parameters of the clustering procedures are given in Tab.~\ref{tab:algorithms}.
@@ -236,29 +298,40 @@ We
 
 %\def\cnt{2}
 %\advance\cnt by 1
-\newcommand{\TABGFONTSIZE}{\scriptsize}
+\renewcommand{\TABGFONTSIZE}{\scriptsize}
 \newarray\TABGCAPTIONcorrected
 \readarray{TABGCAPTIONcorrected}{JETR2 & JETR3 & JETR4 & JETR5 & JETR6 }
 \newarray\TABGCAPTIONolddata
 \readarray{TABGCAPTIONolddata}{Published & Published}
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=130\GeV$}
-\FloatBarrier
-\input{../../output/tables_130.tex}
-\TABGdurhamonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeonethreezeroJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=91\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_91.tex}
+%\TABGdurhamnineoneJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 91\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadenineoneJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 91\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevennineoneJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 91\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktnineoneJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 91\GeV$. The first uncertainty is statistical and the second is systematical.}
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=136\GeV$}
-\FloatBarrier
-\input{../../output/tables_136.tex}
-\TABGdurhamonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeonethreesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=130\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_130.tex}
+%\TABGdurhamonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenonethreezeroJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktonethreezeroJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 130\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=136\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_136.tex}
+%\TABGdurhamonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenonethreesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktonethreesixJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 136\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
 \FloatBarrier
@@ -267,92 +340,93 @@ We
 \input{../../output/tables_161.tex}
 \TABGdurhamonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
 \TABGjadeonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeonesixoneJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconezerodotsevenonesixoneJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGsisconeonedotzeroonesixoneJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=1.0,O=0.75$) jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGantiktonesixoneJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 161\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=172\GeV$}
-\FloatBarrier
-\input{../../output/tables_172.tex}
-\TABGdurhamoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeoneseventwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=172\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_172.tex}
+%\TABGdurhamoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenoneseventwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktoneseventwoJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 172\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=183\GeV$}
-\FloatBarrier
-\input{../../output/tables_183.tex}
-\TABGdurhamoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeoneeightthreeJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=183\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_183.tex}
+%\TABGdurhamoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenoneeightthreeJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktoneeightthreeJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 183\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=189\GeV$}
-\FloatBarrier
-\input{../../output/tables_189.tex}
-\TABGdurhamoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeoneeightnineJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
-
-
-
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=192\GeV$}
-\FloatBarrier
-\input{../../output/tables_192.tex}
-\TABGdurhamoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeoneninetwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=189\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_189.tex}
+%\TABGdurhamoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenoneeightnineJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktoneeightnineJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 189\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=196\GeV$}
-\FloatBarrier
-\input{../../output/tables_196.tex}
-\TABGdurhamoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadeoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconeoneninesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantiktoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=192\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_192.tex}
+%\TABGdurhamoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenoneninetwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktoneninetwoJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 192\GeV$. The first uncertainty is statistical and the second is systematical.}
+
+
+
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=196\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_196.tex}
+%\TABGdurhamoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadeoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotsevenoneninesixJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantiktoneninesixJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 196\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=202\GeV$}
-\FloatBarrier
-\input{../../output/tables_202.tex}
-\TABGdurhamtwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadetwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconetwozerotwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantikttwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=202\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_202.tex}
+%\TABGdurhamtwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadetwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotseventwozerotwoJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantikttwozerotwoJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 202\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=205\GeV$}
-\FloatBarrier
-\input{../../output/tables_205.tex}
-\TABGdurhamtwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadetwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconetwozerofiveJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantikttwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=205\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_205.tex}
+%\TABGdurhamtwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadetwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotseventwozerofiveJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantikttwozerofiveJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 205\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
-\FloatBarrier
-\subsection{Results for $\sqrt{s}=207\GeV$}
-\FloatBarrier
-\input{../../output/tables_207.tex}
-\TABGdurhamtwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGjadetwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGsisconetwozerosevenJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
-\TABGantikttwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Siscone jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\FloatBarrier
+%\subsection{Results for $\sqrt{s}=207\GeV$}
+%\FloatBarrier
+%\input{../../output/tables_207.tex}
+%\TABGdurhamtwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGjadetwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with Jade jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGsisconezerodotseventwozerosevenJETRall{$E$ cut, \GeV}{The jet rates distributions obtained with SIScone ($R=0.7,O=0.75$) jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
+%\TABGantikttwozerosevenJETRall{$y$ cut}{The jet rates distributions obtained with anti-$k_{T}$ jet clustering algorithm for $\sqrt{s}= 207\GeV$. The first uncertainty is statistical and the second is systematical.}
 
 
 

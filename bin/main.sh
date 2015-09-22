@@ -6,7 +6,7 @@ set -x
 declare -a generators=()
 #( pythia8 herwig++ )
  #130 136 161 172 183 189 192 196  202  205  207 
-declare -a energies=( 91 ) #130 136 161 172 183 189 192 196  202  205  207 )
+declare -a energies=( 130 ) #130 136 161 172 183 189 192 196  202  205  207 )
 # 172 183 189 192 196)
 declare -a systematics=( central  wqqlnhigh:wqqlnlow )
 #  wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )

@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
             type_fFile->Close();
         }
     std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
-    std::vector<std::string> generators=return_tokenize("corrected:olddata:manipcorrected:pythia8:herwig++:sherpa",":");
+    std::vector<std::string> generators=return_tokenize("corrected:mcall:data:olddata:manipcorrected:pythia8:herwig++:sherpa",":");
     std::string energy=std::string(argv[1]);
     std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
 //",":");
@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
 
                                             LH->AddEntry(fHMap[name],(*quantity+" "+*generator).c_str(),"AP");
                                             if (fHMap.find(name+"_systematics")!=fHMap.end())
-                                                LH->AddEntry(fHMap[name+"_systematics"],(*quantity+" "+*generator).c_str(),"AP");
+                                                LH->AddEntry(fHMap[name+"_systematics"],(*quantity+" "+*generator+"Systematics").c_str(),"AP");
                                             hoption="same";
 
 
@@ -217,10 +217,10 @@ int main(int argc, char* argv[])
                                                 }
                                             fGMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                             fGMap[name]->GetXaxis()->SetLimits(0.000001*sqrt(10),1);
-                                            if (*algorithm=="siscone")   fGMap[name]->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);
-                                            if (*algorithm=="siscone")  fGMap[name]->GetHistogram()->GetXaxis()->SetLimits(1.0,100);
-                                            if (*algorithm=="siscone")   fGMap[name]->GetXaxis()->SetRangeUser(1.0,100);
-                                            if (*algorithm=="siscone")  fGMap[name]->GetXaxis()->SetLimits(1.0,100);
+                                            if (algorithm->find("siscone")!=std::string::npos)   fGMap[name]->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);
+                                            if (algorithm->find("siscone")!=std::string::npos)  fGMap[name]->GetHistogram()->GetXaxis()->SetLimits(1.0,100);
+                                            if (algorithm->find("siscone")!=std::string::npos)   fGMap[name]->GetXaxis()->SetRangeUser(1.0,100);
+                                            if (algorithm->find("siscone")!=std::string::npos)  fGMap[name]->GetXaxis()->SetLimits(1.0,100);
 
                                             fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.55);
                                              if (*algorithm=="antikt") fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.95);
@@ -255,8 +255,8 @@ int main(int argc, char* argv[])
                                                 temp->GetHistogram()->GetYaxis()->SetRangeUser(0.05,1.95);
                                                 temp->GetHistogram()->GetXaxis()->SetTitle("y_{cut}");
                                                 temp->GetHistogram()->GetYaxis()->SetTitle();
-                                                if (*algorithm=="siscone") { temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
-                                                if (*algorithm=="siscone") { temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+                                                if (algorithm->find("siscone")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+                                                if (algorithm->find("siscone")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
 
                                                 if (name==name0)
                                                     {
@@ -265,7 +265,7 @@ int main(int argc, char* argv[])
 
                                                         TF1 *fa1;
 
-                                                        if (*algorithm=="siscone") fa1 = new TF1("fa1","1",1.0,100);
+                                                        if (algorithm->find("siscone")!=std::string::npos) fa1 = new TF1("fa1","1",1.0,100);
                                                         else
                                                             fa1 = new TF1("fa1","1",0.000001*sqrt(10),1);
                                                         fa1->SetLineColor(usecolors[0]);

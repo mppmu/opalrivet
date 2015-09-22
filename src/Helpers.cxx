@@ -133,6 +133,7 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
             A.fEa=2.0*EBEAMHIST->GetMean();
             A.fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
             A.fEh=2.0*(EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindLastBinAbove(0))+EBEAMHIST->GetBinWidth(EBEAMHIST->FindLastBinAbove(0)));
+                if (A.fType==std::string("MCBG")||A.fType==std::string("MCSI")) A.fLuminocity=A.fEvents/A.fSigma;
             TOTAL->Delete();
         }
 }

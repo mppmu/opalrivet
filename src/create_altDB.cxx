@@ -521,11 +521,11 @@ int main(int argc ,char** argv)
     #        * Herwig 6.2
     */
 
-    create_sample_info(A,prefix,"91",90.0,92.0,"9196_DATA_1",  "DATA","ALL","kLEP2","da91_96_200.root",  -1,-1,-1,1.00,  0.0,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9196_DATA_1",  "DATA","ALL","kLEP1","da91_96_200.root",  -1,-1,-1,1.00,  0.0,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9196_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc5025_1_200.root mc5025_2_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9196_PYTHIA_1","MCSI","(Z/g)*","kLEP1","mc5025_1_200.root mc5025_2_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9196_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc12406_1_200.root mc12406_2_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9196_HERWIG_1","MCSI","(Z/g)*","kLEP1","mc12406_1_200.root mc12406_2_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
 
 
@@ -545,11 +545,11 @@ int main(int argc ,char** argv)
 
 
 
-    create_sample_info(A,prefix,"91",90.0,92.0,"9197_DATA_1",  "DATA","ALL","kLEP2","da91_97_200.root",  -1,-1,-1,1.00,  0.0,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9197_DATA_1",  "DATA","ALL","kLEP1","da91_97_200.root",  -1,-1,-1,1.00,  0.0,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9197_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc5073_1_200.root mc5073_2_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9197_PYTHIA_1","MCSI","(Z/g)*","kLEP1","mc5073_1_200.root mc5073_2_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9197_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc12407_1_200.root mc12407_2_200.root mc12407_3_200.root mc12407_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9197_HERWIG_1","MCSI","(Z/g)*","kLEP1","mc12407_1_200.root mc12407_2_200.root mc12407_3_200.root mc12407_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
 
 
@@ -568,11 +568,11 @@ int main(int argc ,char** argv)
 
 
 
-    create_sample_info(A,prefix,"91",90.0,92.0,"9198_DATA_1",  "DATA","ALL","kLEP2","da91_98_1_200.root da91_98_2_200.root",  -1,-1,-1,1.00,  0.0,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9198_DATA_1",  "DATA","ALL","kLEP1","da91_98_1_200.root da91_98_2_200.root",  -1,-1,-1,1.00,  0.0,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9198_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc12040_1_200.root mc12040_2_200.root mc12040_3_200.root mc12040_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9198_PYTHIA_1","MCSI","(Z/g)*","kLEP1","mc12040_1_200.root mc12040_2_200.root mc12040_3_200.root mc12040_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9198_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc12408_1_200.root mc12408_2_200.root mc12408_3_200.root mc12408_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9198_HERWIG_1","MCSI","(Z/g)*","kLEP1","mc12408_1_200.root mc12408_2_200.root mc12408_3_200.root mc12408_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
 
 
@@ -589,12 +589,12 @@ int main(int argc ,char** argv)
     */
 
 
-    create_sample_info(A,prefix,"91",90.0,92.0,"9199_DATA_1",  "DATA","ALL","kLEP2","da91_99_1_200.root da91_99_2_200.root",  -1,-1,-1,1.00,  0.0,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9199_DATA_1",  "DATA","ALL","kLEP1","da91_99_1_200.root da91_99_2_200.root",  -1,-1,-1,1.00,  0.0,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9199_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc12138_1_200.root mc12138_2_200.root mc12138_3_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9199_PYTHIA_1","MCSI","(Z/g)*","kLEP1","mc12138_1_200.root mc12138_2_200.root mc12138_3_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
     //!FIXME!!
-    create_sample_info(A,prefix,"91",90.0,92.0,"9199_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc12409_1_200.root mc12409_2_200.root mc12409_3_200.root mc12409_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9199_HERWIG_1","MCSI","(Z/g)*","kLEP1","mc12409_1_200.root mc12409_2_200.root mc12409_3_200.root mc12409_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
 
 
@@ -611,11 +611,11 @@ int main(int argc ,char** argv)
     */
 
 
-    create_sample_info(A,prefix,"91",90.0,92.0,"9100_DATA_1",  "DATA","ALL","kLEP2","da91_2k_1_200.root da91_2k_2_200.root",  -1,-1,-1,1.00,  0.0,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9100_DATA_1",  "DATA","ALL","kLEP1","da91_2k_1_200.root da91_2k_2_200.root",  -1,-1,-1,1.00,  0.0,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9100_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc12139_1_200.root mc12139_2_200.root mc12139_3_200.root mc12139_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9100_PYTHIA_1","MCSI","(Z/g)*","kLEP1","mc12139_1_200.root mc12139_2_200.root mc12139_3_200.root mc12139_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
-    create_sample_info(A,prefix,"91",90.0,92.0,"9100_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc12410_1_200.root mc12410_2_200.root mc12410_3_200.root mc12410_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
+    create_sample_info(A,prefix,"91",90.0,92.0,"9100_HERWIG_1","MCSI","(Z/g)*","kLEP1","mc12410_1_200.root mc12410_2_200.root mc12410_3_200.root mc12410_4_200.root",-1,-1,-1,  0.0,1.00,0.0);
     DB->Fill();
 
 

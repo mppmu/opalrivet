@@ -50,6 +50,6 @@
 #include <map>
 #include <string>
 //#define ALGORITHMS "durham:cambridge:jade:eecambridge:antikt:kt:siscone"
-#define ALGORITHMS "durham:jade:siscone:cambridge:antikt"
+#define ALGORITHMS "durham:jade:siscone0.7:siscone1.0:cambridge:antikt"
 std::map<std::string,std::map<std::string,double> > InitCuts();
 #endif

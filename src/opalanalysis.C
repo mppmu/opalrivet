@@ -25,9 +25,9 @@
 #include  "TSampleInfo.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
-#ifndef YEARSUFFIX
-#define YEARSUFFIX ""
-#endif
+//#ifndef YEARSUFFIX
+//#define YEARSUFFIX ""
+//#endif
 void opalanalysis::Begin(__attribute__ ((unused))TTree *tree) {}
 void opalanalysis::SlaveBegin(TTree * tree)
 {
@@ -51,14 +51,18 @@ void opalanalysis::SlaveBegin(TTree * tree)
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++) ///Update the DB and set weights for this execution. If there would be nmore files one can write a new DB.
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
-            if (R->fType=="MCBG"||R->fType=="MCSI") R->fWeight=proc["ALL"].first/proc[R->fProcesses].first/proc["ALL"].second*proc[R->fProcesses].second; ///Set proper weight to the MC
+            if (R->fType=="MCBG"||R->fType=="MCSI") 
+            {
+            R->fWeight=proc["ALL"].first/proc[R->fProcesses].first;///proc["ALL"].second*proc[R->fProcesses].second; ///Set proper weight to the MC
+		printf("R->fWeight %f \n",R->fWeight);
+		    }
             else R->fWeight=1.0;
             R->Write();
         }
     TDB->Close();
     fSampleInfo->fGenerator="opal";
     fOutput->Add(fSampleInfo);
-    fProofFile = new TProofOutputFile(Form("./output/%s_%s%s_%s.root",fSampleInfo->fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),YEARSUFFIX,CUTS), "M");
+    fProofFile = new TProofOutputFile(Form("./output/%s_%s_%s.root",fSampleInfo->fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),CUTS), "M");
     TDirectory *savedir = gDirectory;
     fFile = fProofFile->OpenFile("RECREATE");
     savedir->cd();
@@ -81,21 +85,26 @@ Bool_t opalanalysis::Process(Long64_t gentry)
     if (fSampleInfo->fType==std::string("MCSI")||fSampleInfo->fType==std::string("MCBG")) if (2.0*this->Ebeam-TLorentzVector(Pisr[0],Pisr[1],Pisr[2],Pisr[3]).M()> 1.0)  passed[1]=kFALSE;
     if( this->Ntkd02 < int(mycuts[CUTS]["Ntkd02"]) )  passed[0]=kFALSE;
     if( std::abs(this->Tvectc[2])> mycuts[CUTS]["costt"] )  passed[0]=kFALSE;
+    double SP;
+    if (fSampleInfo->fPeriod!=std::string("kLEP1"))
+    {
     if( this->Lwqqqq>mycuts[CUTS]["wqqqq"] )  passed[0]=kFALSE;
-    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  passed[0]=kFALSE;
+    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  passed[0]=kFALSE;    
     if( this->Il2mh!=int(mycuts[CUTS]["Il2mh"]))   passed[0]=kFALSE;
     if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   passed[0]=kFALSE;
+
     if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   passed[0]=kFALSE;
-    double SP;
+    
     if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
     if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
-
+    
     if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) passed[0]=kFALSE;
     if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  passed[1]=kFALSE;}
     if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   passed[0]=kFALSE;
+    }    
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
-    std::string objects="mt";
+    std::string objects="mt";    
     if (int(mycuts[CUTS]["objects"])==2) objects="tc";
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal:mcall:truesignalp",":",datatypes); tokenize(objects+":h:mt:p",":",options); }//
@@ -138,7 +147,7 @@ void opalanalysis::Terminate()
     else        fSampleInfo=out;
     fSampleInfo->fGenerator="opal";
     printf("opening ./output/%s_%s.root",fSampleInfo->fGenerator.c_str(),fSampleInfo->fEnergyString.c_str());
-    TFile* type_fFile= new TFile(Form("./output/%s_%s%s_%s.root",fSampleInfo->fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),YEARSUFFIX,CUTS), "UPDATE");
+    TFile* type_fFile= new TFile(Form("./output/%s_%s_%s.root",fSampleInfo->fGenerator.c_str(),fSampleInfo->fEnergyString.c_str(),CUTS), "UPDATE");
     if (!type_fFile) {printf("No such file\n"); return;}
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
