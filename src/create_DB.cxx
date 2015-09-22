@@ -38,13 +38,14 @@ void FillInfo(TSampleInfo* A,std::string prefix)
     A->fRunsEnd=20000-2;
 
 
-    while (TOTAL->GetBinContent(A->fRunsBegin)<0.5&&A->fRunsEnd>=A->fRunsBegin) A->fRunsBegin++;
-    while (TOTAL->GetBinContent(A->fRunsEnd)<0.5&&A->fRunsEnd>=A->fRunsBegin) A->fRunsEnd--;
+    A->fRunsBegin=TOTAL->FindFirstBinAbove(0);
+    A->fRunsEnd=TOTAL->FindLastBinAbove(0);
+    
     if (A->fRunsEnd<A->fRunsBegin) puts("Wrong run numbers of energy");
     A->fEvents=TOTAL->GetEntries();
     A->Print();
 
-            C->Draw("Ebeam>>EBEAMHIST(10000,40.0,140.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
+            C->Draw("Ebeam>>EBEAMHIST(100000,40.0,140.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
             TH1F* EBEAMHIST=(TH1F*)gDirectory->Get("EBEAMHIST");
             A->fEa=2.0*EBEAMHIST->GetMean();
             A->fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
@@ -85,7 +86,7 @@ int main(int argc ,char** argv)
 
 
 
-    AIStruct.push_back(new TSampleInfo("130",129.0,131.0,"130_DATA_1",  "DATA","ALL","kLEP1","da130_95_200.root",-1,-1,-1,2.70,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo("130",129.0,131.0,"130_DATA_1",  "DATA","ALL","kLEP2","da130_95_200.root",-1,-1,-1,2.70,0.0,0.0));
     AIStruct.push_back(new TSampleInfo("130",129.0,131.0,"130_DATA_2",  "DATA","ALL","kLEP2","da130_97_200.root",-1,-1,-1,2.61,0.0,0.0));
     AIStruct.push_back(new TSampleInfo("130",129.0,131.0,"130_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc12162_1_200.root mc12162_2_200.root",-1,-1,-1,0.0,335.9,0.0));
     AIStruct.push_back(new TSampleInfo("130",129.0,131.0,"130_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc11925_1_200.root mc11925_2_200.root",-1,-1,-1,0.0,334.9,0.0));
@@ -111,7 +112,7 @@ int main(int argc ,char** argv)
     */
 
 
-    AIStruct.push_back(new TSampleInfo("136",135.0,137.0,"136_DATA_1",  "DATA","ALL","kLEP1","da136_95_200.root",-1,-1,-1,2.56,0.0,0.0));
+    AIStruct.push_back(new TSampleInfo("136",135.0,137.0,"136_DATA_1",  "DATA","ALL","kLEP2","da136_95_200.root",-1,-1,-1,2.56,0.0,0.0));
     AIStruct.push_back(new TSampleInfo("136",135.0,137.0,"136_DATA_2",  "DATA","ALL","kLEP2","da136_97_200.root",-1,-1,-1,2.36,0.0,0.0));
     AIStruct.push_back(new TSampleInfo("136",135.0,137.0,"136_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc12163_1_200.root mc12163_2_200.root",-1,-1,-1,0.0,278.8,0.0));
     AIStruct.push_back(new TSampleInfo("136",135.0,137.0,"136_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc11926_1_200.root mc11926_2_200.root",-1,-1,-1,0.0,278.5,0.0));
@@ -534,7 +535,7 @@ Year & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\GeV$ &
     fprintf(table_mc,"\\newcommand{\\TABmontecarlo}[1]{\n\
 \\begin{table}\\centering\\TABGFONTSIZE\n\
 \\begin{tabular}{|c|c|c|c|c|}\\hline\n\
-Generator & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\GeV$ & Luminocity,$\\mathrm{fb}^{-1}$ \\\\\\hline\n");
+Generator & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\GeV$ & Luminocity,$\\mathrm{pb}^{-1}$ \\\\\\hline\n");
     
     
     
@@ -666,7 +667,7 @@ run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(1
 			if ((*it)->fRunsBegin<=r->first.second&&r->first.first<=(*it)->fRunsEnd) {if (mc.size()!=0) mc+=","; mc+=r->second;}
 			if (tE2!=(*it)->fEnergyString){fprintf(table_mc,"\\hline\n"); tE2=(*it)->fEnergyString;}	
 			fprintf(table_mc,"%s &%s & $%4.2f-%4.2f$ & $%4.2f$ & $%4.2f$\\\\\n",mc.c_str(),(*it)->fEnergyString.c_str(),(*it)->fEl,(*it)->fEh,
-			(*it)->fEa,0.001*(*it)->fLuminocity);
+			(*it)->fEa,(*it)->fLuminocity);
 				
 			}
 

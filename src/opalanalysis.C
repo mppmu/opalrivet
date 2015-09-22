@@ -53,7 +53,7 @@ void opalanalysis::SlaveBegin(TTree * tree)
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
             if (R->fType=="MCBG"||R->fType=="MCSI") 
             {
-            R->fWeight=proc["ALL"].first/proc[R->fProcesses].first;///proc["ALL"].second*proc[R->fProcesses].second; ///Set proper weight to the MC
+            R->fWeight=proc["ALL"].first/proc[R->fProcesses].first; ///Set proper weight to the MC
 		printf("R->fWeight %f \n",R->fWeight);
 		    }
             else R->fWeight=1.0;
@@ -68,7 +68,7 @@ void opalanalysis::SlaveBegin(TTree * tree)
     savedir->cd();
     tokenize(ALGORITHMS,":",fAlgorithms);
     std::vector<std::string> datatypes;
-    tokenize("mcbackgr:mcsignal:mcall:data:truesignal:truesignalp:truebackgr:acceptancesignal:acceptancebackgr:corrected",":",datatypes);
+    tokenize("mcbackgr:mcsignal:mcall:data:truesignal:truesignalp:truebackgr:acceptancesignal:acceptancebackgr:corrected:truesignalnormalized",":",datatypes);
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<datatypes.size(); j++) BookHistograms(this,fSampleInfo->fPeriod,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),fAlgorithms.at(i).c_str(),fSampleInfo->fEnergyString.c_str()));
 }
 Bool_t opalanalysis::Process(Long64_t gentry)
@@ -99,7 +99,7 @@ Bool_t opalanalysis::Process(Long64_t gentry)
     if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
     
     if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) passed[0]=kFALSE;
-    if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  passed[1]=kFALSE;}
+    if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  }
     if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   passed[0]=kFALSE;
     }    
     std::vector<std::string> datatypes;
@@ -168,12 +168,24 @@ void opalanalysis::Terminate()
                     H_it->second->Divide(fHMap[std::string("H_truesignal_")+name]);
                     fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name],fHMap[std::string("H_mcbackgr_")+name],1.0,-mycuts[CUTS]["backgroundscale"]);
                     fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
-                    double H_scale=fHMap[std::string("H_corrected_")+name]->GetBinContent(0);
+                    double H_scale;
+                    
+                    H_scale=fHMap[std::string("H_corrected_")+name]->GetBinContent(0);
                     if   (H_it->first.find("JETR")!=std::string::npos)
                         { fHMap[std::string("H_corrected_")+name]->Scale(1.0/H_scale); fHMap[std::string("H_corrected_")+name]->SetBinContent(0,H_scale);}
                     else if (std::abs(fHMap[std::string("H_corrected_")+name]->Integral())>0.0001)
                         fHMap[std::string("H_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->Integral());
 
+
+                    fHMap[std::string("H_truesignalnormalized_")+name]->Add(fHMap[std::string("H_truesignal_")+name]);
+                    H_scale=fHMap[std::string("H_truesignalnormalized_")+name]->GetBinContent(0);
+                    if   (H_it->first.find("JETR")!=std::string::npos)
+                        { fHMap[std::string("H_truesignalnormalized_")+name]->Scale(1.0/H_scale); fHMap[std::string("H_truesignalnormalized_")+name]->SetBinContent(0,H_scale);}
+                    else if (std::abs(fHMap[std::string("H_truesignalnormalized_")+name]->Integral())>0.0001)
+                        fHMap[std::string("H_truesignalnormalized_")+name]->Scale(1.0/fHMap[std::string("H_truesignalnormalized_")+name]->Integral());
+
+
+                   
                 }
             if (H_it->first.find("H_acceptancebackgr_")!=std::string::npos)
                 {
@@ -197,6 +209,14 @@ void opalanalysis::Terminate()
                         fGMap[std::string("G_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->GetBinContent(0));//WOW!
                     else if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
                         fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
+
+                    if   (G_it->first.find("JETR")!=std::string::npos)
+                        fGMap[std::string("G_truesignalnormalized_")+name]->Scale(1.0/fHMap[std::string("H_truesignalnormalized_")+name]->GetBinContent(0));//WOW!
+                    else if (std::abs(fGMap[std::string("G_truesignalnormalized_")+name]->Integral())>0.0001)
+                        fGMap[std::string("G_truesignalnormalized_")+name]->Scale(1.0/fGMap[std::string("G_truesignalnormalized_")+name]->Integral());
+
+
+
                 }
             if (G_it->first.find("G_acceptancebackgr_")!=std::string::npos)
                 {

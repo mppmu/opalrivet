@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 {
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
-    for (int i=2; i<argc; i++)
+    for (int i=4; i<argc; i++)
         {
             TFile* type_fFile= new TFile(argv[i], "READ");
             type_fFile->cd();
@@ -51,12 +51,27 @@ int main(int argc, char* argv[])
             type_fFile->Close();
         }
     std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
-    std::vector<std::string> generators=return_tokenize("corrected:mcall:data:olddata:manipcorrected:pythia8:herwig++:sherpa",":");
-    std::string energy=std::string(argv[1]);
+    std::vector<std::string> generators=return_tokenize(std::string(argv[3]),":");
+    //=return_tokenize("corrected:mcall:truesignal:data:olddata:manipcorrected:pythia8:herwig++:sherpa",":");
+    
+    int types[2];types[0]=0; types[1]=0;
+    
+    if(std::find(generators.begin(), generators.end(), std::string("corrected")) != generators.end())types[0]++;
+    if(std::find(generators.begin(), generators.end(), std::string("olddata")) != generators.end())types[0]++;
+    if(std::find(generators.begin(), generators.end(), std::string("pythia8")) != generators.end())types[0]++;
+    if(std::find(generators.begin(), generators.end(), std::string("herwig++")) != generators.end())types[0]++;
+    if(std::find(generators.begin(), generators.end(), std::string("data")) != generators.end()) types[1]++;
+    if(std::find(generators.begin(), generators.end(), std::string("mcall")) != generators.end()) types[1]++;
+    if(std::find(generators.begin(), generators.end(), std::string("truesignal")) != generators.end())types[1]++;
+    
+    if (types[0]&&types[1]) {printf("Incompatible list of histos\n"); exit(2);}
+    
+    std::string energy=std::string(argv[2]);
+    std::string nick=std::string(argv[1]);
     std::vector<std::string>  quantities=return_tokenize("JETR2:JETR3:JETR4:JETR5:JETR6:1-T:T:T-Maj:T-Min:A:CP:MH:S:O:BT:BW:D2:MH2:JTE0:DP",":");
 //",":");
 
-    TFile* F= new TFile(("output/plots_"+energy+".root").c_str(),"RECREATE");
+    TFile* F= new TFile(("output/plots_"+nick+"_"+energy+".root").c_str(),"RECREATE");
     F->cd();
 
     for (std::vector<std::string>::iterator algorithm=algorithms.begin(); algorithm!=algorithms.end(); algorithm++)
@@ -141,7 +156,7 @@ int main(int argc, char* argv[])
                                             fHMap[name]->Draw("ASAME");
 
                                             fHMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
-                                            if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
+                                            if (types[0]) if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetYaxis()->SetRangeUser(-0.1,1.35);
                                             if (quantity->find("JETR")!=std::string::npos) fHMap[name]->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                             fHMap[name]->SetLineColor(usecolors[color%4]);
                                             fHMap[name]->SetMarkerStyle(kFullCircle);
@@ -198,7 +213,8 @@ int main(int argc, char* argv[])
                                     std::string name0=	"G_"+generators[0]+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fGMap.find(name)!=fGMap.end())
                                         {
-                                            fGMap[name]->SetTitle(";;Fraction");
+                                             if (types[0]) fGMap[name]->SetTitle(";;Fraction");
+                                             if (types[1]) fGMap[name]->SetTitle(";;Counts");
                                             
                                             fGMap[name]->Draw(goption.c_str());
                                             fGMap[name]->GetHistogram()->GetYaxis()->SetTitleSize(0.08);
@@ -222,8 +238,8 @@ int main(int argc, char* argv[])
                                             if (algorithm->find("siscone")!=std::string::npos)   fGMap[name]->GetXaxis()->SetRangeUser(1.0,100);
                                             if (algorithm->find("siscone")!=std::string::npos)  fGMap[name]->GetXaxis()->SetLimits(1.0,100);
 
-                                            fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.55);
-                                             if (*algorithm=="antikt") fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.95);
+                                            if (types[0]) fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.55);
+                                            if (types[0])  if (*algorithm=="antikt") fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.95);
                                             fGMap[name]->SetLineColor(usecolors[color%5]);
                                             fGMap[name]->SetMarkerStyle(kFullCircle);
                                             fGMap[name]->SetMarkerSize(1.1);
@@ -299,9 +315,9 @@ int main(int argc, char* argv[])
                     icanH++;
                 }
             CH->Write();
-            CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".pdf").c_str());
-            CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".png").c_str());
-            CH->SaveAs(("output/plots_"+energy+"_"+*algorithm+".root").c_str());
+            CH->SaveAs(("output/plots_"+nick+"_"+energy+"_"+*algorithm+".pdf").c_str());
+            CH->SaveAs(("output/plots_"+nick+"_"+energy+"_"+*algorithm+".png").c_str());
+            CH->SaveAs(("output/plots_"+nick+"_"+energy+"_"+*algorithm+".root").c_str());
         }
     F->Close();
 }

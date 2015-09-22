@@ -3,12 +3,13 @@ export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 export ARCH=$(uname -m)
 set -x
-declare -a generators=()
-#( pythia8 herwig++ )
+declare -a generators=( pythia8 herwig++ )
  #130 136 161 172 183 189 192 196  202  205  207 
-declare -a energies=( 130 ) #130 136 161 172 183 189 192 196  202  205  207 )
+declare -a energies=( 161 ) 
+#(130 136 172 183 189 192 196  202  205  207 )
 # 172 183 189 192 196)
-declare -a systematics=( central  wqqlnhigh:wqqlnlow )
+declare -a systematics=( central ) 
+# wqqlnhigh:wqqlnlow )
 #  wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
 
@@ -32,13 +33,21 @@ bin/$ARCH/create_systematics $energy "${systematics[@]}"
 
 $MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
-#$MAKE output/shapemanip_$energy".root" > logs/temp.txt 
+$MAKE output/shapemanip_$energy".root" > logs/temp.txt 
 cat logs/temp.txt | grep SHAPE:MCDA: | sort -n | sed 's@SHAPE:MCDA: @@g' >logs/SHAPE_MCDA.debug_$energy
 cat logs/temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >logs/SHAPE_TRUE.debug_$energy
 make bin/$ARCH/create_plots
-bin/$ARCH/create_plots $energy  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+bin/$ARCH/create_plots norm $energy "corrected:olddata:manipcorrected:truesignalnormalized"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+bin/$ARCH/create_plots newmc $energy "corrected:olddata:pythia8:herwig++:sherpa"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+bin/$ARCH/create_plots raw    $energy "data:mcall"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
+bin/$ARCH/create_plots acc    $energy "acceptancesignal"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 #bin/$ARCH/create_plots $energy  $(echo  opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
-$MAKE output/tables_$energy".tex"
+#$MAKE output/tables_$energy".tex"
+make bin/$ARCH/create_tables
+bin/$ARCH/create_tables norm output/plots_norm_161.root output/tables_norm_$energy".tex"
+bin/$ARCH/create_tables newmc output/plots_newmc_161.root output/tables_newmc_$energy".tex"
+bin/$ARCH/create_tables raw output/plots_raw_161.root output/tables_raw_$energy".tex"
+bin/$ARCH/create_tables acc output/plots_acc_161.root output/tables_acc_$energy".tex"
 done
 
 

@@ -25,17 +25,17 @@
 #include "TAdvancedGraph.h"
 
 
-void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string command)
+void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f,std::string nick, std::string command)
 {
     if (fGMap.size()==0) return;
 
 
     puts(fGMap.begin()->first.c_str());
     std::vector<std::string> na;
-    std::string newcommand="TABG";
+    std::string newcommand="";
     tokenize(fGMap.begin()->first,"_",na);
     for (unsigned int i=2; i<na.size(); i++) newcommand+=na[i];
-    if (command==std::string("")) command=newcommand;
+    if (command==std::string("")) command="TABG"+nick+newcommand;
 
 
     puts(fGMap.begin()->first.c_str());
@@ -121,14 +121,15 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f, std::string c
 
 
 
-void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f, std::string command)
+void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f,std::string nick, std::string command)
 {
     if (fHMap.size()==0) return;
     std::vector<std::string> na;
-    std::string newcommand="TABH";
+    std::string newcommand="";
     tokenize(fHMap.begin()->first,"_",na);
     for (unsigned int i=2; i<na.size(); i++) newcommand+=na[i];
-    if (command==std::string("")) command=newcommand;
+    if (command==std::string("")) command="TABH"+nick+newcommand;
+
 
 replace_all(command,"_","");
     replace_all(command,"1","one");
@@ -199,7 +200,7 @@ replace_all(command,"_","");
 }
 
 
-void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
+void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string nick,std::string command)
 {
     if (fCMap.size()==0) return;
 
@@ -214,8 +215,12 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
             //int i=1;
             for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
                 {
-                    TPad* A1=(TPad*)C->second->GetListOfPrimitives()->At(2*i);
-                    TPad* A2=(TPad*)C->second->GetListOfPrimitives()->At(2*i+1);
+                    //TPad* A1=(TPad*)(((TPad*)C->second->GetListOfPrimitives()->At(2*i))->Clone("1"));
+                    //TPad* A2=(TPad*)(((TPad*)C->second->GetListOfPrimitives()->At(2*i+1))->Clone("2"));
+                    TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->At(2*i));
+                    TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->At(2*i+1));
+
+
                     double h1=A1->GetAbsHNDC();
                     double h2=A2->GetAbsHNDC();
 
@@ -227,6 +232,9 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
                     A2->Draw();
                     std::string pname=C->first+A1->GetTitle();
                     if (command!="") pname=command;
+                    
+                    pname=nick+pname;
+                    
                     replace_all(pname,"1","one");
                     replace_all(pname,"2","two");
                     replace_all(pname,"3","three");
@@ -244,20 +252,33 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string command)
                     Q->SaveAs((std::string("output/")+pname+".eps").c_str());
 
 
-                    fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{output/%s}\\caption{#1}\\end{figure}}\n",
+                    fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{../../output/%s}\\caption{#1}\\end{figure}}\n",
                             pname.c_str(),pname.c_str());
+      
+                                                       
+                            
+
                 }
         }
 }
 
+
+
+
+
+
+
+
+
 int main(int argc, char* argv[])
 {
 
+std::string nick=std::string(argv[1]);
     FILE * FF;
-    FF= fopen(argv[2],"w");
+    FF= fopen(argv[3],"w");
 
     std::map<std::string,TCanvas*> fCMap;
-    TFile* type_fFile= new TFile(argv[1], "READ");
+    TFile* type_fFile= new TFile(argv[2], "READ");
     type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
     TKey *key;
@@ -308,9 +329,9 @@ int main(int argc, char* argv[])
                                 }
 
                         }
-                    PrintTG(fGMap,FF,"");
+                    PrintTG(fGMap,FF,nick,"");
 
-                    PrintTH(fHMap,FF,"");
+                    PrintTH(fHMap,FF,nick,"");
                 if (fGMap.size())
                 //if (fGMap.begin()->first.find("corrected")!=std::string::npos)
                  if (fGMap.begin()->first.find("JETR")!=std::string::npos) {
@@ -321,9 +342,9 @@ int main(int argc, char* argv[])
                 
                 }
         
-        PrintTG(allfGMap,FF,"TABG"+C->first+"_JETRall");
+        PrintTG(allfGMap,FF,"","TABG"+nick+C->first+"_JETRall");
         
         }
-    PrintTC(fCMap,FF,"");
+    PrintTC(fCMap,FF,nick,"");
     fclose(FF);
 }
