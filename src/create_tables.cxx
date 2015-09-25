@@ -213,23 +213,77 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string nick,std
 
 
             //int i=1;
-            for (int i=0; i<C->second->GetListOfPrimitives()->GetSize()/2; i++)
+TObject *objx;
+//printf("ffffffffffff%i\n",C->second->GetListOfPrimitives()->GetSize());
+ TIter nextx(C->second->GetListOfPrimitives());
+ C->second->Print();
+ //puts("ooooooooooo");
+            //        while ((objx=nextx()))
+
+            for (int i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
+					objx=C->second->GetListOfPrimitives()->At(i);
+					if (objx==NULL) continue;
+					//printf("%i\n",objx);
+					//puts("OK");
+					objx->Print();
+					if (!objx->InheritsFrom(TVirtualPad::Class())) continue;
+					std::string qname= std::string(objx->GetName());
+					std::string rname=qname;
+					replace_all(rname,"QPAD","RPAD");
+					if (qname.find("QPAD")==std::string::npos) continue;
+					
+					TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->FindObject(qname.c_str()));
+					TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->FindObject(rname.c_str()));
                     //TPad* A1=(TPad*)(((TPad*)C->second->GetListOfPrimitives()->At(2*i))->Clone("1"));
                     //TPad* A2=(TPad*)(((TPad*)C->second->GetListOfPrimitives()->At(2*i+1))->Clone("2"));
-                    TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->At(2*i));
-                    TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->At(2*i+1));
+                    
+                    
+                    
+                    //TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->At(2*i));
+                    //TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->At(2*i+1));
+                    
+                    //if (!A1) { puts("A1"); continue;}
+                    //if (!A2) { puts("A2"); continue;}
+
+TObject *obj2;
+int no=0;
+                    TIter next2(A2->GetListOfPrimitives());
+                    while ((obj2=next2()))
+                        {
+							//printf("%s\n",obj2->GetName());
+                            if (obj2->InheritsFrom("TH1")) no++;
+                            if ( obj2->IsA()->InheritsFrom( "TGraph" ) )  no++;
+                        //if ( obj2->InheritsFrom( "TGraph" ) ) { puts("yes3");}
+                        }
+                    
 
 
                     double h1=A1->GetAbsHNDC();
                     double h2=A2->GetAbsHNDC();
-
+                    TCanvas *Q= new TCanvas(("Q"+qname+"Z").c_str(),"Q",1024,1024);
+                    Q->cd();
+                      //printf("no=%i\n",no);
+                if (no>1)
+                {
                     A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
                     A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
-                    TCanvas *Q= new TCanvas("Q","Q",1024,1024);
-                    Q->cd();
                     A1->Draw();
                     A2->Draw();
+                    
+				}
+				else
+				{
+                    
+                    A1->SetPad(0.0,0,1.0,1.0);
+                    A1->SetBottomMargin(0.1);
+                    A1->Draw();
+					
+					
+					
+				}	
+				
+                    
                     std::string pname=C->first+A1->GetTitle();
                     if (command!="") pname=command;
                     
@@ -250,7 +304,7 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string nick,std
                     replace_all(pname,".","dot");
                     replace_all(pname,"_","");
                     Q->SaveAs((std::string("output/")+pname+".eps").c_str());
-
+Q->Delete();
 
                     fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{../../output/%s}\\caption{#1}\\end{figure}}\n",
                             pname.c_str(),pname.c_str());
@@ -306,10 +360,10 @@ std::string nick=std::string(argv[1]);
                 {
                     std::map<std::string,TH1D*> fHMap;
                     std::map<std::string,TAdvancedGraph*> fGMap;
-                    
-                   if (std::string(((TPad*)(C->second->GetListOfPrimitives()->At(i)))->GetName()).find("RPAD")
-                   !=std::string::npos) continue;
-                    
+                    std::string padname=std::string(((TPad*)(C->second->GetListOfPrimitives()->At(i)))->GetName());
+                   
+                   if (padname.find("QPAD")==std::string::npos) continue;
+                    printf("pad1-> %s\n",padname.c_str());
                     TObject *obj2;
                     TIter next2(((TPad*)C->second->GetListOfPrimitives()->At(i))->GetListOfPrimitives());
                     while ((obj2=next2()))
@@ -329,14 +383,19 @@ std::string nick=std::string(argv[1]);
                                 }
 
                         }
+                        
+                                     printf("pad2<- %s\n",padname.c_str());
+                        
                     PrintTG(fGMap,FF,nick,"");
 
                     PrintTH(fHMap,FF,nick,"");
                 if (fGMap.size())
                 //if (fGMap.begin()->first.find("corrected")!=std::string::npos)
                  if (fGMap.begin()->first.find("JETR")!=std::string::npos) {
-					for ( std::map<std::string,TAdvancedGraph*>::iterator it=fGMap.begin();it!=fGMap.end();it++) if (it->first.find("corrected")!=std::string::npos) allfGMap.insert(*it); 
-					 for ( std::map<std::string,TH1D*>::iterator it=fHMap.begin();it!=fHMap.end();it++) if (it->first.find("corrected")!=std::string::npos) allfHMap.insert(*it); 
+					for ( std::map<std::string,TAdvancedGraph*>::iterator it=fGMap.begin();it!=fGMap.end();it++) 
+					if (it->first.find("corrected")!=std::string::npos) allfGMap.insert(*it); 
+					 for ( std::map<std::string,TH1D*>::iterator it=fHMap.begin();it!=fHMap.end();it++) 
+					 if (it->first.find("corrected")!=std::string::npos) allfHMap.insert(*it); 
 					 
 					 }
                 

@@ -60,6 +60,7 @@ int main(int argc, char* argv[])
     if(std::find(generators.begin(), generators.end(), std::string("olddata")) != generators.end())types[0]++;
     if(std::find(generators.begin(), generators.end(), std::string("pythia8")) != generators.end())types[0]++;
     if(std::find(generators.begin(), generators.end(), std::string("herwig++")) != generators.end())types[0]++;
+    if(std::find(generators.begin(), generators.end(), std::string("acceptancesignal")) != generators.end())types[0]++;
     if(std::find(generators.begin(), generators.end(), std::string("data")) != generators.end()) types[1]++;
     if(std::find(generators.begin(), generators.end(), std::string("mcall")) != generators.end()) types[1]++;
     if(std::find(generators.begin(), generators.end(), std::string("truesignal")) != generators.end())types[1]++;
@@ -82,35 +83,38 @@ int main(int argc, char* argv[])
             const int M=sqrt(quantities.size())+1;
             std::vector<std::string> Q=  quantities;
             for (int j=Q.size(); j<M*M; j++) Q.push_back(Form("Placeholder_%i",j));
-            TPad *pads[2*M*M];
+            //TPad *pads[2*M*M];
+            std::map<std::string,TPad* > pads;
             for (int z=0; z<M*M; z++)
                 {
                     int i=z%M;
                     int j=z/M;
-                    pads[2*z]=new TPad(Form("QPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.35)/M,(i+1.0)/M,(j+1.0)/M);
-                    pads[2*z]->SetBottomMargin(0);
-                    pads[2*z]->SetRightMargin(0.05);
-                    pads[2*z]->Draw();
-                    pads[2*z+1]=new TPad(Form("RPAD_%s",Q[z].c_str()),Form("%s",Q[z].c_str()),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.35)/M);
-                    pads[2*z+1]->SetTopMargin(0);
-                               pads[2*z+1]->SetRightMargin(0.05);
-                    pads[2*z+1]->SetBottomMargin(0.25);
-                    pads[2*z+1]->Draw();
+                    std::string qname=std::string("QPAD_")+Q[z];
+                    std::string rname=std::string("RPAD_")+Q[z];
+                    pads.insert(std::pair<std::string,TPad* >(qname,new TPad(qname.c_str(),Q[z].c_str(),1.0*i/M,(j+0.35)/M,(i+1.0)/M,(j+1.0)/M)));
+                    pads[qname]->SetBottomMargin(0);
+                    pads[qname]->SetRightMargin(0.05);
+                    pads[qname]->Draw();
+                    pads.insert(std::pair<std::string,TPad* >(rname,new TPad(rname.c_str(),Q[z].c_str(),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.35)/M)));
+                    pads[rname]->SetTopMargin(0);
+                               pads[rname]->SetRightMargin(0.05);
+                    pads[rname]->SetBottomMargin(0.25);
+                    pads[rname]->Draw();
                 }
 
 
-            int icanH=0;
+            //int icanH=0;
 
             gStyle->SetOptStat(0);
-            for (std::vector<std::string>::iterator quantity=quantities.begin(); quantity!=quantities.end(); quantity++)
+            for (std::vector<std::string>::iterator quantity=Q.begin(); quantity!=Q.end(); quantity++)
                 {
                     int color=0;
                     std::string hoption="";
                     std::string goption="APLE";
                     Color_t usecolors[5]= {kBlue,kRed,kGreen,kYellow,kBlack};
-                    pads[2*icanH]->cd();
-                    pads[2*icanH]->SetLogx();
-                    pads[2*icanH+1]->SetLogx();
+                    pads[std::string("QPAD_")+*quantity]->cd();
+                    pads[std::string("QPAD_")+*quantity]->SetLogx();
+                    pads[std::string("RPAD_")+*quantity]->SetLogx();
 
 
                     TLegend* LH= new TLegend(0.72,0.68,0.95,0.9);
@@ -173,7 +177,7 @@ int main(int argc, char* argv[])
                                                 {
                                                     TH1D* temp=(TH1D*)fHMap[name]->Clone();
                                                     temp->Divide(fHMap[name0]);
-                                                    pads[2*icanH+1]->cd();
+                                                    pads[std::string("RPAD_")+*quantity]->cd();
                                                     temp->Draw(hoption.c_str());
                                                     temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                                     if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
@@ -192,7 +196,7 @@ int main(int argc, char* argv[])
                                                     TF1 *fa1 = new TF1("fa1","1",0.000001*sqrt(10),100);
                                                     fa1->SetLineColor(usecolors[0]);
                                                     fa1->DrawClone("same+");
-                                                    pads[2*icanH]->cd();
+                                                    pads[std::string("QPAD_")+*quantity]->cd();
                                                 }
 
 
@@ -213,8 +217,17 @@ int main(int argc, char* argv[])
                                     std::string name0=	"G_"+generators[0]+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
                                     if (fGMap.find(name)!=fGMap.end())
                                         {
-                                             if (types[0]) fGMap[name]->SetTitle(";;Fraction");
-                                             if (types[1]) fGMap[name]->SetTitle(";;Counts");
+											printf("%s %s %i %i\n",name.c_str(),fGMap[name]->GetTitle(),types[0],types[1]);
+                                             if (types[0]) fGMap[name]->SetTitle(";y_{cut};Fraction");
+                                             if (types[1]) {fGMap[name]->SetTitle(";y_{cut};Counts");
+                                            if (name.find("acceptance")!=std::string::npos) fGMap[name]->SetTitle(";y_{cut};Acceptance");
+										              }  if (algorithm->find("siscone")!=std::string::npos) 
+                                            {fGMap[name]->SetTitle(";E_{cut};Counts");
+                                            if (name.find("acceptance")!=std::string::npos) fGMap[name]->SetTitle(";E_{cut};Acceptance");
+										              }  
+                                            
+                                            
+                                            printf("%s %s %i %i\n",name.c_str(),fGMap[name]->GetTitle(),types[0],types[1]);
                                             
                                             fGMap[name]->Draw(goption.c_str());
                                             fGMap[name]->GetHistogram()->GetYaxis()->SetTitleSize(0.08);
@@ -244,10 +257,11 @@ int main(int argc, char* argv[])
                                             fGMap[name]->SetMarkerStyle(kFullCircle);
                                             fGMap[name]->SetMarkerSize(1.1);
                                             fGMap[name]->SetMarkerColor(usecolors[color%5]);
+                                                                           
 
                                             {
 
-                                                pads[2*icanH+1]->cd();
+                                                pads[std::string("RPAD_")+*quantity]->cd();
                                                 TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
                                                 temp->SetName(("clone"+name).c_str());
                                                 temp->Divide(fGMap[name],fGMap[name0],false);
@@ -290,7 +304,7 @@ int main(int argc, char* argv[])
                                                 else
                                                     temp->Draw("SAMELP");
 
-                                                pads[2*icanH]->cd();
+                                                pads[std::string("QPAD_")+*quantity]->cd();
 
 
                                             }
@@ -312,7 +326,7 @@ int main(int argc, char* argv[])
                         }
                     LH->Draw();
 
-                    icanH++;
+                   // icanH++;
                 }
             CH->Write();
             CH->SaveAs(("output/plots_"+nick+"_"+energy+"_"+*algorithm+".pdf").c_str());

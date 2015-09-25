@@ -235,22 +235,22 @@ DX_DOCDIR = ./doc
 DX_DOT = 
 DX_DOXYGEN = /usr/bin/doxygen
 DX_DVIPS = 
-DX_EGREP = /usr/bin/egrep
-DX_ENV =  SRCDIR='.' PROJECT='opalrivet' DOCDIR='./doc' VERSION='0.290M' PERL_PATH='/usr/bin/perl' HAVE_DOT='NO' GENERATE_MAN='NO' GENERATE_RTF='NO' GENERATE_XML='NO' GENERATE_HTMLHELP='NO' GENERATE_CHI='NO' GENERATE_HTML='NO' GENERATE_LATEX='YES'
+DX_EGREP = 
+DX_ENV =  SRCDIR='.' PROJECT='opalrivet' DOCDIR='./doc' VERSION='0.290M' PERL_PATH='/usr/bin/perl' HAVE_DOT='NO' GENERATE_MAN='NO' GENERATE_RTF='NO' GENERATE_XML='NO' GENERATE_HTMLHELP='NO' GENERATE_CHI='NO' GENERATE_HTML='NO' GENERATE_LATEX='NO'
 DX_FLAG_chi = 0
 DX_FLAG_chm = 0
 DX_FLAG_doc = 1
 DX_FLAG_dot = 0
 DX_FLAG_html = 0
 DX_FLAG_man = 0
-DX_FLAG_pdf = 1
+DX_FLAG_pdf = 0
 DX_FLAG_ps = 0
 DX_FLAG_rtf = 0
 DX_FLAG_xml = 0
 DX_HHC = 
 DX_LATEX = 
-DX_MAKEINDEX = /usr/bin/makeindex
-DX_PDFLATEX = /usr/bin/pdflatex
+DX_MAKEINDEX = 
+DX_PDFLATEX = 
 DX_PERL = /usr/bin/perl
 DX_PROJECT = opalrivet
 ECHO_C = 
@@ -410,9 +410,9 @@ MOSTLYCLEANFILES = $(DX_CLEANFILES)
 #DX_CLEAN_XML = ./doc/xml
 #DX_CLEAN_PS = ./doc/opalrivet.ps
 #DX_PS_GOAL = doxygen-ps
-DX_CLEAN_PDF = ./doc/opalrivet.pdf
-DX_PDF_GOAL = doxygen-pdf
-DX_CLEAN_LATEX = ./doc/latex
+#DX_CLEAN_PDF = ./doc/opalrivet.pdf
+#DX_PDF_GOAL = doxygen-pdf
+#DX_CLEAN_LATEX = ./doc/latex
 DX_CLEANFILES = \
     ./doc/opalrivet.tag \
     -r \
@@ -1213,22 +1213,22 @@ uclean:
 #	done; \
 #	$(DX_DVIPS) -o ../opalrivet.ps refman.dvi
 
-doxygen-pdf: ./doc/opalrivet.pdf
+#doxygen-pdf: ./doc/opalrivet.pdf
 
-./doc/opalrivet.pdf: ./doc/opalrivet.tag
-	cd ./doc/latex; \
-	rm -f *.aux *.toc *.idx *.ind *.ilg *.log *.out; \
-	$(DX_PDFLATEX) refman.tex; \
-	$(DX_MAKEINDEX) refman.idx; \
-	$(DX_PDFLATEX) refman.tex; \
-	countdown=5; \
-	while $(DX_EGREP) 'Rerun (LaTeX|to get cross-references right)' \
-	                  refman.log > /dev/null 2>&1 \
-	   && test $$countdown -gt 0; do \
-	    $(DX_PDFLATEX) refman.tex; \
-	    countdown=`expr $$countdown - 1`; \
-	done; \
-	mv refman.pdf ../opalrivet.pdf
+#./doc/opalrivet.pdf: ./doc/opalrivet.tag
+#	cd ./doc/latex; \
+#	rm -f *.aux *.toc *.idx *.ind *.ilg *.log *.out; \
+#	$(DX_PDFLATEX) refman.tex; \
+#	$(DX_MAKEINDEX) refman.idx; \
+#	$(DX_PDFLATEX) refman.tex; \
+#	countdown=5; \
+#	while $(DX_EGREP) 'Rerun (LaTeX|to get cross-references right)' \
+#	                  refman.log > /dev/null 2>&1 \
+#	   && test $$countdown -gt 0; do \
+#	    $(DX_PDFLATEX) refman.tex; \
+#	    countdown=`expr $$countdown - 1`; \
+#	done; \
+#	mv refman.pdf ../opalrivet.pdf
 
 .PHONY: doxygen-run doxygen-doc $(DX_PS_GOAL) $(DX_PDF_GOAL)
 

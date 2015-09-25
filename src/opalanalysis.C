@@ -210,6 +210,7 @@ void opalanalysis::Terminate()
                     else if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
                         fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
 
+                    fGMap[std::string("G_truesignalnormalized_")+name]->Add(NULL,fGMap[std::string("G_truesignal_")+name]);
                     if   (G_it->first.find("JETR")!=std::string::npos)
                         fGMap[std::string("G_truesignalnormalized_")+name]->Scale(1.0/fHMap[std::string("H_truesignalnormalized_")+name]->GetBinContent(0));//WOW!
                     else if (std::abs(fGMap[std::string("G_truesignalnormalized_")+name]->Integral())>0.0001)
