@@ -97,7 +97,7 @@ int main(int argc, char* argv[])
                     pads[qname]->Draw();
                     pads.insert(std::pair<std::string,TPad* >(rname,new TPad(rname.c_str(),Q[z].c_str(),1.0*i/M,(j+0.0)/M,(i+1.0)/M,(j+0.35)/M)));
                     pads[rname]->SetTopMargin(0);
-                               pads[rname]->SetRightMargin(0.05);
+                    pads[rname]->SetRightMargin(0.05);
                     pads[rname]->SetBottomMargin(0.25);
                     pads[rname]->Draw();
                 }
@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
                     pads[std::string("QPAD_")+*quantity]->cd();
                     pads[std::string("QPAD_")+*quantity]->SetLogx();
                     pads[std::string("RPAD_")+*quantity]->SetLogx();
-
+                    pads[std::string("QPAD_")+*quantity]->cd();
 
                     TLegend* LH= new TLegend(0.72,0.68,0.95,0.9);
                     color=0;
@@ -175,9 +175,11 @@ int main(int argc, char* argv[])
 
                                             if (name!=name0)
                                                 {
+													
+													pads[std::string("RPAD_")+*quantity]->cd();
                                                     TH1D* temp=(TH1D*)fHMap[name]->Clone();
                                                     temp->Divide(fHMap[name0]);
-                                                    pads[std::string("RPAD_")+*quantity]->cd();
+                                                    
                                                     temp->Draw(hoption.c_str());
                                                     temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
                                                     if (quantity->find("JETR")!=std::string::npos) temp->GetXaxis()->SetRangeUser(0.000001*sqrt(10),1);
@@ -210,7 +212,7 @@ int main(int argc, char* argv[])
                         (quantity->find("JETR")!=std::string::npos)
                     )
                         {
-
+pads[std::string("QPAD_")+*quantity]->cd();
                             for (std::vector<std::string>::iterator generator=generators.begin(); generator!=generators.end(); generator++)
                                 {
                                     std::string name=	"G_"+*generator+"_"+*algorithm+"_"+energy+"GeV_"+*quantity;
