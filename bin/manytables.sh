@@ -11,7 +11,7 @@ echo '
 
 for algorithm in $(echo $algorithms | sed 's@:@ @g'); do
 echo '
-\TABGfinal'$algorithm$string'JETRall{$y$ cut}{The jet rates distributions obtained with Durham jet clustering algorithm for $\sqrt{s}= '$number'\GeV$. The first uncertainty is statistical and the second is systematical.}
+\TABGfinal'$algorithm$string'JETRall{$y$ cut}{The jet rates distributions obtained with '$algorithm' jet clustering algorithm for $\sqrt{s}= '$number'\GeV$. The first uncertainty is statistical and the second is systematical.}
 '
 done
 

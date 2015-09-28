@@ -182,9 +182,21 @@ int Histogram::cms_id( int cms ) {
       icms = 80;
       break;
     case 200:
+      icms = 91;
+      break;
+
     case 202:
+          icms = 92;
+      break;
+
     case 205:
+          icms = 93;
+      break;
+
     case 206:
+          icms = 94;
+      break;
+
     case 207:
       icms = 90;
       break;

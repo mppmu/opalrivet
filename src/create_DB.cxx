@@ -310,6 +310,44 @@ int main(int argc ,char** argv)
     AIStruct.push_back(new TSampleInfo("196",195.0,198.0,"196_GRC4F_5","MCBG","qqqq","kLEP2","mc9201_1_200.root mc9201_2_200.root",    -1,-1,-1,  0.0,8.921,0.0));
 
 
+
+/*
+NT_VERSION 200						
+200 GeV						
+Generator	Process	Runno	Sigma	Lumi	Part	filestem
+                       			(pb)	(1/pb)		
+Data    	ALL       200	0	79.270	0	da1999
+PYTHIA  	(Z/g)*	11346	85.56	0.000	8	mc11346 
+HERWIG		(Z/g)*	 5173	85.56	0.000	5	mc5173  
+*HERWIG		(Z/g)*	11988	85.56	0.000	4	mc11988 
+*ist ARIADNE 4						
+*GRC4F		llqq	 9313	9.277	0.000	2	mc9313  
+*GRC4F		qqqq	 9314	8.909	0.000	4	mc9314  
+GRC4F		eeqq	 9318	39.48	0.000	1	mc9318  
+GRC4F		llqq	 9208	9.324	0.000	2	mc9208  
+*ist KoralW !						
+GRC4F		qqqq	 9207	9.02	0.000	2	mc9207  
+*ist KoralW !						
+
+*/
+
+
+
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_DATA_1",  "DATA","ALL","kLEP2","da1999_200.root",  -1,-1,-1,79.270,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11346_1_200.root mc11346_2_200.root mc11346_3_200.root mc11346_4_200.root mc11346_5_200.root mc11346_6_200.root mc11346_7_200.root mc11346_8_200.root",-1,-1,-1,  0.0,85.56,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5173_1_200.root mc5173_2_200.root mc5173_3_200.root mc5174_3_200.root mc5174_4_200.root",    -1,-1,-1,  0.0,85.56,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11988_1_200.root mc11988_2_200.root mc11988_3_200.root mc11988_4_200.root",    -1,-1,-1,  0.0,85.56,0.0));
+
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_GRC4F_1","MCBG","qqqq","kLEP2","mc9313_1_200.root mc9313_2_200.root",    -1,-1,-1,  0.0,9.277,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_GRC4F_2","MCBG","llqq","kLEP2","mc9314_1_200.root mc9314_2_200.root mc9314_3_200.root mc9314_4_200.root",    -1,-1,-1,  0.0,8.909,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_GRC4F_3","MCBG","eeqq","kLEP2","mc9318_1_200.root",    -1,-1,-1,  0.0,39.48,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_GRC4F_4","MCBG","llqq","kLEP2","mc9208_1_200.root mc9208_2_200.root",    -1,-1,-1,  0.0,9.324,0.0));
+    AIStruct.push_back(new TSampleInfo("200",199.0,201.0,"200_GRC4F_5","MCBG","qqqq","kLEP2","mc9207_1_200.root mc9207_2_200.root",    -1,-1,-1,  0.0,9.020,0.0));
+
+
+
+
+
     /*
     #NT_VERSION 200
     #202 GeV
@@ -342,7 +380,6 @@ int main(int argc ,char** argv)
     AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_3","MCBG","eeqq","kLEP2","mc9713_1_200.root",    -1,-1,-1,  0.0,39.05,0.0));
     AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_4","MCBG","llqq","kLEP2","mc9702_1_200.root mc9702_2_200.root",    -1,-1,-1,  0.0,9.397,0.0));
     AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_5","MCBG","qqqq","kLEP2","mc9701_1_200.root mc9701_2_200.root",    -1,-1,-1,  0.0,9.034,0.0));
-
 
 
 

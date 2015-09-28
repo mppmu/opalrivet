@@ -91,6 +91,81 @@ int main(int argc, char** argv)
                     ||(name.find("h408600")!=std::string::npos)
 
 
+                    ||(name.find("h500000")!=std::string::npos)
+                    ||(name.find("h501100")!=std::string::npos)
+                    ||(name.find("h501180")!=std::string::npos)
+                    ||(name.find("h501190")!=std::string::npos)
+                    ||(name.find("h508600")!=std::string::npos)
+
+
+
+                    ||(name.find("h600000")!=std::string::npos)
+                    ||(name.find("h601100")!=std::string::npos)
+                    ||(name.find("h601180")!=std::string::npos)
+                    ||(name.find("h601190")!=std::string::npos)
+                    ||(name.find("h608600")!=std::string::npos)
+
+
+
+                    ||(name.find("h700000")!=std::string::npos)
+                    ||(name.find("h701100")!=std::string::npos)
+                    ||(name.find("h701180")!=std::string::npos)
+                    ||(name.find("h701190")!=std::string::npos)
+                    ||(name.find("h708600")!=std::string::npos)
+
+
+
+                    ||(name.find("h800000")!=std::string::npos)
+                    ||(name.find("h801100")!=std::string::npos)
+                    ||(name.find("h801180")!=std::string::npos)
+                    ||(name.find("h801190")!=std::string::npos)
+                    ||(name.find("h808600")!=std::string::npos)
+
+
+
+                    ||(name.find("h900000")!=std::string::npos)
+                    ||(name.find("h901100")!=std::string::npos)
+                    ||(name.find("h901180")!=std::string::npos)
+                    ||(name.find("h901190")!=std::string::npos)
+                    ||(name.find("h908600")!=std::string::npos)
+
+
+
+                    ||(name.find("h910000")!=std::string::npos)
+                    ||(name.find("h911100")!=std::string::npos)
+                    ||(name.find("h911180")!=std::string::npos)
+                    ||(name.find("h911190")!=std::string::npos)
+                    ||(name.find("h918600")!=std::string::npos)
+
+
+
+                    ||(name.find("h920000")!=std::string::npos)
+                    ||(name.find("h921100")!=std::string::npos)
+                    ||(name.find("h921180")!=std::string::npos)
+                    ||(name.find("h921190")!=std::string::npos)
+                    ||(name.find("h928600")!=std::string::npos)
+
+
+
+                    ||(name.find("h930000")!=std::string::npos)
+                    ||(name.find("h931100")!=std::string::npos)
+                    ||(name.find("h931180")!=std::string::npos)
+                    ||(name.find("h931190")!=std::string::npos)
+                    ||(name.find("h938600")!=std::string::npos)
+
+
+                    ||(name.find("h940000")!=std::string::npos)
+                    ||(name.find("h941100")!=std::string::npos)
+                    ||(name.find("h941180")!=std::string::npos)
+                    ||(name.find("h941190")!=std::string::npos)
+                    ||(name.find("h948600")!=std::string::npos)
+
+
+
+
+
+
+
 
                )
                 {
@@ -129,6 +204,85 @@ int main(int argc, char** argv)
                     replace_all(name,"h401180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_172GeV|_"); //PARTON!
                     replace_all(name,"h401190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_172GeV|_"); //HADRON!
                     replace_all(name,"h408600","H_manipcorrected_"+std::string(argv[2])+"_172GeV|_");
+
+                    replace_all(name,"h500000","H_manipdata_"+std::string(argv[2])+"_183GeV|_");
+                    replace_all(name,"h501100","H_manipmcsignal_"+std::string(argv[2])+"_183GeV|_");
+                    replace_all(name,"h501180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_183GeV|_"); //PARTON!
+                    replace_all(name,"h501190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_183GeV|_"); //HADRON!
+                    replace_all(name,"h508600","H_manipcorrected_"+std::string(argv[2])+"_183GeV|_");
+
+
+                    replace_all(name,"h600000","H_manipdata_"+std::string(argv[2])+"_189GeV|_");
+                    replace_all(name,"h601100","H_manipmcsignal_"+std::string(argv[2])+"_189GeV|_");
+                    replace_all(name,"h601180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_189GeV|_"); //PARTON!
+                    replace_all(name,"h601190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_189GeV|_"); //HADRON!
+                    replace_all(name,"h608600","H_manipcorrected_"+std::string(argv[2])+"_189GeV|_");
+
+
+                    replace_all(name,"h700000","H_manipdata_"+std::string(argv[2])+"_192GeV|_");
+                    replace_all(name,"h701100","H_manipmcsignal_"+std::string(argv[2])+"_192GeV|_");
+                    replace_all(name,"h701180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_192GeV|_"); //PARTON!
+                    replace_all(name,"h701190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_192GeV|_"); //HADRON!
+                    replace_all(name,"h708600","H_manipcorrected_"+std::string(argv[2])+"_192GeV|_");
+
+
+
+                    replace_all(name,"h800000","H_manipdata_"+std::string(argv[2])+"_196GeV|_");
+                    replace_all(name,"h801100","H_manipmcsignal_"+std::string(argv[2])+"_196GeV|_");
+                    replace_all(name,"h801180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_196GeV|_"); //PARTON!
+                    replace_all(name,"h801190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_196GeV|_"); //HADRON!
+                    replace_all(name,"h808600","H_manipcorrected_"+std::string(argv[2])+"_196GeV|_");
+
+
+
+                    replace_all(name,"h910000","H_manipdata_"+std::string(argv[2])+"_200GeV|_");
+                    replace_all(name,"h911100","H_manipmcsignal_"+std::string(argv[2])+"_200GeV|_");
+                    replace_all(name,"h911180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_200GeV|_"); //PARTON!
+                    replace_all(name,"h911190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_200GeV|_"); //HADRON!
+                    replace_all(name,"h918600","H_manipcorrected_"+std::string(argv[2])+"_200GeV|_");
+
+
+                    replace_all(name,"h920000","H_manipdata_"+std::string(argv[2])+"_202GeV|_");
+                    replace_all(name,"h921100","H_manipmcsignal_"+std::string(argv[2])+"_202GeV|_");
+                    replace_all(name,"h921180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_202GeV|_"); //PARTON!
+                    replace_all(name,"h921190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_202GeV|_"); //HADRON!
+                    replace_all(name,"h928600","H_manipcorrected_"+std::string(argv[2])+"_202GeV|_");
+
+
+                    replace_all(name,"h930000","H_manipdata_"+std::string(argv[2])+"_205GeV|_");
+                    replace_all(name,"h931100","H_manipmcsignal_"+std::string(argv[2])+"_205GeV|_");
+                    replace_all(name,"h931180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_205GeV|_"); //PARTON!
+                    replace_all(name,"h931190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_205GeV|_"); //HADRON!
+                    replace_all(name,"h938600","H_manipcorrected_"+std::string(argv[2])+"_205GeV|_");
+
+
+                    replace_all(name,"h940000","H_manipdata_"+std::string(argv[2])+"_206GeV|_");
+                    replace_all(name,"h941100","H_manipmcsignal_"+std::string(argv[2])+"_206GeV|_");
+                    replace_all(name,"h941180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_206GeV|_"); //PARTON!
+                    replace_all(name,"h941190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_206GeV|_"); //HADRON!
+                    replace_all(name,"h948600","H_manipcorrected_"+std::string(argv[2])+"_206GeV|_");
+
+
+
+                    replace_all(name,"h900000","H_manipdata_"+std::string(argv[2])+"_207GeV|_");
+                    replace_all(name,"h901100","H_manipmcsignal_"+std::string(argv[2])+"_207GeV|_");
+                    replace_all(name,"h901180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_207GeV|_"); //PARTON!
+                    replace_all(name,"h901190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_207GeV|_"); //HADRON!
+                    replace_all(name,"h908600","H_manipcorrected_"+std::string(argv[2])+"_207GeV|_");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
