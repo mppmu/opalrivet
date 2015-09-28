@@ -52,7 +52,7 @@ bin/$ARCH/create_tables norm output/plots_norm_$energy".root" output/tables_norm
 bin/$ARCH/create_tables newmc output/plots_newmc_$energy".root" output/tables_newmc_$energy".tex"
 bin/$ARCH/create_tables raw output/plots_raw_$energy".root" output/tables_raw_$energy".tex"
 bin/$ARCH/create_tables acc output/plots_acc_$energy".root" output/tables_acc_$energy".tex"
-algorithms=(cat src/Cuts.h | grep '^#define ALGORITHMS' | tr -s ' ' | cut -f 3 -d\  | tr -d '"')
+algorithms=$(cat src/Cuts.h | grep '^#define ALGORITHMS' | tr -s ' ' | cut -f 3 -d\  | tr -d '"')
 bin/manyplots.sh $energy $algorithms   >> doc/Draft/opalJRT-manyplots.tex
 bin/manytables.sh $energy $algorithms   >> doc/Draft/opalJRT-manytables.tex
 done
