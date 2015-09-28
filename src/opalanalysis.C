@@ -51,11 +51,11 @@ void opalanalysis::SlaveBegin(TTree * tree)
     for (std::vector<std::string>::iterator it=S.begin(); it!=S.end(); it++) ///Update the DB and set weights for this execution. If there would be nmore files one can write a new DB.
         {
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
-            if (R->fType=="MCBG"||R->fType=="MCSI") 
-            {
-            R->fWeight=proc["ALL"].first/proc[R->fProcesses].first; ///Set proper weight to the MC
-		printf("R->fWeight %f \n",R->fWeight);
-		    }
+            if (R->fType=="MCBG"||R->fType=="MCSI")
+                {
+                    R->fWeight=proc["ALL"].first/proc[R->fProcesses].first; ///Set proper weight to the MC
+                    printf("R->fWeight %f \n",R->fWeight);
+                }
             else R->fWeight=1.0;
             R->Write();
         }
@@ -87,24 +87,24 @@ Bool_t opalanalysis::Process(Long64_t gentry)
     if( std::abs(this->Tvectc[2])> mycuts[CUTS]["costt"] )  passed[0]=kFALSE;
     double SP;
     if (fSampleInfo->fPeriod!=std::string("kLEP1"))
-    {
-    if( this->Lwqqqq>mycuts[CUTS]["wqqqq"] )  passed[0]=kFALSE;
-    if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  passed[0]=kFALSE;    
-    if( this->Il2mh!=int(mycuts[CUTS]["Il2mh"]))   passed[0]=kFALSE;
-    if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   passed[0]=kFALSE;
+        {
+            if( this->Lwqqqq>mycuts[CUTS]["wqqqq"] )  passed[0]=kFALSE;
+            if( this->Lwqqln>mycuts[CUTS]["wqqln"] )  passed[0]=kFALSE;
+            if( this->Il2mh!=int(mycuts[CUTS]["Il2mh"]))   passed[0]=kFALSE;
+            if( this->Icjst!=int(mycuts[CUTS]["Icjst"]))   passed[0]=kFALSE;
 
-    if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   passed[0]=kFALSE;
-    
-    if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
-    if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
-    
-    if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) passed[0]=kFALSE;
-    if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  }
-    if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   passed[0]=kFALSE;
-    }    
+            if( this->Iebst!=int(mycuts[CUTS]["Iebst"]))   passed[0]=kFALSE;
+
+            if (int(mycuts[CUTS]["sprimalgo"])==1) SP=TLorentzVector(Pspr[0],Pspr[1],Pspr[2],Pspr[3]).M();
+            if (int(mycuts[CUTS]["sprimalgo"])==2) SP=TLorentzVector(Pspri[0],Pspri[1],Pspri[2],Pspri[3]).M();
+
+            if (fSampleInfo->fType==std::string("DATA"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimedata"] ) passed[0]=kFALSE;
+            if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  }
+            if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   passed[0]=kFALSE;
+        }
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
-    std::string objects="mt";    
+    std::string objects="mt";
     if (int(mycuts[CUTS]["objects"])==2) objects="tc";
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal:mcall:truesignalp",":",datatypes); tokenize(objects+":h:mt:p",":",options); }//
@@ -115,8 +115,8 @@ Bool_t opalanalysis::Process(Long64_t gentry)
                 std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
                 for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                     {
-                        bool dbg=false;
-                        OPALJet* tfj =new OPALJet( vtlv,*it,mycuts[*it], NULL,dbg);
+                        
+                        OPALJet* tfj =new OPALJet( vtlv,*it,mycuts[*it], NULL);
                         OPALAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                         if (*it=="durham")
                             {
@@ -169,7 +169,7 @@ void opalanalysis::Terminate()
                     fHMap[std::string("H_corrected_")+name]->Add(fHMap[std::string("H_data_")+name],fHMap[std::string("H_mcbackgr_")+name],1.0,-mycuts[CUTS]["backgroundscale"]);
                     fHMap[std::string("H_corrected_")+name]->Divide(fHMap[std::string("H_acceptancesignal_")+name]);
                     double H_scale;
-                    
+
                     H_scale=fHMap[std::string("H_corrected_")+name]->GetBinContent(0);
                     if   (H_it->first.find("JETR")!=std::string::npos)
                         { fHMap[std::string("H_corrected_")+name]->Scale(1.0/H_scale); fHMap[std::string("H_corrected_")+name]->SetBinContent(0,H_scale);}
@@ -185,7 +185,7 @@ void opalanalysis::Terminate()
                         fHMap[std::string("H_truesignalnormalized_")+name]->Scale(1.0/fHMap[std::string("H_truesignalnormalized_")+name]->Integral());
 
 
-                   
+
                 }
             if (H_it->first.find("H_acceptancebackgr_")!=std::string::npos)
                 {
@@ -206,13 +206,13 @@ void opalanalysis::Terminate()
                     fGMap[std::string("G_corrected_")+name]->Divide(fGMap[std::string("G_corrected_")+name],fGMap[std::string("G_acceptancesignal_")+name]);
 
                     if   (G_it->first.find("JETR")!=std::string::npos)
-                        fGMap[std::string("G_corrected_")+name]->Scale(1.0/fHMap[std::string("H_corrected_")+name]->GetBinContent(0));//WOW!
+                        fGMap[std::string("G_corrected_")+name]->ScaleNorm(1.0/fHMap[std::string("H_corrected_")+name]->GetBinContent(0));//WOW!
                     else if (std::abs(fGMap[std::string("G_corrected_")+name]->Integral())>0.0001)
                         fGMap[std::string("G_corrected_")+name]->Scale(1.0/fGMap[std::string("G_corrected_")+name]->Integral());
 
                     fGMap[std::string("G_truesignalnormalized_")+name]->Add(NULL,fGMap[std::string("G_truesignal_")+name]);
                     if   (G_it->first.find("JETR")!=std::string::npos)
-                        fGMap[std::string("G_truesignalnormalized_")+name]->Scale(1.0/fHMap[std::string("H_truesignalnormalized_")+name]->GetBinContent(0));//WOW!
+                        fGMap[std::string("G_truesignalnormalized_")+name]->ScaleNorm(1.0/fHMap[std::string("H_truesignalnormalized_")+name]->GetBinContent(0));//WOW!
                     else if (std::abs(fGMap[std::string("G_truesignalnormalized_")+name]->Integral())>0.0001)
                         fGMap[std::string("G_truesignalnormalized_")+name]->Scale(1.0/fGMap[std::string("G_truesignalnormalized_")+name]->Integral());
 

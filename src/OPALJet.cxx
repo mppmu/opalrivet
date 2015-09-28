@@ -23,7 +23,7 @@
  * MA 02110-1301, USA.
  */
 #ifndef OPALJET_CXX
-#define OPALJET_CXX 
+#define OPALJET_CXX
 #include "fastjet/ClusterSequence.hh"
 #include "fastjet/PseudoJet.hh"
 #include "fastjet/JetDefinition.hh"
@@ -74,10 +74,9 @@ bool OPALJet::FindAlgorithm(std::string jetalg)
 OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                   std::string jetalg,
                   std::map<std::string,double> R,
-                  const std::vector<int>* vindx, bool dbg ) : fClusterSequence(0), fSISPlugin(0)
+                  const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
 {
     fEvis=-1;
-    fDebug=dbg;
     fThrusts.push_back(1.0);
     fThrusts.push_back(0.0);
     fThrusts.push_back(0.0);
@@ -406,10 +405,7 @@ void OPALJet::CalculateThrust(const std::vector<TVector3>& fsmomenta)
     fThrusts.clear();
     fThrustAxes.clear();
     double momentumSum(0.0);
-    for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)
-        {
-            momentumSum += p3->Mag();
-        }
+    for (std::vector<TVector3>::const_iterator p3=fsmomenta.begin(); p3!=fsmomenta.end(); p3++)  momentumSum += p3->Mag();
     fThrusts.clear();
     fThrustAxes.clear();
     // If there are fewer than 2 visible particles, we can't do much

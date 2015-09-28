@@ -136,16 +136,16 @@ std::map<std::string,std::map<std::string,double> > InitCuts()
 
 
 
-/*
-    std::map<std::string,double> B6;
-    B6.insert(std::pair<std::string,double>("YMIN",1e-10));
-    A.insert(std::pair<std::string,std::map<std::string,double> >("eecambridge",B6));
+    /*
+        std::map<std::string,double> B6;
+        B6.insert(std::pair<std::string,double>("YMIN",1e-10));
+        A.insert(std::pair<std::string,std::map<std::string,double> >("eecambridge",B6));
 
-    std::map<std::string,double> B7;
-    B7.insert(std::pair<std::string,double>("R",0.7));
-    A.insert(std::pair<std::string,std::map<std::string,double> >("kt",B7));
+        std::map<std::string,double> B7;
+        B7.insert(std::pair<std::string,double>("R",0.7));
+        A.insert(std::pair<std::string,std::map<std::string,double> >("kt",B7));
 
-*/
+    */
 
     return A;
 

@@ -20,8 +20,10 @@
  * MA 02110-1301, USA.
  */
 #ifndef HELPERS_CXX
-#define HELPERS_CXX  
+#define HELPERS_CXX
 #include "Helpers.h"
+
+
 
 
 void DivideByBinWidth(TH1D& H)
@@ -133,7 +135,7 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
             A.fEa=2.0*EBEAMHIST->GetMean();
             A.fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
             A.fEh=2.0*(EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindLastBinAbove(0))+EBEAMHIST->GetBinWidth(EBEAMHIST->FindLastBinAbove(0)));
-                if (A.fType==std::string("MCBG")||A.fType==std::string("MCSI")) A.fLuminocity=A.fEvents/A.fSigma;
+            if (A.fType==std::string("MCBG")||A.fType==std::string("MCSI")) A.fLuminocity=A.fEvents/A.fSigma;
             TOTAL->Delete();
         }
 }
@@ -141,6 +143,31 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
 
 #ifndef SIMPLE_HELPERS_ONLY
 
+
+void read_file(TFile* type_fFile,std::map<std::string,TH1D*> &fHMap,
+std::map<std::string,TAdvancedGraph*> &fGMap,
+std::map<std::string,TCanvas*>& fCMap)
+{
+	
+	    type_fFile->cd();
+    TIter next(type_fFile->GetListOfKeys());
+    TKey *key;
+    while ((key = (TKey*)next()))
+        {
+            TObject *obj = key->ReadObj();
+            if ( obj->IsA()->InheritsFrom( "TH1"    ) ) { fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj  ) );  fHMap[std::string(key->GetName())]->SetDirectory(0); }
+            if ( obj->IsA()->InheritsFrom( "TGraph" ) )
+                {
+                    fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
+                }
+                 if ( obj->IsA()->InheritsFrom( "TCanvas"    ) )
+                {
+                    fCMap.insert(std::pair<std::string,TCanvas*> (std::string(key->GetName()) ,(TCanvas*)obj  ) );
+                    //fCMap[std::string(key->GetName())]->SetDirectory(0);
+                }
+        }
+	
+}	
 
 void FillWithLabel(TH1D* H,std::string l,double weight)
 {

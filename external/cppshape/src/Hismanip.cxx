@@ -524,8 +524,9 @@ void Hismanip::calc_4fback( const string & backgen,
   for( int idcur= 0; idcur < nhist; ++idcur ) {
     int hiid= idvect[idcur];
 
-    if( hiid/10000000 == 0 ) {
-
+   // if( hiid/10000000 == 0 ) {
+//av
+if( hiid/100000000 == 0 ) {
       if( id2generator( hiid ) == backgen ) {
 	// yep, this is a background
 
@@ -620,8 +621,8 @@ void Hismanip::subs_4fback( const string & backgen,
   for( int idcur= 0; idcur < nhist; ++idcur ) {
 
     int hiid= idvect[idcur];
-    if( hiid/10000000 == 0 ) {
-
+    //av if( hiid/10000000 == 0 ) {
+if( hiid/100000000 == 0 ) {
       string generator= id2generator( hiid );
       if( generator == *v_gen.begin() ) {
 
@@ -718,9 +719,10 @@ void Hismanip::det_correct( int id_subt,
   // Are we dealing with a subsample histogram?
   bool b_subt= false;
   int id_bigh= 0;
-  if( id_subt > 10000000 ) {
-    id_bigh= id_subt/10000000;
-    id_subt= id_subt%10000000;
+  //av
+  if( id_subt > 100000000 ) {
+    id_bigh= id_subt/100000000;
+    id_subt= id_subt%100000000;
     b_subt= true;
   }
 
@@ -760,7 +762,7 @@ void Hismanip::det_correct( int id_subt,
 
   // IDs for subsamples:
   if( b_subt ) {
-    id_subt+= (id_bigh*10000000);
+    id_subt+= (id_bigh*100000000);//av
   }
 
   // Do the correction and normalise:

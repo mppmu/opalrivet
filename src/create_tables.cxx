@@ -211,27 +211,16 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string nick,std
     for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
         {
 
-
-            //int i=1;
 TObject *objx;
-//printf("ffffffffffff%i\n",C->second->GetListOfPrimitives()->GetSize());
- //TIter nextx(C->second->GetListOfPrimitives());
  C->second->Print();
- //puts("ooooooooooo");
-            //        while ((objx=nextx()))
 
             for (int i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
 					objx=C->second->GetListOfPrimitives()->At(i);
 					if (objx==NULL) { puts("bad"); continue;}
-					//printf("%i\n",objx);
-					//puts("OK");
-					//objx->Print();
 					if (!objx->InheritsFrom(TVirtualPad::Class())) continue;
 					std::string qname= std::string(objx->GetName());
-                    printf("1 ---------------->%i %i  %s\n",i,C->second->GetListOfPrimitives()->GetSize(),qname.c_str());
 					if (qname.find("QPAD")==std::string::npos) continue;
-printf("2 ----------------> %s\n",qname.c_str());
                     TCanvas *Q= new TCanvas(("Q"+qname+"Z").c_str(),"Q",1024,1024);
                     Q->cd();
 
@@ -250,9 +239,6 @@ printf("2 ----------------> %s\n",qname.c_str());
                     //TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->At(2*i));
                     //TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->At(2*i+1));
                     
-                    //if (!A1) { puts("A1"); continue;}
-                    //if (!A2) { puts("A2"); continue;}
-
 
 TObject *obj2;
 int no=0;
@@ -265,7 +251,6 @@ int no=0;
                         //if ( obj2->InheritsFrom( "TGraph" ) ) { puts("yes3");}
                         }
                     
-printf("3 ----------------> %s\n",qname.c_str());
 
                     double h1=A1->GetAbsHNDC();
                     double h2=A2->GetAbsHNDC();
@@ -290,7 +275,6 @@ printf("3 ----------------> %s\n",qname.c_str());
 					
 				}	
 				
-         printf("4 ----------------> %s\n",qname.c_str());           
                     std::string pname=C->first+A1->GetTitle();
                     if (command!="") pname=command;
                     
@@ -313,14 +297,10 @@ printf("3 ----------------> %s\n",qname.c_str());
                     Q->SaveAs((std::string("output/")+pname+".eps").c_str());
 //Q->Delete();
 
-printf("5 ----------------> %s\n",qname.c_str());
- printf("\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{../../output/%s}\\caption{#1}\\end{figure}}\n",
-                            pname.c_str(),pname.c_str());
 
                     fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{../../output/%s}\\caption{#1}\\end{figure}}\n",
                             pname.c_str(),pname.c_str());
       
-         printf("6 ----------------> %s\n",qname.c_str());                                              
                             
 
                 }
@@ -377,7 +357,7 @@ fCMap2.insert(fCMap.begin(),fCMap.end());
                     std::string padname=std::string(((TPad*)(C->second->GetListOfPrimitives()->At(i)))->GetName());
                    
                    if (padname.find("QPAD")==std::string::npos) continue;
-                    printf("pad1-> %s\n",padname.c_str());
+                    
                     TObject *obj2;
                     TIter next2(((TPad*)C->second->GetListOfPrimitives()->At(i))->GetListOfPrimitives());
                     while ((obj2=next2()))
@@ -398,7 +378,7 @@ fCMap2.insert(fCMap.begin(),fCMap.end());
 
                         }
                         
-                                     printf("pad2<- %s\n",padname.c_str());
+                                     
                         
                     PrintTG(fGMap,FF,nick,"");
 

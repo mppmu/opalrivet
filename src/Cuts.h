@@ -31,8 +31,8 @@
  * - ROOT \cite Antcheva:2011zz (tested with versions between 5.32 and 5.34)
  * - autotools with libtool
  * - fastjet
- * - C++ compiller, e.g. gcc>4.2 with g++ 
- * 
+ * - C++ compiller, e.g. gcc>4.2 with g++
+ *
  * Optional dependancies are
  *  - Rivet with YODA and HEPMC support
  *  - pythia8
@@ -43,7 +43,7 @@
  * - texlive \cite texlive > 2007 or tetex \cite tetex with pgf \cite pgf >2.10 (for documentation)
  * - ps2eps  (for documentation)
  * - doxygen \cite doxygen > 1.8.0 (for better documentation)
- * 
+ *
  */
 #ifndef CUTS_H
 #define CUTS_H

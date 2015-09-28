@@ -52,7 +52,9 @@ class OPALJet
 public:
 
     OPALJet();
-    OPALJet( const std::vector<TLorentzVector>&, std::string jetalg,std::map<std::string,double> R, const std::vector<int>* vindx= 0 ,bool dbg=false);
+    OPALJet( const std::vector<TLorentzVector>& A, 
+    std::string jetalg,std::map<std::string,double> R, 
+    const std::vector<int>* vindx= 0);
     virtual ~OPALJet();
     std::vector<TLorentzVector>& InclusiveJets( const double ptmin);
     std::vector<TLorentzVector>& ExclusiveJets( const int njets );
@@ -73,7 +75,6 @@ public:
     double fEvis;
     /// Eigenvalues.
     std::vector<double> fLambdas[5];
-    std::vector<double> fYFlip;
     /// Sphericity axes.
     std::vector<TVector3> fSphericityAxes[5];
     /// Regularizing parameter, used to force infra-red safety.

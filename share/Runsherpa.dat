@@ -2,7 +2,7 @@
 
 (run){
   % general settings
-  EVENTS 50000; NJET:=3;
+  EVENTS 5000; NJET:=3;
   % model parameters
   ALPHAS(MZ) 0.1188;
   ORDER_ALPHAS 1;

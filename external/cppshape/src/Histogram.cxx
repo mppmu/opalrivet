@@ -147,42 +147,46 @@ int Histogram::cms_id( int cms ) {
     case 9198:
     case 9199:
     case 9100:
-      icms = 1;
+      icms = 10;
       break;
     case 15:
     case 130:
     case 13095:
     case 13097:
+      icms = 21;
+      break;
     case 133:
+      icms = 22;
+      break;
     case 136:
     case 13695:
     case 13697:
-      icms = 2;
+      icms = 20;
       break;
     case 161:
-      icms = 3;
+      icms = 30;
       break;
     case 172:
-      icms = 4;
+      icms = 40;
       break;
     case 183:
-      icms = 5;
+      icms = 50;
       break;
     case 189:
-      icms = 6;
+      icms = 60;
       break;
     case 192:
-      icms = 7;
+      icms = 70;
       break;
     case 196:
-      icms = 8;
+      icms = 80;
       break;
     case 200:
     case 202:
     case 205:
     case 206:
     case 207:
-      icms = 9;
+      icms = 90;
       break;
     default:
       cout << "Histogram::cms_id: unknown cms energy" << endl;
@@ -500,7 +504,7 @@ void Histogram::fill_evsh_jetr_mom( int hiid, const string & obs,
 	  }
 	}
 	else {
-	  if( observ->get( stnjlow, reco, nt ) >= xbins[bin] ) { ///FIXME!
+	  if( observ->get( stnjlow, reco, nt ) >= 0.5*(xbins[bin]+xbins[bin+1]) ) { ///FIXME!
 	    hfill( hiid, 0.5*(xbins[bin]+xbins[bin+1]), 0.0, 1.0 );	
 	//    	  if (hiid==3000017)
 	  //{

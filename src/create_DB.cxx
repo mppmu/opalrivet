@@ -26,30 +26,30 @@ void FillInfo(TSampleInfo* A,std::string prefix)
 {
     A->Print();
     TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
-            TChain* C= new TChain("h10");
+    TChain* C= new TChain("h10");
     for (std::vector<std::string>::iterator it=A->fFiles.begin(); it!=A->fFiles.end(); it++)
-            C->Add((prefix+*it).c_str());
-            C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
-            TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
-            TOTAL->Add(RUNHIST);
-            // filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
-        
+        C->Add((prefix+*it).c_str());
+    C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
+    TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
+    TOTAL->Add(RUNHIST);
+    // filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
+
     A->fRunsBegin=0;
     A->fRunsEnd=20000-2;
 
 
     A->fRunsBegin=TOTAL->FindFirstBinAbove(0);
     A->fRunsEnd=TOTAL->FindLastBinAbove(0);
-    
+
     if (A->fRunsEnd<A->fRunsBegin) puts("Wrong run numbers of energy");
     A->fEvents=TOTAL->GetEntries();
     A->Print();
 
-            C->Draw("Ebeam>>EBEAMHIST(100000,40.0,140.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
-            TH1F* EBEAMHIST=(TH1F*)gDirectory->Get("EBEAMHIST");
-            A->fEa=2.0*EBEAMHIST->GetMean();
-            A->fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
-            A->fEh=2.0*(EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindLastBinAbove(0))+EBEAMHIST->GetBinWidth(EBEAMHIST->FindLastBinAbove(0)));
+    C->Draw("Ebeam>>EBEAMHIST(100000,40.0,140.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
+    TH1F* EBEAMHIST=(TH1F*)gDirectory->Get("EBEAMHIST");
+    A->fEa=2.0*EBEAMHIST->GetMean();
+    A->fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
+    A->fEh=2.0*(EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindLastBinAbove(0))+EBEAMHIST->GetBinWidth(EBEAMHIST->FindLastBinAbove(0)));
 
     if (A->fType==std::string("MCBG")||A->fType==std::string("MCSI")) A->fLuminocity=A->fEvents/A->fSigma;
     A->Print();
@@ -523,24 +523,24 @@ int main(int argc ,char** argv)
 
     std::string prefix=std::string(argv[2]);
     //TMap* db= new TMap();
-    
-    
+
+
     FILE* table_luminocity=fopen("output/table_luminocity.tex","w");
     fprintf(table_luminocity,"\\newcommand{\\TABluminocity}[1]{\n\
 \\begin{table}\\centering\\TABGFONTSIZE\n\
 \\begin{tabular}{|c|c|c|c|c|}\\hline\n\
 Year & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\GeV$ & Luminocity,$\\mathrm{pb}^{-1}$ \\\\\\hline\n");
-    
+
     FILE* table_mc=fopen("output/table_montecarlo.tex","w");
     fprintf(table_mc,"\\newcommand{\\TABmontecarlo}[1]{\n\
 \\begin{table}\\centering\\TABGFONTSIZE\n\
 \\begin{tabular}{|c|c|c|c|c|}\\hline\n\
 Generator & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\GeV$ & Luminocity,$\\mathrm{pb}^{-1}$ \\\\\\hline\n");
-    
-    
-    
+
+
+
     std::map<std::pair<int,int>,std::string> run_to_year;
-    
+
     run_to_year.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(0,7000),"1995"));
     run_to_year.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7100,7600),"1996"));
     run_to_year.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8020,8700),"1997"));
@@ -548,138 +548,138 @@ Generator & Sample name & Range of $\\sqrt{s},\\GeV$ &    Mean of $\\sqrt{s},\\G
     run_to_year.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11000,11700),"1998"));
     run_to_year.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12000,12300),"1999"));
     run_to_year.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12800,17000),"2000"));
-    
-    
+
+
     std::map<std::pair<int,int>,std::string> run_to_mc;
     run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12411,12411),"HERWIG6.2"));
     run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12140,12140),"JETSET 7.4"));
     run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12139,12139),"JETSET 7.4"));
-    
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4513,4513),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4544,4544),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4741,4741),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4743,4743),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4743,4743),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4744,4744),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4744,4744),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4745,4745),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4745,4745),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5025,5025),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5073,5073),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5168,5168),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5169,5169),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5171,5171),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5172,5172),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5174,5174),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5176,5176),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5179,5179),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7051,7051),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7055,7055),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7846,7846),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7849,7849),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8055,8055),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8056,8056),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8636,8636),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8637,8637),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8750,8750),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8751,8751),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9096,9096),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9097,9097),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9201,9201),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9202,9202),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9204,9204),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9205,9205),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9277,9277),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9280,9280),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9701,9701),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9702,9702),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9711,9711),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9712,9712),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9713,9713),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(10781,10781),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(10782,10782),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(10788,10788),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11202,11202),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11202,11202),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11212,11212),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11213,11213),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11214,11214),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11218,11218),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11341,11341),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11342,11342),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11343,11343),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11344,11344),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11345,11345),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11347,11347),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11349,11349),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11352,11352),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11925,11925),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11926,11926),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11927,11927),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11928,11928),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11928,11928),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11981,11981),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11984,11984),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11986,11986),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11987,11987),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11989,11989),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11991,11991),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12040,12040),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12138,12138),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12139,12139),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12162,12162),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12163,12163),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12164,12164),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12165,12165),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12165,12165),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12406,12406),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12407,12407),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12408,12408),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12409,12409),"AAA"));
-run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12410,12410),"AAA"));
 
-    
-    
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4513,4513),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4544,4544),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4741,4741),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4743,4743),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4743,4743),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4744,4744),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4744,4744),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4745,4745),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(4745,4745),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5025,5025),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5073,5073),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5168,5168),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5169,5169),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5171,5171),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5172,5172),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5174,5174),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5176,5176),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(5179,5179),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7051,7051),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7055,7055),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7846,7846),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(7849,7849),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8055,8055),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8056,8056),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8636,8636),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8637,8637),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8750,8750),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(8751,8751),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9096,9096),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9097,9097),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9201,9201),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9202,9202),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9204,9204),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9205,9205),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9277,9277),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9280,9280),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9701,9701),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9702,9702),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9711,9711),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9712,9712),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(9713,9713),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(10781,10781),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(10782,10782),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(10788,10788),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11202,11202),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11202,11202),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11212,11212),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11213,11213),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11214,11214),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11218,11218),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11341,11341),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11342,11342),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11343,11343),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11344,11344),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11345,11345),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11347,11347),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11349,11349),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11352,11352),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11925,11925),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11926,11926),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11927,11927),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11928,11928),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11928,11928),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11981,11981),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11984,11984),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11986,11986),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11987,11987),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11989,11989),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(11991,11991),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12040,12040),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12138,12138),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12139,12139),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12162,12162),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12163,12163),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12164,12164),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12165,12165),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12165,12165),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12406,12406),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12407,12407),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12408,12408),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12409,12409),"AAA"));
+    run_to_mc.insert(std::pair<std::pair<int,int>,std::string> (std::pair<int,int>(12410,12410),"AAA"));
+
+
+
     std::string tE1;
     std::string tE2;
     for (std::vector<TSampleInfo*>::iterator it= AIStruct.begin(); it!=AIStruct.end(); it++)
         {
             FillInfo(*it,prefix);
             (*it)->Write();
-            
-            
+
+
             if (((*it)->fType=="DATA"))// &&((*it)->fEa>100.0))
-            {
-			std::string year;
-			for (std::map<std::pair<int,int>,std::string>::iterator r=run_to_year.begin();r!=run_to_year.end();r++)
-			if ((*it)->fRunsBegin<=r->first.second&&r->first.first<=(*it)->fRunsEnd) {if (year.size()!=0) year+=","; year+=r->second;}
-				if (tE1!=(*it)->fEnergyString){fprintf(table_luminocity,"\\hline\n"); tE1=(*it)->fEnergyString;}
-			fprintf(table_luminocity,"%s &%s & $%4.2f-%4.2f$ & $%4.2f$ & $%4.2f$\\\\\n",year.c_str(),(*it)->fEnergyString.c_str(),(*it)->fEl,(*it)->fEh,
-			(*it)->fEa,(*it)->fLuminocity);
-				
-			}	
+                {
+                    std::string year;
+                    for (std::map<std::pair<int,int>,std::string>::iterator r=run_to_year.begin(); r!=run_to_year.end(); r++)
+                        if ((*it)->fRunsBegin<=r->first.second&&r->first.first<=(*it)->fRunsEnd) {if (year.size()!=0) year+=","; year+=r->second;}
+                    if (tE1!=(*it)->fEnergyString) {fprintf(table_luminocity,"\\hline\n"); tE1=(*it)->fEnergyString;}
+                    fprintf(table_luminocity,"%s &%s & $%4.2f-%4.2f$ & $%4.2f$ & $%4.2f$\\\\\n",year.c_str(),(*it)->fEnergyString.c_str(),(*it)->fEl,(*it)->fEh,
+                            (*it)->fEa,(*it)->fLuminocity);
+
+                }
 
 
             if (((*it)->fType=="MCSI")||((*it)->fType=="MCBG"))// &&((*it)->fEa>100.0))
-            {
-			std::string mc;
-			for (std::map<std::pair<int,int>,std::string>::iterator r=run_to_mc.begin();r!=run_to_mc.end();r++)
-			if ((*it)->fRunsBegin<=r->first.second&&r->first.first<=(*it)->fRunsEnd) {if (mc.size()!=0) mc+=","; mc+=r->second;}
-			if (tE2!=(*it)->fEnergyString){fprintf(table_mc,"\\hline\n"); tE2=(*it)->fEnergyString;}	
-			fprintf(table_mc,"%s &%s & $%4.2f-%4.2f$ & $%4.2f$ & $%4.2f$\\\\\n",mc.c_str(),(*it)->fEnergyString.c_str(),(*it)->fEl,(*it)->fEh,
-			(*it)->fEa,(*it)->fLuminocity);
-				
-			}
+                {
+                    std::string mc;
+                    for (std::map<std::pair<int,int>,std::string>::iterator r=run_to_mc.begin(); r!=run_to_mc.end(); r++)
+                        if ((*it)->fRunsBegin<=r->first.second&&r->first.first<=(*it)->fRunsEnd) {if (mc.size()!=0) mc+=","; mc+=r->second;}
+                    if (tE2!=(*it)->fEnergyString) {fprintf(table_mc,"\\hline\n"); tE2=(*it)->fEnergyString;}
+                    fprintf(table_mc,"%s &%s & $%4.2f-%4.2f$ & $%4.2f$ & $%4.2f$\\\\\n",mc.c_str(),(*it)->fEnergyString.c_str(),(*it)->fEl,(*it)->fEh,
+                            (*it)->fEa,(*it)->fLuminocity);
 
-            
-            
+                }
+
+
+
         }
 
-fprintf(table_luminocity,"\\hline\n\\end{tabular}\n\\caption{#1}\n\\label{tab:luminocity}\n\\end{table}}\n");
-fclose(table_luminocity);
+    fprintf(table_luminocity,"\\hline\n\\end{tabular}\n\\caption{#1}\n\\label{tab:luminocity}\n\\end{table}}\n");
+    fclose(table_luminocity);
 
-fprintf(table_mc,"\\hline\n\\end{tabular}\n\\caption{#1}\n\\label{tab:luminocity}\n\\end{table}}\n");
-fclose(table_mc);
+    fprintf(table_mc,"\\hline\n\\end{tabular}\n\\caption{#1}\n\\label{tab:luminocity}\n\\end{table}}\n");
+    fclose(table_mc);
 
     //db->Write("mymap",1);
     F->Close();

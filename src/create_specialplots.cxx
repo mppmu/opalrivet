@@ -32,9 +32,12 @@ int main(int argc, char* argv[])
 {
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
+    std::map<std::string,TCanvas*> fCMap;
     for (int i=2; i<argc; i++)
         {
             TFile* type_fFile= new TFile(argv[i], "READ");
+            read_file(type_fFile,fHMap,fGMap,fCMap);
+            /*
             type_fFile->cd();
             TIter next(type_fFile->GetListOfKeys());
             TKey *key;
@@ -46,7 +49,7 @@ int main(int argc, char* argv[])
                         {
                             fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
                         }
-                }
+                }*/
             type_fFile->Close();
         }
     std::vector<std::string> algorithms=return_tokenize(ALGORITHMS,":");
@@ -92,7 +95,7 @@ int main(int argc, char* argv[])
         {
             std::string *quantity=new std::string("1-T");
             std::string *algorithm=new std::string("durham");
-           // std::string *generator=new std::string("corrected");
+            // std::string *generator=new std::string("corrected");
             //std::string energy=std::string("161");
 
             int color=0;

@@ -180,6 +180,19 @@ void TAdvancedGraph::Scale(double k)
 }
 
 
+void TAdvancedGraph::ScaleNorm(double k)
+{
+    int i;
+    for (i=0; i<this->GetN(); i++)
+        {
+            Double_t x,y;
+            this->GetPoint(i,x,y);
+            this->SetPoint(i,x,y*k);
+            if (y*k>1.0) printf("TAdvancedGraph::ScaleNorm Error\n");
+            this->SetPointError(i,this->GetErrorXlow(i),this->GetErrorXhigh(i),sqrt(k*(1-y*k)),sqrt(k*(1-y*k)));
+        }
+}
+
 
 
 void TAdvancedGraph::Divide(TAdvancedGraph* AA, TAdvancedGraph* BB, bool keepconsistent)
