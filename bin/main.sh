@@ -39,7 +39,7 @@ $MAKE output/shapemanip_$energy".root" > logs/temp.txt
 cat logs/temp.txt | grep SHAPE:MCDA: | sort -n | sed 's@SHAPE:MCDA: @@g' >logs/SHAPE_MCDA.debug_$energy
 cat logs/temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >logs/SHAPE_TRUE.debug_$energy
 make bin/$ARCH/create_plots
-bin/$ARCH/create_plots final $energy "corrected"  output/opal_'$energy'.root
+bin/$ARCH/create_plots final $energy "corrected"  output/opal_$energy'.root'
 bin/$ARCH/create_plots norm $energy "corrected:olddata:manipcorrected:truesignalnormalized"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 bin/$ARCH/create_plots newmc $energy "corrected:olddata:pythia8:herwig++:sherpa"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
 bin/$ARCH/create_plots raw    $energy "data:mcall"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
@@ -52,9 +52,9 @@ bin/$ARCH/create_tables norm output/plots_norm_$energy".root" output/tables_norm
 bin/$ARCH/create_tables newmc output/plots_newmc_$energy".root" output/tables_newmc_$energy".tex"
 bin/$ARCH/create_tables raw output/plots_raw_$energy".root" output/tables_raw_$energy".tex"
 bin/$ARCH/create_tables acc output/plots_acc_$energy".root" output/tables_acc_$energy".tex"
-
-bin/manyplots.sh $energy durham   >> doc/Draft/opalJRT-manyplots.tex
-bin/manytables.sh $energy durham   >> doc/Draft/opalJRT-manytables.tex
+algorithms=(cat src/Cuts.h | grep '^#define ALGORITHMS' | tr -s ' ' | cut -f 3 -d\  | tr -d '"')
+bin/manyplots.sh $energy $algorithms   >> doc/Draft/opalJRT-manyplots.tex
+bin/manytables.sh $energy $algorithms   >> doc/Draft/opalJRT-manytables.tex
 done
 
 
