@@ -53,6 +53,9 @@ NtupProj* create_NtupProj( string version, int cms ) {
   else {
     cur_ntuple= new OPALQCDNtupProj();
   }
+  
+  printf("hhhhhhh   %s %i\n",version.c_str(),cms);
+  
   return cur_ntuple;
 }
 
@@ -65,6 +68,7 @@ Ntuple* create_Ntuple( string version, int cms ) {
   else if( version == "200" ) {
     if( isLEP1( cms ) ) {
       ntuple= new ntuple_200_lep1();
+    puts(" I must be here!");
     }
     else {
       ntuple= new ntuple_200();
@@ -152,7 +156,12 @@ void Ntproject( int idebug= 0,std::string line="",std::string adminfile="" ) {
     // Make the file ntuple-attributes available for the
     // current ntuple:
     nt_attribute nt= qcdntuples.nt_info( ifile );
+    
+    
+    printf("1 cur_ntuple->set_attribute( nt )  nt._ntid=%i  file=%i\n",nt._ntid,ifile);
+    
     cur_ntuple->set_attribute( nt );
+    printf("2 cur_ntuple->set_attribute( nt )  nt._ntid=%i file=%i\n",nt._ntid,ifile);
     bool b_isMC= cur_ntuple->isMC();
     if( cur_ntuple->open() ) {
 

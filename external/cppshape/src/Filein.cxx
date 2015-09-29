@@ -123,11 +123,15 @@ if (inBuf[0]=='*') {  printf("Commented line");  continue;}
                     if( !line.eof() )
                         {
                             line >> nf._ntid;
+                            printf("line >> nf._ntid;   %i\n",nf._ntid);
+                            printf("THIS SHOULD NOT BE HERE!!!!!!!!!!!line >> nf._ntid;   %i\n",nf._ntid);
+                            nf._ntid= 10;
                         }
                     else
                         {
                             nf._ntid= 10;
                         }
+                            printf("END OF line >> nf._ntid;   %i\n",nf._ntid);
                     for( int ipar= std::min( 1, partit ); ipar <= partit; ipar++ )
                         {
                             nf._part= std::max( 1, ipar );

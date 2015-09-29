@@ -77,6 +77,9 @@ bool NtupProj::open( string pawdir )
     FInteger lrecl= 1024;
     FInteger istat= 0;
     string opt= " ";
+    
+    printf("->%i<- ->%s<- ->%s<- ->%s<-  ->%i<- ->%i<-\n",_unit, pawdir.c_str(), _diskfilename.c_str(), opt.c_str(),
+            lrecl, istat);
     hropen( _unit, pawdir.c_str(), _diskfilename.c_str(), opt.c_str(),
             lrecl, istat );
     if( istat != 0 )
@@ -85,11 +88,19 @@ bool NtupProj::open( string pawdir )
                  << ", skip this file" << endl;
             return false;
         };
+        
+        
+  //      hcdir( "//PAWC", " " );
+    cout << "\nTotal number of events in Ntuple ("
+         << _ntupid << "): " << _ntupnoent << endl;        
     hrin( _ntupid, 999 );
-
+    
+    
+    cout << "\nTotal number of events in Ntuple ("
+         << _ntupid << "): " << _ntupnoent << endl;
     // Get number of entries and print some statistics:
     hnoent( _ntupid, _ntupnoent );
-    cout << "\tTotal number of events in Ntuple ("
+    cout << "\nTotal number of events in Ntuple ("
          << _ntupid << "): " << _ntupnoent << endl;
 
     // The End:
@@ -115,7 +126,7 @@ void NtupProj::set_attribute( const nt_attribute & nt )
 
     // Set ntuple id:
     _ntupid= nt._ntid;
-
+printf("NtupProj::set_attribute   %i %i\n",777,_ntupid);
     // Determine whether the ntuple is data or MC:
     if( _ntstore._generator == "Data" )
         {
@@ -161,6 +172,7 @@ bool NtupProj::get_next_evt()
     hcdir( "//PAWC", " " );
     FInteger ierr;
     ++_ntupcurevt;
+    printf ("----------------hgnt( %i, %i, %i);\n", _ntupid, _ntupcurevt, ierr );
     hgnt( _ntupid, _ntupcurevt, ierr );
     bool status= true;
     if( ierr != 0 )

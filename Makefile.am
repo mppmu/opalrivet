@@ -317,24 +317,41 @@ output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.ro
 	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
 
 
-output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root  .rootrc
+output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip    .rootrc
 	mkdir -p subs_output
-	external/cppshape/examples/shape/bin/shape2 P output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
-	h2root  output/shape_$*_manip.rzhist
-	h2root  output/shape_$*.rzhist
+	rm -f output/shape_$*.root
+	$(MAKE) output/shape_$*.root
+#ifeq  ($%, '91')
+#		external/cppshape/examples/shape/bin/shape2 A output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+#else
+#		external/cppshape/examples/shape/bin/shape2 P output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+#endif
+#	h2root  output/shape_$*_manip.rzhist
+#	h2root  output/shape_$*.rzhist
 	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_durham.root durham output/shape_$*_manip.root output/shape_$*.root
 	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_antikt.root antikt output/shape_$*_manip.root output/shape_$*.root
 	hadd -f output/shapemanip_$*.root tmp/shapemanip_$*_antikt.root tmp/shapemanip_$*_durham.root
-	
+
 output/shape_%.root:
 				make -C external/cppshape clean
 				make -C external/cppshape/examples/shape clean
 				make -C external/cppshape
 				make -C external/cppshape/examples/shape
 			    rm -rf output_200_$*.rzhist
-			    external/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+			    external/cppshape/examples/shape/bin/shape2 P /scratch/andriish/opal/ntuple/qcd/  external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
 				mv  output_200_$*.rzhist output/shape_$*.rzhist
 				h2root output/shape_$*.rzhist
+
+
+output/shape_91.root:
+				make -C external/cppshape clean
+				make -C external/cppshape/examples/shape clean
+				make -C external/cppshape
+				make -C external/cppshape/examples/shape
+			    rm -rf output_200_91.rzhist
+			    external/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  external/cppshape/examples/shape/QCDadmin/QCDadmin_200_91.txt
+				mv  output_200_91.rzhist output/shape_91.rzhist
+				h2root output/shape_91.rzhist
 
 
 

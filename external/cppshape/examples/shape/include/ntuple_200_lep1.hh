@@ -322,7 +322,7 @@ public:
   virtual FInteger inttr() { cout << "Error: variable inttr not available" << endl;return 0;};
   virtual FInteger iltr() { cout << "Error: variable iltr not available" << endl;return 0;};
   virtual FInteger itauct() { cout << "Error: variable itauct not available" << endl;return 0;};
-  virtual FReal* ptrk() { cout << "Error: variable ptrk not available" << endl;return 0;};
+  virtual FReal* ptrk() { return _ptrk[0]; };//AV
   virtual FInteger* ichg() { return _ichg; };
   virtual FInteger* nhcj() { return _nhcj; };
   virtual FReal* z0() { return _z0; };
@@ -335,7 +335,7 @@ public:
   virtual FInteger* imtcls() { return _imtcls; };
   virtual FInteger nmtkil() { return _nmtkil; };
   virtual FInteger* imtkil() { return _imtkil; };
-  virtual FReal* pclus() { cout << "Error: variable pclus not available" << endl;return 0;};
+  virtual FReal* pclus() { return _pclus[0]; };//AV
   virtual FReal* mtscfc() { return _mtscfc; };
   virtual FInteger ioselbt() { return _ioselbt; };
   virtual FInteger levslbt() { return _levslbt; };
@@ -409,7 +409,6 @@ public:
 
   virtual void DAInit( FInteger ID );
   virtual void MCInit( FInteger ID );
-
 ClassDef(ntuple_200_lep1,0)
 };
 
