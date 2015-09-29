@@ -3,15 +3,13 @@ export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 export ARCH=$(uname -m)
 set -x
-declare -a generators=(   )
-# pythia8 herwig++
+declare -a generators=( pythia8 herwig++ sherpa )
+#
  #130 136 161 172 183 189 192 196  202  205  207 pythia8 herwig++
-declare -a energies=( 91 )
-#130 136 161 172 183 189 192 196 200  202  205  207 )
+declare -a energies=( 91 130 136 161 172 183 189 192 196 200  202  205  207 )
 #(130 136 172 183 189 192 196  202  205  207 )
 # 172 183 189 192 196)
-declare -a systematics=( central )
-#wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
+declare -a systematics=( central wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 # wqqlnhigh:wqqlnlow )
 #  wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
@@ -28,7 +26,7 @@ $MAKE output/$generator"_"$energy".root" GEN=$generator
 done
 for cut in "${cuts[@]}"
 do
-#$MAKE output/opal"_"$energy"_"$cut".root" CUTS=$cut
+$MAKE output/opal"_"$energy"_"$cut".root" CUTS=$cut
 cat .proof_*/*-trunk/last-lite-session/worker-0.[012345678].log | grep OPALR:MCDA:  | sort -n | sed 's@OPALR:MCDA: @@g' >logs/OPALR_MCDA.debug"_"$energy"_"$cut
 cat .proof_*/*-trunk/last-lite-session/worker-0.[012345678].log | grep OPALR:TRUE:  | sort -n | sed 's@OPALR:TRUE: @@g' >logs/OPALR_TRUE.debug"_"$energy"_"$cut
 :
