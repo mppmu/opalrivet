@@ -57,6 +57,14 @@ int main(int argc, char** argv)
             std::string name(H_it->first);
             if (0    
 
+                    ||(name.find("h100000")!=std::string::npos)
+                    ||(name.find("h101100")!=std::string::npos)
+                    ||(name.find("h101180")!=std::string::npos)
+                    ||(name.find("h101190")!=std::string::npos)
+                    ||(name.find("h108600")!=std::string::npos)
+
+
+
                     ||(name.find("h200000")!=std::string::npos)
                     ||(name.find("h201100")!=std::string::npos)
                     ||(name.find("h201180")!=std::string::npos)
@@ -169,6 +177,15 @@ int main(int argc, char** argv)
 
                )
                 {
+
+
+                    replace_all(name,"h100000","H_manipdata_"+std::string(argv[2])+"_91GeV|_");
+                    replace_all(name,"h101100","H_manipmcsignal_"+std::string(argv[2])+"_91GeV|_");
+                    replace_all(name,"h101180","H_manipmcsignaltrueparton_"+std::string(argv[2])+"_91GeV|_"); //PARTON!
+                    replace_all(name,"h101190","H_manipmcsignaltruehadron_"+std::string(argv[2])+"_91GeV|_"); //HADRON!
+                    replace_all(name,"h108600","H_manipcorrected_"+std::string(argv[2])+"_91GeV|_");
+
+
 
 
                     replace_all(name,"h200000","H_manipdata_"+std::string(argv[2])+"_136GeV|_");

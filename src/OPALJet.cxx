@@ -38,6 +38,8 @@ OPALJet::OPALJet()
     fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
+    fJadePlugin=0;
+    fEECambridgePlugin=0;
     fRegParameter=2.0;
 
     fThrusts.push_back(1.0);
@@ -74,8 +76,14 @@ bool OPALJet::FindAlgorithm(std::string jetalg)
 OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                   std::string jetalg,
                   std::map<std::string,double> R,
-                  const std::vector<int>* vindx ) : fClusterSequence(0), fSISPlugin(0)
+                  const std::vector<int>* vindx )
 {
+    fClusterSequence=0;
+    fSISPlugin=0;
+    fJadePlugin=0;
+    fEECambridgePlugin=0;
+	
+	
     fEvis=-1;
     fThrusts.push_back(1.0);
     fThrusts.push_back(0.0);
@@ -152,7 +160,7 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R["R"] );
             break;
         }
-    std::vector<TVector3> jetstlv;//= new std::vector<TVector3>();
+    std::vector<TVector3> jetstlv;
     std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
     for( UInt_t i= 0; i <  A.size(); i++ )
         {
@@ -172,6 +180,13 @@ OPALJet::~OPALJet()
 
     if( fClusterSequence ) delete fClusterSequence;
     if( fPJets ) delete fPJets;
+    if (fSISPlugin) delete fSISPlugin;
+    
+                    if (fEECambridgePlugin) delete fEECambridgePlugin;
+
+                    if (fJadePlugin) delete fJadePlugin;
+
+    
 }
 
 std::vector<TLorentzVector>& OPALJet::InclusiveJets( const double ptmin )
@@ -303,6 +318,9 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta)
             fLambdas[1].push_back(EVa2[i]);
             fSphericityAxes[1].push_back(TVector3(EVe2[i][0],EVe2[i][1],EVe2[i][2]));
         }
+
+delete eigen3;
+delete eigen23;
 }
 
 // Do the general case thrust calculation

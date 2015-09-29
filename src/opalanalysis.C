@@ -123,6 +123,7 @@ Bool_t opalanalysis::Process(Long64_t gentry)
                                 if (j==1) if (passed[0]) printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
                                 if (j==0) printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
                             }
+                       delete tfj;
                     }
             }
     if (passed[0]) fHMap["weight_reco"]->Fill((fSampleInfo->fType+"_"+fSampleInfo->fProcesses).c_str(),fSampleInfo->fWeight);
