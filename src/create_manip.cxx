@@ -55,7 +55,7 @@ int main(int argc, char** argv)
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             std::string name(H_it->first);
-            if (0    
+            if (0
 
                     ||(name.find("h100000")!=std::string::npos)
                     ||(name.find("h101100")!=std::string::npos)

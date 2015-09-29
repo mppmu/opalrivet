@@ -254,7 +254,7 @@ int main(int argc, char* argv[])
                                     color++;
                                 }
                         }
-                    LH->Draw();                    
+                    LH->Draw();
                 }
             CH->Write();
             CH->SaveAs(("output/plots_"+nick+"_"+energy+"_"+*algorithm+".pdf").c_str());

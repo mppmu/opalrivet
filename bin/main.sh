@@ -3,7 +3,7 @@ export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 export ARCH=$(uname -m)
 set -x
-declare -a generators=(  )
+declare -a generators=(   )
 # pythia8 herwig++
  #130 136 161 172 183 189 192 196  202  205  207 pythia8 herwig++
 declare -a energies=( 91 )
@@ -16,8 +16,8 @@ declare -a systematics=( central )
 #  wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
 
-#rm -f doc/Draft/opalJRT-manyplots.tex
-#rm -f doc/Draft/opalJRT-manytables.tex
+rm -f doc/Draft/opalJRT-manyplots.tex
+rm -f doc/Draft/opalJRT-manytables.tex
 for energy in "${energies[@]}"
 do
 
@@ -28,7 +28,7 @@ $MAKE output/$generator"_"$energy".root" GEN=$generator
 done
 for cut in "${cuts[@]}"
 do
-$MAKE output/opal"_"$energy"_"$cut".root" CUTS=$cut
+#$MAKE output/opal"_"$energy"_"$cut".root" CUTS=$cut
 cat .proof_*/*-trunk/last-lite-session/worker-0.[012345678].log | grep OPALR:MCDA:  | sort -n | sed 's@OPALR:MCDA: @@g' >logs/OPALR_MCDA.debug"_"$energy"_"$cut
 cat .proof_*/*-trunk/last-lite-session/worker-0.[012345678].log | grep OPALR:TRUE:  | sort -n | sed 's@OPALR:TRUE: @@g' >logs/OPALR_TRUE.debug"_"$energy"_"$cut
 :
@@ -55,9 +55,9 @@ bin/$ARCH/create_tables norm output/plots_norm_$energy".root" output/tables_norm
 bin/$ARCH/create_tables newmc output/plots_newmc_$energy".root" output/tables_newmc_$energy".tex"
 bin/$ARCH/create_tables raw output/plots_raw_$energy".root" output/tables_raw_$energy".tex"
 bin/$ARCH/create_tables acc output/plots_acc_$energy".root" output/tables_acc_$energy".tex"
-#algorithms=$(cat src/Cuts.h | grep '^#define ALGORITHMS' | tr -s ' ' | cut -f 3 -d\  | tr -d '"')
-#bin/manyplots.sh $energy $algorithms   >> doc/Draft/opalJRT-manyplots.tex
-#bin/manytables.sh $energy $algorithms   >> doc/Draft/opalJRT-manytables.tex
+algorithms=$(cat src/Cuts.h | grep '^#define ALGORITHMS' | tr -s ' ' | cut -f 3 -d\  | tr -d '"')
+bin/manyplots.sh $energy $algorithms   >> doc/Draft/opalJRT-manyplots.tex
+bin/manytables.sh $energy $algorithms   >> doc/Draft/opalJRT-manytables.tex
 done
 
 

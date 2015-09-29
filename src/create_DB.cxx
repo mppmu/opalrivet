@@ -311,25 +311,25 @@ int main(int argc ,char** argv)
 
 
 
-/*
-NT_VERSION 200						
-200 GeV						
-Generator	Process	Runno	Sigma	Lumi	Part	filestem
-                       			(pb)	(1/pb)		
-Data    	ALL       200	0	79.270	0	da1999
-PYTHIA  	(Z/g)*	11346	85.56	0.000	8	mc11346 
-HERWIG		(Z/g)*	 5173	85.56	0.000	5	mc5173  
-*HERWIG		(Z/g)*	11988	85.56	0.000	4	mc11988 
-*ist ARIADNE 4						
-*GRC4F		llqq	 9313	9.277	0.000	2	mc9313  
-*GRC4F		qqqq	 9314	8.909	0.000	4	mc9314  
-GRC4F		eeqq	 9318	39.48	0.000	1	mc9318  
-GRC4F		llqq	 9208	9.324	0.000	2	mc9208  
-*ist KoralW !						
-GRC4F		qqqq	 9207	9.02	0.000	2	mc9207  
-*ist KoralW !						
+    /*
+    NT_VERSION 200
+    200 GeV
+    Generator	Process	Runno	Sigma	Lumi	Part	filestem
+                           			(pb)	(1/pb)
+    Data    	ALL       200	0	79.270	0	da1999
+    PYTHIA  	(Z/g)*	11346	85.56	0.000	8	mc11346
+    HERWIG		(Z/g)*	 5173	85.56	0.000	5	mc5173
+    *HERWIG		(Z/g)*	11988	85.56	0.000	4	mc11988
+    *ist ARIADNE 4
+    *GRC4F		llqq	 9313	9.277	0.000	2	mc9313
+    *GRC4F		qqqq	 9314	8.909	0.000	4	mc9314
+    GRC4F		eeqq	 9318	39.48	0.000	1	mc9318
+    GRC4F		llqq	 9208	9.324	0.000	2	mc9208
+    *ist KoralW !
+    GRC4F		qqqq	 9207	9.02	0.000	2	mc9207
+    *ist KoralW !
 
-*/
+    */
 
 
 
@@ -370,16 +370,16 @@ GRC4F		qqqq	 9207	9.02	0.000	2	mc9207
 
 
 
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_DATA_1",  "DATA","ALL","kLEP2","da1999_200.root",  -1,-1,-1,37.970,  0.0,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11347_1_200.root mc11347_2_200.root mc11347_3_200.root mc11347_4_200.root",-1,-1,-1,  0.0,83.36,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5174_1_200.root mc5174_2_200.root mc5174_3_200.root mc5174_4_200.root",    -1,-1,-1,  0.0,83.36,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11989_1_200.root mc11989_2_200.root mc11989_3_200.root mc11989_4_200.root",    -1,-1,-1,  0.0,83.36,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_DATA_1",  "DATA","ALL","kLEP2","da1999_200.root",  -1,-1,-1,37.970,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11347_1_200.root mc11347_2_200.root mc11347_3_200.root mc11347_4_200.root",-1,-1,-1,  0.0,83.36,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5174_1_200.root mc5174_2_200.root mc5174_3_200.root mc5174_4_200.root",    -1,-1,-1,  0.0,83.36,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11989_1_200.root mc11989_2_200.root mc11989_3_200.root mc11989_4_200.root",    -1,-1,-1,  0.0,83.36,0.0));
 
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_1","MCBG","qqqq","kLEP2","mc9712_1_200.root mc9712_2_200.root mc9712_3_200.root",    -1,-1,-1,  0.0,8.944,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_2","MCBG","llqq","kLEP2","mc9711_1_200.root mc9711_2_200.root",    -1,-1,-1,  0.0,9.319,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_3","MCBG","eeqq","kLEP2","mc9713_1_200.root",    -1,-1,-1,  0.0,39.05,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_4","MCBG","llqq","kLEP2","mc9702_1_200.root mc9702_2_200.root",    -1,-1,-1,  0.0,9.397,0.0));
-    AIStruct.push_back(new TSampleInfo("202",201.0,203.0,"202_GRC4F_5","MCBG","qqqq","kLEP2","mc9701_1_200.root mc9701_2_200.root",    -1,-1,-1,  0.0,9.034,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_GRC4F_1","MCBG","qqqq","kLEP2","mc9712_1_200.root mc9712_2_200.root mc9712_3_200.root",    -1,-1,-1,  0.0,8.944,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_GRC4F_2","MCBG","llqq","kLEP2","mc9711_1_200.root mc9711_2_200.root",    -1,-1,-1,  0.0,9.319,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_GRC4F_3","MCBG","eeqq","kLEP2","mc9713_1_200.root",    -1,-1,-1,  0.0,39.05,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_GRC4F_4","MCBG","llqq","kLEP2","mc9702_1_200.root mc9702_2_200.root",    -1,-1,-1,  0.0,9.397,0.0));
+    AIStruct.push_back(new TSampleInfo("202",201.0,202.5,"202_GRC4F_5","MCBG","qqqq","kLEP2","mc9701_1_200.root mc9701_2_200.root",    -1,-1,-1,  0.0,9.034,0.0));
 
 
 
@@ -404,15 +404,15 @@ GRC4F		qqqq	 9207	9.02	0.000	2	mc9207
 //#GRC4F		llqq+llqq+qqqq+ww	11202	21.88	0.000	4	mc11202
 
 
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_DATA_1",  "DATA","ALL","kLEP2","da2000_200.root",  -1,-1,-1,81.96,  0.0,0.0));
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11349_1_200.root mc11349_2_200.root mc11349_3_200.root mc11349_4_200.root mc11349_5_200.root mc11349_6_200.root mc11349_7_200.root mc11349_8_200.root",-1,-1,-1,  0.0,81.31,0.0));
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5176_1_200.root mc5176_2_200.root mc5176_3_200.root mc5176_4_200.root",    -1,-1,-1,  0.0,81.31,0.0));
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11991_1_200.root mc11991_2_200.root mc11991_3_200.root mc11991_4_200.root",    -1,-1,-1,  0.0,81.31,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_DATA_1",  "DATA","ALL","kLEP2","da2000_200.root",  -1,-1,-1,81.96,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11349_1_200.root mc11349_2_200.root mc11349_3_200.root mc11349_4_200.root mc11349_5_200.root mc11349_6_200.root mc11349_7_200.root mc11349_8_200.root",-1,-1,-1,  0.0,81.31,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5176_1_200.root mc5176_2_200.root mc5176_3_200.root mc5176_4_200.root",    -1,-1,-1,  0.0,81.31,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11991_1_200.root mc11991_2_200.root mc11991_3_200.root mc11991_4_200.root",    -1,-1,-1,  0.0,81.31,0.0));
 
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_GRC4F_1","MCBG","llqq","kLEP2","mc11213_1_200.root mc11213_2_200.root mc11213_3_200.root",    -1,-1,-1,  0.0,9.39,0.0));
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_GRC4F_2","MCBG","qqqq","kLEP2","mc11214_1_200.root mc11214_2_200.root mc11214_3_200.root",    -1,-1,-1,  0.0,8.967,0.0));
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_GRC4F_3","MCBG","eeqq","kLEP2","mc11218_1_200.root",    -1,-1,-1,  0.0,38.34,0.0));
-    AIStruct.push_back(new TSampleInfo("205",202.0,206.0,"205_GRC4F_4","MCBG","llqq:qqqq:eeqq","kLEP2","mc11202_1_200.root mc11202_2_200.root mc11202_3_200.root mc11202_4_200.root",    -1,-1,-1,  0.0,21.88,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_GRC4F_1","MCBG","llqq","kLEP2","mc11213_1_200.root mc11213_2_200.root mc11213_3_200.root",    -1,-1,-1,  0.0,9.39,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_GRC4F_2","MCBG","qqqq","kLEP2","mc11214_1_200.root mc11214_2_200.root mc11214_3_200.root",    -1,-1,-1,  0.0,8.967,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_GRC4F_3","MCBG","eeqq","kLEP2","mc11218_1_200.root",    -1,-1,-1,  0.0,38.34,0.0));
+    AIStruct.push_back(new TSampleInfo("205",202.5,205.5,"205_GRC4F_4","MCBG","llqq:qqqq:eeqq","kLEP2","mc11202_1_200.root mc11202_2_200.root mc11202_3_200.root mc11202_4_200.root",    -1,-1,-1,  0.0,21.88,0.0));
 
 
 
@@ -447,17 +447,17 @@ GRC4F		qqqq	 9207	9.02	0.000	2	mc9207
     #*ist Koralw
     */
 
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_DATA_1",  "DATA","ALL","kLEP2","da2000_200.root",  -1,-1,-1,137.14,  0.0,0.0));
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11352_1_200.root mc11352_2_200.root mc11352_3_200.root mc11352_4_200.root  mc11352_5_200.root \
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_DATA_1",  "DATA","ALL","kLEP2","da2000_200.root",  -1,-1,-1,137.14,  0.0,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_PYTHIA_1",  "MCSI","(Z/g)*","kLEP2","mc11352_1_200.root mc11352_2_200.root mc11352_3_200.root mc11352_4_200.root  mc11352_5_200.root \
                                                                             mc11352_6_200.root mc11352_7_200.root mc11352_8_200.root mc11352_9_200.root  mc11352_10_200.root \
                                                                             mc11352_11_200.root mc11352_12_200.root mc11352_13_200.root mc11352_14_200.root  mc11352_15_200.root",-1,-1,-1,  0.0,79.38,0.0));
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5179_1_200.root mc5179_2_200.root mc5179_3_200.root mc5179_4_200.root",        -1,-1,-1,  0.0,79.38,0.0));
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11984_1_200.root mc11984_2_200.root mc11984_3_200.root mc11984_4_200.root",    -1,-1,-1,  0.0,79.38,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5179_1_200.root mc5179_2_200.root mc5179_3_200.root mc5179_4_200.root",        -1,-1,-1,  0.0,79.38,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11984_1_200.root mc11984_2_200.root mc11984_3_200.root mc11984_4_200.root",    -1,-1,-1,  0.0,79.38,0.0));
 
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_GRC4F_1","MCBG","llqq","kLEP2","mc10781_1_200.root mc10781_2_200.root",    -1,-1,-1,  0.0,9.417,0.0));
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_GRC4F_2","MCBG","qqqq","kLEP2","mc10782_1_200.root mc10782_2_200.root mc10782_3_200.root",    -1,-1,-1,  0.0,8.97,0.0));
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_GRC4F_3","MCBG","eeqq","kLEP2","mc11212_1_200.root",    -1,-1,-1,  0.0,38.11,0.0));
-    AIStruct.push_back(new TSampleInfo("207",206.0,218.0,"207_GRC4F_4","MCBG","llqq:qqqq:eeqq","kLEP2","mc10788_1_200.root mc10788_2_200.root mc10788_3_200.root mc10788_4_200.root",    -1,-1,-1,  0.0,21.87,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_GRC4F_1","MCBG","llqq","kLEP2","mc10781_1_200.root mc10781_2_200.root",    -1,-1,-1,  0.0,9.417,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_GRC4F_2","MCBG","qqqq","kLEP2","mc10782_1_200.root mc10782_2_200.root mc10782_3_200.root",    -1,-1,-1,  0.0,8.97,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_GRC4F_3","MCBG","eeqq","kLEP2","mc11212_1_200.root",    -1,-1,-1,  0.0,38.11,0.0));
+    AIStruct.push_back(new TSampleInfo("207",205.5,209.5,"207_GRC4F_4","MCBG","llqq:qqqq:eeqq","kLEP2","mc10788_1_200.root mc10788_2_200.root mc10788_3_200.root mc10788_4_200.root",    -1,-1,-1,  0.0,21.87,0.0));
 //    AIStruct.push_back(new TSampleInfo("207",206.0,208.0,"207_GRC4F_5","MCBG","kLEP2","mc9204_1_200.root mc9204_2_200.root",    -1,-1,-1,  0.0,8.741,0.0));
 
 

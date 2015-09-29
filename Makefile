@@ -395,7 +395,7 @@ HERWIG_PLUSPLUSVERS = 2.7.0
 CYTHON_VERS = 0.19
 AGILE_VERS = 1.4.1
 SOURCES = src/Helpers.cxx         src/Helpers.h \
-		src/Cuts.cxx            src/Cuts.h \
+		          src/Cuts.h \
 		src/TSampleInfo.cxx     src/TSampleInfo.h \
 		src/OPALJet.cxx        src/OPALJet.h  \
 		src/TAdvancedGraph.cxx  src/TAdvancedGraph.h \

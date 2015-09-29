@@ -34,13 +34,11 @@
 
 OPALJet::OPALJet()
 {
-    fDebug=false;
     fEvis=-1;
     fClusterSequence=0;
     fSISPlugin=0;
     fJadePlugin=0;
     fEECambridgePlugin=0;
-    fRegParameter=2.0;
 
     fThrusts.push_back(1.0);
     fThrusts.push_back(0.0);
@@ -82,8 +80,8 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
     fSISPlugin=0;
     fJadePlugin=0;
     fEECambridgePlugin=0;
-	
-	
+
+
     fEvis=-1;
     fThrusts.push_back(1.0);
     fThrusts.push_back(0.0);
@@ -181,12 +179,12 @@ OPALJet::~OPALJet()
     if( fClusterSequence ) delete fClusterSequence;
     if( fPJets ) delete fPJets;
     if (fSISPlugin) delete fSISPlugin;
-    
-                    if (fEECambridgePlugin) delete fEECambridgePlugin;
 
-                    if (fJadePlugin) delete fJadePlugin;
+    if (fEECambridgePlugin) delete fEECambridgePlugin;
 
-    
+    if (fJadePlugin) delete fJadePlugin;
+
+
 }
 
 std::vector<TLorentzVector>& OPALJet::InclusiveJets( const double ptmin )
@@ -196,9 +194,9 @@ std::vector<TLorentzVector>& OPALJet::InclusiveJets( const double ptmin )
     return CopyPseudoJetsToLorentzVectors();
 }
 
-std::vector<TLorentzVector>& OPALJet::ExclusiveJets( const int njets )
+std::vector<TLorentzVector>& OPALJet::ExclusiveJets( const int GetNJets )
 {
-    std::vector<fastjet::PseudoJet> excljets= fClusterSequence->exclusive_jets( njets );
+    std::vector<fastjet::PseudoJet> excljets= fClusterSequence->exclusive_jets( GetNJets );
     *fPJets= sorted_by_E( excljets );
     return CopyPseudoJetsToLorentzVectors();
 }
@@ -231,12 +229,12 @@ std::vector< std::vector<int> >& OPALJet::Constituents()
     return *cnstmap;
 }
 
-double OPALJet::YMerge( int njets )
+double OPALJet::GetYMerge( int GetNJets )
 {
-    return fClusterSequence->exclusive_ymerge_max( njets );
+    return fClusterSequence->exclusive_ymerge_max( GetNJets );
 }
 
-int OPALJet::NJets( double ycut )
+int OPALJet::GetNJets( double ycut )
 {
     return fClusterSequence->n_exclusive_jets_ycut( ycut );
 }
@@ -319,8 +317,8 @@ void OPALJet::CalculateSphericity(const std::vector<TVector3>& fsmomenta)
             fSphericityAxes[1].push_back(TVector3(EVe2[i][0],EVe2[i][1],EVe2[i][2]));
         }
 
-delete eigen3;
-delete eigen23;
+    delete eigen3;
+    delete eigen23;
 }
 
 // Do the general case thrust calculation

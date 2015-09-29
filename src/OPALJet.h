@@ -52,33 +52,31 @@ class OPALJet
 public:
 
     OPALJet();
-    OPALJet( const std::vector<TLorentzVector>& A, 
-    std::string jetalg,std::map<std::string,double> R, 
-    const std::vector<int>* vindx= 0);
+    OPALJet( const std::vector<TLorentzVector>& A, std::string jetalg,std::map<std::string,double> parameters, const std::vector<int>* vindx= 0);
     virtual ~OPALJet();
     std::vector<TLorentzVector>& InclusiveJets( const double ptmin);
-    std::vector<TLorentzVector>& ExclusiveJets( const int njets );
+    std::vector<TLorentzVector>& ExclusiveJets( const int GetNJets );
     std::vector< std::vector<int> >& Constituents();
-    double YMerge( int );
-    int NJets( double );
+    double GetYMerge( int );
+    int GetNJets( double );
     void CalculateT(const std::vector<TVector3>& momenta, double& t, TVector3& taxis);
     void CalculateThrust(const std::vector<TVector3>& fsmomenta);
     void CalculateSphericity(const std::vector<TVector3>& fsmomenta);
     void CalculateBroadening(const std::vector<TVector3>& momenta);
     fastjet::ClusterSequence* GetClusterSequence();
 //private:
-    std::vector<double> fThrusts;
-    std::vector<TVector3> fThrustAxes;
-    bool fDebug;
+    std::vector<double> fThrusts; ///Thrusts
+    std::vector<TVector3> fThrustAxes; ///Thrust directions
+    ///Broadening
     double fB[2];
+    ///Jet masses in hemispheres.
     double fM[2];
+    ///Visible energy.
     double fEvis;
     /// Eigenvalues.
     std::vector<double> fLambdas[5];
     /// Sphericity axes.
     std::vector<TVector3> fSphericityAxes[5];
-    /// Regularizing parameter, used to force infra-red safety.
-    double fRegParameter;
     bool FindAlgorithm(std::string jetalg);
     std::vector<TLorentzVector>& CopyPseudoJetsToLorentzVectors();
     fastjet::ClusterSequence* fClusterSequence;

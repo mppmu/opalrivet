@@ -67,30 +67,30 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f,std::string ni
         C->second->Add(C->second,Z,1.0,0.0);
 
     puts(fGMap.begin()->first.c_str());
-    
+
     puts(command.c_str());
     fprintf(f,"\\newcommand{\\%s}[2]{\n",command.c_str());
     fprintf(f,"\\begin{table}\\centering\\TABGFONTSIZE\n\\begin{tabular}{|c|");
     for (std::map<std::string,TAdvancedGraph*>::iterator C=fGMap.begin(); C!=fGMap.end(); C++)
-    if (C->first.find("systematics")==std::string::npos)        fprintf(f,"c|");
+        if (C->first.find("systematics")==std::string::npos)        fprintf(f,"c|");
     fprintf(f,"}\\hline\n");
 
 
     fprintf(f,"#1");
     std::map<std::string,int> capmap;
     for (std::map<std::string,TAdvancedGraph*>::iterator C=fGMap.begin(); C!=fGMap.end(); C++)
-    if (C->first.find("systematics")==std::string::npos) 
-        {
-            na.clear();
-            tokenize(C->first,"_",na);
-            capmap.insert(std::pair<std::string,int>(na[1],0));
-            capmap[na[1]]++;
-            //if (capmap[na[1]]>1) 
-            fprintf(f,"&\\TABGCAPTION%s(%i)",na[1].c_str(),capmap[na[1]]);
+        if (C->first.find("systematics")==std::string::npos)
+            {
+                na.clear();
+                tokenize(C->first,"_",na);
+                capmap.insert(std::pair<std::string,int>(na[1],0));
+                capmap[na[1]]++;
+                //if (capmap[na[1]]>1)
+                fprintf(f,"&\\TABGCAPTION%s(%i)",na[1].c_str(),capmap[na[1]]);
 //else
 //fprintf(f,"&\\%s",na[1].c_str());
 
-        }
+            }
     fprintf(f,"\\\\\\hline\\hline\n");
 
     for (int i=0; i<N; i++)
@@ -98,20 +98,21 @@ void PrintTG(std::map<std::string,TAdvancedGraph*> fGMap, FILE* f,std::string ni
             int firstc=1;
             for (std::map<std::string,TAdvancedGraph*>::iterator C=fGMap.begin(); C!=fGMap.end(); C++)
                 {
-					if (C->first.find("systematics")!=std::string::npos) continue;
+                    if (C->first.find("systematics")!=std::string::npos) continue;
                     double x,y;
                     C->second->GetPoint(i,x,y);
                     y=std::abs(y);
                     if (firstc) { fprintf(f,"$%f$",x); firstc=0;}
                     fprintf(f,"&$%3.3f^{+%3.3f}_{-%3.3f}",y,C->second->GetErrorYhigh(i),C->second->GetErrorYlow(i));
-                     if (fGMap.find(C->first+"_systematics")!=fGMap.end())
-                     {
-						 fprintf(f,"{}^{+%3.3f}_{-%3.3f}",fGMap[C->first+"_systematics"]->GetErrorYhigh(i),
-						 fGMap[C->first+"_systematics"]->GetErrorYlow(i));
-						 
-						 
-					}	 fprintf(f,"$");
-                
+                    if (fGMap.find(C->first+"_systematics")!=fGMap.end())
+                        {
+                            fprintf(f,"{}^{+%3.3f}_{-%3.3f}",fGMap[C->first+"_systematics"]->GetErrorYhigh(i),
+                                    fGMap[C->first+"_systematics"]->GetErrorYlow(i));
+
+
+                        }
+                    fprintf(f,"$");
+
                 }
             fprintf(f,"\\\\\n");
         }
@@ -131,7 +132,7 @@ void PrintTH(std::map<std::string,TH1D*> fHMap, FILE* f,std::string nick, std::s
     if (command==std::string("")) command="TABH"+nick+newcommand;
 
 
-replace_all(command,"_","");
+    replace_all(command,"_","");
     replace_all(command,"1","one");
     replace_all(command,"2","two");
     replace_all(command,"3","three");
@@ -155,20 +156,20 @@ replace_all(command,"_","");
     fprintf(f,"\\newcommand{\\%s}[2]{\n",command.c_str());
     fprintf(f,"\\begin{table}\\centering\n\\begin{tabular}{|c|");
     for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
-     if (C->first.find("systematics")==std::string::npos)
-        fprintf(f,"c|");
+        if (C->first.find("systematics")==std::string::npos)
+            fprintf(f,"c|");
     fprintf(f,"}\\hline\n");
 
 
     fprintf(f,"#1");
     for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
-        if (C->first.find("systematics")==std::string::npos) 
-        {
-            na.clear();
-            tokenize(C->first,"_",na);
-            fprintf(f,"&\\%s",na[1].c_str());
+        if (C->first.find("systematics")==std::string::npos)
+            {
+                na.clear();
+                tokenize(C->first,"_",na);
+                fprintf(f,"&\\%s",na[1].c_str());
 
-        }
+            }
     fprintf(f,"\\\\\\hline\\hline\n");
 
     for (int i=1; i<N+1; i++)
@@ -176,22 +177,23 @@ replace_all(command,"_","");
             int firstc=1;
             for (std::map<std::string,TH1D*>::iterator C=fHMap.begin(); C!=fHMap.end(); C++)
                 {
-					 if (C->first.find("systematics")!=std::string::npos) continue;
+                    if (C->first.find("systematics")!=std::string::npos) continue;
                     double y;
                     y=C->second->GetBinContent(i);
                     y=std::abs(y);
                     if (firstc) { fprintf(f,"$%f:%f$",C->second->GetBinLowEdge(i),C->second->GetBinLowEdge(i)+C->second->GetBinWidth(i)); firstc=0;}
                     fprintf(f,"&$%3.3f^{+%3.3f}_{-%3.3f}",y,C->second->GetBinError(i),C->second->GetBinError(i));
-                    
-                                         if (fHMap.find(C->first+"_systematics")!=fHMap.end())
-                     {
-						 fprintf(f,"{}^{+%3.3f}_{-%3.3f}",fHMap[C->first+"_systematics"]->GetBinError(i),
-						 fHMap[C->first+"_systematics"]->GetBinError(i));
-						 
-						 
-					}	 fprintf(f,"$");
-                    
-                    
+
+                    if (fHMap.find(C->first+"_systematics")!=fHMap.end())
+                        {
+                            fprintf(f,"{}^{+%3.3f}_{-%3.3f}",fHMap[C->first+"_systematics"]->GetBinError(i),
+                                    fHMap[C->first+"_systematics"]->GetBinError(i));
+
+
+                        }
+                    fprintf(f,"$");
+
+
                 }
             fprintf(f,"\\\\\n");
         }
@@ -211,75 +213,75 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string nick,std
     for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
         {
 
-TObject *objx;
- C->second->Print();
+            TObject *objx;
+            C->second->Print();
 
             for (int i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
-					objx=C->second->GetListOfPrimitives()->At(i);
-					if (objx==NULL) { puts("bad"); continue;}
-					if (!objx->InheritsFrom(TVirtualPad::Class())) continue;
-					std::string qname= std::string(objx->GetName());
-					if (qname.find("QPAD")==std::string::npos) continue;
+                    objx=C->second->GetListOfPrimitives()->At(i);
+                    if (objx==NULL) { puts("bad"); continue;}
+                    if (!objx->InheritsFrom(TVirtualPad::Class())) continue;
+                    std::string qname= std::string(objx->GetName());
+                    if (qname.find("QPAD")==std::string::npos) continue;
                     TCanvas *Q= new TCanvas(("Q"+qname+"Z").c_str(),"Q",1024,1024);
                     Q->cd();
 
 
-					std::string rname=qname;
-					replace_all(rname,"QPAD","RPAD");
+                    std::string rname=qname;
+                    replace_all(rname,"QPAD","RPAD");
 
-					
-					TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->FindObject(qname.c_str())->Clone("1"));
-					TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->FindObject(rname.c_str())->Clone("2"));
+
+                    TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->FindObject(qname.c_str())->Clone("1"));
+                    TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->FindObject(rname.c_str())->Clone("2"));
                     //TPad* A1=(TPad*)(((TPad*)C->second->GetListOfPrimitives()->At(2*i))->Clone("1"));
                     //TPad* A2=(TPad*)(((TPad*)C->second->GetListOfPrimitives()->At(2*i+1))->Clone("2"));
-                    
-                    
-                    
+
+
+
                     //TPad* A1=(TPad*)(C->second->GetListOfPrimitives()->At(2*i));
                     //TPad* A2=(TPad*)(C->second->GetListOfPrimitives()->At(2*i+1));
-                    
 
-TObject *obj2;
-int no=0;
+
+                    TObject *obj2;
+                    int no=0;
                     TIter next2(A2->GetListOfPrimitives());
                     while ((obj2=next2()))
                         {
-							//printf("%s\n",obj2->GetName());
+                            //printf("%s\n",obj2->GetName());
                             if (obj2->InheritsFrom("TH1")) no++;
                             if ( obj2->IsA()->InheritsFrom( "TGraph" ) )  no++;
-                        //if ( obj2->InheritsFrom( "TGraph" ) ) { puts("yes3");}
+                            //if ( obj2->InheritsFrom( "TGraph" ) ) { puts("yes3");}
                         }
-                    
+
 
                     double h1=A1->GetAbsHNDC();
                     double h2=A2->GetAbsHNDC();
 
-                      //printf("no=%i\n",no);
-                if (no>1)
-                {
-                    A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
-                    A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
-                    A1->Draw();
-                    A2->Draw();
-                    
-				}
-				else
-				{
-                    
-                    A1->SetPad(0.0,0,1.0,1.0);
-                    A1->SetBottomMargin(0.1);
-                    A1->Draw();
-					
-					
-					
-				}	
-				
+                    //printf("no=%i\n",no);
+                    if (no>1)
+                        {
+                            A2->SetPad(0.0,0.0,1.0,h2/(h1+h2));
+                            A1->SetPad(0.0,h2/(h1+h2),1.0,1.0);
+                            A1->Draw();
+                            A2->Draw();
+
+                        }
+                    else
+                        {
+
+                            A1->SetPad(0.0,0,1.0,1.0);
+                            A1->SetBottomMargin(0.1);
+                            A1->Draw();
+
+
+
+                        }
+
                     std::string pname=C->first+A1->GetTitle();
                     if (command!="") pname=command;
-                    
+
                     pname=nick+pname;
-                    
+
                     replace_all(pname,"1","one");
                     replace_all(pname,"2","two");
                     replace_all(pname,"3","three");
@@ -300,8 +302,8 @@ int no=0;
 
                     fprintf(f,"\\newcommand{\\FIG%s}[1]{\\begin{figure}\n\\includegraphics[width=\\textwidth]{../../output/%s}\\caption{#1}\\end{figure}}\n",
                             pname.c_str(),pname.c_str());
-      
-                            
+
+
 
                 }
         }
@@ -318,7 +320,7 @@ int no=0;
 int main(int argc, char* argv[])
 {
 
-std::string nick=std::string(argv[1]);
+    std::string nick=std::string(argv[1]);
     FILE * FF;
     FF= fopen(argv[3],"w");
 
@@ -330,7 +332,7 @@ std::string nick=std::string(argv[1]);
     while ((key = (TKey*)next()))
         {
             TObject *obj = key->ReadObj();
-if (!obj) continue;
+            if (!obj) continue;
             if ( obj->IsA()->InheritsFrom( "TCanvas"    ) )
                 {
                     fCMap.insert(std::pair<std::string,TCanvas*> (std::string(key->GetName()) ,(TCanvas*)obj  ) );
@@ -339,25 +341,25 @@ if (!obj) continue;
 
         }
     type_fFile->Close();
-std::map<std::string,TCanvas*> fCMap2;
-fCMap2.insert(fCMap.begin(),fCMap.end());
+    std::map<std::string,TCanvas*> fCMap2;
+    fCMap2.insert(fCMap.begin(),fCMap.end());
 
     PrintTC(fCMap2,FF,nick,"");
 
     for (std::map<std::string,TCanvas*>::iterator C=fCMap.begin(); C!=fCMap.end(); C++)
         {
 
-                    std::map<std::string,TH1D*> allfHMap;
-                    std::map<std::string,TAdvancedGraph*> allfGMap;
+            std::map<std::string,TH1D*> allfHMap;
+            std::map<std::string,TAdvancedGraph*> allfGMap;
             int i=1;
             for (i=0; i<C->second->GetListOfPrimitives()->GetSize(); i++)
                 {
                     std::map<std::string,TH1D*> fHMap;
                     std::map<std::string,TAdvancedGraph*> fGMap;
                     std::string padname=std::string(((TPad*)(C->second->GetListOfPrimitives()->At(i)))->GetName());
-                   
-                   if (padname.find("QPAD")==std::string::npos) continue;
-                    
+
+                    if (padname.find("QPAD")==std::string::npos) continue;
+
                     TObject *obj2;
                     TIter next2(((TPad*)C->second->GetListOfPrimitives()->At(i))->GetListOfPrimitives());
                     while ((obj2=next2()))
@@ -377,26 +379,27 @@ fCMap2.insert(fCMap.begin(),fCMap.end());
                                 }
 
                         }
-                        
-                                     
-                        
+
+
+
                     PrintTG(fGMap,FF,nick,"");
 
                     PrintTH(fHMap,FF,nick,"");
-                if (fGMap.size())
-                //if (fGMap.begin()->first.find("corrected")!=std::string::npos)
-                 if (fGMap.begin()->first.find("JETR")!=std::string::npos) {
-					for ( std::map<std::string,TAdvancedGraph*>::iterator it=fGMap.begin();it!=fGMap.end();it++) 
-					if (it->first.find("corrected")!=std::string::npos) allfGMap.insert(*it); 
-					 for ( std::map<std::string,TH1D*>::iterator it=fHMap.begin();it!=fHMap.end();it++) 
-					 if (it->first.find("corrected")!=std::string::npos) allfHMap.insert(*it); 
-					 
-					 }
-                
+                    if (fGMap.size())
+                        //if (fGMap.begin()->first.find("corrected")!=std::string::npos)
+                        if (fGMap.begin()->first.find("JETR")!=std::string::npos)
+                            {
+                                for ( std::map<std::string,TAdvancedGraph*>::iterator it=fGMap.begin(); it!=fGMap.end(); it++)
+                                    if (it->first.find("corrected")!=std::string::npos) allfGMap.insert(*it);
+                                for ( std::map<std::string,TH1D*>::iterator it=fHMap.begin(); it!=fHMap.end(); it++)
+                                    if (it->first.find("corrected")!=std::string::npos) allfHMap.insert(*it);
+
+                            }
+
                 }
-        
-        PrintTG(allfGMap,FF,"","TABG"+nick+C->first+"_JETRall");
-        
+
+            PrintTG(allfGMap,FF,"","TABG"+nick+C->first+"_JETRall");
+
         }
 
     fclose(FF);

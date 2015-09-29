@@ -145,11 +145,11 @@ void create_sample_info(sample_info& A,std::string prefix,char* Es,double El,dou
 
 
 void read_file(TFile* type_fFile,std::map<std::string,TH1D*> &fHMap,
-std::map<std::string,TAdvancedGraph*> &fGMap,
-std::map<std::string,TCanvas*>& fCMap)
+               std::map<std::string,TAdvancedGraph*> &fGMap,
+               std::map<std::string,TCanvas*>& fCMap)
 {
-	
-	    type_fFile->cd();
+
+    type_fFile->cd();
     TIter next(type_fFile->GetListOfKeys());
     TKey *key;
     while ((key = (TKey*)next()))
@@ -160,20 +160,20 @@ std::map<std::string,TCanvas*>& fCMap)
                 {
                     fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
                 }
-                 if ( obj->IsA()->InheritsFrom( "TCanvas"    ) )
+            if ( obj->IsA()->InheritsFrom( "TCanvas"    ) )
                 {
                     fCMap.insert(std::pair<std::string,TCanvas*> (std::string(key->GetName()) ,(TCanvas*)obj  ) );
                     //fCMap[std::string(key->GetName())]->SetDirectory(0);
                 }
         }
-	
-}	
 
+}
+/*
 void FillWithLabel(TH1D* H,std::string l,double weight)
 {
     for (int i=0; i<H->GetNbinsX(); i++) if (std::string(H->GetXaxis()->GetBinLabel(i))==l) H->Fill(H->GetBinCenter(i),weight);
 }
-
+*/
 
 void H_inserter(std::map<std::string,TH1D*> &A,std::string t, Int_t s, const Double_t a[])
 {
@@ -194,7 +194,6 @@ void G_inserter(std::map<std::string,TAdvancedGraph*> &A,std::string t, Int_t s,
     A[t]->SetDrawOption("APL");
     A[t]->SetTitle(t.c_str());
     A[t]->SetName(t.c_str());
-    //gDirectory->Append(A[t]);
 }
 #endif
 #endif

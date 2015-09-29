@@ -25,9 +25,6 @@
 #include  "TSampleInfo.h"
 #include  "Helpers.h"
 #include  "Cuts.h"
-//#ifndef YEARSUFFIX
-//#define YEARSUFFIX ""
-//#endif
 void opalanalysis::Begin(__attribute__ ((unused))TTree *tree) {}
 void opalanalysis::SlaveBegin(TTree * tree)
 {
@@ -115,7 +112,7 @@ Bool_t opalanalysis::Process(Long64_t gentry)
                 std::vector<TLorentzVector> vtlv= GetLorentzVectors( this,options.at(j) );
                 for (std::vector<std::string>::iterator it=fAlgorithms.begin(); it!=fAlgorithms.end(); it++)
                     {
-                        
+
                         OPALJet* tfj =new OPALJet( vtlv,*it,mycuts[*it], NULL);
                         OPALAnalysis(this, tfj,fSampleInfo->fWeight,*it,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),it->c_str(),fSampleInfo->fEnergyString.c_str()));
                         if (*it=="durham")
@@ -123,7 +120,7 @@ Bool_t opalanalysis::Process(Long64_t gentry)
                                 if (j==1) if (passed[0]) printf("OPALR:TRUE: %i %05d\n",Irun,Ievnt);
                                 if (j==0) printf("OPALR:MCDA: %i %05d\n",Irun,Ievnt);
                             }
-                       delete tfj;
+                        delete tfj;
                     }
             }
     if (passed[0]) fHMap["weight_reco"]->Fill((fSampleInfo->fType+"_"+fSampleInfo->fProcesses).c_str(),fSampleInfo->fWeight);

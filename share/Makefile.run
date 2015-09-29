@@ -28,7 +28,6 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 		cp ../src/TSampleInfo.cxx ./src
 		cp ../src/TSampleInfo.h ./inc	
 		cp ../src/Cuts.h ./inc
-		cp ../src/Cuts.cxx ./src
 		cp ../src/Helpers.h ./inc
 		cp ../src/Helpers.cxx ./src
 	
@@ -62,7 +61,7 @@ lib/Rivet$(NAME).so: dirs  src/Rivet$(NAME).cc Makefile
 
 
 
-		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx src/Cuts.cxx src/Rivet$(NAME).cc -pedantic -Wall\
+		rivet-buildplugin --with-root  lib/Rivet$(NAME).so src/Helpers.cxx  src/Rivet$(NAME).cc -pedantic -Wall\
 		   -DUSE_RIVET -std=gnu++0x -lRIO  -lNet -I. -I./inc -L. -L./lib -lOPALJet -lTAdvancedGraph -lTSampleInfo '-DGENERATOR=\"$(GEN)\"'  
 
 
