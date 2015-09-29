@@ -37,7 +37,7 @@ bin/$ARCH/create_systematics $energy "${systematics[@]}"
 $MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
 $MAKE output/shapemanip_$energy".root" > logs/temp.txt 
-exit
+
 cat logs/temp.txt | grep SHAPE:MCDA: | sort -n | sed 's@SHAPE:MCDA: @@g' >logs/SHAPE_MCDA.debug_$energy
 cat logs/temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >logs/SHAPE_TRUE.debug_$energy
 make bin/$ARCH/create_plots
