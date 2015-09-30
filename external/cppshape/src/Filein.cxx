@@ -53,7 +53,24 @@ Filein::Filein( std::string filename )
     init();
     
 }
+//http://stackoverflow.com/questions/599989/is-there-a-built-in-way-to-split-strings-in-c
+static void Filein_tokenize(const std::string& str, const std::string& delimiters , std::vector<std::string>& tokens)
+{
+    // Skip delimiters at beginning.
+    std::string::size_type lastPos = str.find_first_not_of(delimiters, 0);
+    // Find first "non-delimiter".
+    std::string::size_type pos     = str.find_first_of(delimiters, lastPos);
 
+    while (std::string::npos != pos || std::string::npos != lastPos)
+        {
+            // Found a token, add it to the vector.
+            tokens.push_back(str.substr(lastPos, pos - lastPos));
+            // Skip delimiters.  Note the "not_of"
+            lastPos = str.find_first_not_of(delimiters, pos);
+            // Find next "non-delimiter"
+            pos = str.find_first_of(delimiters, lastPos);
+        }
+}
 
 void Filein::init()
 {
@@ -118,21 +135,47 @@ if (inBuf[0]=='*') {  printf("Commented line");  continue;}
                     std::string fname;
                     line.clear();
                     line.str( inBuf );
+                    
+                    std::vector<std::string> tokens;
+                    Filein_tokenize(inBuf," ",tokens);
+                    printf("->%s<-\n",inBuf.c_str());
+                    if (tokens.size()<7) continue;
+                    printf("->%s<-\n",inBuf.c_str());
+                    std::stringstream stokens[tokens.size()];
+                    for (int kk=0;kk<tokens.size();kk++)  stokens[kk].str(tokens[kk].c_str()); 
+                    stokens[0]>>nf._generator;
+                    stokens[1]>>nf._process;
+                    stokens[2]>>nf._runno;
+                    stokens[3]>>nf._sigma;
+                    stokens[4]>>nf._lumi;
+                    stokens[5]>>partit;
+                    stokens[6]>>fname;
+                    if (tokens.size()>7) stokens[7]>>nf._ntid;                    else  nf._ntid= 10;
+                    
+                    printf("%s %s %i %f %f %i %s %i\n",
+                    nf._generator.c_str(),
+                    nf._process.c_str(),
+                    nf._runno,
+                    nf._sigma,
+                    nf._lumi,
+                    partit,
+                    fname.c_str(),
+                    nf._ntid);
+                    /* Best example how not to write a code
+                    
                     line >> nf._generator >> nf._process >> nf._runno >> nf._sigma
                          >> nf._lumi >> partit >> fname;
                     if( !line.eof() )
                         {
                             line >> nf._ntid;
-                            printf("line >> nf._ntid;   %i\n",nf._ntid);
-                            printf("THIS SHOULD NOT BE HERE!!!!!!!!!!!line >> nf._ntid;   %i\n",nf._ntid);
-                            nf._ntid= 10;
+
                         }
                     else
                         {
                             nf._ntid= 10;
                         }
-                            printf("END OF line >> nf._ntid;   %i\n",nf._ntid);
-                    for( int ipar= std::min( 1, partit ); ipar <= partit; ipar++ )
+
+                        for( int ipar= std::min( 1, partit ); ipar <= partit; ipar++ )
                         {
                             nf._part= std::max( 1, ipar );
                             std::ostringstream ostr;
@@ -152,7 +195,39 @@ if (inBuf[0]=='*') {  printf("Commented line");  continue;}
                                 }
                             nf._diskname= ostr.str();
                             _ntname.push_back( nf );
-                        }
+                        }   
+                            
+                            */
+                            
+                        for( int ipar= std::min( 1, partit ); ipar <= partit; ipar++ )
+                        {
+                            nf._part= std::max( 1, ipar );
+                            std::string ostr=base_ntfile_dir;                            
+                            if( base_ntfile_dir.substr( base_ntfile_dir.size()-1 ) != "/" )
+                                {
+                                    ostr += "/";
+                                }
+                            ostr += fname;
+                            ostr +=  "_";
+                            if( ipar == 0 )
+                                {
+                                    ostr += _version; ostr +=".histo";
+                                }
+                            else
+                                {
+									char bbuf[20];
+									sprintf(bbuf,"%i",ipar);
+                                    ostr +=std::string(bbuf);
+                                     ostr += "_";
+                                      ostr += _version;
+                                       ostr += ".histo";
+                                }
+                            nf._diskname= ostr;
+                            printf("---->%s<-\n",ostr.c_str());
+                            _ntname.push_back( nf );
+                        }      
+                            
+
                 }
 
         }

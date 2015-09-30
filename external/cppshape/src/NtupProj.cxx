@@ -171,8 +171,7 @@ bool NtupProj::get_next_evt()
     // Get event:
     hcdir( "//PAWC", " " );
     FInteger ierr;
-    ++_ntupcurevt;
-    printf ("----------------hgnt( %i, %i, %i);\n", _ntupid, _ntupcurevt, ierr );
+    ++_ntupcurevt;    
     hgnt( _ntupid, _ntupcurevt, ierr );
     bool status= true;
     if( ierr != 0 )

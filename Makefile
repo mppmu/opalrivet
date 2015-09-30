@@ -236,7 +236,7 @@ DX_DOT =
 DX_DOXYGEN = /usr/bin/doxygen
 DX_DVIPS = 
 DX_EGREP = 
-DX_ENV =  SRCDIR='.' PROJECT='opalrivet' DOCDIR='./doc' VERSION='0.320' PERL_PATH='/usr/bin/perl' HAVE_DOT='NO' GENERATE_MAN='NO' GENERATE_RTF='NO' GENERATE_XML='NO' GENERATE_HTMLHELP='NO' GENERATE_CHI='NO' GENERATE_HTML='NO' GENERATE_LATEX='NO'
+DX_ENV =  SRCDIR='.' PROJECT='opalrivet' DOCDIR='./doc' VERSION='0.320:321M' PERL_PATH='/usr/bin/perl' HAVE_DOT='NO' GENERATE_MAN='NO' GENERATE_RTF='NO' GENERATE_XML='NO' GENERATE_HTMLHELP='NO' GENERATE_CHI='NO' GENERATE_HTML='NO' GENERATE_LATEX='NO'
 DX_FLAG_chi = 0
 DX_FLAG_chm = 0
 DX_FLAG_doc = 1
@@ -282,17 +282,17 @@ NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
 OBJEXT = o
-OPALRIVET_API_VERSION = 0.320
+OPALRIVET_API_VERSION = 0.320:321M
 OPALRIVET_SO_VERSION = 0:0:0
 OTOOL = 
 OTOOL64 = 
 PACKAGE = opalrivet
 PACKAGE_BUGREPORT = andrii.verbytskyi@desy.de
 PACKAGE_NAME = opalrivet
-PACKAGE_STRING = opalrivet 0.320
+PACKAGE_STRING = opalrivet 0.320:321M
 PACKAGE_TARNAME = opalrivet
 PACKAGE_URL = http://mpp.mpg.de
-PACKAGE_VERSION = 0.320
+PACKAGE_VERSION = 0.320:321M
 PATH_SEPARATOR = :
 RANLIB = ranlib
 ROOT_CFLAGS = -pthread -m64 -I/usr/include/root
@@ -301,7 +301,7 @@ SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
-VERSION = 0.320
+VERSION = 0.320:321M
 abs_builddir = /home/andriish/Projects/opalrivet/trunk
 abs_srcdir = /home/andriish/Projects/opalrivet/trunk
 abs_top_builddir = /home/andriish/Projects/opalrivet/trunk
@@ -1174,17 +1174,11 @@ output/OPAL_2004_S6132243.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/r
 output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root output/OPAL_2004_S6132243.root output/OPAL_2000_S4306783.root
 	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root output/OPAL_2004_S6132243.root output/OPAL_2000_S4306783.root
 
-output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip    .rootrc
+output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip  output/shape_%.root  .rootrc
 	mkdir -p subs_output
-	rm -f output/shape_$*.root
-	$(MAKE) output/shape_$*.root
-#ifeq  ($%, '91')
-#		external/cppshape/examples/shape/bin/shape2 A output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
-#else
-#		external/cppshape/examples/shape/bin/shape2 P output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
-#endif
-#	h2root  output/shape_$*_manip.rzhist
-#	h2root  output/shape_$*.rzhist
+	external/cppshape/examples/shape/bin/shape2 P output/shape_$* external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+	h2root  output/shape_$*_manip.rzhist
+	h2root  output/shape_$*.rzhist
 	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_durham.root durham output/shape_$*_manip.root output/shape_$*.root
 	bin/$(ARCH)/create_manip   tmp/shapemanip_$*_antikt.root antikt output/shape_$*_manip.root output/shape_$*.root
 	hadd -f output/shapemanip_$*.root tmp/shapemanip_$*_antikt.root tmp/shapemanip_$*_durham.root
@@ -1195,9 +1189,18 @@ output/shape_%.root:
 				make -C external/cppshape
 				make -C external/cppshape/examples/shape
 			    rm -rf output_200_$*.rzhist
-			    external/cppshape/examples/shape/bin/shape2 P /scratch/andriish/opal/ntuple/qcd/  external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
+			    external/cppshape/examples/shape/bin/shape2 A /scratch/andriish/opal/ntuple/qcd/  external/cppshape/examples/shape/QCDadmin/QCDadmin_200_$*.txt
 				mv  output_200_$*.rzhist output/shape_$*.rzhist
 				h2root output/shape_$*.rzhist
+
+output/shapemanip_91.root: dirs bin/$(ARCH)/create_manip  output/shape_91.root  .rootrc
+	mkdir -p subs_output
+	external/cppshape/examples/shape/bin/shape2 L output/shape_91 external/cppshape/examples/shape/QCDadmin/QCDadmin_200_91.txt
+	h2root  output/shape_91_manip.rzhist
+	h2root  output/shape_91.rzhist
+	bin/$(ARCH)/create_manip   tmp/shapemanip_91_durham.root durham output/shape_91_manip.root output/shape_91.root
+	bin/$(ARCH)/create_manip   tmp/shapemanip_91_antikt.root antikt output/shape_91_manip.root output/shape_91.root
+	hadd -f output/shapemanip_91.root tmp/shapemanip_91_antikt.root tmp/shapemanip_91_durham.root
 
 output/shape_91.root:
 				make -C external/cppshape clean

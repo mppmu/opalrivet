@@ -442,10 +442,10 @@ void Ntanalyse( string filename,std::string adminfile="" ) {
 }
 
 
-void NtLEP1analyse( string filename ) {
+void NtLEP1analyse( string filename,std::string adminfile=""  ) {
 
   // Read admin file and initialise analysis:
-  Filein qcdntuples;
+   Filein qcdntuples(adminfile);
   create_NtupProj( qcdntuples.version(), 91 );
   
   // Initialise observables:
@@ -654,8 +654,9 @@ else
     case 'l':
       cout << "Input histo file name stem" << endl;
       if (argc>2) filename=std::string(argv[2]);
+       if (argc>3) admin=std::string(argv[3]);
             cout << filename << endl;
-      NtLEP1analyse( filename );
+      NtLEP1analyse( filename,admin );
       exit( 0 );
       break;
     case 'J':

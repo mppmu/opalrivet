@@ -1,29 +1,12 @@
 latexfile=opalJRT
 newname=JRT
-TEX=  latex -halt-on-error -shell-escape -enable-write18
-PDFTEX= pdflatex -halt-on-error -shell-escape -enable-write18
+TEX=  lualatex -halt-on-error -shell-escape -enable-write18
 BIB= bibtex
 KPSEWHICH=kpsewhich
 
 all: $(latexfile).pdf
 
 
-figures_tikz: $(latexfile)-dia.tex
-	$(TEX)  -interaction=batchmode -jobname    $(latexfile)"-dia-figure0" "\def\tikzexternalrealjob{"$(latexfile)"-dia}\input{"$(latexfile)"-dia}"
-	dvips   $(latexfile)"-dia-figure0.dvi" -o $(latexfile)"-dia-figure0.eps"
-	ps2eps -f   $(latexfile)"-dia-figure0.ps"
-	$(PDFTEX)  -interaction=batchmode -jobname    $(latexfile)"-dia-figure0" "\def\tikzexternalrealjob{"$(latexfile)"-dia}\input{"$(latexfile)"-dia}"
-	mv $(latexfile)"-dia-figure0.eps" Figures/$(newname)-figure0.eps
-	mv $(latexfile)"-dia-figure0.pdf" Figures/$(newname)-figure0.pdf
-	rm $(latexfile)"-dia-figure0".*
-	
-	$(TEX)  -interaction=batchmode -jobname    $(latexfile)"-dia-figure1" "\def\tikzexternalrealjob{"$(latexfile)"-dia}\input{"$(latexfile)"-dia}"
-	dvips   $(latexfile)"-dia-figure1.dvi" -o $(latexfile)"-dia-figure1.eps"
-	ps2eps -f   $(latexfile)"-dia-figure1.ps"
-	$(PDFTEX)  -interaction=batchmode -jobname    $(latexfile)"-dia-figure1" "\def\tikzexternalrealjob{"$(latexfile)"-dia}\input{"$(latexfile)"-dia}"
-	mv $(latexfile)"-dia-figure1.eps" Figures/$(newname)-figure1.eps
-	mv $(latexfile)"-dia-figure1.pdf" Figures/$(newname)-figure1.pdf
-	rm $(latexfile)"-dia-figure1".*
 
 tar:  Makefile $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex $(latexfile)-auth.tex  $(latexfile).tex zeus_paper.cls
 	rm -rf TAR
@@ -66,7 +49,7 @@ constanttables=
 
 
 
-$(latexfile).dvi :  $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex $(latexfile)-auth.tex  $(latexfile).tex zeus_paper.cls
+$(latexfile).pdf :  $(figures) $(constanttables) $(tables) $(latexfile).bst $(latexfile).bib $(latexfile)-txt.tex $(latexfile)-tab.tex $(latexfile)-fig.tex $(latexfile)-auth.tex  $(latexfile).tex zeus_paper.cls
 	$(TEX) $(latexfile)
 	$(TEX) $(latexfile)
 	$(BIB) $(latexfile)
@@ -74,14 +57,14 @@ $(latexfile).dvi :  $(figures) $(constanttables) $(tables) $(latexfile).bst $(la
 	$(TEX) $(latexfile)
 	$(TEX) $(latexfile)
 
-$(latexfile).pdf : $(latexfile).ps
-	ps2pdf -dUseCIEColor -dPDFSETTINGS=/printer -sPAPERSIZE=a4  $(latexfile).ps $(latexfile).pdf
+#$(latexfile).pdf : $(latexfile).ps
+#	ps2pdf -dUseCIEColor -dPDFSETTINGS=/printer -sPAPERSIZE=a4  $(latexfile).ps $(latexfile).pdf
 
-ps : $(latexfile).ps 
+#ps : $(latexfile).ps 
 
 pdf : $(latexfile).pdf
-$(latexfile).ps : $(latexfile).dvi
-	dvips -Ppdf -t a4 $(latexfile)
+#$(latexfile).ps : $(latexfile).dvi
+#	dvips -Ppdf -t a4 $(latexfile)
 
 
 $(latexfile).rws: $(latexfile)-dict.txt

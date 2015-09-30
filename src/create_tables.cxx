@@ -296,7 +296,7 @@ void PrintTC(std::map<std::string,TCanvas*> fCMap, FILE* f, std::string nick,std
                     replace_all(pname,"+","plus");
                     replace_all(pname,".","dot");
                     replace_all(pname,"_","");
-                    Q->SaveAs((std::string("output/")+pname+".eps").c_str());
+                    Q->SaveAs((std::string("output/")+pname+".pdf").c_str());
 //Q->Delete();
 
 

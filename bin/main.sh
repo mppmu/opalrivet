@@ -7,7 +7,7 @@ declare -a generators=( )
 #pythia8 herwig++ sherpa )
 #
  #130 136 161 172 183 189 192 196  202  205  207 pythia8 herwig++
-declare -a energies=( 130 )
+declare -a energies=( 91 130 )
 #130 136 161 172 183 189 192 196 200  202  205  207 )
 #(130 136 172 183 189 192 196  202  205  207 )
 # 172 183 189 192 196)
@@ -21,6 +21,7 @@ rm -f doc/Draft/opalJRT-manyplots.tex
 rm -f doc/Draft/opalJRT-manytables.tex
 for energy in "${energies[@]}"
 do
+
 
 for generator in "${generators[@]}"
 do
@@ -39,10 +40,13 @@ bin/$ARCH/create_systematics $energy "${systematics[@]}"
 
 $MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
-$MAKE output/shapemanip_$energy".root" > logs/temp.txt 
+ 
+$MAKE output/shapemanip_$energy".root" > logs/temp.txt
 
 cat logs/temp.txt | grep SHAPE:MCDA: | sort -n | sed 's@SHAPE:MCDA: @@g' >logs/SHAPE_MCDA.debug_$energy
 cat logs/temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >logs/SHAPE_TRUE.debug_$energy
+
+
 make bin/$ARCH/create_plots
 bin/$ARCH/create_plots final $energy "corrected"  output/opal_$energy'.root'
 bin/$ARCH/create_plots norm $energy "corrected:olddata:manipcorrected:truesignalnormalized"  $(echo  shapemanip old opal "${generators[@]}" | sed 's@ @\n@g' | sed 's@^@output/@g' |sed 's@$@_'$energy'.root@g' | tr -s '\n' ' ') 
