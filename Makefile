@@ -236,7 +236,7 @@ DX_DOT =
 DX_DOXYGEN = /usr/bin/doxygen
 DX_DVIPS = 
 DX_EGREP = 
-DX_ENV =  SRCDIR='.' PROJECT='opalrivet' DOCDIR='./doc' VERSION='0.307:315M' PERL_PATH='/usr/bin/perl' HAVE_DOT='NO' GENERATE_MAN='NO' GENERATE_RTF='NO' GENERATE_XML='NO' GENERATE_HTMLHELP='NO' GENERATE_CHI='NO' GENERATE_HTML='NO' GENERATE_LATEX='NO'
+DX_ENV =  SRCDIR='.' PROJECT='opalrivet' DOCDIR='./doc' VERSION='0.307:319M' PERL_PATH='/usr/bin/perl' HAVE_DOT='NO' GENERATE_MAN='NO' GENERATE_RTF='NO' GENERATE_XML='NO' GENERATE_HTMLHELP='NO' GENERATE_CHI='NO' GENERATE_HTML='NO' GENERATE_LATEX='NO'
 DX_FLAG_chi = 0
 DX_FLAG_chm = 0
 DX_FLAG_doc = 1
@@ -282,17 +282,17 @@ NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
 OBJEXT = o
-OPALRIVET_API_VERSION = 0.307:315M
+OPALRIVET_API_VERSION = 0.307:319M
 OPALRIVET_SO_VERSION = 0:0:0
 OTOOL = 
 OTOOL64 = 
 PACKAGE = opalrivet
 PACKAGE_BUGREPORT = andrii.verbytskyi@desy.de
 PACKAGE_NAME = opalrivet
-PACKAGE_STRING = opalrivet 0.307:315M
+PACKAGE_STRING = opalrivet 0.307:319M
 PACKAGE_TARNAME = opalrivet
 PACKAGE_URL = http://mpp.mpg.de
-PACKAGE_VERSION = 0.307:315M
+PACKAGE_VERSION = 0.307:319M
 PATH_SEPARATOR = :
 RANLIB = ranlib
 ROOT_CFLAGS = -pthread -m64 -I/usr/include/root
@@ -301,7 +301,7 @@ SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
-VERSION = 0.307:315M
+VERSION = 0.307:319M
 abs_builddir = /home/andriish/Projects/opalrivet/trunk
 abs_srcdir = /home/andriish/Projects/opalrivet/trunk
 abs_top_builddir = /home/andriish/Projects/opalrivet/trunk
@@ -395,7 +395,7 @@ HERWIG_PLUSPLUSVERS = 2.7.0
 CYTHON_VERS = 0.19
 AGILE_VERS = 1.4.1
 SOURCES = src/Helpers.cxx         src/Helpers.h \
-		           src/Cuts.h \
+		            src/Cuts.h \
 		src/TSampleInfo.cxx     src/TSampleInfo.h \
 		src/OPALJet.cxx        src/OPALJet.h  \
 		src/TAdvancedGraph.cxx  src/TAdvancedGraph.h \
@@ -1165,8 +1165,14 @@ bin/$(ARCH)/hepplotconvert: dirs   external/hepplotconvert/WriterROOT.h external
 output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda
 	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
 
-output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root
-	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
+output/OPAL_2000_S4306783.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/OPAL_2000_S4306783.yoda
+	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/OPAL_2000_S4306783.yoda output/OPAL_2000_S4306783.root
+
+output/OPAL_2004_S6132243.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/OPAL_2004_S6132243.yoda
+	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/OPAL_2004_S6132243.yoda output/OPAL_2004_S6132243.root
+
+output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root output/OPAL_2004_S6132243.root output/OPAL_2000_S4306783.root
+	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root output/OPAL_2004_S6132243.root output/OPAL_2000_S4306783.root
 
 output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip    .rootrc
 	mkdir -p subs_output

@@ -50,7 +50,7 @@ void opalanalysis::SlaveBegin(TTree * tree)
             TSampleInfo* R=(TSampleInfo*)TDB->Get(it->c_str());
             if (R->fType=="MCBG"||R->fType=="MCSI")
                 {
-                    R->fWeight=proc["ALL"].first/proc[R->fProcesses].first; ///Set proper weight to the MC
+                    R->fWeight=proc["ALL"].first/proc[R->fProcesses].first; ///Set proper weight for the MC
                     printf("R->fWeight %f \n",R->fWeight);
                 }
             else R->fWeight=1.0;

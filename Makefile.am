@@ -313,8 +313,14 @@ output/JADE_OPAL_2000_S4300807.root: bin/$(ARCH)/hepplotconvert external/Rivet/d
 	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/JADE_OPAL_2000_S4300807a.yoda output/JADE_OPAL_2000_S4300807.root
 
 
-output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root
-	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root
+output/OPAL_2000_S4306783.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/OPAL_2000_S4306783.yoda
+	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/OPAL_2000_S4306783.yoda output/OPAL_2000_S4306783.root
+
+output/OPAL_2004_S6132243.root: bin/$(ARCH)/hepplotconvert external/Rivet/data/refdata/OPAL_2004_S6132243.yoda
+	bin/$(ARCH)/hepplotconvert yoda2root external/Rivet/data/refdata/OPAL_2004_S6132243.yoda output/OPAL_2004_S6132243.root
+
+output/old_%.root: dirs bin/$(ARCH)/create_old output/JADE_OPAL_2000_S4300807.root output/OPAL_2004_S6132243.root output/OPAL_2000_S4306783.root
+	bin/$(ARCH)/create_old   output/old_$*.root nevermind output/JADE_OPAL_2000_S4300807.root output/OPAL_2004_S6132243.root output/OPAL_2000_S4306783.root
 
 
 output/shapemanip_%.root: dirs bin/$(ARCH)/create_manip    .rootrc

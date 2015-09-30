@@ -29,54 +29,23 @@ int main(int argc, char** argv)
 
     std::map<std::string,TH1D*> fHMap;
     std::map<std::string,TAdvancedGraph*> fGMap;
-    TFile* type_fFile= new TFile(argv[3], "READ");
-    type_fFile->cd();
-    TIter next(type_fFile->GetListOfKeys());
-    TKey *key;
-    while ((key = (TKey*)next()))
+    std::map<std::string,TCanvas*> fCMap;
+    for (int i=3; i<argc; i++)
         {
-            TObject *obj = key->ReadObj();
-            if ( obj->IsA()->InheritsFrom( "TH1"    ) ) { fHMap.insert(std::pair<std::string,TH1D*> (std::string(key->GetName()) ,(TH1D*)obj  ) );  fHMap[std::string(key->GetName())]->SetDirectory(0); }
-            if ( obj->IsA()->InheritsFrom( "TGraph" ) )
-                {
-                    fGMap.insert(std::pair<std::string,TAdvancedGraph*> (std::string(key->GetName()) ,(TAdvancedGraph*)obj)   );
-                }
+            TFile* type_fFile= new TFile(argv[i], "READ");
+            read_file(type_fFile,fHMap,fGMap,fCMap);
+            type_fFile->Close();
         }
-
-    type_fFile->Close();
     TFile* fFile= new TFile(argv[1], "RECREATE");
     fFile->cd();
 
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
         {
             std::string name(H_it->first);
-            //if ((name.find("h986")!=std::string::npos)||(name.find("h186")!=std::string::npos))
-//"/REF/JADE_OPAL_2000_S4300807a/d%02d-x01-y0%i
-            /*
-                  int offset = 0;
-                  switch (int(sqrtS()/GeV + 0.5)) {
-                  case 35: offset = 7; break;
-                  case 44: offset = 8; break;
-                  case 91: offset = 9; break;
-                  case 133: offset = 10; break;
-                  case 161: offset = 11; break;
-                  case 172: offset = 12; break;
-                  case 183: offset = 13; break;
-                  case 189: offset = 14; break;
-                  default: break;
-                  }
-                  for (size_t i = 0; i < 5; ++i) {
-                    _h_R_Jade[i] = bookHisto1D(offset, 1, i+1);
-                    _h_R_Durham[i] = bookHisto1D(offset+9, 1, i+1);
-                    if (i < 4) _h_y_Durham[i] = bookHisto1D(offset+17, 1, i+1);
-                  }
-                }
 
-            */
-
-
-
-            replace_all(name,"/REF/JADE_OPAL_2000_S4300807a","H_olddata");
+            if (name.find("JADE_OPAL_2000_S4300807")!=std::string::npos)
+            {
+            replace_all(name,"/REF/JADE_OPAL_2000_S4300807a","olddata");
             int offsets[]= {9,10,11,12,13,14};
             int energies[]= {91,133,161,172,183,189};
             for (int i = 0; i < 5; i++)
@@ -85,15 +54,42 @@ int main(int argc, char** argv)
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j],  i+1),Form("_jade_%dGeV_JETR%d",  energies[j],i+2));
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
                     }
-            puts(name.c_str());
-            H_it->second->SetName(name.c_str());
+           }
+           
+           
+            if (name.find("OPAL_2004_S6132243")!=std::string::npos)
+            {
+            replace_all(name,"/REF/OPAL_2004_S6132243","olddata");
+            int offsets[]= {1,2,3,4};
+            int energies[]= {91,133,177,199};
+            for (int j = 0; j < 4; j++) replace_all(name,Form("/d01-x01-y%02d",offsets[j]),Form("_durham_%dGeV_1-T",energies[j]));
+             }
 
+
+
+		 if (name.find("OPAL_2000_S4306783")!=std::string::npos)
+            {
+            replace_all(name,"/REF/OPAL_2000_S4306783","olddata");
+            int offsets[]= {1,2,3};
+            int energies[]= {172, 183,189};
+            for (int j = 0; j < 3; j++) replace_all(name,Form("/d01-x01-y%02d",offsets[j]),Form("_durham_%dGeV_T",energies[j]));
+             }
+
+
+
+
+            puts(name.c_str());
+            H_it->second->SetName(("H_"+name).c_str());
+           
+           
         }
 
 
     for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it)
         {
             std::string name(G_it->first);
+             if (name.find("JADE_OPAL_2000_S4300807")!=std::string::npos)
+            {
             replace_all(name,"/REF/JADE_OPAL_2000_S4300807a","olddata");
             int offsets[]= {9,10,11,12,13,14};
             int energies[]= {91,133,161,172,183,189};
@@ -104,17 +100,42 @@ int main(int argc, char** argv)
                         replace_all(name,Form("/d%02d-x01-y%02d",offsets[j]+9,i+1),Form("_durham_%dGeV_JETR%d",energies[j],i+2));
                     }
 
+		}
+		
+		 if (name.find("OPAL_2004_S6132243")!=std::string::npos)
+            {
+            replace_all(name,"/REF/OPAL_2004_S6132243","olddata");
+            int offsets[]= {1,2,3,4};
+            int energies[]= {91,133,177,199};
+            for (int j = 0; j < 4; j++) replace_all(name,Form("/d01-x01-y%02d",offsets[j]),Form("_durham_%dGeV_1-T",energies[j]));
+             }
+		
+		
+		//OPAL_2000_S4306783
+		
+		 if (name.find("OPAL_2000_S4306783")!=std::string::npos)
+            {
+            replace_all(name,"/REF/OPAL_2000_S4306783","olddata");
+            int offsets[]= {1,2,3};
+            int energies[]= {172, 183,189};
+            for (int j = 0; j < 3; j++) replace_all(name,Form("/d01-x01-y%02d",offsets[j]),Form("_durham_%dGeV_T",energies[j]));
+             }
+
+
             G_it->second->SetName(("G_"+name).c_str());
             G_it->second->Scale(0.01);
-            fHMap.insert(std::pair<std::string,TH1D*> (std::string("H_")+name, G_it->second->ToTH1D(std::string("H_")+name,0)));
+           if (std::string(G_it->second->GetName()).find("GeV")!=std::string::npos) 
+           fHMap.insert(std::pair<std::string,TH1D*> (std::string("H_")+name, G_it->second->ToTH1D(std::string("H_")+name,0)));
 
         }
 
     fFile->cd();
 
-    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	G_it->second->Write(0,TObject::kWriteDelete);
+    for (std::map<std::string,TAdvancedGraph*>::iterator G_it=fGMap.begin(); G_it!=fGMap.end(); ++G_it) 	
+    if (std::string(G_it->second->GetName()).find("GeV")!=std::string::npos)
+    G_it->second->Write(0,TObject::kWriteDelete);
     for (std::map<std::string,TH1D*>::iterator H_it=fHMap.begin(); H_it!=fHMap.end(); ++H_it)
-        if (std::string(H_it->second->GetName()).find("H_olddata_")!=std::string::npos)
+        if (std::string(H_it->second->GetName()).find("GeV")!=std::string::npos)
             {H_it->second->SetDirectory(fFile); H_it->second->Write(0,TObject::kWriteDelete); }
 
     printf("%lu\n",fHMap.size());

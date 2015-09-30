@@ -1,7 +1,7 @@
 latexfile=opalJRT
 newname=JRT
-TEX=  latex -halt-on-error -shell-escape
-PDFTEX= pdflatex -halt-on-error -shell-escape
+TEX=  latex -halt-on-error -shell-escape -enable-write18
+PDFTEX= pdflatex -halt-on-error -shell-escape -enable-write18
 BIB= bibtex
 KPSEWHICH=kpsewhich
 
