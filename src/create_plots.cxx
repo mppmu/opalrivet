@@ -103,6 +103,8 @@ int main(int argc, char* argv[])
                                         {
                                             if (quantity->find("JETR")==std::string::npos)
                                                 if (name.find("manip")==std::string::npos)
+                                                    if (name.find("acceptance")==std::string::npos)
+                                                    if (name.find("old")==std::string::npos)
                                                     DivideByBinWidth(*fHMap[name]);
 
                                             fHMap[name]->SetTitle(Form(";;#frac{1}{#sigma}#frac{d#sigma}{d%s}",quantity->c_str()));
