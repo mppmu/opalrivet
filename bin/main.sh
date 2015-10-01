@@ -1,3 +1,5 @@
+#!/bin/bash
+ulimit -n 4096
 chmod +x bin/*
 export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/

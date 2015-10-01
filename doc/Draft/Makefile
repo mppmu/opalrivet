@@ -91,6 +91,7 @@ clean :
 	rm -f *.ilg
 	rm -f *.aux
 	rm -f *.dvi
+	rm -f *.pdf
 	rm -f *.ps
 	rm -f *.toc
 	rm -f *.idx
