@@ -250,8 +250,8 @@ if (algorithm->find("eeantikt")!=std::string::npos)pads[std::string("QPAD_")+*qu
                                                 if (algorithm->find("siscone")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
                                                 if (algorithm->find("siscone")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
 
-                                                if (algorithm->find("eeantikt")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetLimits(0.0,5.0);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
-                                                if (algorithm->find("eeantikt")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetRangeUser(0.0,5.0);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+                                                if (algorithm->find("eeantikt")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetLimits(0.0,5.0);  temp->GetHistogram()->GetXaxis()->SetTitle("Q^{2}d");}
+                                                if (algorithm->find("eeantikt")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetRangeUser(0.0,5.0);  temp->GetHistogram()->GetXaxis()->SetTitle("Q^{2}d");}
 
 
                                                 if (name==name0)
