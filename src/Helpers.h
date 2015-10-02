@@ -238,7 +238,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
 
         
         
-            if (algorithm=="durham")
+            if (algorithm=="durham"||algorithm=="eecambridge")
                 {
                     G_INSERTER_DBL(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({1.0E-5, 1.33E-5, 1.78E-5, 2.37E-5, 3.16E-5, 4.22E-5, 5.62E-5, 7.5E-5,1.0E-4,
                                    1.33E-4, 1.78E-4, 2.37E-4, 3.16E-4, 4.22E-4, 5.62E-4, 7.5E-4, 0.001, 0.00133, 0.00178,
@@ -331,7 +331,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
             break;
         default: //133,161,172,183,189
 
-            if (algorithm=="durham")
+            if (algorithm=="durham"||algorithm=="eecambridge")
                 {
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR2", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000, -0.250000}));
                     G_INSERTER_DBL_LOG10(A->fGMap,prefix+"JETR3", ARRAY_PROTECT({-5.000000, -4.750000, -4.500000, -4.250000, -4.000000,-3.750000, -3.500000, -3.250000, -3.000000, -2.750000, -2.500000, -2.250000, -2.000000, -1.750000, -1.500000, -1.250000, -1.000000, -0.750000, -0.500000, -0.250000}));
@@ -632,7 +632,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
             A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
-            if (algo=="durham"||algo=="jade")
+            if (algo=="durham"||algo=="jade"||algo=="eecambridge")
                 {
                     std::vector<double> ycuts;
                     ycuts.push_back(1.0);

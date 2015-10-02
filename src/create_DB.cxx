@@ -228,7 +228,7 @@ int main(int argc ,char** argv)
 
     AIStruct.push_back(new TSampleInfo("189",188.0,190.0,"189_DATA_1",  "DATA","ALL","kLEP2","da189_200.root",  -1,-1,-1,185.2,  0.0,0.0));
     AIStruct.push_back(new TSampleInfo("189",188.0,190.0,"189_PYTHIA_1","MCSI","(Z/g)*","kLEP2","mc11342_1_200.root mc11342_2_200.root mc11342_3_200.root mc11342_4_200.root mc11342_5_200.root mc11342_6_200.root mc11342_7_200.root mc11342_8_200.root mc11342_9_200.root mc11342_10_200.root",-1,-1,-1,  0.0,99.36,0.0));
-    AIStruct.push_back(new TSampleInfo("189",188.0,190.0,"189_PYTHIA_2","MCSI","(Z/g)*","kLEP2","mc11343_1_200.root mc11343_2_200.root mc11343_3_200.root mc11343_4_200.root mc11343_5_200.root mc11343_6_200.root mc11343_7_200.root mc11343_8_200.root mc11343_9_200.root mc11343_10_200.root ",    -1,-1,-1,  0.0,8.574,0.0));
+    AIStruct.push_back(new TSampleInfo("189",188.0,190.0,"189_PYTHIA_2","MCSI","(Z/g)*","kLEP2","mc11343_1_200.root mc11343_2_200.root mc11343_3_200.root mc11343_4_200.root mc11343_5_200.root mc11343_6_200.root mc11343_7_200.root mc11343_8_200.root mc11343_9_200.root mc11343_10_200.root ",    -1,-1,-1,  0.0,99.36,0.0));
     //!!FIXME!
     AIStruct.push_back(new TSampleInfo("189",188.0,190.0,"189_HERWIG_1","MCSI","(Z/g)*","kLEP2","mc5169_1_200.root mc5169_2_200.root mc5169_3_200.root mc5169_4_200.root mc5169_5_200.root mc5169_6_200.root mc5169_7_200.root mc5169_8_200.root mc5169_9_200.root mc5169_10_200.root",    -1,-1,-1,  0.0,99.36,0.0));
     AIStruct.push_back(new TSampleInfo("189",188.0,190.0,"189_HERWIG_2","MCSI","(Z/g)*","kLEP2","mc11981_1_200.root mc11981_2_200.root mc11981_3_200.root mc11981_4_200.root",    -1,-1,-1,  0.0,99.36,0.0));
