@@ -5,16 +5,14 @@ export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 export ARCH=$(uname -m)
 set -x
-declare -a generators=( pythia8 herwig++ )
-#pythia8 sherpa )
+declare -a generators=( herwig++ pythia8 sherpa )
 #
  #130 136 161 172 183 189 192 196  202  205  207 pythia8 herwig++
-declare -a energies=( 130  136 161 172 183 189 192 196 200  202  205  207 )
+declare -a energies=( 91 130  136 161 172 183 189 192 196 200  202  205  207 )
 #91 130  136 161 172 183 189 192 196 200  202  205  207 )
 #(130 136 172 183 189 192 196  202  205  207 )
 # 172 183 189 192 196)
-declare -a systematics=( central )
-#wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
+declare -a systematics=( central wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 # wqqlnhigh:wqqlnlow )
 #  wqqqqhigh:wqqqqlow backgroundlow:backgroundhigh hrwg sprm mttotc )
 declare -a cuts=($( echo ${systematics[@]} | sed 's@:@ @g'  ))
@@ -43,7 +41,7 @@ bin/$ARCH/create_systematics $energy "${systematics[@]}"
 $MAKE output/old_$energy".root"
 #$MAKE output/shape_$energy".root"
  
-#$MAKE output/shapemanip_$energy".root" > logs/temp.txt
+$MAKE output/shapemanip_$energy".root" > logs/temp.txt
 
 cat logs/temp.txt | grep SHAPE:MCDA: | sort -n | sed 's@SHAPE:MCDA: @@g' >logs/SHAPE_MCDA.debug_$energy
 cat logs/temp.txt | grep SHAPE:TRUE: | sort -n | sed 's@SHAPE:TRUE: @@g' >logs/SHAPE_TRUE.debug_$energy
