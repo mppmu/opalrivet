@@ -707,7 +707,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                     std::vector<double> ycuts;
                     ycuts.push_back(1000000.0*q2);
                     for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_dmerge_max(2+j)*q2);  
-                    printf("%f %f %f %f %f\n",ycuts[0],ycuts[1],ycuts[2],ycuts[3],ycuts[4]);
+                   // printf("%f %f %f %f %f\n",ycuts[0],ycuts[1],ycuts[2],ycuts[3],ycuts[4]);
                     ycuts.push_back(0.0);
                     ycuts.push_back(-10.0);
                     A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
