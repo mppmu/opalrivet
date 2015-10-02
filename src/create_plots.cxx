@@ -107,9 +107,16 @@ int main(int argc, char* argv[])
                                                     if (name.find("old")==std::string::npos)
                                                     DivideByBinWidth(*fHMap[name]);
 
+
+
+
+                                            if (name.find("acceptance")==std::string::npos) 
                                             fHMap[name]->SetTitle(Form(";;#frac{1}{#sigma}#frac{d#sigma}{d%s}",quantity->c_str()));
+                                            if (name.find("acceptance")!=std::string::npos) 
+                                            fHMap[name]->SetTitle(Form(";;Correction of #frac{1}{#sigma}#frac{d#sigma}{d%s}",quantity->c_str()));
+                                            
                                             fHMap[name]->Draw(hoption.c_str());
-                                            fHMap[name]->GetYaxis()->SetTitleSize(0.08);
+                                            fHMap[name]->GetYaxis()->SetTitleSize(0.065);
                                             fHMap[name]->GetYaxis()->SetTitleOffset(0.45);
                                             if (fHMap.find(name+"_systematics")!=fHMap.end())
                                                 {
@@ -202,8 +209,16 @@ int main(int argc, char* argv[])
                                             if (algorithm->find("siscone")!=std::string::npos)   fGMap[name]->GetXaxis()->SetRangeUser(1.0,100);
                                             if (algorithm->find("siscone")!=std::string::npos)  fGMap[name]->GetXaxis()->SetLimits(1.0,100);
 
+
+                                            if (algorithm->find("eeantikt")!=std::string::npos)   fGMap[name]->GetHistogram()->GetXaxis()->SetRangeUser(0.0,5.0);
+                                            if (algorithm->find("eeantikt")!=std::string::npos)  fGMap[name]->GetHistogram()->GetXaxis()->SetLimits(0.0,5.0);
+                                            if (algorithm->find("eeantikt")!=std::string::npos)   fGMap[name]->GetXaxis()->SetRangeUser(0.0,5.0);
+                                            if (algorithm->find("eeantikt")!=std::string::npos)  fGMap[name]->GetXaxis()->SetLimits(0.0,5.0);
+if (algorithm->find("eeantikt")!=std::string::npos)pads[std::string("QPAD_")+*quantity]->SetLogx(0);
+
+
                                             if (types[0]) fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.55);
-                                            if (types[0])  if (*algorithm=="antikt") fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.95);
+                                            if (types[0])  if (*algorithm=="eeantikt") fGMap[name]->GetYaxis()->SetRangeUser(-0.1,1.95);
                                             fGMap[name]->SetLineColor(usecolors[color%5]);
                                             fGMap[name]->SetMarkerStyle(kFullCircle);
                                             fGMap[name]->SetMarkerSize(1.1);
@@ -211,6 +226,7 @@ int main(int argc, char* argv[])
 
                                             {
                                                 pads[std::string("RPAD_")+*quantity]->cd();
+                                                if (algorithm->find("eeantikt")!=std::string::npos)pads[std::string("RPAD_")+*quantity]->SetLogx(0);
                                                 TAdvancedGraph* temp=new TAdvancedGraph(fGMap[name]->GetN());
                                                 temp->SetName(("clone"+name).c_str());
                                                 temp->Divide(fGMap[name],fGMap[name0],false);
@@ -233,13 +249,19 @@ int main(int argc, char* argv[])
                                                 temp->GetHistogram()->GetYaxis()->SetTitle();
                                                 if (algorithm->find("siscone")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetLimits(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
                                                 if (algorithm->find("siscone")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetRangeUser(1.0,100);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+
+                                                if (algorithm->find("eeantikt")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetLimits(0.0,5.0);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+                                                if (algorithm->find("eeantikt")!=std::string::npos) { temp->GetHistogram()->GetXaxis()->SetRangeUser(0.0,5.0);  temp->GetHistogram()->GetXaxis()->SetTitle("E_{cut}");}
+
+
                                                 if (name==name0)
                                                     {
                                                         temp->GetHistogram()->Draw("AXIS");
                                                         TF1 *fa1;
+                                                        fa1 = new TF1("fa1","1",0.000001*sqrt(10),1);
                                                         if (algorithm->find("siscone")!=std::string::npos) fa1 = new TF1("fa1","1",1.0,100);
-                                                        else
-                                                            fa1 = new TF1("fa1","1",0.000001*sqrt(10),1);
+                                                        if (algorithm->find("eeantikt")!=std::string::npos) fa1 = new TF1("fa1","1",0.0,5.0);
+                                                            
                                                         fa1->SetLineColor(usecolors[0]);
                                                         fa1->Draw("same+");
                                                     }

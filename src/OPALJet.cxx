@@ -61,15 +61,18 @@ fastjet::ClusterSequence* OPALJet::GetClusterSequence() {return fClusterSequence
 bool OPALJet::FindAlgorithm(std::string jetalg)
 {
     fJetAlgString= std::string(jetalg);
-    if (fJetAlgString==std::string("kt"))        { fJetAlg=fastjet::kt_algorithm; return true;}
-    if (fJetAlgString==std::string("cambridge")) { fJetAlg=fastjet::cambridge_algorithm; return true;}
-    if (fJetAlgString==std::string("antikt"))    { fJetAlg=fastjet::antikt_algorithm; return true;}
-    if (fJetAlgString==std::string("genkt"))     { fJetAlg=fastjet::genkt_algorithm; return true;}
-    if (fJetAlgString.find("siscone")!=std::string::npos||fJetAlgString==std::string("jade")||fJetAlgString==std::string("eecambridge"))   { fJetAlg=fastjet::plugin_algorithm; return true;}
-    if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))      { fJetAlg=fastjet::ee_kt_algorithm; return true;}
+  //  if (fJetAlgString==std::string("kt"))        { fJetAlg=fastjet::kt_algorithm; return true;}
+    //if (fJetAlgString==std::string("cambridge")) { fJetAlg=fastjet::cambridge_algorithm; return true;}
+//    if (fJetAlgString==std::string("antikt"))    { fJetAlg=fastjet::antikt_algorithm; return true;}
+    if (fJetAlgString==std::string("eeantikt"))     { fJetAlg=fastjet::ee_genkt_algorithm; return true;}
+    if (fJetAlgString.find("siscone")!=std::string::npos||fJetAlgString==std::string("jade")||fJetAlgString==std::string("eecambridge"))  
+     { fJetAlg=fastjet::plugin_algorithm; return true;}
+    if (fJetAlgString==std::string("eekt")||fJetAlgString==std::string("durham"))   
+       { fJetAlg=fastjet::ee_kt_algorithm; return true;}
 
     return false;
 }
+
 
 OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                   std::string jetalg,
@@ -141,16 +144,14 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
                     return;
                 }
             break;
-        case fastjet::ee_kt_algorithm:
+        case fastjet::ee_kt_algorithm: ///Durham
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg );
             break;
 
-        case fastjet::antikt_algorithm:
-            jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg,R["R"]);
-            break;
-
-        case fastjet::cambridge_algorithm:
-            jetdef= fastjet::JetDefinition(fastjet::cambridge_algorithm, R["R"]);
+        case fastjet::ee_genkt_algorithm://Antikt
+            {            
+            jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg,R["R"],R["P"]);
+     		}
             break;
 
         //fastjet::JetDefinition(fastjet::antikt_algorithm, rparameter, fastjet::E_scheme);
@@ -158,6 +159,9 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
             jetdef= fastjet::JetDefinition( (fastjet::JetAlgorithm)fJetAlg, R["R"] );
             break;
         }
+        
+     //   std::cout << "Ran " << jetdef.description() << std::endl;
+        
     std::vector<TVector3> jetstlv;
     std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
     for( UInt_t i= 0; i <  A.size(); i++ )

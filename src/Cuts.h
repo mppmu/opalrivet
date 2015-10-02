@@ -49,8 +49,8 @@
 #define CUTS_H
 #include <map>
 #include <string>
-//#define ALGORITHMS "durham:cambridge:jade:eecambridge:antikt:kt:siscone"
-#define ALGORITHMS "durham:jade:siscone0.7:siscone1.0"
+//#define ALGORITHMS "durham:jade:siscone0.7:siscone1.0:antiktdurham:cambridge:jade:eecambridge:antikt:kt:siscone"
+#define ALGORITHMS "eeantikt"
 //std::map<std::string,std::map<std::string,double> > InitCuts();
 
 
@@ -136,16 +136,12 @@ inline std::map<std::string,std::map<std::string,double> > InitCuts()
 
 
     std::map<std::string,double> B1;
-//    B1.insert(std::pair<std::string,double>("R",0.7));
+    B1.insert(std::pair<std::string,double>("R",M_PI_2));
     B1.insert(std::pair<std::string,double>("P",-1.0));
-    A.insert(std::pair<std::string,std::map<std::string,double> >("antikt",B1));
+    A.insert(std::pair<std::string,std::map<std::string,double> >("eeantikt",B1));
 
 
 
-    std::map<std::string,double> B4;
-//    B4.insert(std::pair<std::string,double>("R",0.7));
-    B4.insert(std::pair<std::string,double>("P",-1.0));
-    A.insert(std::pair<std::string,std::map<std::string,double> >("cambridge",B4));
 
     std::map<std::string,double> B5;
     B5.insert(std::pair<std::string,double>("R",0.7));
@@ -163,11 +159,11 @@ inline std::map<std::string,std::map<std::string,double> > InitCuts()
 
 
 
-    /*
+
         std::map<std::string,double> B6;
         B6.insert(std::pair<std::string,double>("YMIN",1e-10));
         A.insert(std::pair<std::string,std::map<std::string,double> >("eecambridge",B6));
-
+/*
         std::map<std::string,double> B7;
         B7.insert(std::pair<std::string,double>("R",0.7));
         A.insert(std::pair<std::string,std::map<std::string,double> >("kt",B7));

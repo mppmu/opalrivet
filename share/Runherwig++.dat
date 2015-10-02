@@ -24,7 +24,7 @@ insert SimpleEE:MatrixElements 0 MEee2gZ2qq
 # e+e- > l+l-
 # insert SimpleEE:MatrixElements[0] MEee2gZ2ll
 # e+e- > W+W- ZZ
-# insert SimpleEE:MatrixElements[0] MEee2VV
+insert SimpleEE:MatrixElements[0] MEee2VV
 # higgs+Z
 # insert SimpleEE:MatrixElements[0] MEee2ZH
 # higgs+e+e-/nu_enu_ebar via VBF
@@ -32,11 +32,13 @@ insert SimpleEE:MatrixElements 0 MEee2gZ2qq
 ##################################################
 # NLO powheg processes
 ##################################################
-#create Herwig::O2AlphaS O2AlphaS 
-#set /Herwig/Generators/LHCGenerator:StandardModelParameters:QCD/RunningAlphaS O2AlphaS
-#set /Herwig/Shower/Evolver:HardEmissionMode POWHEG
-#set /Herwig/Shower/AlphaQCD:AlphaMZ 0.118
-#insert SimpleEE:MatrixElements 0 PowhegMEee2gZ2qq
+create Herwig::O2AlphaS O2AlphaS 
+set /Herwig/Generators/LHCGenerator:StandardModelParameters:QCD/RunningAlphaS O2AlphaS
+set /Herwig/Shower/Evolver:HardEmissionMode POWHEG
+set /Herwig/Shower/AlphaQCD:AlphaMZ 0.118
+insert SimpleEE:MatrixElements 0 PowhegMEee2gZ2qq
+
+LEPHandler:HadronizationHandler /Herwig/Hadronization/ClusterHadHandler
 
 
 ##################################################
