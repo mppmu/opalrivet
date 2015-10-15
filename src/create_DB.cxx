@@ -25,17 +25,17 @@
 void FillInfo(TSampleInfo* A,std::string prefix)
 {
     A->Print();
-    TH1F* TOTAL= new TH1F("TOTAL","TOTAL",20000,0,20000);
+    TH1F* TOTAL= new TH1F("TOTAL","TOTAL",40000,0,40000);
     TChain* C= new TChain("h10");
     for (std::vector<std::string>::iterator it=A->fFiles.begin(); it!=A->fFiles.end(); it++)
         C->Add((prefix+*it).c_str());
-    C->Draw("Irun>>RUNHIST(20000,0.0,20000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
+    C->Draw("Irun>>RUNHIST(40000,0.0,40000.0)",Form("(Ebeam>%f)&&(Ebeam<%f)",0.5*(A->fEl),0.5*(A->fEh)));
     TH1F* RUNHIST=(TH1F*)gDirectory->Get("RUNHIST");
     TOTAL->Add(RUNHIST);
     // filestosamples->Add(new TObjString(Form("%s_%s", it->c_str(),A->fEnergyString.c_str())),new TObjString(A->GetName()));
 
     A->fRunsBegin=0;
-    A->fRunsEnd=20000-2;
+    A->fRunsEnd=40000-2;
 
 
     A->fRunsBegin=TOTAL->FindFirstBinAbove(0);
@@ -51,6 +51,7 @@ void FillInfo(TSampleInfo* A,std::string prefix)
     A->fEl=2.0*EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindFirstBinAbove(0));
     A->fEh=2.0*(EBEAMHIST->GetBinLowEdge(EBEAMHIST->FindLastBinAbove(0))+EBEAMHIST->GetBinWidth(EBEAMHIST->FindLastBinAbove(0)));
 
+    if (A->fType==std::string("PRED"))A->fLuminocity=A->fEvents;
     if (A->fType==std::string("MCBG")||A->fType==std::string("MCSI")) A->fLuminocity=A->fEvents/A->fSigma;
     if (A->fType==std::string("DATA")&&A->fLuminocity<0)A->fLuminocity=A->fEvents;
     A->Print();
@@ -557,6 +558,24 @@ int main(int argc ,char** argv)
     AIStruct.push_back(new TSampleInfo("91",85.0,97.0,"9100_DATA_1",  "DATA","ALL","kLEP1","da91_2k_1_200.root da91_2k_2_200.root",  -1,-1,-1,-1.00,  0.0,0.0));
     AIStruct.push_back(new TSampleInfo("91",85.0,97.0,"9100_PYTHIA_1","MCSI","(Z/g)*","kLEP1","mc12139_1_200.root mc12139_2_200.root mc12139_3_200.root mc12139_4_200.root",-1,-1,-1,  0.0,1.00,0.0));
     AIStruct.push_back(new TSampleInfo("91",85.0,97.0,"9100_HERWIG_1","MCSI","(Z/g)*","kLEP1","mc12410_1_200.root mc12410_2_200.root mc12410_3_200.root mc12410_4_200.root",-1,-1,-1,  0.0,1.00,0.0));
+
+
+
+
+
+/*****************************/
+AIStruct.push_back(new TSampleInfo("91",85.0,97.0,"91_PREDPYTHIA_1",  "PRED","ALL","kLEP1","pythia8_91.root",  -1,-1,-1,-1.00,  0.0,0.0));
+
+
+
+
+
+
+
+
+
+
+
 
 
     std::string prefix=std::string(argv[2]);

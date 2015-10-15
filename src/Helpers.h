@@ -581,12 +581,33 @@ std::vector<TLorentzVector> GetMC2(EXA*A)
             vtlv2.push_back(TLorentzVector(fv.px(),
                                            fv.py(),
                                            fv.pz(),
-                                           fv.E()));
+                                           fv.E()));//A bier to one who will explain the reason for capital E here.
             ifill++;
         }
     if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
     return vtlv2;
 }
+
+/*
+struct GenParticleData {
+    int        pid;               ///< PDG ID
+    int        status;            ///< Status
+    bool       is_mass_set;       ///< Check if generated mass is set
+    double     mass;              ///< Generated mass (if set)
+    FourVector momentum;          ///< Momentum
+};
+*/
+
+
+std::vector<TLorentzVector> GetMC3(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
+{
+    puts("Dumb implementaton of GetMC3!");
+    std::vector<TLorentzVector> Af;
+    return Af;
+}
+
+
+
 
 #else
 template <class EXA>
@@ -597,15 +618,100 @@ void GetMC1(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack
 template <class EXA>
 std::vector<TLorentzVector> GetMC2(EXA*A)
 {
-    puts("Dumb implementaton of GetMC1!");
+    puts("Dumb implementaton of GetMC2!");
     std::vector<TLorentzVector> Af;
     return Af;
 }
 
+
+
+#include "HepMC/Data/GenParticleData.h"
+#include "HepMC/Data/GenVertexData.h"
+#include "HepMC/Units.h"
+template <class EXA>
+void GetMC3(EXA*A,  Float_t ptrack[nt_maxtrk][4], Int_t maxtrack, Int_t & ntrack )
+{
+    int i;
+    int ifill=0;
+    for (i=0; (i<A->particles_)&&(ifill<maxtrack); i++)
+        {
+			if (A->particles_status[i]!=1 ) continue;//FIXME
+            //int visible=0;
+            /*
+            if (particles_pid[i]==33)visible=1;
+            if (particles_pid[i]==34)visible=1;//G???
+            */
+            //Simplistic approach: Everything but nu should be visible. No place for WIMPS or so.
+            if (A->particles_pid[i]==19) continue;
+            if (A->particles_pid[i]==23) continue;
+            if (A->particles_pid[i]==27) continue;
+/*
+				TParticlePDG P(A->particles_pid[i]);
+				int OK=0;
+				if (std::abs(P.Charge())>0.9) OK=1; else
+				if (std::string(P.ParticleClass())==std::string("meson"))  OK=1;
+			if (OK==0) continue;
+*/
+            //const Rivet::FourMomentum fv = A->at(i).momentum();
+            
+           ptrack[ifill][0]=A->particles_momentum_m_v1[i];
+           ptrack[ifill][1]=A->particles_momentum_m_v2[i];
+                      ptrack[ifill][2]=A->particles_momentum_m_v3[i];
+                                 ptrack[ifill][3]=A->particles_momentum_m_v4[i];
+
+/*
+   bool isVisible() const {
+133	      // Charged particles are visible
+134	      if ( PID::threeCharge(pid()) != 0 ) return true;
+135	      // Neutral hadrons are visible
+136	      if ( PID::isHadron(pid()) ) return true;
+137	      // Photons are visible
+138	      if ( pid() == PID::PHOTON ) return true;
+139	      // Gluons are visible (for parton level analyses)
+140	      if ( pid() == PID::GLUON ) return true;
+141	      // Everything else is invisible
+142	      return false;
+143	    }
+Naaa gut. Jobanyj styd.
+*/
+
+
+/*
+   Int_t           momentum_unit;
+   Int_t           length_unit;
+   Int_t           particles_;
+   Int_t           particles_pid[kMaxparticles];   //[particles_]
+   Int_t           particles_status[kMaxparticles];   //[particles_]
+   Bool_t          particles_is_mass_set[kMaxparticles];   //[particles_]
+   Double_t        particles_mass[kMaxparticles];   //[particles_]
+   Double_t        particles_momentum_m_v1[kMaxparticles];   //[particles_]
+   Double_t        particles_momentum_m_v2[kMaxparticles];   //[particles_]
+   Double_t        particles_momentum_m_v3[kMaxparticles];   //[particles_]
+   Double_t        particles_momentum_m_v4[kMaxparticles];   //[particles_]
+   Int_t           vertices_;
+   Double_t        vertices_position_m_v1[kMaxvertices];   //[vertices_]
+   Double_t        vertices_position_m_v2[kMaxvertices];   //[vertices_]
+   Double_t        vertices_position_m_v3[kMaxvertices];   //[vertices_]
+   Double_t        vertices_position_m_v4[kMaxvertices];   //[vertices_]
+   vector<int>     links1;
+   vector<int>     links2;
+   vector<int>     attribute_id;
+   vector<string>  attribute_name;
+   vector<string>  attribute_string;
+*/
+
+
+
+
+
+
+            ifill++;
+        }
+    if( ifill == maxtrack )  std::cout << "Ntuple::getmt: array too small " << ifill << std::endl;
+    ntrack= ifill;
+    return;
+}
 #endif
-
-
-
 
 template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::string algo,std::string Iprefix="")
 {
@@ -738,42 +844,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                         }
                 }
                 
-                
-                /*
-            if (algo=="eeantikt")
-                {
-                    std::vector<fastjet::PseudoJet> fdjets =  tfj->GetClusterSequence()->inclusive_jets();
-                    int q=0;
-                    for (j=0; j<5; j++)
-                        {
-							A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);
-						   for (int i=1; i<A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetNbinsX(); i++)
-                                {
-                                    double x;
-                                    x=A->fHMap[H_prefix+Form("JETR%i",j+2)]->GetBinCenter(i);
-                                    int fdjet=0;
-                                    double  E_min = x*sqrt(tfj->GetClusterSequence()->Q2());
-                                    for (  unsigned  int ii = 0; ii < fdjets.size(); ii++) if ( fdjets[ii].E() >E_min )    fdjet++;
-                                    if (fdjet==j+2) A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(x,weight);
-                                }
-							
-							
-							
-                            for (  int i = 0; i < A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetN(); i++ )
-                                {
-                                    Double_t x,y;
-                                    A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetPoint(i,x,y);
-                                    int fdjet=0;
-                                    double  E_min = x*sqrt(tfj->GetClusterSequence()->Q2());
-                                    for (  unsigned  int ii = 0; ii < fdjets.size(); ii++) 	     {  if ( fdjets[ii].E() > E_min )    fdjet++;    }
-                                    if (fdjet==j+2)
-                                        {
-                                            A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPoint(i,x,y+weight);
-                                            A->fGMap[G_prefix+Form("JETR%i",j+2)]->SetPointError(i,0,0,sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetErrorY(i),2)+weight*weight),sqrt(pow(A->fGMap[G_prefix+Form("JETR%i",j+2)]->GetErrorY(i),2)+weight*weight));
-                                        }
-                                }
-                        }
-                }*/
+               
         }
     return PASSED;
 }
@@ -810,6 +881,9 @@ std::vector<TLorentzVector> GetLorentzVectors(EXA* A, const std::string & opt )
             break;
         case 	(OPT_TO_INT2('m','c')):
             GetMC1(A, ptrack, nt_maxtrk, ntrack );
+            break;
+        case 	(OPT_TO_INT2('p','r')):
+            GetMC3(A, ptrack, nt_maxtrk, ntrack );
             break;
         case 	(OPT_TO_INT2('x','x')):
             printf("Empty option %s\n",OPT.c_str());

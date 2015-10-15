@@ -84,9 +84,14 @@ void create_proof( std::map<std::string,std::string> fMS,  std::map<std::string,
             chainG->MakeSelector(fMS["NAME"].c_str());
         }
     else            chainTD->MakeSelector(fMS["NAME"].c_str());
+    
+    
     gSystem->GetFromPipe(Form("sed -i '/TSelector.h/a#include \"TUserProofData.h\"' %s.h",fMS["NAME"].c_str()));
     gSystem->GetFromPipe(Form("sed -i 's@public TSelector@public TSelector, public TUserProofData@g' %s.h",fMS["NAME"].c_str()));
     gSystem->GetFromPipe((std::string("sed -i \"/Bool_t ")+fMS["NAME"]+"::Notify()/,/}/d\" "+fMS["NAME"]+".h").c_str());
+    
+    
+    
     pp= return_tokenize(fMS["FILES"]," ");
     for (std::vector<std::string>::iterator it=pp.begin(); it!=pp.end(); it++) gSystem->GetFromPipe((std::string("cp ../../")+*it+"    ./").c_str());
     gSystem->GetFromPipe("mkdir PROOF-INF");

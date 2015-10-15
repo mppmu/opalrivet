@@ -12,3 +12,4 @@ export PYTHIA8DATA=../top/usr/share/pythia8-data/xmldoc/
 fi
 
 ../bin/$(uname -m)/opalpythia8 fifo.hepmc.hepmc2g 
+../bin/$(uname -m)/opalpythia8 temp.hepmc2g 

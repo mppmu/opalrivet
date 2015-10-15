@@ -5,10 +5,12 @@ export MAKE='make '
 export LD_LIBRARY_PATH=$(root-config --libdir):$LD_LIBRARY_PATH:/opt/i686/usr/lib:/opt/i686/usr/lib/root:/opt/i686/usr/lib/cernlib/2006/lib/
 export ARCH=$(uname -m)
 set -x
-declare -a generators=( herwig++ pythia8 sherpa )
+declare -a generators=( pythia8 )
+# herwig++ pythia8 sherpa )
 #
  #130 136 161 172 183 189 192 196  202  205  207 pythia8 herwig++
-declare -a energies=( 91 130  136 161 172 183 189 192 196 200  202  205  207 )
+declare -a energies=( 130 )
+#91 130  136 161 172 183 189 192 196 200  202  205  207 )
 #91 130  136 161 172 183 189 192 196 200  202  205  207 )
 #(130 136 172 183 189 192 196  202  205  207 )
 # 172 183 189 192 196)

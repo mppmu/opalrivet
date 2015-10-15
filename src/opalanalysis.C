@@ -65,7 +65,7 @@ void opalanalysis::SlaveBegin(TTree * tree)
     savedir->cd();
     tokenize(ALGORITHMS,":",fAlgorithms);
     std::vector<std::string> datatypes;
-    tokenize("mcbackgr:mcsignal:mcall:data:truesignal:truesignalp:truebackgr:acceptancesignal:acceptancebackgr:corrected:truesignalnormalized",":",datatypes);
+    tokenize("prediction:mcbackgr:mcsignal:mcall:data:truesignal:truesignalp:truebackgr:acceptancesignal:acceptancebackgr:corrected:truesignalnormalized",":",datatypes);
     for (unsigned int i=0; i<fAlgorithms.size(); i++)for (unsigned int j=0; j<datatypes.size(); j++) BookHistograms(this,fSampleInfo->fPeriod,Form("%s_%s_%sGeV_",datatypes.at(j).c_str(),fAlgorithms.at(i).c_str(),fSampleInfo->fEnergyString.c_str()));
 }
 Bool_t opalanalysis::Process(Long64_t gentry)
@@ -76,10 +76,14 @@ Bool_t opalanalysis::Process(Long64_t gentry)
     bool passed[2];
     passed[0]=true;
     passed[1]=true;
+    //puts("OK1");
+    //printf("%f %f %f\n",2*this->Ebeam,fSampleInfo->fEl,fSampleInfo->fEh);
     if (2*this->Ebeam<fSampleInfo->fEl||2*this->Ebeam>fSampleInfo->fEh) return kFALSE;
     fHMap["weight_before_selection"]->Fill((fSampleInfo->fType+"_"+fSampleInfo->fProcesses).c_str(),fSampleInfo->fWeight);
     std::map<std::string,std::map<std::string,double> > mycuts=InitCuts();
-    if (fSampleInfo->fType==std::string("MCSI")||fSampleInfo->fType==std::string("MCBG")) if (2.0*this->Ebeam-TLorentzVector(Pisr[0],Pisr[1],Pisr[2],Pisr[3]).M()> 1.0)  passed[1]=kFALSE;
+    if (fSampleInfo->fType!=std::string("PRED")){
+    if (fSampleInfo->fType==std::string("MCSI")||fSampleInfo->fType==std::string("MCBG")) 
+    if (2.0*this->Ebeam-TLorentzVector(Pisr[0],Pisr[1],Pisr[2],Pisr[3]).M()> 1.0)  passed[1]=kFALSE;
     if( this->Ntkd02 < int(mycuts[CUTS]["Ntkd02"]) )  passed[0]=kFALSE;
     if( std::abs(this->Tvectc[2])> mycuts[CUTS]["costt"] )  passed[0]=kFALSE;
     double SP;
@@ -99,10 +103,13 @@ Bool_t opalanalysis::Process(Long64_t gentry)
             if (fSampleInfo->fType==std::string("MCSI"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   {passed[0]=kFALSE;  }
             if (fSampleInfo->fType==std::string("MCBG"))  if( 2.0*this->Ebeam-SP > mycuts[CUTS]["sprimemc"] )   passed[0]=kFALSE;
         }
+	}
+    //puts("OK2");
     std::vector<std::string> datatypes;
     std::vector<std::string> options;
     std::string objects="mt";
     if (int(mycuts[CUTS]["objects"])==2) objects="tc";
+    if (fSampleInfo->fType==std::string("PRED")) { tokenize("prediction",":",datatypes);                tokenize("pr",":",options);   }
     if (fSampleInfo->fType==std::string("DATA")) { tokenize("data",":",datatypes);                tokenize(objects,":",options);   }
     if (fSampleInfo->fType==std::string("MCSI")) { tokenize("mcsignal:truesignal:mcall:truesignalp",":",datatypes); tokenize(objects+":h:mt:p",":",options); }//
     if (fSampleInfo->fType==std::string("MCBG")) { tokenize("mcbackgr:truebackgr:mcall",":",datatypes); tokenize(objects+":h:mt",":",options); }//add syst

@@ -2350,6 +2350,22 @@ LOCAL_OPAL_207_backgroundlow.DEFINES: \'-DCUTS=\"backgroundlow\"\'
 
 
 
+PREDICTION_PYTHIA8_91:
+PREDICTION_PYTHIA8_91.NAME:    opalanalysis
+PREDICTION_PYTHIA8_91.CHAIN:   h10
+PREDICTION_PYTHIA8_91.FILEGEN: /scratch/andriish/opal/ntuple_root/qcd/pythia8_91.root
+PREDICTION_PYTHIA8_91.SAMPLES: 91_PREDPYTHIA_1
+PREDICTION_PYTHIA8_91.DB:      gen/DB.root
+PREDICTION_PYTHIA8_91.PREFIX:  /scratch/andriish/opal/ntuple_root/qcd/
+PREDICTION_PYTHIA8_91.FILES:    src/opalanalysis.h  gen/DB.root src/TSampleInfo.cxx src/TSampleInfo.h src/TUserProofData.cxx src/TUserProofData.h  src/opalanalysis.C   src/Makefile    src/Helpers.h  src/Cuts.h  src/Helpers.cxx   src/TAdvancedGraph.cxx src/TAdvancedGraph.h  src/OPALJet.h src/OPALJet.cxx
+PREDICTION_PYTHIA8_91.NUMBER:  1000000000
+PREDICTION_PYTHIA8_91.DEFINES: \'-DCUTS=\"central\"\' -I/home/andriish/Projects/opalrivet/trunk/external/HepMC3/hepmc3-alpha5/outputs/include
+
+
+
+
+
+
 
 
 
