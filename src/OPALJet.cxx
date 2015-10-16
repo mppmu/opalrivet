@@ -112,6 +112,27 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
             particles.push_back( pj );
         }
     fastjet::JetDefinition jetdef;
+    
+    if (jetalg=="eventshape")
+    {
+	    std::vector<TVector3> jetstlv;
+    std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
+    for( UInt_t i= 0; i <  A.size(); i++ )
+        {
+            fastjet::PseudoJet pj= A[i];
+            TVector3 tlv( pj.px(), pj.py(), pj.pz());
+            jetstlv.push_back( tlv );
+        }
+
+    if (A.size()>2) CalculateThrust(jetstlv);
+    if (A.size()>2) CalculateSphericity(jetstlv);
+    if (A.size()>2) CalculateBroadening(jetstlv);	
+		
+	return;	
+		
+	}	
+    
+    
     int ok=0;
     switch (fJetAlg)
         {
@@ -162,18 +183,7 @@ OPALJet::OPALJet( const std::vector<TLorentzVector>& vtl,
         
      //   std::cout << "Ran " << jetdef.description() << std::endl;
         
-    std::vector<TVector3> jetstlv;
-    std::vector<fastjet::PseudoJet> A=sorted_by_pt(particles);
-    for( UInt_t i= 0; i <  A.size(); i++ )
-        {
-            fastjet::PseudoJet pj= A[i];
-            TVector3 tlv( pj.px(), pj.py(), pj.pz());
-            jetstlv.push_back( tlv );
-        }
 
-    if (A.size()>2) CalculateThrust(jetstlv);
-    if (A.size()>2) CalculateSphericity(jetstlv);
-    if (A.size()>2) CalculateBroadening(jetstlv);
     fClusterSequence= new fastjet::ClusterSequence( particles, jetdef );
 }
 

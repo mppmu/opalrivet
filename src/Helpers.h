@@ -146,6 +146,8 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     replace_all(senergy,"GeV","");
     int energy=atoi(senergy.c_str());
     printf("Prefix %s,  %i, prefix='%s'\n", senergy.c_str(),energy,prefix.c_str());
+        if (algorithm=="eventshape")
+    {
     H_INSERTER_DBL(A->fHMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     H_INSERTER_DBL(A->fHMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     H_INSERTER_DBL(A->fHMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
@@ -161,7 +163,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     H_INSERTER_DBL(A->fHMap,prefix+"MH2",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40}));
     H_INSERTER_DBL(A->fHMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     H_INSERTER_DBL(A->fHMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
-
+     }
 ////////////////////////////////////////
     H_INSERTER_DBL(A->fHMap,prefix+"JETR2", ARRAY_PROTECT({0.7000000E-05,
                    0.1300000E-04, 0.2256600E-04, 0.4068000E-04,
@@ -208,6 +210,8 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
                    0.170
                                                           }));
     prefix=std::string("G_")+Iprefix;
+    if (algorithm=="eventshape")
+    {
     G_INSERTER_DBL(A->fGMap,prefix+"1-T",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.03, 0.04, 0.05,0.07, 0.09, 0.12, 0.15, 0.22, 0.30}));
     G_INSERTER_DBL(A->fGMap,prefix+"T",     ARRAY_PROTECT({0.70, 0.78, 0.85, 0.88, 0.91, 0.93, 0.95,0.96, 0.97, 0.98, 0.99, 1.00}));
     G_INSERTER_DBL(A->fGMap,prefix+"T-Maj", ARRAY_PROTECT({0.00, 0.04, 0.08, 0.12, 0.16, 0.22,0.30, 0.40, 0.50, 0.60}));
@@ -223,6 +227,7 @@ void OPALObs(EXA * A,std::set<std::string> options,std::string Iprefix="")
     G_INSERTER_DBL(A->fGMap,prefix+"MH2",   ARRAY_PROTECT({0.00, 0.01, 0.02, 0.04, 0.06, 0.08, 0.10, 0.15, 0.20, 0.25, 0.30, 0.40}));
     G_INSERTER_DBL(A->fGMap,prefix+"JTE0",  ARRAY_PROTECT({0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5}));
     G_INSERTER_DBL(A->fGMap,prefix+"DP",    ARRAY_PROTECT({0.001, 0.005, 0.010, 0.015, 0.020,0.030, 0.045, 0.070, 0.100, 0.150,0.250, 0.500, 1.000}));
+    }
     switch (energy)
         {
         case 91:
@@ -719,9 +724,8 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
     std::string H_prefix=std::string("H_")+Iprefix;
     std::string G_prefix=std::string("G_")+Iprefix;
     int j;
-    if (tfj->GetClusterSequence())
-        {
-            PASSED=true;
+            if (algo=="eventshape")
+            {
             A->fHMap[H_prefix+"1-T"]->Fill(1-tfj->fThrusts[0],weight);
             A->fHMap[H_prefix+"T"]->Fill(tfj->fThrusts[0],weight);
             A->fHMap[H_prefix+"T-Maj"]->Fill(tfj->fThrusts[1],weight);
@@ -738,6 +742,16 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
             A->fHMap[H_prefix+"MH"]->Fill(tfj->fM[0]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"ML"]->Fill(tfj->fM[1]/tfj->fEvis,weight);
             A->fHMap[H_prefix+"MH2"]->Fill(std::pow(tfj->fM[0]/tfj->fEvis,2),weight);
+		    return PASSED;
+		    }
+
+
+
+
+    if (tfj->GetClusterSequence())
+        {
+            PASSED=true;
+
             if (algo=="durham"||algo=="jade"||algo=="eecambridge")
                 {
                     std::vector<double> ycuts;
@@ -745,7 +759,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                     for ( j=0; j<4; j++)  ycuts.push_back(tfj->GetClusterSequence()->exclusive_ymerge_max(2+j));  //y_{n,n+1} = d_{n,n+1}/Q^2
                     ycuts.push_back(0.0);
                     ycuts.push_back(-10.0);
-                    A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
+                //    A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
                     for ( j=0; j<5; j++)
                         {
                             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);//Undewrflow for norm//Terrible idea...
@@ -816,7 +830,7 @@ template <class EXA> bool OPALAnalysis(EXA* A, OPALJet* tfj,  float weight,std::
                    // printf("%f %f %f %f %f\n",ycuts[0],ycuts[1],ycuts[2],ycuts[3],ycuts[4]);
                     ycuts.push_back(0.0);
                     ycuts.push_back(-10.0);
-                    A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
+                 //   A->fHMap[H_prefix+"D2"]->Fill(ycuts[1],weight);
                     for ( j=0; j<5; j++)
                         {
                             A->fHMap[H_prefix+Form("JETR%i",j+2)]->Fill(-1.0,weight);//Undewrflow for norm//Terrible idea...

@@ -49,7 +49,7 @@
 #define CUTS_H
 #include <map>
 #include <string>
-#define ALGORITHMS "durham:jade:siscone0.7:siscone1.0:eeantikt:eecambridge"
+#define ALGORITHMS "eventshape:durham:jade:siscone0.7:siscone1.0:eeantikt:eecambridge"
 //#define ALGORITHMS "eecambridge"
 //std::map<std::string,std::map<std::string,double> > InitCuts();
 
